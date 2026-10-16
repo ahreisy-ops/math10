@@ -234,7 +234,7 @@ body.noscroll {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   overflow-x: auto;
-  padding: 6px 2px 10px;
+  padding: 6px 4px 10px;
 }
 
 .rnode {
