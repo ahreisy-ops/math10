@@ -118,6 +118,14 @@
     bind();
   }
 
+  window.addEventListener('hashchange', function () {
+    if (window.location.hash) {
+      setTimeout(function () {
+        history.replaceState(null, document.title, window.location.pathname + window.location.search);
+      }, 3800);
+    }
+  });
+
   /* ---------- پنجره‌ها ---------- */
   var lastFocus = null;
   function openModal(id, focusId) {
