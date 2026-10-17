@@ -726,7 +726,7 @@ body.noscroll {
 }
 
 /* ---------- انیمیشن تغییر رنگ ملایم برای آیکون i ---------- */
-.infobtn {
+.infobtn.sm {
   animation: icon-glow 2.5s infinite cubic-bezier(1, 0, 0, 1);
 }
 
