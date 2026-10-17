@@ -693,6 +693,7 @@ body.noscroll {
 }
 
 
+/* ---------- انیمیشن و افکت برافروختگی کارت هدف (ایستگاه انتخاب‌شده) ---------- */
 .card:target,
 [id^="ch"]:target {
   animation: highlight-card 3.5s ease;
@@ -700,24 +701,26 @@ body.noscroll {
 
 @keyframes highlight-card {
   0% {
-    transform: scale(1.03);
-    box-shadow: 0 0 25px rgba(255, 193, 7, 0.9);
+    transform: scale(1.09);
     background-color: #fff9c4;
+    /* زرد ملایم برای برافروختگی */
   }
 
   20% {
     transform: scale(1.09);
     background-color: #fff9c4;
-    /* نگه‌داشتن حالت برافروخته برای مدتی در ابتدا */
+  }
+
+  50% {
+    transform: scale(0.97);
   }
 
   70% {
-    transform: scale(0.98);
+    transform: scale(1.02);
   }
 
   100% {
     transform: scale(1);
-    box-shadow: none;
     background-color: transparent;
   }
 }
