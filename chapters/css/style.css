@@ -1083,3 +1083,22 @@ a.btn {
     border-color: var(--accent);
   }
 }
+
+/* ---------- انیمیشن تغییر رنگ ملایم برای آیکون i در صفحه نتیجه---------- */
+.tipicon {
+  animation: icon-glow 2.5s infinite cubic-bezier(1, 0, 0, 1);
+}
+
+@keyframes icon-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+  }
+
+  50% {
+    /* ایجاد یک سایه نورانی ملایم دور آیکون بدون تغییر اندازه */
+    box-shadow: 0 0 10px 3px rgba(255, 193, 7, 0.7);
+    border-color: var(--accent);
+  }
+}
