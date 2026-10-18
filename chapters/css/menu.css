@@ -1,0 +1,758 @@
+/* ==========================================================================
+   menu.css — ظاهر صفحهٔ منوی اصلی
+   روی css/style.css سوار می‌شود (کاغذ شطرنجی، دکمه‌ها، پنجره‌ها، تصویرهای فصل‌ها)
+   ========================================================================== */
+
+body.menu-body {
+  position: relative;
+  isolation: isolate;
+  scroll-behavior: smooth;
+}
+
+body.menu-body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 520px at 88% -8%, rgba(14, 143, 126, .20), transparent 62%),
+    radial-gradient(760px 520px at 0% 6%, rgba(255, 194, 51, .26), transparent 62%),
+    radial-gradient(700px 500px at 50% 110%, rgba(76, 95, 213, .12), transparent 60%);
+}
+
+body.noscroll {
+  overflow: hidden;
+}
+
+.skip {
+  position: absolute;
+  top: -60px;
+  right: 12px;
+  background: var(--ink);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  z-index: 99;
+}
+
+.skip:focus {
+  top: 10px;
+}
+
+/* ---------- بالای صفحه ---------- */
+.mhero {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 46px 20px 22px;
+}
+
+.hero-wrap {
+  display: grid;
+  grid-template-columns: 1.12fr .88fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px;
+  font-weight: bold;
+  font-size: .9rem;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 var(--mark);
+}
+
+.pill i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s infinite;
+}
+
+.mhero h1 {
+  margin: 18px 0 16px;
+  font-size: clamp(1.7rem, 4.2vw, 2.8rem);
+  line-height: 1.38;
+  letter-spacing: -.2px;
+}
+
+.hl {
+  background: linear-gradient(transparent 60%, var(--mark) 60%, var(--mark) 92%, transparent 92%);
+  padding: 0 .18em;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.mlead {
+  margin: 0 0 22px;
+  max-width: 41em;
+  font-size: 1.06rem;
+  line-height: 2.15;
+  color: #2b3a55;
+  text-align: justify;
+}
+
+.stats {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 0 0 24px;
+  padding: 0;
+}
+
+.stats li {
+  min-width: 128px;
+  padding: 8px 18px 8px 20px;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--accent);
+}
+
+.stats li:nth-child(2) {
+  box-shadow: 4px 4px 0 var(--mark);
+}
+
+.stats li:nth-child(3) {
+  box-shadow: 4px 4px 0 #e4572e;
+}
+
+.stats b {
+  display: block;
+  font-size: 1.55rem;
+  line-height: 1.5;
+}
+
+.stats span {
+  color: var(--ink-soft);
+  font-size: .84rem;
+}
+
+.how {
+  list-style: none;
+  counter-reset: hw;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 0;
+  padding: 0;
+}
+
+.how li {
+  counter-increment: hw;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: .95rem;
+}
+
+.how li::before {
+  content: counter(hw, persian);
+  flex: none;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 50%;
+  font-size: .85rem;
+  box-shadow: 2px 2px 0 var(--accent);
+}
+
+/* ---------- تصویر سمت چپ بالای صفحه ---------- */
+.hero-art {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin-inline: auto;
+  aspect-ratio: 400 / 330;
+}
+
+.hero-art svg.panel {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(8px 8px 0 rgba(20, 33, 61, .9));
+}
+
+.gl {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  height: 54px;
+  padding: 0 10px;
+  font: italic bold 1.7rem "Times New Roman", serif;
+  color: var(--ink);
+  background: #fff;
+  border: 2.5px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--c, var(--accent));
+  animation: bob 5s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+
+.gl:nth-of-type(odd) {
+  animation-duration: 6.5s;
+}
+
+/* ---------- مسیر ایستگاه‌ها ---------- */
+.route-wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 8px 20px 26px;
+}
+
+.route-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-weight: bold;
+  color: var(--ink-soft);
+  font-size: .92rem;
+}
+
+.route-title::after {
+  content: "";
+  flex: 1;
+  border-top: 2px dashed var(--line);
+}
+
+.route {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  overflow-x: auto;
+  padding: 6px 4px 10px;
+}
+
+.rnode {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  min-width: 54px;
+}
+
+.rnode b {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  background: var(--acc);
+  color: var(--on, #fff);
+  border: 2.5px solid var(--ink);
+  border-radius: 50%;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.rnode:hover b,
+.rnode:focus-visible b {
+  transform: translate(-2px, -2px) scale(1.06);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.rnode:not(:last-child)::after {
+  content: "";
+  flex: 1;
+  margin: 0 6px;
+  border-top: 3px dashed var(--line);
+}
+
+.rnode.off b {
+  background: #e4e9f1;
+  color: #8b98ad;
+}
+
+/* ---------- کارت‌ها ---------- */
+.menu {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px 26px;
+  padding: 4px 0 44px;
+}
+
+.chcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 22px;
+  box-shadow: 6px 6px 0 var(--acc);
+  transition: transform .22s ease, box-shadow .22s ease;
+  animation: rise .65s cubic-bezier(.2, .8, .2, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+  scroll-margin-top: 20px;
+}
+
+.chcard:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--acc);
+}
+
+.card-art {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 138px;
+  overflow: hidden;
+  border-bottom: 2px solid var(--ink);
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, .95), transparent 42%),
+    radial-gradient(circle, rgba(20, 33, 61, .08) 1.5px, transparent 1.6px) 0 0 / 16px 16px,
+    var(--acc-soft);
+}
+
+.card-art svg {
+  position: relative;
+  z-index: 1;
+  width: min(76%, 250px);
+  height: 96px;
+}
+
+.bignum {
+  position: absolute;
+  inset-inline-end: 14px;
+  top: -10px;
+  font: 900 6.4rem/1 Tahoma, sans-serif;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--acc);
+  opacity: .6;
+  pointer-events: none;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  flex: 1;
+  padding: 18px 20px 20px;
+}
+
+.eyebrow {
+  align-self: flex-start;
+  padding: 0 14px;
+  font-size: .82rem;
+  font-weight: bold;
+  color: var(--on, #fff);
+  background: var(--acc);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+
+.ctitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 1.3rem;
+  line-height: 1.55;
+}
+
+.ctitle span {
+  flex: 1;
+}
+
+.infobtn.sm {
+  flex: none;
+  width: 31px;
+  height: 31px;
+  font-size: 1rem;
+  border-width: 2px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px;
+  font-size: .88rem;
+  color: #2b3a55;
+  background: #f3f6fa;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+}
+
+.chips svg {
+  color: var(--acc);
+}
+
+.prereq {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: .85rem;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+
+.pdot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--acc);
+  border: 1.5px solid var(--ink);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.cbtn {
+  font: inherit;
+  font-weight: bold;
+  flex: 1 1 0;
+  min-height: 48px;
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .18s, color .18s, transform .18s;
+}
+
+.cbtn.primary {
+  flex: 1.5 1 0;
+  color: #fff;
+  background: var(--ink);
+}
+
+.cbtn.primary svg {
+  transition: transform .2s;
+}
+
+.cbtn.primary:hover,
+.cbtn.primary:focus-visible {
+  background: var(--acc);
+  color: var(--on, #fff);
+}
+
+.cbtn.primary:hover svg {
+  transform: translateX(-4px);
+}
+
+.cbtn:not(.primary):hover {
+  background: var(--acc-soft);
+}
+
+.cbtn:active {
+  transform: scale(.98);
+}
+
+.chcard.soon {
+  box-shadow: 6px 6px 0 var(--line);
+  opacity: .8;
+}
+
+.chcard.soon .card-art {
+  background: #eef2f8;
+}
+
+.chcard.soon .ctitle {
+  color: var(--ink-soft);
+}
+
+.chcard.skel {
+  min-height: 370px;
+  box-shadow: 6px 6px 0 var(--line);
+  border-color: var(--line);
+  background: linear-gradient(100deg, #eef2f8 30%, #fff 50%, #eef2f8 70%) 0 0 / 220% 100%;
+  animation: shimmer 1.4s linear infinite;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* کارت‌های فیک برای پر کردن ردیف آخر */
+.chcard.filler {
+  min-height: 370px;
+  box-shadow: 6px 6px 0 var(--line);
+  border-color: var(--line);
+  background: #f4f7fb;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.55;
+}
+
+/* ---------- یادداشت معلم ---------- */
+.mfoot {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 20px 56px;
+}
+
+.tnote {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 22px;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 20px;
+  box-shadow: 6px 6px 0 var(--mark);
+}
+
+.tnote .badge {
+  flex: none;
+  padding: 4px 14px;
+  font-weight: bold;
+  font-size: .9rem;
+  color: var(--ink);
+  background: var(--mark);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+
+.tnote p {
+  margin: 0;
+  line-height: 2.05;
+  color: #2b3a55;
+  text-align: justify;
+}
+
+.copy {
+  margin-top: 18px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: .85rem;
+}
+
+/* ---------- پنجره‌ها ---------- */
+.infotag {
+  align-self: flex-start;
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 0 12px;
+  font-size: .8rem;
+  font-weight: bold;
+  background: var(--mark);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+
+.info-box h2 {
+  margin-top: 0;
+}
+
+.lesson-box {
+  text-align: center;
+}
+
+.lesson-box svg {
+  width: 96px;
+  height: 96px;
+  margin: 2px auto 8px;
+  display: block;
+}
+
+.lesson-box p {
+  text-align: center;
+}
+
+.lesson-box .sub {
+  margin: 0 0 6px;
+  color: var(--ink-soft);
+  font-size: .92rem;
+}
+
+/* ---------- انیمیشن‌ها ---------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bob {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(14, 143, 126, .55);
+  }
+
+  70% {
+    box-shadow: 0 0 0 9px rgba(14, 143, 126, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(14, 143, 126, 0);
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -220% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- واکنش‌گرا ---------- */
+@media (max-width: 920px) {
+  .hero-wrap {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .hero-art {
+    max-width: 340px;
+    order: -1;
+  }
+
+  .mhero {
+    padding-top: 30px;
+  }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .route {
+    display: flex;
+    gap: 0;
+  }
+
+  .rnode {
+    flex: 1 0 auto;
+  }
+
+  .stats li {
+    flex: 1 1 40%;
+    min-width: 0;
+  }
+
+  .tnote {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .actions {
+    flex-wrap: wrap;
+  }
+
+  .cbtn.primary,
+  .cbtn {
+    flex: 1 1 100%;
+  }
+}
+
+/* ---------- انیمیشن و افکت برافروختگی کارت هدف (ایستگاه انتخاب‌شده) ---------- */
+.card:target,
+[id^="ch"]:target {
+  animation: highlight-card 3.5s ease;
+}
+
+@keyframes highlight-card {
+  0% {
+    transform: scale(1.09);
+    background-color: #fff9c4;
+    /* زرد ملایم برای برافروختگی */
+  }
+
+  20% {
+    transform: scale(1.09);
+    background-color: #fff9c4;
+  }
+
+  50% {
+    transform: scale(0.97);
+  }
+
+  70% {
+    transform: scale(1.02);
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: transparent;
+  }
+}
+
+/* ---------- انیمیشن تغییر رنگ ملایم برای آیکون i ---------- */
+.infobtn.sm {
+  animation: icon-glow 2.5s infinite cubic-bezier(1, 0, 0, 1);
+}
+
+@keyframes icon-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+  }
+
+  50% {
+    /* ایجاد یک سایه نورانی ملایم دور آیکون بدون تغییر اندازه */
+    box-shadow: 0 0 10px 3px rgba(255, 193, 7, 0.7);
+    border-color: var(--accent);
+  }
+}
