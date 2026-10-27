@@ -1,13 +1,30 @@
 # پروژهٔ ارزیابی و درسنامهٔ ریاضی ۱ دهم
 
 ## صفحه‌ها
-| صفحه | آدرس |
-|---|---|
-| منوی اصلی | `index.html` |
-| آزمون فصل N | `chapters/chapter.html?ch=N` |
-| درسنامهٔ فصل N | `courses/course.html?ch=N` (و `#sk-<id>` برای باز کردن یک مهارت) |
+<table dir="rtl" style="margin: 1rem auto; direction: rtl; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th dir="rtl" style="text-align: center; border: 1px solid #cbd5e1; padding: 8px 12px;">صفحه</th>
+      <th dir="rtl" style="text-align: center; border: 1px solid #cbd5e1; padding: 8px 12px;">آدرس</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">منوی اصلی</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>index.html</code></td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">آزمون فصل N</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>chapters/chapter.html?ch=N</code></td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">درسنامهٔ فصل N</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>courses/course.html?ch=N</code> (و <code>#sk-&lt;id&gt;</code> برای باز کردن یک مهارت)</td>
+    </tr>
+  </tbody>
+</table>
 
-`chapters/chapterN.html` و `courses/course1.html` فقط ریدایرکت‌اند.
+<p dir="rtl" style="direction: rtl; text-align: right;"><code>chapters/chapterN.html</code> و <code>courses/course1.html</code> فقط ریدایرکت‌اند.</p>
 
 ## ساختار
 ```
@@ -60,12 +77,42 @@ tools/sync-data.js       ← به‌روزرسانی خودکار count و ready
 
 ### ۱. نقش اجزا؛ نه صرفاً ظاهر آن‌ها
 
-| جزء | قابل کلیک؟ | جهت چیدمان | حالت پیش‌فرض و رفتار |
-|---|---|---|---|
-| **نوار پیشرفتِ سؤال‌ها/مراحل** بالای تمرین (شماره‌های دایره‌ای یا عنوان‌های متنی؛ مثل «تمرین پایانی» و «جذر دقیق») | **خیر** | **همیشه راست به چپ**، چه برچسب عددی باشد چه فارسی | اولین مرحله در راست؛ فقط مورد فعلی برجسته؛ جابه‌جایی صرفاً با کنترل ناوبری مجاز |
-| **دکمه‌های انتخاب مقدار صرفاً عددی** (مثلاً ۱، ۲، ۳) | بله | **چپ به راست** | مورد پیش‌فرض در سمت راست گروه باشد، مگر مقدار اولیهٔ مسئله چیز دیگری بخواهد؛ ترتیبِ عددیِ تعریف‌شده به‌خاطر این پیش‌فرض وارونه نشود |
-| **دکمه‌های انتخاب حالت با برچسب فارسی** (مثلاً «مثبت/منفی»، «کران بالا/پایین») | بله | **راست به چپ** | دکمهٔ سمت راست پیش‌فرض، مگر منطق آموزشی خلاف آن را ایجاب کند |
-| **گزینه‌های پاسخ به سؤال** | بله | متناسب با نوع پاسخ | صرفِ عددی بودن، گزینه را به نوار پیشرفت تبدیل نمی‌کند؛ پاسخِ پیش‌فرض نباید انتخاب شده باشد |
+<table dir="rtl" style="margin: 1rem auto; direction: rtl; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th dir="rtl" style="text-align: center; border: 1px solid #cbd5e1; padding: 8px 12px;">جزء</th>
+      <th dir="rtl" style="text-align: center; border: 1px solid #cbd5e1; padding: 8px 12px;">قابل کلیک؟</th>
+      <th dir="rtl" style="text-align: center; border: 1px solid #cbd5e1; padding: 8px 12px;">جهت چیدمان</th>
+      <th dir="rtl" style="text-align: center; border: 1px solid #cbd5e1; padding: 8px 12px;">حالت پیش‌فرض و رفتار</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><strong>نوار پیشرفتِ سؤال‌ها/مراحل</strong> بالای تمرین (شماره‌های دایره‌ای یا عنوان‌های متنی؛ مثل «تمرین پایانی» و «جذر دقیق»)</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><strong>خیر</strong></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><strong>همیشه راست به چپ</strong>، چه برچسب عددی باشد چه فارسی</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">اولین مرحله در راست؛ فقط مورد فعلی برجسته؛ جابه‌جایی صرفاً با کنترل ناوبری مجاز</td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><strong>دکمه‌های انتخاب مقدار صرفاً عددی</strong> (مثلاً ۱، ۲، ۳)</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">بله</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><strong>چپ به راست</strong></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">مورد پیش‌فرض در سمت راست گروه باشد، مگر مقدار اولیهٔ مسئله چیز دیگری بخواهد؛ ترتیبِ عددیِ تعریف‌شده به‌خاطر این پیش‌فرض وارونه نشود</td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><strong>دکمه‌های انتخاب حالت با برچسب فارسی</strong> (مثلاً «مثبت/منفی»، «کران بالا/پایین»)</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">بله</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><strong>راست به چپ</strong></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">دکمهٔ سمت راست پیش‌فرض، مگر منطق آموزشی خلاف آن را ایجاب کند</td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><strong>گزینه‌های پاسخ به سؤال</strong></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">بله</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">متناسب با نوع پاسخ</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">صرفِ عددی بودن، گزینه را به نوار پیشرفت تبدیل نمی‌کند؛ پاسخِ پیش‌فرض نباید انتخاب شده باشد</td>
+    </tr>
+  </tbody>
+</table>
 
 - **نکتهٔ قطعی:** نوار شماره‌ها/عنوان‌های بالای تمرین دکمهٔ انتخاب مقدار نیست؛ هیچ‌وقت ترتیب چپ‌به‌راستِ دکمه‌های عددی روی آن اعمال نشود. نوار پیشرفت نباید با کلیک روی شماره، سؤال را عوض کند و نباید نمای Hover شبیه دکمه داشته باشد.
 - برای انتخاب حالت، وضعیت انتخاب‌شده تا انتخاب بعدی پایدار بماند؛ صرف Hover یا حرکت نقطه روی محور انتخاب کاربر را عوض نکند.
@@ -106,16 +153,66 @@ tools/sync-data.js       ← به‌روزرسانی خودکار count و ready
 
 **اندازه‌های مبنای پیشنهادی برای اجزای هم‌نقش** (واحد `rem` نسبت به فونت ریشهٔ صفحه است، نه فونت ظرف؛ انتخابگرهای اختصاصی و اندازهٔ KaTeX ممکن است ظاهراً متفاوت باشند):
 
-| نقش عنصر | اندازهٔ مبنا | وزن فونت | ملاحظه |
-|---|---|---|---|
-| صورت سؤال و دستور اصلی | `1rem` | `700` | فقط متن سؤال، نه کل نوار پیشرفت |
-| عنوان/شمارندهٔ مرحله در سطر مستقل | `0.85rem` | `400` | جدا و کم‌رنگ‌تر از سؤال |
-| برچسب‌های نوار پیشرفت | `0.88rem` | برحسب وضعیت | راست‌به‌چپ و غیرقابل‌کلیک |
-| گزینهٔ پاسخ متنی | `1rem` | `400` | مگر تفاوت وزنی به دلیل محتوایی یا خوانایی مشخص لازم باشد |
-| گزینهٔ پاسخ صرفاً عددی | `1.15rem` | معمولی | اعداد و نمادهای KaTeX با توجه به خوانایی تنظیم شوند |
-| متن بازخورد | `0.95rem` | معمولی؛ تأکید مجاز | جدا از کادر توضیح |
-| متن توضیح و راه‌حل | `0.95rem` | معمولی | کادر مستقل نقطه‌چین مطابق بخش بعد |
-| دکمه‌های ناوبری | `0.9rem` | `700` | رنگ، سایه و افکت مطابق قواعد نقش‌محور بخش ۲ |
+<table dir="rtl" style="margin: 1rem auto; direction: rtl; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th dir="rtl" style="text-align: center; border: 1px solid #cbd5e1; padding: 8px 12px;">نقش عنصر</th>
+      <th dir="rtl" style="text-align: center; border: 1px solid #cbd5e1; padding: 8px 12px;">اندازهٔ مبنا</th>
+      <th dir="rtl" style="text-align: center; border: 1px solid #cbd5e1; padding: 8px 12px;">وزن فونت</th>
+      <th dir="rtl" style="text-align: center; border: 1px solid #cbd5e1; padding: 8px 12px;">ملاحظه</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">صورت سؤال و دستور اصلی</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>1rem</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>700</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">فقط متن سؤال، نه کل نوار پیشرفت</td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">عنوان/شمارندهٔ مرحله در سطر مستقل</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>0.85rem</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>400</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">جدا و کم‌رنگ‌تر از سؤال</td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">برچسب‌های نوار پیشرفت</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>0.88rem</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">برحسب وضعیت</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">راست‌به‌چپ و غیرقابل‌کلیک</td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">گزینهٔ پاسخ متنی</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>1rem</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>400</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">مگر تفاوت وزنی به دلیل محتوایی یا خوانایی مشخص لازم باشد</td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">گزینهٔ پاسخ صرفاً عددی</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>1.15rem</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">معمولی</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">اعداد و نمادهای KaTeX با توجه به خوانایی تنظیم شوند</td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">متن بازخورد</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>0.95rem</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">معمولی؛ تأکید مجاز</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">جدا از کادر توضیح</td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">متن توضیح و راه‌حل</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>0.95rem</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">معمولی</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">کادر مستقل نقطه‌چین مطابق بخش بعد</td>
+    </tr>
+    <tr>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">دکمه‌های ناوبری</td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>0.9rem</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: center; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;"><code>700</code></td>
+      <td dir="rtl" style="text-align: justify; text-align-last: right; direction: rtl; border: 1px solid #cbd5e1; padding: 8px 12px;">رنگ، سایه و افکت مطابق قواعد نقش‌محور بخش ۲</td>
+    </tr>
+  </tbody>
+</table>
 
 - **اجرای ایمن:** اندازهٔ واحد به معنی یکسان‌کردن اجباری اندازهٔ تمام کسرها، رادیکال‌ها و فرمول‌های بلند نیست. تایپ‌ست KaTeX، فونت فارسی، فضای عمودی، عرض گزینه، نمایش موبایل و تداخل CSS اختصاصیِ درس‌ها جدا بررسی شوند؛ انتخابگر سراسری بدون بررسی، جایگزین ممیزی هر درس نشود.
 - **عدم بازطراحی:** برای هماهنگ‌سازی فونت یا پیشرفت، قالب سؤال، تعداد و کیفیت گزینه‌ها، رفتار کلیک/ناوبری، نوارهای موجود، کادرها، منطق آموزشی و وضعیت پاسخ‌ها تغییر نکنند. این جدول مبنای هماهنگی اجزای هم‌نقش است؛ استثنا فقط با ضرورت مستدلِ آموزشی یا تعاملی و درخواست صریح کاربر مجاز است.
