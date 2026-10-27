@@ -152,7 +152,7 @@ window.LESSONS.N09 = {
         other = hid === 0 ? c[3] : hid === 3 ? c[0] : hid === 1 ? c[2] : c[1];
         labL = (hid === 0 ? xs : String(c[0])) + '\\times ' + (hid === 3 ? xs : String(c[3])); labR = (hid === 1 ? xs : String(c[1])) + '\\times ' + (hid === 2 ? xs : String(c[2]));
         h = '<p class="ask">در تناسبِ زیر، ' + M(xs) + ' را طوری پیدا کن که ترازو به تعادل برسد. (ترازو حاصل‌ضرب‌های ضربدری را مقایسه می‌کند.)</p>';
-        h += '<div class="n9-bal-single" dir="ltr">' + M('\\frac{' + cell(0) + '}{' + cell(1) + '}=\\frac{' + cell(2) + '}{' + cell(3) + '}\\;\\Rightarrow');
+        h += '<div class="n9-bal-single" dir="ltr">' + M('\\dfrac{' + cell(0) + '}{' + cell(1) + '}=\\dfrac{' + cell(2) + '}{' + cell(3) + '}\\;\\Rightarrow');
         h += '<div class="n9-bal-factor">' + M('\\underbrace{' + cell(0) + '\\times ' + cell(3) + '}') + '<span>کفه چپ ترازو</span></div>';
         h += M('=') + '<div class="n9-bal-factor">' + M('\\underbrace{' + cell(1) + '\\times ' + cell(2) + '}') + '<span>کفه راست ترازو</span></div></div>';
         h += scaleSvg(L, Rr, labL, labR, xl, bal);
