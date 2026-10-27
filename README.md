@@ -1,7 +1,8 @@
 # پروژهٔ ارزیابی و درسنامهٔ ریاضی ۱ دهم
 
 ## صفحه‌ها
-<table dir="rtl" style="margin: 1rem auto; direction: rtl; border-collapse: collapse;">
+<div align="center" dir="rtl">
+<table align="center" dir="rtl" style="margin: 1rem auto; margin-inline: auto; direction: rtl; border-collapse: collapse; width: max-content; max-width: 100%;">
   <thead>
     <tr>
       <th dir="rtl" style="text-align: center; border: 1px solid #cbd5e1; padding: 8px 12px;">صفحه</th>
@@ -23,6 +24,7 @@
     </tr>
   </tbody>
 </table>
+</div>
 
 <p dir="rtl" style="direction: rtl; text-align: right;"><code>chapters/chapterN.html</code> و <code>courses/course1.html</code> فقط ریدایرکت‌اند.</p>
 
