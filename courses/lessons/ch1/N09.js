@@ -156,7 +156,7 @@ window.LESSONS.N09 = {
         h += '<div class="n9-bal-factor">' + M('\\underbrace{' + cell(0) + '\\times ' + cell(3) + '}') + '<span>کفه چپ ترازو</span></div>';
         h += M('=') + '<div class="n9-bal-factor">' + M('\\underbrace{' + cell(1) + '\\times ' + cell(2) + '}') + '<span>کفه راست ترازو</span></div></div>';
         h += scaleSvg(L, Rr, labL, labR, xl, bal);
-        h += '<div class="n9-line n9-bal-ctrl"><span class="n9-stp"><button type="button" class="btn" data-s="-5">' + M('-5') + '</button><button type="button" class="btn" data-s="-1">' + M('-') + '</button><b>' + M('x='+x) + '</b><button type="button" class="btn" data-s="1">' + M('+') + '</button><button type="button" class="btn" data-s="5">' + M('+5') + '</button></span></div>';
+        h += '<div class="n9-line n9-bal-ctrl"><span class="n9-stp"><button type="button" class="btn" data-s="-5">' + M('-5') + '</button><button type="button" class="btn" data-s="-1">' + M('-1') + '</button><b>' + M('x='+x) + '</b><button type="button" class="btn" data-s="1">' + M('+1') + '</button><button type="button" class="btn" data-s="5">' + M('+5') + '</button></span></div>';
         if (bal) {
           P = xl ? Rr : L; X = x;
           h += fb(true, 'تعادل! ✓ x = ' + fa(x)) + '<div class="ex"><p>حاصل‌ضرب‌های ضربدری باید برابر باشند:</p>' + AL([T`${other}\times x&=${P}`, T`x&=${P}${dv}${other}=${CR(X)}`]) + '</div>';
