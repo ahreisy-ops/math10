@@ -1,0 +1,133 @@
+/* Quiz_44: unified compact controls. Never resize the circular info control. */
+.mc .opt {font-size:1rem;min-height:44px;padding:5px 10px;font-weight:600;overflow-wrap:anywhere;white-space:normal}
+.opts .btn,.modal-act .btn,.opseg .btn,.nl .ctl .btn{min-height:36px;font-size:.88rem;padding:5px 12px}
+.infobtn,.infobtn.sm {box-sizing:border-box;flex:0 0 auto;min-width:22px;max-width:22px;width:22px;height:22px;min-height:22px;max-height:22px;padding:0;border-radius:50%;line-height:18px;font-size:13px;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}
+.opseg .btn.on{background:var(--mark);color:var(--ink);border-color:var(--ink)}
+.n3-w .btn{min-height:36px}
+.n3-w .mc .opt{min-height:44px;font-size:1rem}
+.quiz44-prev-next{display:flex;justify-content:space-between;direction:ltr;width:100%}
+.quiz44-prev-next .btn{min-height:36px}
+
+
+/* Compact navigation: first button left, next button right, regardless of RTL body. */
+.opts:has([data-p="1"]):has([data-nx="1"]){display:flex;justify-content:space-between;direction:ltr;gap:12px}
+.opts:has([data-p="1"]):has([data-nx="1"]) .btn{min-height:36px}
+.stg span{font-size:.87rem}
+
+/* Hover reference shared by HTML number lines (N04/N05). */
+.quiz44-hov-ghost{position:absolute;width:24px;height:24px;box-sizing:border-box;border:2px dashed var(--ink);background:rgba(20,33,61,.08);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:5}
+.quiz44-hov-tip{position:absolute;transform:translateX(-50%);background:var(--ink);color:white;border-radius:9px;padding:3px 9px;min-width:36px;text-align:center;white-space:nowrap;font-weight:bold;font-size:.9rem;pointer-events:none;z-index:6}
+.quiz44-hov-tip:after{content:"";position:absolute;top:100%;left:50%;margin-left:-6px;border:6px solid transparent;border-top-color:var(--ink);border-bottom:0}
+
+/* N01: shift the whole revealed-card content down, with unchanged total vertical padding. */
+#cards1 .cover {box-sizing:border-box;padding-top:24px;padding-bottom:6px;}
+/* N01: previous right, next left in RTL (HTML order follows reading direction). */
+.n01-final-nav {direction:rtl !important;justify-content:space-between !important;}
+
+/* N02 final practice: previous on the right, next on the left. */
+.n02-final-nav {direction:rtl !important;justify-content:space-between !important;}
+
+/* N06–N10 scoped visual harmonization; excludes info icons and compact controls. */
+.standard-n6-10 .mc .opt { min-height:44px; height:auto; font-size:1rem; padding:5px 10px; font-weight:600; white-space:normal; overflow-wrap:anywhere; }
+.standard-n6-10 .mc .opt .katex { max-width:100%; }
+.standard-n6-10 .opts .btn,
+.standard-n6-10 .modal-act .btn,
+.standard-n6-10 .opseg .btn { min-height:36px; height:auto; font-size:.88rem; padding:5px 12px; }
+.standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) { display:flex; flex-direction:row; justify-content:space-between; direction:rtl; width:100%; gap:12px; }
+.standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) > [data-p="1"] { order:0; margin-inline:0; }
+.standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) > [data-nx="1"] { order:1; margin-inline:0; }
+.standard-n6-10 .stg span { font-size:.87rem; }
+.standard-n6-10 .stg .cu { background:var(--mark); border-color:var(--ink); color:var(--ink); }
+.standard-n6-10 .stg .dn { background:#e6f6f3; border-color:var(--accent); color:var(--accent-dark); }
+.standard-n6-10 .stg span:not(.cu):not(.dn):not(.wr) { background:#fff; border-color:var(--line); color:var(--ink-soft); }
+.standard-n6-10 .ex { border:1.5px dashed var(--line); border-radius:10px; }
+/* High-specificity guard against broad button rules; preserve miniature controls */
+.standard-n6-10 .infobtn,.standard-n6-10 .infobtn.sm { box-sizing:border-box; min-height:22px; max-height:22px; height:22px; min-width:22px; max-width:22px; width:22px; padding:0; font-size:13px; border-radius:50%; }
+@media(max-width:520px) { .standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) { flex-wrap:wrap; } }
+
+/* N03: final-exam navigation matches the shared navigation button sizing. */
+.n3-w .opts.n3-seqnav>.btn{min-height:38px;padding:5px 12px;min-width:112px}
+
+/* Quiz-3-94: mobile layout for N03 conversion lab and N07 trap cards. */
+@media(max-width:520px){
+ .n3-w .n3-row{grid-template-columns:minmax(0,1fr) minmax(0,105px) 16px;column-gap:5px;width:100%;max-width:100%;box-sizing:border-box;justify-content:center}
+ .n3-w .n3-langmeta{width:auto;max-width:100%;min-width:0;gap:5px;font-size:.83rem}
+ .n3-w .n3-row .n3-in,.n3-w .n3-row .n3-inbox{width:100%;min-width:0;max-width:150px}
+ .n3-w .n3-row .n3-mk{width:16px}
+ .standard-n6-10 .sg{grid-template-columns:minmax(0,1fr)!important}
+ .standard-n6-10 .sg>div{min-width:0;max-width:100%;box-sizing:border-box}
+ .standard-n6-10 .sg .dm{max-width:100%;overflow-x:visible;white-space:normal}
+ .standard-n6-10 .sg .katex{font-size:.88em}
+}
+
+/* Quiz-3-116: mobile-only wrapping for long lesson formulas and sign-rule cards. */
+.n01-repeat-mul-mobile,.n01-sign-logic-mobile,.n03-times100-mobile,
+.n06-same-base-product-mobile,.n06-product-examples-mobile,.n06-cancel-example-mobile,
+.n06-division-examples-mobile,.n10-factor-example-mobile{display:none}
+@media(max-width:520px){
+ .nl .ctl{flex-wrap:wrap;align-items:stretch}
+ .nl .ctl .btn{flex:1 1 calc(50% - 8px);min-width:0;max-width:none;white-space:normal;box-sizing:border-box}
+ .nl .ctl .btn:nth-child(3){flex:1 1 100%;max-width:none}
+ .lesson .sg{grid-template-columns:minmax(0,1fr)!important}
+ .lesson .sg>div{min-width:0;max-width:100%;box-sizing:border-box}
+ .lesson .sg .dm{max-width:100%;overflow-x:visible;white-space:normal}
+ .n01-repeat-mul-desktop,.n01-sign-logic-desktop,.n03-times100-desktop,
+ .n06-same-base-product-desktop,.n06-product-examples-desktop,.n06-cancel-example-desktop,
+ .n06-division-examples-desktop,.n10-factor-example-desktop{display:none}
+ .n01-repeat-mul-mobile,.n01-sign-logic-mobile,.n03-times100-mobile,
+ .n06-same-base-product-mobile,.n06-product-examples-mobile,.n06-cancel-example-mobile,
+ .n06-division-examples-mobile,.n10-factor-example-mobile{display:block;max-width:100%;min-width:0}
+ .n01-repeat-mul-mobile .dm,.n01-sign-logic-mobile .dm,.n03-times100-mobile .dm,
+ .n06-same-base-product-mobile .dm,.n06-product-examples-mobile .dm,.n06-cancel-example-mobile .dm,
+ .n06-division-examples-mobile .dm,.n10-factor-example-mobile .dm{max-width:100%;min-width:0;overflow-x:visible;overflow-y:hidden;box-sizing:border-box;margin:8px auto}
+ .n01-sign-logic-mobile .dm{margin:10px auto 14px}
+ /* Quiz-3-119: add mobile-only vertical separation between independent calculations. */
+ .n01-sign-logic-mobile .dm:nth-child(2),
+ .n03-times100-mobile .dm:nth-child(2),.n03-times100-mobile .dm:nth-child(4),
+ .n06-product-examples-mobile .dm:nth-child(3),
+ .n06-division-examples-mobile .dm:nth-child(2){margin-bottom:28px}
+ /* Quiz-3-120: add top breathing room before division examples and separate all three product-example groups. */
+ .n06-division-examples{margin-top:14px}
+ .n06-product-examples-mobile .dm:nth-child(1){margin-bottom:28px}
+}
+
+
+/* محور اعداد روی گوشی: به‌جای کوچک‌کردن (نوشتهٔ ۶px)، با عرض خوانا قابل کشیدن است */
+.nl .nl-sc, .scw.dm {
+	overflow-x:auto;
+	direction:ltr;
+	-webkit-overflow-scrolling:touch;
+	overscroll-behavior-x:contain;
+	
+	scrollbar-width: thin;
+	scrollbar-color: var(--accent-dark) var(--grid);
+	border: 1px dotted var(--line);
+	border-radius: 8px;
+	box-shadow: inset 0 1px 2px var(--grid), 0 2px 3px -1px var(--line);
+}
+
+.nl .nl-scrollhint{display:none;margin:2px 0 0;font-size:.82rem;color:var(--ink-soft);text-align:center}
+@media(max-width:560px){.nl .nl-sc svg{width:560px;max-width:none}.nl .nl-scrollhint{display:block}}
+
+/* N04: دکمهٔ ↻ و لینک «پاک‌کردن ترتیب» — ناحیهٔ لمس ≥۴۰px بدون تغییر ظاهر */
+.rp{position:relative}
+.rp::after{content:'';position:absolute;inset:-7px}
+.ladn a{display:inline-block;padding:10px 8px;margin:-10px -8px}
+
+#sd .nl .lv.lo {
+    pointer-events: none;
+}
+
+@media(max-width:520px) {
+    .lesson table { font-size: .8rem !important; }
+    .lesson td .katex {white-space: break-spaces !important;}
+    .fold .tn {font-size: .5rem !important;}
+    #dm .tn {font-size: .5rem !important;}
+    #mr input, #af input { max-width: 60% !important; }
+}
+
+@media(max-width:520px) { .N04-Ex01-P01 { font-size: .8rem !important; } .N04-Ex01-P02 { font-size: .7rem !important; } .N04-Ex01-P03 { font-size: .55rem !important; }}
+
+@media(max-width:384px) {#bR { font-size: .776rem; }}
+@media(max-width:384px) {#bR { font-size: .776rem; }}
+@media(max-width:416px) {#bR { font-size: .778rem; }}

@@ -1,0 +1,27 @@
+/* ===== فصل ۷ (P01–P05): هم‌ترازی ظاهر و رفتار با استانداردهای README =====
+   همهٔ قاعده‌ها فقط به فعالیت‌های فصل هفتم (.p7-act) محدودند. */
+/* دکمه‌های عملیاتی سفید (تولید نمونهٔ دیگر، پرتاب، چیپ‌های عملیاتی): سایه و افکت فشردن ملایم */
+.p7-act .opts.p7-ops > .btn:not(.primary){box-shadow:2px 2px 0 var(--ink);transition:transform .10s ease,box-shadow .10s ease}
+.p7-act .opts.p7-ops > .btn:not(.primary):active:not(:disabled){transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+/* دکمهٔ سفید در کنار دکمهٔ سبزِ ادامه: هیچ‌کدام سایه یا جابه‌جایی ندارند */
+.p7-act .opts.p7-pair > .btn,.p7-act .opts.p7-pair > .btn:hover,.p7-act .opts.p7-pair > .btn:active{box-shadow:none!important;transform:none!important;transition:none!important}
+.p7-act .opts.p7-ops > .btn.primary,.p7-act .opts.p7-ops > .btn.primary:active{box-shadow:none!important;transform:none!important}
+.p7-act .opts.p7-ops,.p7-act .opts.p7-pair{direction:rtl}
+/* چیپ‌های انتخاب وضعیت: افکت فشردن ملایم؛ رنگ انتخاب‌شده پس از رها کردن حفظ می‌شود */
+.p7-act .chip{transition:transform .10s ease,box-shadow .10s ease}
+.p7-act .chip:active:not(:disabled){transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+.p7-act .chip:focus-visible,.p7-act .btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+/* چیپ‌های دارای برچسب فارسی: راست‌به‌چپ و گزینهٔ پیش‌فرض سمت راست */
+.p7-act .chips.p7-fa{direction:rtl}
+/* دکمه‌های کاستن/افزودن: اندازهٔ یکسان و مربعی، هم‌تراز با متن وسط */
+.p7-act .stp .chip{box-sizing:border-box;width:44px;min-width:44px;height:44px;min-height:44px;padding:0;align-self:center;display:inline-grid;place-items:center;font-size:1.2rem;line-height:1}
+/* نوار لغزنده: الگوی فصل اول (بومی؛ مسیر طی‌شده سبز، دستگیره خاکستری، فشردن فیروزه‌ای) */
+.p7-act input[type=range]{appearance:auto;-webkit-appearance:auto;direction:ltr;accent-color:#078b80;cursor:pointer}
+.p7-act input[type=range]:focus-visible{outline:2px solid var(--accent-dark);outline-offset:3px;border-radius:5px}
+@media (prefers-reduced-motion:reduce){
+  .p7-act .opts.p7-ops > .btn:not(.primary),.p7-act .chip{transition:none}
+  .p7-act .opts.p7-ops > .btn:not(.primary):active:not(:disabled),.p7-act .chip:active:not(:disabled){transform:none}
+}
+@media (max-width:480px){.p7-act .chips{gap:6px}.p7-act .chips .chip{min-width:42px}}
+
+.lad .chg .katex { color: #2f43b5; }

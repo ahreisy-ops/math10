@@ -1,0 +1,20 @@
+/* فصل ۶ — مجموعه، الگو و دنباله (استایل مخصوص درس‌های S01 و S03؛ S02 و بقیه از استایل‌های مشترک استفاده می‌کنند) */
+
+/* S01 — مجموعه */
+.s1-guest{display:flex;justify-content:center;margin:8px 0}
+.s1-guest span{width:78px;height:78px;border-radius:50%;border:3px solid var(--ink);background:var(--mark);display:flex;align-items:center;justify-content:center;font-size:1.9em;font-weight:700}
+.s1-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0;direction:rtl}
+.s1-grid .lk-card{font-size:.9rem;padding:6px 8px}
+
+
+/* S03 — دنباله */
+.s3-train{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;direction:ltr;margin:10px 0}
+.s3-wg{min-width:62px;min-height:46px;padding:4px 8px;border:2px solid var(--ink);border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center}
+.s3-wg.q{background:var(--mark)}
+.s3-wg .lk-in{width:4.4em;padding:2px 4px}
+.s3-cn{font-size:.8rem;color:crimson;min-width:26px;text-align:center}
+.s3-mk{font-weight:bold;min-width:1em}
+.s3-tb{border-collapse:collapse;margin:8px auto;direction:ltr}
+.s3-tb td,.s3-tb th{border:2px solid var(--ink);padding:3px 12px;text-align:center;min-width:3.2em}
+.s3-tb th{background:var(--ink);color:#fff}
+

@@ -1,0 +1,62 @@
+/* فصل ۴ — مختصات: صفحهٔ مختصات SVG، جدول داده، ورودی زوج مرتب، بازی‌ها و آزمونک (js/shared/coord.js) */
+
+.cd-pl{display:block;margin:6px auto;max-width:100%;height:auto;direction:ltr;touch-action:manipulation}
+.cd-pk rect{fill:transparent;cursor:pointer}
+.cd-pk:hover rect{fill:rgba(255,194,51,.5)}
+.cd-qk{cursor:pointer}
+.cd-qk:hover{opacity:.8}
+.cd-info{min-height:3.4em;text-align:center;margin:4px 0 8px;font-size:.95rem;line-height:2.1}
+.cd-pill{display:inline-block;padding:0 10px;border:2px solid var(--ink);border-radius:99px;background:#fff;font-weight:700;margin:0 2px;line-height:1.7}
+.cd-pill.q1{background:#d6f0ec}
+.cd-pill.q2{background:#e1e6fb}
+.cd-pill.q3{background:#fbdfe9}
+.cd-pill.q4{background:#fff0b8}
+.cd-pill.q0{background:#ffe3a0}
+.lesson .cd-tab{direction:ltr!important;unicode-bidi:isolate}
+.lesson .cd-tab .katex{direction:ltr}
+.cd-tab{border-collapse:separate;border-spacing:0;margin:8px auto;direction:ltr;font-size:1rem;max-width:100%}
+.cd-tab th,.cd-tab td{border:2px solid var(--ink);margin:-1px;padding:3px 10px;min-width:42px;height:38px;text-align:center;background:#fff}
+.cd-tab th{background:var(--ink);color:#fff;font-weight:700}
+.cd-tab td.hl{background:var(--mark)}
+.cd-tab td.pk{cursor:pointer}
+.cd-tab td.pk:hover{background:#fff1bd}
+.cd-tab td.ok{background:#d9f2e3}
+.cd-tab td.no{background:#fbd5d5}
+.cd-tab td.bad{background:#fbd5d5;font-weight:700}
+.cd-tab input{width:2.6em;padding:3px 1px;border:2px solid var(--ink);border-radius:8px;text-align:center;font:inherit;font-size:.95rem;background:#fff;color:var(--ink)}
+.cd-tab td:has(input){padding:3px 3px}
+.cd-pi{display:inline-flex;align-items:center;gap:6px;direction:ltr;font-size:1.4rem;margin:4px 0}
+.cd-pi input{width:3.5em;padding:4px 2px;border:2px solid var(--ink);border-radius:10px;text-align:center;font:inherit;font-size:1rem;background:#fff;color:var(--ink)}
+.cd-pi input.no{border-color:crimson;background:#fde8e8}
+.cd-pi input.ok{border-color:green;background:#e4f6ea}
+.cd-pm{border:2px solid var(--ink);border-radius:8px;background:#fff;font:inherit;font-size:.85rem;width:28px;height:28px;cursor:pointer;color:var(--ink)}
+.cd-sl{display:grid;grid-template-columns:auto 1fr 2.6em;gap:8px;align-items:center;direction:ltr;margin:6px 0;font-size:1rem}
+.cd-sl input{width:100%;accent-color:var(--accent)}
+.cd-sl b{text-align:center}
+.cd-grid{display:grid;gap:8px;margin:8px 0}
+.cd-g2{grid-template-columns:1fr 1fr}
+.cd-g3{grid-template-columns:repeat(3,1fr)}
+.cd-g4{grid-template-columns:repeat(4,1fr)}
+.cd-bin{border:2px dashed var(--ink);border-radius:12px;padding:8px 6px;text-align:center;background:#fff;font:inherit;cursor:pointer;color:var(--ink);min-height:70px}
+.cd-bin.hot{background:#fff1bd}
+.cd-bin b{display:block;margin-bottom:4px;font-size:.92rem}
+.cd-bin>span{display:inline-block;margin:2px;padding:0 6px;border:1.5px solid var(--ink);border-radius:8px;background:#d9f2e3;font-size:.9rem;direction:ltr}
+.cd-tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0;direction:ltr}
+.cd-tile{padding:3px 12px;border:2px solid var(--ink);border-radius:10px;background:#fff;font:inherit;font-size:1rem;cursor:pointer;box-shadow:2px 2px 0 var(--ink);color:var(--ink)}
+.cd-tile.sel{background:var(--mark)}
+.cd-tile.shk{animation:cdshk .3s}
+@keyframes cdshk{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.cd-bar{height:12px;border:2px solid var(--ink);border-radius:99px;background:#fff;overflow:hidden;margin:6px 0}
+.cd-bar i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.cd-tg{display:inline-flex;border:2px solid var(--ink);border-radius:10px;overflow:hidden;direction:ltr}
+.cd-tg button{border:0;background:#fff;font:inherit;font-size:1.05rem;min-width:44px;height:36px;cursor:pointer;color:var(--ink)}
+.cd-tg button.on{background:var(--mark);font-weight:700}
+@media(prefers-reduced-motion:reduce){.cd-tile.shk{animation:none}
+.cd-bar i{transition:none}}
+@media(max-width:400px){
+.lesson .cd-tab th,.lesson .cd-tab td{min-width:32px;padding:3px 4px}
+.lesson .cd-tab th{font-size:.88rem;min-width:44px}
+.cd-tab input{width:2.3em}
+.lesson .cd-tab{table-layout:fixed;width:100%}
+.lesson .cd-tab th{width:24%;font-size:.76rem;line-height:1.3;padding:3px 2px;overflow-wrap:normal}
+}
