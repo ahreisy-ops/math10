@@ -3079,13 +3079,15 @@
   border-bottom: 0
 }
 
-.e02-lesson .e02-detect-row:hover,
-.e02-lesson .e02-detect-row:focus-visible {
+.e02-lesson .e02-detect-row:hover:not(.is-selected),
+.e02-lesson .e02-detect-row:focus-visible:not(.is-selected) {
   background: #fff7e5
 }
 
 .e02-lesson .e02-detect-row.is-selected {
-  background: var(--mark)
+  background: #e7f0fb;
+  border-color: #527cb4;
+  box-shadow: inset -3px 0 #527cb4
 }
 
 .e02-lesson .e02-detect-num {
@@ -6166,13 +6168,15 @@
   cursor: default
 }
 
-.e02-lesson .e02-detect-row:disabled:hover {
+.e02-lesson .e02-detect-row:disabled:hover:not(.is-selected) {
   background: transparent
 }
 
 .e02-lesson .e02-detect-row.is-selected:disabled,
 .e02-lesson .e02-detect-row.is-selected:disabled:hover {
-  background: #e7f0fb
+  background: #e7f0fb !important;
+  border-color: #527cb4;
+  box-shadow: inset -3px 0 #527cb4
 }
 
 @media(max-width:380px) {

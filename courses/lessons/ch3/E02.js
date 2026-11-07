@@ -5,6 +5,18 @@
   window.LESSONS.E02 = {
     needs: [], setup: function (K) {
       var ML = window.MathLite;
+      if (!document.getElementById('css-E2detect-frame')) {
+        var st0 = document.createElement('style');
+        st0.id = 'css-E2detect-frame';
+        st0.textContent = [
+          '.e02-lesson .e02-detect-folder .e02-detect-row{border:1.5px solid var(--line);border-radius:11px;background:#fff;margin:8px 0 0;min-height:52px;width:100%;box-shadow:none}',
+          '.e02-lesson .e02-detect-folder .e02-detect-row:disabled,.e02-lesson .e02-detect-folder .e02-detect-row:disabled:hover{background:#fff}',
+          '.e02-lesson .e02-detect-folder .e02-detect-row:hover:not(.is-selected):not(:disabled),.e02-lesson .e02-detect-folder .e02-detect-row:focus-visible:not(.is-selected):not(:disabled){background:#f0f5fb}',
+          '.e02-lesson .e02-detect-folder .e02-detect-row.is-selected,.e02-lesson .e02-detect-folder .e02-detect-row.is-selected:hover,.e02-lesson .e02-detect-folder .e02-detect-row.is-selected:focus,.e02-lesson .e02-detect-folder .e02-detect-row.is-selected:focus-visible,.e02-lesson .e02-detect-folder .e02-detect-row.is-selected:disabled,.e02-lesson .e02-detect-folder .e02-detect-row.is-selected:disabled:hover{background:#e7f0fb !important;border-color:#527cb4 !important;box-shadow:inset -3px 0 #527cb4 !important;border-radius:11px}',
+          '.e02-lesson .e02-detect-folder .e02-detect-row.is-selected .e02-detect-num{border-color:#527cb4 !important}'
+        ].join('\n');
+        document.head.appendChild(st0);
+      }
       function M(s) { return ML.renderRich('$' + s + '$'); }
       function R(s) { return ML.renderRich(s); }
       function F(n) { return ML.fa(n); }
@@ -261,7 +273,7 @@
         var after = s.bad === 1 ? M('=' + s.rhs) : '';
         var repair = s.selected === s.bad ? '<div class="e02-correction"><p><b>اولین خطا پیدا شد.</b> اکنون همان سطر را اصلاح کن؛ عدد درستِ جای خالی را حساب کن.</p>' +
           (s.done ? mathpanel(s.correct[s.bad]) + mark(true, note) : '<div class="e02-repair-math" dir="ltr">' + before + '<input id="e02-repair-number" type="number" step="1" inputmode="numeric" aria-label="عدد اصلاح‌شده" placeholder="؟" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + '>' + after + '</div><div class="e02-detect-repair"><button type="button" class="btn primary" data-repair-check>بررسی اصلاح</button></div>' + (s.note ? mark(false, s.note) : '')) + '</div>' : '';
-        return problemHead(s.lines[0]) + '<div class="e02-detect-folder"><div class="e02-detect-spine">مراحل نوشته‌شدهٔ حل</div>' + s.lines.slice(1).map(function (v, i) { i += 1; return '<button type="button" class="e02-detect-row ' + (s.selected === i ? 'is-selected' : '') + '" data-row="' + i + '" ' + (s.done ? 'disabled aria-disabled="true"' : '') + '><span class="e02-detect-num">' + F(i + 1) + '</span><span dir="ltr">' + M(v) + '</span></button>'; }).join('') + '</div>' +
+        return problemHead(s.lines[0]) + '<div class="e02-detect-folder"><div class="e02-detect-spine">مراحل نوشته‌شدهٔ حل</div>' + s.lines.slice(1).map(function (v, i) { i += 1; var on = s.selected === i; return '<button type="button" class="e02-detect-row' + (on ? ' is-selected' : '') + '" data-row="' + i + '" aria-pressed="' + (on ? 'true' : 'false') + '"' + (s.done ? ' disabled aria-disabled="true"' : '') + '><span class="e02-detect-num">' + F(i + 1) + '</span><span dir="ltr">' + M(v) + '</span></button>'; }).join('') + '</div>' +
           (outcome ? (s.selected === s.bad ? repair : mark(false, 'این سطر نخستین خطای راه‌حل نیست. محاسبه‌ها را از نخستین سطر به ترتیب دنبال کن.')) : '');
       }
       function detectHandle(s, b, paint, root) {
