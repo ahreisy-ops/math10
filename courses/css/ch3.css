@@ -11,8 +11,7 @@
   box-sizing: border-box
 }
 
-.e01-lesson .e01-intro,
-.lesson-bridge {
+.e01-lesson .e01-intro {
   margin: 12px 0 20px;
   padding: 12px 16px;
   border: 2px solid var(--ink);
@@ -20,22 +19,19 @@
   background: #e6f6f3;
 }
 
-.e01-lesson .e01-intro p,
-.lesson-bridge p {
+.e01-lesson .e01-intro p {
   margin: 6px 0 12px
 }
 
 .e01-kicker,
-.e01-eyebrow,
-.lesson-bridge-title {
+.e01-eyebrow {
   display: block;
   font-size: .85rem;
   font-weight: 700;
   color: var(--accent-dark)
 }
 
-.e01-route,
-.lesson-bridge-route {
+.e01-route {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -44,8 +40,7 @@
   margin-top: 10px
 }
 
-.e01-route>span,
-.lesson-bridge-route>span {
+.e01-route>span {
   font-size: .85rem;
   font-weight: 400;
   border: 1.5px solid var(--line);
@@ -54,8 +49,7 @@
   padding: 3px 10px
 }
 
-.e01-route>i,
-.lesson-bridge-route>i {
+.e01-route>i {
   font-style: normal;
   font-weight: 700;
   color: var(--accent-dark)
@@ -1015,27 +1009,23 @@
     grid-template-columns: 1fr
   }
 
-  .e01-route,
-  .lesson-bridge-route {
+  .e01-route {
     gap: 4px
   }
 
-  .e01-route>span,
-  .lesson-bridge-route>span {
+  .e01-route>span {
     font-size: .81rem;
     padding: 3px 7px
   }
 
-  .e01-route>i,
-  .lesson-bridge-route>i {
+  .e01-route>i {
     font-size: .83rem
   }
 }
 
 @media(max-width:490px) {
 
-  .e01-lesson .e01-intro,
-  .lesson-bridge {
+  .e01-lesson .e01-intro {
     padding: 11px 12px
   }
 
@@ -1112,21 +1102,6 @@
   .e01-lesson .e01-spinner>.btn:active {
     transform: none !important
   }
-}
-
-/* Intro bridge starts each selected lesson before the first numbered section. */
-.lesson>.lesson-bridge+h3 {
-  margin-top: 16px;
-  padding-top: 0;
-  border-top: 0
-}
-
-.lesson-bridge {
-  min-width: 0
-}
-
-.lesson-bridge-route>span {
-  white-space: normal
 }
 
 /* E01 answer choices follow chapter-one answer-option borders, not operation controls. */
@@ -1642,72 +1617,6 @@
   }
 }
 
-
-/* Graduated sliders: shared alignment of native thumbs and KaTeX scale labels.
-   Apply only to ranges that already have a numbered graduation. */
-.graduated-range {
-  --gr-half: 8px;
-  min-width: 0;
-}
-
-/* Do not restyle the range itself: each lesson retains its original
-   native/custom track, thumb, accent and normal/hover/active states.
-   Only the graduation labels below it share positioning rules. */
-.graduated-range .graduated-ticks {
-  display: block !important;
-  position: relative !important;
-  box-sizing: border-box !important;
-  height: 31px !important;
-  width: auto !important;
-  margin: 1px var(--gr-half) 0 !important;
-  padding: 0 !important;
-  direction: ltr !important;
-  line-height: 1 !important;
-  text-align: center !important;
-  font-size: .70rem !important;
-  color: var(--ink-soft);
-  grid-template-columns: none !important;
-  gap: 0 !important;
-}
-
-.graduated-range .graduated-ticks>span {
-  display: block !important;
-  position: absolute !important;
-  left: calc(var(--gr-step) * 100% / var(--gr-total)) !important;
-  top: 0 !important;
-  width: auto !important;
-  min-width: 0 !important;
-  padding: 0 !important;
-  transform: translateX(-50%) !important;
-  white-space: nowrap !important;
-  line-height: 1.2 !important;
-  font-weight: normal;
-}
-
-.graduated-range .graduated-ticks>span>i {
-  display: block !important;
-  width: 1px !important;
-  height: 6px !important;
-  margin: 0 auto 3px !important;
-  background: #9cb3c5 !important;
-  opacity: 1 !important;
-  font-style: normal;
-}
-
-.graduated-range .graduated-ticks>span:before {
-  content: none !important;
-}
-
-.graduated-range .graduated-ticks .katex {
-  font-size: 1em;
-}
-
-.graduated-range .graduated-ticks .zero,
-.graduated-range .graduated-ticks .target {
-  color: var(--ink);
-  font-weight: 700;
-}
-
 /* Center only the message displayed after all four timed questions are finished. */
 .e01-lesson .e01-types-result>p {
   text-align: center !important;
@@ -1766,9 +1675,6 @@
 }
 
 @media(max-width:480px) {
-  .graduated-range .graduated-ticks {
-    font-size: .64rem !important;
-  }
 
   .e01-lesson .e01-identity-parts {
     gap: 6px;
@@ -1781,28 +1687,6 @@
   .e01-lesson .e01-identity-parts .katex {
     font-size: .87em;
   }
-}
-
-/* The original E01 and A08 custom thumbs are 18px wide; their scale ends
-   must sit below the 9px-inset centers, without changing either slider. */
-.e01-compare-control.graduated-range,
-.a08-domain-control.graduated-range {
-  --gr-half: 9px;
-}
-
-/* Preserve A05's original control width; the shared tick class must not
-   override the slider box's existing minimum width. */
-.a05-slider-box.graduated-range {
-  min-width: 195px;
-}
-
-/* Slider colour alignment, restricted to the four already graduated activities.
-   Native Firefox thumb states match the N07 reference; tick layouts are untouched. */
-.a05-slider-box.graduated-range input[type=range],
-.a78-control.graduated-range input[type=range],
-.a08-domain-control.graduated-range input[type=range],
-.e01-compare-control.graduated-range input[type=range] {
-  accent-color: #078b80 !important;
 }
 
 /* E01 fine tuning: formula labels and final contest feedback. */
