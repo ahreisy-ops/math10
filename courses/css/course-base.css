@@ -134,7 +134,7 @@
     transition: box-shadow .2s, transform .2s
 }
 
-.skill:hover {
+.skill:not(.open):hover {
     transform: translate(-1px, -1px);
     box-shadow: 5px 5px 0 var(--ink)
 }
