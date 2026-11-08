@@ -1141,7 +1141,8 @@
     white-space: nowrap
 }
 
-.cb, .cr, .cg {
+.cb,
+.cr {
     color: var(--ink);
     border-color: var(--ink)
 }
@@ -1232,18 +1233,6 @@
 
 .seg:hover {
     opacity: .7
-}
-
-.fbc {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap
-}
-
-.fbc span {
-    font-size: .9rem
 }
 
 .st {

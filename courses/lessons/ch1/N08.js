@@ -118,7 +118,7 @@ var fixK = function (root) { [].forEach.call(root.querySelectorAll('.opt .katex 
 /* o: {min,max,ticks:[{v,t,mn,z}], hits:[{v,c}] , hw, arcs:[{a,b,t,g}], cls}؛ marks: [{v,c,h,lv,gh}] */
 function axisHTML(o, marks) {
   var sp = o.max - o.min, pc = function (v) { return (v - o.min) / sp * 100; }, h = '<div class="lv ' + (o.cls || '') + '"><i class="ax"></i>';
-  (o.arcs || []).forEach(function (a) { h += '<span class="arc' + (a.g ? ' g' : '') + '" style="left:' + pc(a.a) + '%;width:' + (pc(a.b) - pc(a.a)) + '%">' + (a.t ? '<i>' + a.t + '</i>' : '') + '</span>'; });
+  (o.arcs || []).forEach(function (a) { h += '<span class="arc' + (a.g ? ' g' : '') + '" style="left:' + pc(a.a) + '%;width:' + (pc(a.b) - pc(a.a)) + '%">' + (a.t ? '<i dir="rtl">' + a.t + '</i>' : '') + '</span>'; });
   (o.ticks || []).forEach(function (t) { h += '<i class="tk' + (t.mn ? ' mn' : '') + (t.z ? ' z' : '') + '" style="left:' + pc(t.v) + '%"></i>' + (t.t ? '<span class="tn" dir="ltr" style="left:' + pc(t.v) + '%">' + t.t + '</span>' : ''); });
   (o.hits || []).forEach(function (x, i) { h += '<b class="hit' + (x.k ? ' ' + x.k : '') + '" data-i="' + i + '" data-v="' + x.v + '" data-label="' + lab(x.v) + '" style="left:' + (pc(x.v) - 50 * o.hw / sp) + '%;width:' + (100 * o.hw / sp) + '%"></b>'; });
   (marks || []).forEach(function (m) {
@@ -139,15 +139,6 @@ function ax(o) {
   return '<div class="nl">' + axisHTML({ min: o.lo - .5 * st, max: o.lo + (o.n + .5) * st, ticks: ticks, arcs: arcs, cls: o.cls !== undefined ? o.cls : (hasArc || (o.pts && o.pts.some(function (p) { return p.lv; })) ? '' : 'lo') }, marks) + (o.cap ? '<p class="legend">' + o.cap + '</p>' : '') + '</div>';
 }
 /* محور عمودی (بالا = مثبت): o={lo,step,n,lab,pt:{i,h}} */
-function vax(o) {
-  var h = '<div class="lvv"><i class="ax"></i>', H = 250, pad = 14, yy = function (i) { return pad + (1 - i / o.n) * (H - 2 * pad); }, i, v, all = o.lab === 'all';
-  for (i = 0; i <= o.n; i++) {
-    v = o.lo + i * o.step; var l = all || (o.lab || []).indexOf(i) > -1;
-    h += '<i class="tk' + (l ? '' : ' mn') + '" style="top:' + yy(i) + 'px"></i>' + (l ? '<span class="tn" dir="ltr" style="top:' + yy(i) + 'px">' + lab(v) + '</span>' : '');
-  }
-  if (o.pt) { h += '<i class="dot" style="top:' + yy(o.pt.i) + 'px;--c:' + (o.pt.c || CL[4]) + '"></i>' + (o.pt.h ? '<span class="tip" style="top:' + yy(o.pt.i) + 'px">' + o.pt.h + '</span>' : ''); }
-  return h + '</div>';
-}
 /* ---- تاکردن محور: نیمهٔ منفی روی نیمهٔ مثبت می‌افتد ---- */
 K.absFold = function (host) {
   var X = -4, t = 0, timer = null, out, caps;
@@ -231,7 +222,8 @@ K.ringFind = function (host) {
     if (done && !none) { s.forEach(function (x) { arcs.push({ a: Math.min(c, x), b: Math.max(c, x), t: fa(d) + ' واحد', g: 1 }); }); }
     hits.forEach(function (x, k) { hx.push({ v: x.v, k: done ? (s.indexOf(x.v) > -1 ? 'ok' : sel[x.v] ? 'no' : '') : '' }); });
     h = '<p class="ask">همهٔ نقطه‌هایی را علامت بزن که فاصله‌شان از نقطهٔ زرد برابر ' + fa(none ? d : d) + ' است. (اگر هیچ نقطه‌ای نیست، چیزی علامت نزن.)</p><div class="cq">' + M(c === 0 ? '|x|=' + tx(d) : '|x-' + pn(c) + '|=' + tx(d)) + '</div>';
-    h += axisHTML({ min: MIN - .5, max: MAX + .5, ticks: ticks, hits: hx, hw: 1, arcs: arcs }, marks);
+    /* بعد از بررسی، hitها برداشته می‌شوند تا hover نقطه/برچسب روی محور نماند */
+    h += axisHTML({ min: MIN - .5, max: MAX + .5, ticks: ticks, hits: done ? [] : hx, hw: 1, arcs: arcs }, marks);
     if (done) {
       ok = chosen.length === s.length && chosen.every(function (x, k) { return x === s[k]; });
       h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? '✓ درست است!' : 'درست نبود.') + '</div><div class="ex">' + (none ? '<p>فاصله هیچ‌وقت منفی نیست؛ پس هیچ نقطه‌ای با فاصلهٔ ' + M(tx(d)) + ' از ' + M(tx(c)) + ' وجود ندارد.</p>' : '<p>از ' + M(tx(c)) + ' به هر دو سمت ' + fa(d) + ' واحد می‌رویم:</p>' + AL([tx(c) + '-' + d + '&=' + tx(c - d), tx(c) + '+' + d + '&=' + tx(c + d)]) + '<div class="nleq vd sm"><i class="a">$' + tx(c - d) + '$</i><span class="or">و</span><i class="m">$' + tx(c + d) + '$</i></div>') + '</div>';
@@ -249,7 +241,6 @@ K.ringFind = function (host) {
 var fr = function (n, d) { var g = gcd(n, d); n /= g; d /= g; return d === 1 ? String(n) : (n < 0 ? '-' : '') + '\\dfrac{' + abs(n) + '}{' + d + '}'; };
 var VAL = [{ t: '3', v: 3, n: 3, d: 1 }, { t: '7', v: 7, n: 7, d: 1 }, { t: '12', v: 12, n: 12, d: 1 }, { t: '5', v: 5, n: 5, d: 1 }, { t: '9', v: 9, n: 9, d: 1 }, { t: '2.5', v: 2.5, n: 5, d: 2 }, { t: '1.5', v: 1.5, n: 3, d: 2 }, { t: '3.2', v: 3.2, n: 16, d: 5 }, { t: '\\dfrac{2}{3}', v: 2 / 3, n: 2, d: 3 }, { t: '\\dfrac{3}{4}', v: 0.75, n: 3, d: 4 }, { t: '\\dfrac{5}{2}', v: 2.5, n: 5, d: 2 }];
 var sg = function (x, neg) { return neg ? '-' + x.t : x.t; };
-var nv = function (x) { return fr(x.n, x.d); };
 function uniq(list) { var s = {}; return list.filter(function (x) { var k = nf(x.v); if (s[k]) { return false; } s[k] = 1; return true; }); }
 function valTex(v) { var f = [[1, 2], [3, 2], [5, 2], [2, 3], [3, 4], [16, 5]], i; for (i = 0; i < f.length; i++) { if (abs(abs(v) - f[i][0] / f[i][1]) < 1e-9 && Math.round(v * 10) / 10 !== v) { return (v < 0 ? '-' : '') + fr(f[i][0], f[i][1]); } } return tx(v); }
 function genA1() {   // قدرمطلق یک عدد

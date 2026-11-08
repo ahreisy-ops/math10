@@ -53,16 +53,6 @@ window.LESSONS.N09 = {
     var rt = function (r) { return r.d === 1 ? '' + r.n : (r.n < 0 ? '-' : '') + '\\frac{' + Math.abs(r.n) + '}{' + r.d + '}'; };
 
     /* ---------- خواندن پاسخ دانش‌آموز (عدد صحیح، کسر یا اعشار) ---------- */
-    function norm(s) {
-      return String(s).replace(/[۰-۹]/g, function (c) { return c.charCodeAt(0) - 1776; }).replace(/[٠-٩]/g, function (c) { return c.charCodeAt(0) - 1632; })
-        .replace(/[٫,،]/g, '.').replace(/\s/g, '').replace(/[−–]/g, '-').replace(/÷/g, '/');
-    }
-    function pval(s) {
-      s = norm(s); var m = /^(-?)(\d+)\/(\d+)$/.exec(s);
-      if (m) { var d = parseInt(m[3], 10); return d ? simp((m[1] ? -1 : 1) * parseInt(m[2], 10), d) : null; }
-      m = /^(-?)(\d*)\.?(\d*)$/.exec(s); if (!m || (m[2] === '' && m[3] === '') || m[3].length > 6) { return null; }
-      return simp((m[1] ? -1 : 1) * parseInt((m[2] || '0') + m[3], 10), Math.pow(10, m[3].length));
-    }
 
     /* ---------- آزمون سؤال‌به‌سؤال: «سؤال n از m»، قبلی/بعدی، نتیجه و مجموعهٔ جدید ---------- */
     function seq(host, build, resText) {
@@ -321,7 +311,6 @@ window.LESSONS.N09 = {
       html: function () {
         tipBtn('n9-ratio', 'نسبت را چطور بخوانیم و بنویسیم؟', RATIO_TIP); tipBtn('n9-terms', 'طرفین و وسطین', TERMS_TIP);
         var host = function (id) { return '<div class="cover n9-w" id="' + id + '" style="animation:none"></div>'; };
-        var FC = function (n, d, op, k) { var c = '{\\color{crimson}\\scriptsize' + op + k + '}'; return '\\frac{' + n + c + '}{' + d + c + '}'; };
         return fix([
           '<div class="lesson-bridge"><span class="lesson-bridge-title">از کسر تا نسبت؛ از نسبت تا تناسب</span><p>در درس کسرها با تقسیم و کسرهای معادل کار کردی. این بار همان ابزارها را برای مقایسهٔ <b>دو مقدار</b> به کار می‌بریم. نسبت ممکن است به شکل کسر نوشته شود، اما باید روشن باشد چه چیزی را با چه چیزی مقایسه می‌کنیم؛ سپس می‌فهمیم چه زمانی دو نسبت با هم تناسب دارند.</p><div class="lesson-bridge-route" aria-label="مسیر این درس"><span>مقایسهٔ دو مقدار</span><i aria-hidden="true">←</i><span>نسبت‌های هم‌ارز</span><i aria-hidden="true">←</i><span>تناسب</span><i aria-hidden="true">←</i><span>کاربردها</span></div></div>',
           /* ───────── ۱ ───────── */

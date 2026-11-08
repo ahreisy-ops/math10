@@ -70,10 +70,8 @@ var K = Object.create(K0);   // K0 = هستهٔ مشترک؛ K = همان + اب
 
 /* ================= ابزارهای مشترک ================= */
 var AL = function (lines) { return K.dm('\\begin{aligned}' + lines.join('\\\\') + '\\end{aligned}'); };
-var verdict = function (parts, cls) { return '<div class="nleq vd ' + (cls || '') + '">' + parts.map(function (p) { return '<i class="' + p[0] + '">$' + p[1] + '$</i>'; }).join('') + '</div>'; };
 var CL = ['var(--accent)', 'var(--pink)', '#4c5fd5', '#e08a00', 'var(--mark)'];
 var PR = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
-var isPrime = function (n) { var i; if (n < 2) { return false; } for (i = 2; i * i <= n; i++) { if (n % i === 0) { return false; } } return true; };
 var pf = function (n) { var o = [], p = 2; while (n > 1) { while (n % p === 0) { o.push(p); n /= p; } p++; } return o; };
 var pfm = function (n) { var m = {}; pf(n).forEach(function (p) { m[p] = (m[p] || 0) + 1; }); return m; };
 var fexp = function (n) { var m = pfm(n), k = Object.keys(m).map(Number).sort(function (a, b) { return a - b; }); return k.map(function (p) { return m[p] > 1 ? p + '^{' + m[p] + '}' : String(p); }).join('\\times'); };

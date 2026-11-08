@@ -5,7 +5,6 @@ const sign=n=>n<0?String(n):'+'+n, nz=(a,b)=>{let v;do{v=R(a,b)}while(!v);return
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){let j=R(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
 function expression(a,b){return 'x^2'+(a+b===0?'':sign(a+b)+'x')+sign(a*b)}
 function factors(a,b){return '(x'+sign(a)+')(x'+sign(b)+')'}
-function panel(p){return '<div class="a78-panel">'+p+'</div>'}
 function A07(panelEl){const el=panelEl.querySelector('#A07-explore');let a,b,u,v,solved=false,prediction=null;
 const labelNum=n=>'<bdi class="a78-signed" dir="ltr">'+fa(n<0?'−'+Math.abs(n):'+'+n)+'</bdi>';
 function next(){a=nz(-6,6);b=nz(-6,6);u=0;v=0;solved=false;prediction=null;draw()}

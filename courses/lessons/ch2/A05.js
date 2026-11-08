@@ -1,6 +1,6 @@
 /* A05 — اتحادهای جبری پایه؛ بارگذاری مستقل */
 window.LESSONS=window.LESSONS||{};
-window.LESSONS.A05={needs:['algebra2','a05lab'],setup:function(K0){
+window.LESSONS.A05={needs:['a05lab'],setup:function(K0){
  var K=Object.create(K0);
  return {html:function(){var h='';
  h+=K.sn('۱','چرا اتحادها درست‌اند؟');

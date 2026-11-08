@@ -116,7 +116,6 @@
     kit:        { src: 'js/shared/lessonkit.js', needs: ['utils', 'inputs'] },
     coord:      { src: 'js/shared/coord.js', needs: ['kit'] },
     frac:       { src: 'js/shared/frac.js', needs: ['utils'] },
-    algebra:    { src: 'js/shared/algebra.js' },
     algebra2:   { src: 'js/shared/algebra2.js' },
     linearvalues:{ src: 'js/shared/linear-values.js' },
     a01lab:     { src: 'js/shared/a01-lab.js', needs: ['linearvalues'] },

@@ -16,15 +16,11 @@ function css(id, txt) { if (document.getElementById(id)) { return; } var s = doc
 var ltr = function (h) { return '<bdi style="direction:ltr;unicode-bidi:isolate">' + h + '</bdi>'; };
 var choose = function (a) { return a[R(0, a.length - 1)]; };
 var nz = function (a, b) { var v = 0; while (v === 0) { v = R(a, b); } return v; };
-var sgn = function (n) { return n < 0 ? '-' + (-n) : '+' + n; };
 var coef = function (a) { return a === 1 ? '' : a === -1 ? '-' : String(a); };
 var ax = function (a) { return coef(a) + 'x'; };
 var lin = function (a, b) { var s = ax(a); if (b > 0) { s += '+' + b; } else if (b < 0) { s += '-' + (-b); } return s; };
-var fm = function (n) { return n < 0 ? '(' + n + ')' : String(n); };
 var REL = { lt: '\\lt ', gt: '\\gt ', le: '\\leq ', ge: '\\geq ' }, RELT = { lt: '<', gt: '>', le: '≤', ge: '≥' };
-var flipRel = function (r) { return { lt: 'gt', gt: 'lt', le: 'ge', ge: 'le' }[r]; };
 var RELS = ['lt', 'gt', 'le', 'ge'];
-var nf = function (v) { var s = String(+(+v).toFixed(2)); return s === '-0' ? '0' : s; };
 function uniqBy(arr, key) { var s = {}; return arr.filter(function (x) { var k = key(x); if (s[k]) { return false; } s[k] = 1; return true; }); }
 function mc(correct, wrongs, raw) {
   var list = uniqBy([{ t: correct.t, ok: 1 }].concat(wrongs.map(function (w) { return { t: w.t, ok: 0, m: w.m }; })), function (x) { return x.t; }), w, mm = /^x=(-?\d+)$/.exec(correct.t), k = 0, offs = [1, -1, 2, -2, 3, -3, 5];

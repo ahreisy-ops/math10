@@ -8,21 +8,15 @@ var ML = window.MathLite, fa = ML.fa, rr = ML.renderRich, abs = Math.abs, df = K
 var _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
 var K = Object.create(K0);   // K0 = هستهٔ مشترک؛ K = همان + ابزارهای اختصاصی این درس
 var T = String.raw;
-function css(id, txt) { if (document.getElementById(id)) { return; } var s = document.createElement('style'); s.id = id; s.textContent = txt; document.head.appendChild(s); }
 var INK = '#14213d', TEAL = '#0e8f7e', PINK = '#d6457a', BLUE = '#4c5fd5', AMB = '#e08a00', YEL = '#ffc233', MINT = '#7fd0c3', RED = '#c62f2f', GREY = '#5a6a85';
 var D2R = Math.PI / 180;
 var pick = function (a) { return a[R(0, a.length - 1)]; };
 var f2 = function (n) { return Math.round(n * 100) / 100; };
 var nf = function (v) { var s = String(+(+v).toFixed(2)); return s === '-0' ? '0' : s; };
-var dg = function (n) { return '<bdi style="direction:ltr;unicode-bidi:isolate">' + fa(n) + '°</bdi>'; };
 var fan = function (v) { return fa(nf(v)).replace('.', '٫'); };
-var gcd = function (a, b) { a = abs(a); b = abs(b); while (b) { var t = a % b; a = b; b = t; } return a; };
 function uniqBy(arr, key) { var s = {}; return arr.filter(function (x) { var k = key(x); if (s[k]) { return false; } s[k] = 1; return true; }); }
-var cards3 = function (cells) { return '<div class="sg sg3">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.h + '</b><span>' + c.t + '</span></div>'; }).join('') + '</div>'; };
-var cards2 = function (cells) { return '<div class="sg">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + (c.e ? K.dm(c.e) : '') + '</div>'; }).join('') + '</div>'; };
 var refs = function (cells) { return '<div class="sg refs">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + K.dm(c.e) + '</div>'; }).join('') + '</div>'; };
 var fig1 = function (inner, cap) { return '<div class="figs one"><figure>' + inner + (cap ? '<figcaption>' + cap + '</figcaption>' : '') + '</figure></div>'; };
-var figs2 = function (a, ca, b, cb) { return '<div class="figs"><figure>' + a + '<figcaption>' + ca + '</figcaption></figure><figure>' + b + '<figcaption>' + cb + '</figcaption></figure></div>'; };
 
 
 
@@ -31,7 +25,6 @@ function sv(W, H) { return '<svg class="gsv" viewBox="0 0 ' + W + ' ' + H + '" r
 function stx(t, x, y, o) { o = o || {}; return '<text x="' + f2(x) + '" y="' + f2(y + (o.fs || 13) * 0.34) + '" text-anchor="' + (o.a || 'middle') + '" font-size="' + (o.fs || 13) + '"' + (o.b ? ' font-weight="bold"' : '') + ' fill="' + (o.c || INK) + '" font-family="Tahoma,sans-serif">' + t + '</text>'; }
 function sln(a, b, c, w, d) { return '<line x1="' + f2(a[0]) + '" y1="' + f2(a[1]) + '" x2="' + f2(b[0]) + '" y2="' + f2(b[1]) + '" stroke="' + (c || INK) + '" stroke-width="' + (w || 2) + '"' + (d ? ' stroke-dasharray="5 4"' : '') + ' stroke-linecap="round"/>'; }
 function unit(a, b) { var dx = b[0] - a[0], dy = b[1] - a[1], l = Math.sqrt(dx * dx + dy * dy) || 1; return [dx / l, dy / l]; }
-function dist(a, b) { return Math.sqrt((a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1])); }
 function rmark(V, A, B, r, c) { var u1 = unit(V, A), u2 = unit(V, B), p1 = [V[0] + u1[0] * r, V[1] + u1[1] * r], p3 = [V[0] + u2[0] * r, V[1] + u2[1] * r], p2 = [p1[0] + u2[0] * r, p1[1] + u2[1] * r]; return '<polyline points="' + f2(p1[0]) + ',' + f2(p1[1]) + ' ' + f2(p2[0]) + ',' + f2(p2[1]) + ' ' + f2(p3[0]) + ',' + f2(p3[1]) + '" fill="none" stroke="' + (c || INK) + '" stroke-width="1.8"/>'; }
 function arcP(V, A, B, r, c, fill) {
   var u1 = unit(V, A), u2 = unit(V, B), p1 = [V[0] + u1[0] * r, V[1] + u1[1] * r], p2 = [V[0] + u2[0] * r, V[1] + u2[1] * r], cr = u1[0] * u2[1] - u1[1] * u2[0], sw = cr > 0 ? 1 : 0;
@@ -39,42 +32,7 @@ function arcP(V, A, B, r, c, fill) {
   return '<path d="' + (fill ? 'M' + f2(V[0]) + ' ' + f2(V[1]) + ' L' + f2(p1[0]) + ' ' + f2(p1[1]) : 'M' + f2(p1[0]) + ' ' + f2(p1[1])) + ' A' + r + ' ' + r + ' 0 0 ' + sw + ' ' + f2(p2[0]) + ' ' + f2(p2[1]) + (fill ? ' Z' : '') + '" fill="' + (fill || 'none') + '" stroke="' + (c || INK) + '" stroke-width="1.8"/>';
 }
 /* زاویه: o={deg, rot, l1, l2, lab, W, H, mark(قائمه), fill} — شکل با مختصات ریاضی ساخته و در کادر وسط‌چین می‌شود */
-function angSVG(o) {
-  var W = o.W || 300, H = o.H || 170, rot = o.rot || 0, l1 = o.l1 || 110, l2 = o.l2 || 110, a2 = rot + o.deg, d1 = [Math.cos(rot * D2R), Math.sin(rot * D2R)], d2 = [Math.cos(a2 * D2R), Math.sin(a2 * D2R)];
-  var E1 = [d1[0] * l1, d1[1] * l1], E2 = [d2[0] * l2, d2[1] * l2], xs = [0, E1[0], E2[0]], ys = [0, E1[1], E2[1]], x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
-  var ox = (W - (x1 - x0)) / 2 - x0, oy = (H - (y1 - y0)) / 2 + y1;
-  function S(p) { return [ox + p[0], oy - p[1]]; }
-  var V = S([0, 0]), A = S(E1), B = S(E2), s = sv(W, H), rad = Math.min(30, Math.min(l1, l2) * 0.4);
-  if (o.fill !== false) { s += arcP(V, A, B, rad + 6, 'none', o.fill || '#fde7ef'); }
-  s += sln(V, A, o.c1 || INK, 3) + sln(V, B, o.c2 || INK, 3) + '<circle cx="' + f2(V[0]) + '" cy="' + f2(V[1]) + '" r="4" fill="' + INK + '"/>';
-  if (o.deg === 90 && o.mark !== false) { s += rmark(V, A, B, 16, INK); }
-  else if (o.deg >= 180) { s += arcP(V, A, B, rad, PINK); }
-  else { s += arcP(V, A, B, rad, PINK); }
-  if (o.lab) { var mid = (rot + a2) / 2, lp = S([Math.cos(mid * D2R) * (rad + 22), Math.sin(mid * D2R) * (rad + 22)]); s += stx(o.lab, lp[0], lp[1], { fs: 13, b: 1, c: PINK }); }
-  if (o.nameA) { s += stx(o.nameA, A[0] + (A[0] > V[0] ? 10 : -10), A[1], { fs: 12 }); }
-  return s + '</svg>';
-}
 /* نقاله: o={deg, base:'R'|'L', hi(true: مقیاس درست پررنگ)} — مقیاس بیرونی صفرش سمت راست، مقیاس درونی صفرش سمت چپ */
-function protSVG(o) {
-  var W = 340, H = 196, cx = 170, cy = 170, r0 = 150, s = sv(W, H), t, i, a, p, q, base = o.base || 'R', th2 = base === 'R' ? o.deg : 180 - o.deg;
-  s += '<path d="M' + (cx - r0) + ' ' + cy + ' A' + r0 + ' ' + r0 + ' 0 0 1 ' + (cx + r0) + ' ' + cy + ' Z" fill="#eaf4ff" stroke="' + INK + '" stroke-width="2"/>';
-  s += '<path d="M' + (cx - 54) + ' ' + cy + ' A54 54 0 0 1 ' + (cx + 54) + ' ' + cy + '" fill="none" stroke="#b7c7dc" stroke-width="1"/>';
-  for (i = 0; i <= 180; i += 5) {
-    a = i * D2R; var len = i % 10 === 0 ? 11 : 6;
-    p = [cx + r0 * Math.cos(a), cy - r0 * Math.sin(a)]; q = [cx + (r0 - len) * Math.cos(a), cy - (r0 - len) * Math.sin(a)];
-    s += sln(p, q, INK, i % 10 === 0 ? 1.3 : 0.9);
-    if (i % 10 === 0) {
-      var po = [cx + 124 * Math.cos(a), cy - 124 * Math.sin(a)], pi = [cx + 100 * Math.cos(a), cy - 100 * Math.sin(a)], ho = o.hi && base === 'R', hi2 = o.hi && base === 'L';
-      s += stx(fa(i), po[0], po[1], { fs: 10, c: ho ? TEAL : INK, b: ho });
-      s += stx(fa(180 - i), pi[0], pi[1], { fs: 9, c: hi2 ? TEAL : GREY, b: hi2 });
-    }
-  }
-  s += sln([cx - r0 - 8, cy], [cx + r0 + 8, cy], INK, 2);
-  var e1 = base === 'R' ? [cx + 168, cy] : [cx - 168, cy], e2 = [cx + 168 * Math.cos(th2 * D2R), cy - 168 * Math.sin(th2 * D2R)];
-  s += sln([cx, cy], e1, RED, 3) + sln([cx, cy], e2, RED, 3) + '<circle cx="' + cx + '" cy="' + cy + '" r="4" fill="' + RED + '"/>';
-  if (o.zero) { s += stx(fa(0), base === 'R' ? cx + r0 + 2 : cx - r0 - 2, cy + 14, { fs: 11, c: TEAL, b: 1 }); }
-  return s + '</svg>';
-}
 /* مثلث: o={pts:[A,B,C] مختصات ریاضی, names, sl:[برچسب AB,BC,CA], al:[برچسب زاویه در A,B,C], right:اندیس رأس قائمه, arcs, alt:{from,base,l}, hl:{side:i,c}, col:[رنگ ضلع‌ها], fill, W, H} */
 function triSVG(o) {
   var W = o.W || 290, H = o.H || 190, pad = o.pad || 40, names = o.names || ['A', 'B', 'C'], i, s, pts = o.pts.slice(), all = pts.slice();
@@ -116,14 +74,7 @@ function triSVG(o) {
   if (o.hit) { for (i = 0; i < 3; i++) { var hp = P[i], hq = P[(i + 1) % 3]; s += '<line class="hitline" data-s="' + i + '" x1="' + f2(hp[0]) + '" y1="' + f2(hp[1]) + '" x2="' + f2(hq[0]) + '" y2="' + f2(hq[1]) + '" stroke="rgba(0,0,0,0.001)" stroke-width="24" stroke-linecap="round" tabindex="0" role="button" aria-label="ضلع ' + (i + 1) + '"/>'; } }
   return s + '</svg>';
 }
-function rotPts(pts, deg) { var c = Math.cos(deg * D2R), s = Math.sin(deg * D2R); return pts.map(function (p) { return [p[0] * c - p[1] * s, p[0] * s + p[1] * c]; }); }
 /* مثلث قائم‌الزاویه با ضلع‌های قائم a و b؛ رأس قائمه روی اندیس r و چرخش دلخواه (هر سه رأس به ترتیب ساعت‌گرد یا پادساعت‌گرد) */
-function rightPts(a, b, r, rot) {
-  var base = [[0, 0], [a, 0], [0, b]], pts = [], i;   // رأس 0 قائمه
-  for (i = 0; i < 3; i++) { pts[(r + i) % 3] = base[i]; }
-  return rotPts(pts, rot || 0);
-}
-function angOf(P, i) { var u = unit(P[i], P[(i + 1) % 3]), v = unit(P[i], P[(i + 2) % 3]); return Math.acos(Math.max(-1, Math.min(1, u[0] * v[0] + u[1] * v[1]))) / D2R; }
 /* نوار لغزندهٔ بومی با درجه‌بندیِ KaTeX (الگوی فصل اول) — ticks: [{v, t}] */
 function gslider(id, min, max, val, step, ticks, label) {
   var tot = max - min, h = '<div class="g-sl graduated-range" style="--gr-total:' + tot + '">' + (label ? '<div class="lab"><span>' + label + '</span></div>' : '') + '<input type="range" id="' + id + '" min="' + min + '" max="' + max + '" step="' + step + '" value="' + val + '" aria-label="' + (label || id) + '"><div class="graduated-ticks">';
@@ -132,9 +83,7 @@ function gslider(id, min, max, val, step, ticks, label) {
 }
 
 /* مثلث با زاویه‌های a در رأس 0 و b در رأس 1 (مختصات ریاضی) */
-function triFromAng(a, b, L) { var c = 180 - a - b, ac = L * Math.sin(b * D2R) / Math.sin(c * D2R); return [[0, 0], [L, 0], [ac * Math.cos(a * D2R), ac * Math.sin(a * D2R)]]; }
 /* مثلث با ضلع‌های AB=a ، BC=b ، CA=c (مختصات ریاضی) */
-function triFromSides(a, b, c) { var x = (a * a + c * c - b * b) / (2 * a), y = Math.sqrt(Math.max(0, c * c - x * x)); return [[0, 0], [a, 0], [x, y]]; }
 
 K.stepRun = function (host, stages, o) {
   o = o || {}; var si = 0, ok = 0, q, pick = null, fin = false;
