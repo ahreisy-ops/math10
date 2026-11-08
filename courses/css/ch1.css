@@ -100,6 +100,7 @@
 @media(max-width:384px) {#bR { font-size: .776rem; }}
 @media(max-width:416px) {#bR { font-size: .778rem; }}
 
+<<<<<<< HEAD
 
 /* ===== منتقل‌شده از course-shared-overrides.css (فقط فصل 1) ===== */
 /* Non-invasive standardized optional press feedback: applied ONLY where explicitly opted-in. */
@@ -120,6 +121,9 @@
   transition: transform .10s ease, box-shadow .10s ease;
 }
 .opseg { direction: rtl; }
+=======
+/* ===== منتقل‌شده از course-shared-overrides.css (فقط فصل ۱) ===== */
+>>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
 /* Numeric-only choice rows remain left-to-right; these are not progress badges. */
 .n7-hunt-controls, .n9-mixer .n9-stp { direction:ltr; }
 
@@ -131,12 +135,18 @@
 #n6a .n6-chip,
 #n6a .n6-sign-step,
 .n6-count-modes .n6-count-mode,
+<<<<<<< HEAD
 .btn.press-effect[data-sw],
+=======
+>>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
 .n8-radar-new .btn[data-nw]:not(.primary),
 .n7-hunt-modes .chip,
 .n7-hunt-controls .btn,
 .n9-mixer .btn[data-s],
+<<<<<<< HEAD
 .opseg .btn:not(.primary),
+=======
+>>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
 .n7-hunt-modes .chip,
 .n7-hunt-controls .btn {
   box-shadow:2px 2px 0 var(--ink);
@@ -145,12 +155,19 @@
 #n6a .n6-chip:active:not(:disabled),
 #n6a .n6-sign-step:active:not(:disabled),
 .n6-count-modes .n6-count-mode:active:not(:disabled),
+<<<<<<< HEAD
 .btn.press-effect[data-sw]:active:not(:disabled),
 .n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
 .n7-hunt-modes .chip:active:not(:disabled),
 .n7-hunt-controls .btn:active:not(:disabled),
 .n9-mixer .btn[data-s]:active:not(:disabled),
 .opseg .btn:not(.primary):active:not(:disabled) {
+=======
+.n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
+.n7-hunt-modes .chip:active:not(:disabled),
+.n7-hunt-controls .btn:active:not(:disabled),
+.n9-mixer .btn[data-s]:active:not(:disabled) {
+>>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
   transform:translate(1px,1px);
   box-shadow:1px 1px 0 var(--ink);
 }
@@ -162,6 +179,7 @@
  #n6a .n6-chip:active:not(:disabled),
 #n6a .n6-sign-step:active:not(:disabled),
 .n6-count-modes .n6-count-mode:active:not(:disabled),
+<<<<<<< HEAD
 .btn.press-effect[data-sw]:active:not(:disabled),
 .n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
 .n7-hunt-modes .chip:active:not(:disabled),
@@ -172,6 +190,13 @@
 
 /* N02 final: fractions in answer choices use normal weight, not the generic 600. */
 #ffin .mc .opt{font-weight:400}
+=======
+.n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
+.n7-hunt-modes .chip:active:not(:disabled),
+.n7-hunt-controls .btn:active:not(:disabled),
+.n9-mixer .btn[data-s]:active:not(:disabled) {transform:none}
+}
+>>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
 .n4-neg-nav,.n10-tf-nav{display:flex;direction:rtl;justify-content:space-between;gap:12px;width:100%}
 .n4-neg-nav .btn,.n10-tf-nav .btn,.n9-end .opts:has(> [data-p="1"]):has(> [data-nx="1"]) > .btn{min-width:120px;min-height:36px;font-size:.9rem;font-weight:700}
 .n8-radar-new > .btn[data-nw]:not(.primary){box-shadow:none!important;transform:none!important}

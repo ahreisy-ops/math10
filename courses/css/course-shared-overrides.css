@@ -21,6 +21,7 @@
 }
 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) > [data-p="1"] {order:0}
 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) > [data-nx="1"] {order:1}
+<<<<<<< HEAD
 .a78-predict > .btn.press-effect,
 .a06-controls > .btn.press-effect {
   transition: transform .10s ease, box-shadow .10s ease;
@@ -39,16 +40,35 @@
  .a78-predict > .btn.press-effect {transition:none}
  .a78-predict > .btn.press-effect:active:not(:disabled) {transform:none}
 }
+=======
+/* Non-invasive standardized optional press feedback: applied ONLY where explicitly opted-in. */
+.press-effect { transition: transform .10s ease, box-shadow .10s ease; }
+.press-effect:active:not(:disabled) { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--ink); }
+.press-effect:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .press-effect {transition:none}
+  .press-effect:active:not(:disabled) { transform:none }
+}
+
+
+/* Quiz_101: enacted, role-scoped interaction standards for chapters 1–2.
+   White operational controls may depress; primary green progression buttons,
+   quiz answers and prev/next navigation deliberately never acquire this effect.
+   These selectors target existing control groups rather than all .btn elements. */
+.opseg > .btn.press-effect {
+  transition: transform .10s ease, box-shadow .10s ease;
+}
+.opseg { direction: rtl; }
+>>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
 
 /* Chapter-two quiz navigation uses different data attributes from chapter one.
    Keep Previous right and Next left, without adding shadows or pressed effects. */
 .opts:has(> [data-action="prev"]):has(> [data-action="next"]),
-.opts:has(> [data-a06-prev]):has(> [data-a06-next]),
-.opts:has(> [data-prev]):has(> [data-next]),
-.a78-actions:has(> [data-prev]):has(> [data-next]) {
+.opts:has(> [data-prev]):has(> [data-next]) {
   display:flex; flex-direction:row; direction:rtl;
   justify-content:space-between; gap:12px; width:100%;
 }
+<<<<<<< HEAD
 .opts > [data-action="prev"], .opts > [data-a06-prev],
 .opts > [data-prev], .a78-actions > [data-prev] {order:0}
 .opts > [data-action="next"], .opts > [data-a06-next],
@@ -79,6 +99,42 @@
 .cover:has(.stg) .fb,.cover:has(.stg) .ex,.a2-final:has(.stg) .fb,.a2-final:has(.stg) .ex{font-size:.95rem;line-height:1.85}
 .stage-progress-meta{font-size:.85rem;line-height:1.65;font-weight:400;color:var(--ink-soft);text-align:right;direction:rtl;margin:8px 0 4px}
 
+=======
+.opts > [data-action="prev"],
+.opts > [data-prev] {order:0}
+.opts > [data-action="next"],
+.opts > [data-next] {order:1}
+.btn.press-effect[data-sw],
+.opseg .btn:not(.primary) {
+  box-shadow:2px 2px 0 var(--ink);
+  transition:transform .10s ease, box-shadow .10s ease;
+}
+.btn.press-effect[data-sw]:active:not(:disabled),
+.opseg .btn:not(.primary):active:not(:disabled) {
+  transform:translate(1px,1px);
+  box-shadow:1px 1px 0 var(--ink);
+}
+@media (prefers-reduced-motion:reduce){
+.btn.press-effect[data-sw]:active:not(:disabled),
+.opseg .btn:not(.primary):active:not(:disabled) {transform:none}
+}
+
+/* N02 final: fractions in answer choices use normal weight, not the generic 600. */
+#ffin .mc .opt{font-weight:400}
+
+/* Typography and progress for existing quizzes only; no new progress bar. */
+.cover:has(.stg) .ask {font-size:1rem;font-weight:700;line-height:1.85}
+.cover:has(.stg) .mc .opt {font-size:1rem;line-height:1.7;font-weight:400}
+.cover:has(.stg) .stg span {font-size:.88rem}
+.cover:has(.stg) .opts .btn {font-size:.9rem;font-weight:700}
+.cover:has(.stg) .fb,
+.cover:has(.stg) .ex {font-size:.95rem;line-height:1.85}
+.stage-progress-meta{font-size:.85rem;line-height:1.65;font-weight:400;color:var(--ink-soft);text-align:right;direction:rtl;margin:8px 0 4px}
+
+/* Chapter-one targeted navigation and selection sizing. */
+.sgnrow.n4-compare-signs .btn{min-width:52px;min-height:38px;height:38px;padding:4px 12px;font-size:1rem}
+
+>>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
 /* نتیجهٔ فعالیت‌های دارای مرور و شروع دور تازه — یکسان در هر دو فصل */
 .end-actions { display:flex;flex-direction:row;direction:rtl;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px; }
 .end-actions > .btn { box-sizing:border-box;min-width:120px;min-height:36px;padding:6px 14px;font-size:.9rem;font-weight:700;box-shadow:none!important;transform:none!important;transition:none!important; }

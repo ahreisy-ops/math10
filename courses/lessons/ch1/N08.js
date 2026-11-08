@@ -118,7 +118,7 @@ var fixK = function (root) { [].forEach.call(root.querySelectorAll('.opt .katex 
 /* o: {min,max,ticks:[{v,t,mn,z}], hits:[{v,c}] , hw, arcs:[{a,b,t,g}], cls}؛ marks: [{v,c,h,lv,gh}] */
 function axisHTML(o, marks) {
   var sp = o.max - o.min, pc = function (v) { return (v - o.min) / sp * 100; }, h = '<div class="lv ' + (o.cls || '') + '"><i class="ax"></i>';
-  (o.arcs || []).forEach(function (a) { h += '<span class="arc' + (a.g ? ' g' : '') + '" style="left:' + pc(a.a) + '%;width:' + (pc(a.b) - pc(a.a)) + '%">' + (a.t ? '<i>' + a.t + '</i>' : '') + '</span>'; });
+  (o.arcs || []).forEach(function (a) { h += '<span class="arc' + (a.g ? ' g' : '') + '" style="left:' + pc(a.a) + '%;width:' + (pc(a.b) - pc(a.a)) + '%">' + (a.t ? '<i dir="rtl">' + a.t + '</i>' : '') + '</span>'; });
   (o.ticks || []).forEach(function (t) { h += '<i class="tk' + (t.mn ? ' mn' : '') + (t.z ? ' z' : '') + '" style="left:' + pc(t.v) + '%"></i>' + (t.t ? '<span class="tn" dir="ltr" style="left:' + pc(t.v) + '%">' + t.t + '</span>' : ''); });
   (o.hits || []).forEach(function (x, i) { h += '<b class="hit' + (x.k ? ' ' + x.k : '') + '" data-i="' + i + '" data-v="' + x.v + '" data-label="' + lab(x.v) + '" style="left:' + (pc(x.v) - 50 * o.hw / sp) + '%;width:' + (100 * o.hw / sp) + '%"></b>'; });
   (marks || []).forEach(function (m) {
@@ -222,7 +222,8 @@ K.ringFind = function (host) {
     if (done && !none) { s.forEach(function (x) { arcs.push({ a: Math.min(c, x), b: Math.max(c, x), t: fa(d) + ' واحد', g: 1 }); }); }
     hits.forEach(function (x, k) { hx.push({ v: x.v, k: done ? (s.indexOf(x.v) > -1 ? 'ok' : sel[x.v] ? 'no' : '') : '' }); });
     h = '<p class="ask">همهٔ نقطه‌هایی را علامت بزن که فاصله‌شان از نقطهٔ زرد برابر ' + fa(none ? d : d) + ' است. (اگر هیچ نقطه‌ای نیست، چیزی علامت نزن.)</p><div class="cq">' + M(c === 0 ? '|x|=' + tx(d) : '|x-' + pn(c) + '|=' + tx(d)) + '</div>';
-    h += axisHTML({ min: MIN - .5, max: MAX + .5, ticks: ticks, hits: hx, hw: 1, arcs: arcs }, marks);
+    /* بعد از بررسی، hitها برداشته می‌شوند تا hover نقطه/برچسب روی محور نماند */
+    h += axisHTML({ min: MIN - .5, max: MAX + .5, ticks: ticks, hits: done ? [] : hx, hw: 1, arcs: arcs }, marks);
     if (done) {
       ok = chosen.length === s.length && chosen.every(function (x, k) { return x === s[k]; });
       h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? '✓ درست است!' : 'درست نبود.') + '</div><div class="ex">' + (none ? '<p>فاصله هیچ‌وقت منفی نیست؛ پس هیچ نقطه‌ای با فاصلهٔ ' + M(tx(d)) + ' از ' + M(tx(c)) + ' وجود ندارد.</p>' : '<p>از ' + M(tx(c)) + ' به هر دو سمت ' + fa(d) + ' واحد می‌رویم:</p>' + AL([tx(c) + '-' + d + '&=' + tx(c - d), tx(c) + '+' + d + '&=' + tx(c + d)]) + '<div class="nleq vd sm"><i class="a">$' + tx(c - d) + '$</i><span class="or">و</span><i class="m">$' + tx(c + d) + '$</i></div>') + '</div>';
