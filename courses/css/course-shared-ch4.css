@@ -1,0 +1,2 @@
+/* قواعد مشترکِ بین چند فصل که قبلاً داخل ch4.css بودند؛ جای این فایل در ترتیب بارگذاری course.html عمداً همان جای قبلیِ فایل اصلی است (ترتیب cascade). */
+@keyframes cdshk{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
