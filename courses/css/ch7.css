@@ -23,5 +23,3 @@
   .p7-act .opts.p7-ops > .btn:not(.primary):active:not(:disabled),.p7-act .chip:active:not(:disabled){transform:none}
 }
 @media (max-width:480px){.p7-act .chips{gap:6px}.p7-act .chips .chip{min-width:42px}}
-
-.lad .chg .katex { color: #2f43b5; }

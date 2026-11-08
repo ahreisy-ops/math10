@@ -24,7 +24,6 @@ var fm = function (n) { return n < 0 ? '(' + n + ')' : String(n); };
 var REL = { lt: '\\lt ', gt: '\\gt ', le: '\\leq ', ge: '\\geq ' }, RELT = { lt: '<', gt: '>', le: '≤', ge: '≥' };
 var flipRel = function (r) { return { lt: 'gt', gt: 'lt', le: 'ge', ge: 'le' }[r]; };
 var RELS = ['lt', 'gt', 'le', 'ge'];
-var nf = function (v) { var s = String(+(+v).toFixed(2)); return s === '-0' ? '0' : s; };
 function uniqBy(arr, key) { var s = {}; return arr.filter(function (x) { var k = key(x); if (s[k]) { return false; } s[k] = 1; return true; }); }
 function mc(correct, wrongs, raw) {
   var list = uniqBy([{ t: correct.t, ok: 1 }].concat(wrongs.map(function (w) { return { t: w.t, ok: 0, m: w.m }; })), function (x) { return x.t; }), w, mm = /^x=(-?\d+)$/.exec(correct.t), k = 0, offs = [1, -1, 2, -2, 3, -3, 5];

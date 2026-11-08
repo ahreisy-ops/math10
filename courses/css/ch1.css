@@ -1,26 +1,8 @@
-/* Quiz_44: unified compact controls. Never resize the circular info control. */
-.mc .opt {font-size:1rem;min-height:44px;padding:5px 10px;font-weight:600;overflow-wrap:anywhere;white-space:normal}
-.opts .btn,.modal-act .btn,.opseg .btn,.nl .ctl .btn{min-height:36px;font-size:.88rem;padding:5px 12px}
-.infobtn,.infobtn.sm {box-sizing:border-box;flex:0 0 auto;min-width:22px;max-width:22px;width:22px;height:22px;min-height:22px;max-height:22px;padding:0;border-radius:50%;line-height:18px;font-size:13px;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}
+.opseg .btn,
+.nl .ctl .btn {min-height:36px;font-size:.88rem;padding:5px 12px}
 .opseg .btn.on{background:var(--mark);color:var(--ink);border-color:var(--ink)}
 .n3-w .btn{min-height:36px}
 .n3-w .mc .opt{min-height:44px;font-size:1rem}
-.quiz44-prev-next{display:flex;justify-content:space-between;direction:ltr;width:100%}
-.quiz44-prev-next .btn{min-height:36px}
-
-
-/* Compact navigation: first button left, next button right, regardless of RTL body. */
-.opts:has([data-p="1"]):has([data-nx="1"]){display:flex;justify-content:space-between;direction:ltr;gap:12px}
-.opts:has([data-p="1"]):has([data-nx="1"]) .btn{min-height:36px}
-.stg span{font-size:.87rem}
-
-/* Hover reference shared by HTML number lines (N04/N05). */
-.quiz44-hov-ghost{position:absolute;width:24px;height:24px;box-sizing:border-box;border:2px dashed var(--ink);background:rgba(20,33,61,.08);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:5}
-.quiz44-hov-tip{position:absolute;transform:translateX(-50%);background:var(--ink);color:white;border-radius:9px;padding:3px 9px;min-width:36px;text-align:center;white-space:nowrap;font-weight:bold;font-size:.9rem;pointer-events:none;z-index:6}
-.quiz44-hov-tip:after{content:"";position:absolute;top:100%;left:50%;margin-left:-6px;border:6px solid transparent;border-top-color:var(--ink);border-bottom:0}
-
-/* N01: shift the whole revealed-card content down, with unchanged total vertical padding. */
-#cards1 .cover {box-sizing:border-box;padding-top:24px;padding-bottom:6px;}
 /* N01: previous right, next left in RTL (HTML order follows reading direction). */
 .n01-final-nav {direction:rtl !important;justify-content:space-between !important;}
 
@@ -68,9 +50,6 @@
  .nl .ctl{flex-wrap:wrap;align-items:stretch}
  .nl .ctl .btn{flex:1 1 calc(50% - 8px);min-width:0;max-width:none;white-space:normal;box-sizing:border-box}
  .nl .ctl .btn:nth-child(3){flex:1 1 100%;max-width:none}
- .lesson .sg{grid-template-columns:minmax(0,1fr)!important}
- .lesson .sg>div{min-width:0;max-width:100%;box-sizing:border-box}
- .lesson .sg .dm{max-width:100%;overflow-x:visible;white-space:normal}
  .n01-repeat-mul-desktop,.n01-sign-logic-desktop,.n03-times100-desktop,
  .n06-same-base-product-desktop,.n06-product-examples-desktop,.n06-cancel-example-desktop,
  .n06-division-examples-desktop,.n10-factor-example-desktop{display:none}
@@ -108,21 +87,10 @@
 
 .nl .nl-scrollhint{display:none;margin:2px 0 0;font-size:.82rem;color:var(--ink-soft);text-align:center}
 @media(max-width:560px){.nl .nl-sc svg{width:560px;max-width:none}.nl .nl-scrollhint{display:block}}
-
-/* N04: دکمهٔ ↻ و لینک «پاک‌کردن ترتیب» — ناحیهٔ لمس ≥۴۰px بدون تغییر ظاهر */
-.rp{position:relative}
-.rp::after{content:'';position:absolute;inset:-7px}
 .ladn a{display:inline-block;padding:10px 8px;margin:-10px -8px}
 
-#sd .nl .lv.lo {
-    pointer-events: none;
-}
-
 @media(max-width:520px) {
-    .lesson table { font-size: .8rem !important; }
-    .lesson td .katex {white-space: break-spaces !important;}
     .fold .tn {font-size: .5rem !important;}
-    #dm .tn {font-size: .5rem !important;}
     #mr input, #af input { max-width: 60% !important; }
 }
 
@@ -131,3 +99,92 @@
 @media(max-width:384px) {#bR { font-size: .776rem; }}
 @media(max-width:384px) {#bR { font-size: .776rem; }}
 @media(max-width:416px) {#bR { font-size: .778rem; }}
+
+
+/* ===== منتقل‌شده از course-shared-overrides.css (فقط فصل 1) ===== */
+/* Non-invasive standardized optional press feedback: applied ONLY where explicitly opted-in. */
+.press-effect { transition: transform .10s ease, box-shadow .10s ease; }
+.press-effect:active:not(:disabled) { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--ink); }
+.press-effect:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .press-effect {transition:none}
+  .press-effect:active:not(:disabled) { transform:none }
+}
+
+
+/* Quiz_101: enacted, role-scoped interaction standards for chapters 1–2.
+   White operational controls may depress; primary green progression buttons,
+   quiz answers and prev/next navigation deliberately never acquire this effect.
+   These selectors target existing control groups rather than all .btn elements. */
+.opseg > .btn.press-effect {
+  transition: transform .10s ease, box-shadow .10s ease;
+}
+.opseg { direction: rtl; }
+/* Numeric-only choice rows remain left-to-right; these are not progress badges. */
+.n7-hunt-controls, .n9-mixer .n9-stp { direction:ltr; }
+
+
+/* Quiz_102 — scoped role-aware normalization for 18 existing lessons.
+   Never apply press feedback to assessment choices, progression, disabled buttons,
+   or next/previous navigation.  Original font metrics and geometry retained. */
+/* Chapter one: genuine state selection and repeatable arithmetic operations. */
+#n6a .n6-chip,
+#n6a .n6-sign-step,
+.n6-count-modes .n6-count-mode,
+.btn.press-effect[data-sw],
+.n8-radar-new .btn[data-nw]:not(.primary),
+.n7-hunt-modes .chip,
+.n7-hunt-controls .btn,
+.n9-mixer .btn[data-s],
+.opseg .btn:not(.primary),
+.n7-hunt-modes .chip,
+.n7-hunt-controls .btn {
+  box-shadow:2px 2px 0 var(--ink);
+  transition:transform .10s ease, box-shadow .10s ease;
+}
+#n6a .n6-chip:active:not(:disabled),
+#n6a .n6-sign-step:active:not(:disabled),
+.n6-count-modes .n6-count-mode:active:not(:disabled),
+.btn.press-effect[data-sw]:active:not(:disabled),
+.n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
+.n7-hunt-modes .chip:active:not(:disabled),
+.n7-hunt-controls .btn:active:not(:disabled),
+.n9-mixer .btn[data-s]:active:not(:disabled),
+.opseg .btn:not(.primary):active:not(:disabled) {
+  transform:translate(1px,1px);
+  box-shadow:1px 1px 0 var(--ink);
+}
+/* N08: a swap is a white tool action; green is reserved for confirmed progression. */
+.n8-radar-new > .btn[data-nw]:not(.primary){box-shadow:2px 2px 0 var(--ink)}
+/* Chapter 1 count tabs: preserve yellow for selected; selection does not change font sizing. */
+.n6-count-modes .n6-count-mode.sel{background:var(--mark)}
+@media (prefers-reduced-motion:reduce){
+ #n6a .n6-chip:active:not(:disabled),
+#n6a .n6-sign-step:active:not(:disabled),
+.n6-count-modes .n6-count-mode:active:not(:disabled),
+.btn.press-effect[data-sw]:active:not(:disabled),
+.n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
+.n7-hunt-modes .chip:active:not(:disabled),
+.n7-hunt-controls .btn:active:not(:disabled),
+.n9-mixer .btn[data-s]:active:not(:disabled),
+.opseg .btn:not(.primary):active:not(:disabled) {transform:none}
+}
+
+/* N02 final: fractions in answer choices use normal weight, not the generic 600. */
+#ffin .mc .opt{font-weight:400}
+.n4-neg-nav,.n10-tf-nav{display:flex;direction:rtl;justify-content:space-between;gap:12px;width:100%}
+.n4-neg-nav .btn,.n10-tf-nav .btn,.n9-end .opts:has(> [data-p="1"]):has(> [data-nx="1"]) > .btn{min-width:120px;min-height:36px;font-size:.9rem;font-weight:700}
+.n8-radar-new > .btn[data-nw]:not(.primary){box-shadow:none!important;transform:none!important}
+.n8-radar-new > .btn[data-nw]:not(.primary):active:not(:disabled){box-shadow:none!important;transform:none!important}
+
+/* Consistent widths for binary and three-control question interfaces */
+.n4-neg-choices{width:100%;max-width:none;margin:10px 0;direction:rtl}
+.n4-neg-choices>.opt{min-width:0;width:100%;min-height:44px;padding:5px 10px;font-size:1rem;font-weight:400}
+/* N08 distance meter: compact, centered point controls and swap action. */
+.n8-distance-choices{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px;width:100%;direction:rtl;margin:10px 0}
+.n8-distance-choices>.btn{box-sizing:border-box;width:auto;min-width:0;min-height:44px;font-size:1rem;font-weight:400;padding:7px 11px;box-shadow:3px 3px 0 var(--ink)}
+.n8-distance-choices>.btn:not(.on){border-color:var(--ink)}
+.n8-distance-choices>.btn.on{background:var(--mark);color:var(--ink);border-color:var(--ink)}
+.n8-distance-choices>.btn:active:not(:disabled),.n8-distance-action>.btn:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.n8-distance-action{display:flex;justify-content:center;width:100%;margin:10px 0}
+.n8-distance-action>.btn{box-sizing:border-box;width:auto;min-width:0;min-height:40px;font-size:1rem;font-weight:700;padding:6px 12px;box-shadow:3px 3px 0 var(--ink)}

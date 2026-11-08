@@ -30,12 +30,10 @@
       function lin(a, b) { return (a === 0 ? String(b) : ax(a) + (b ? signed(b) : '')); }
       function equation(a, b, c, d) { return lin(a, b) + '=' + lin(c, d); }
       function mathpanel(s) { return '<div class="e02-formula" dir="ltr">' + M(s) + '</div>'; }
-      function textpanel(s) { return '<div class="e02-reason">' + s + '</div>'; }
       function mark(ok, s) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + s + '</div>'; }
       var refreshSvg = '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.4-4.8L3 9"/><path d="M3 4v5h5"/><path d="M4 13a8 8 0 0 0 14.4 4.8L21 15"/><path d="M21 20v-5h-5"/></svg>';
       function activity(title, id, lead) { return '<h4 class="e02-activity-title">' + title + '</h4><p class="e02-activity-lead">' + lead + '</p><div class="e01-interaction e02-activity" id="' + id + '"><div data-stage></div></div>'; }
       function problemHead(tex) { return '<div class="e02-problem-head"><span class="e02-problem-chip">' + M(tex) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="مسئلهٔ جدید" aria-label="تغییر مسئله">' + refreshSvg + '</button></div>'; }
-      function choiceButton(label, act, value, extra) { return '<button type="button" class="btn e02-control ' + (extra || '') + '" data-' + act + '="' + value + '">' + label + '</button>'; }
       function bind(id, generate, paint, handle) {
         var root = document.getElementById(id); if (!root) return; var state;
         function repaint() { root.querySelector('[data-stage]').innerHTML = paint(state); if (id === 'e02-route') { var log = root.querySelector('.e02-route-scroll'); if (log) log.scrollTop = log.scrollHeight; } }
@@ -109,7 +107,6 @@
       }
       function rangeState() { var a = choose([-4, -3, -2, 2, 3, 4]), x = rand(-6, 6), b = nz(-8, 8); return { a: a, b: b, c: a * x + b, x: x, op: null, amount: 1, history: [], note: null }; }
       function routeText(s) { return lin(s.a, s.b) + '=' + s.c; }
-      function norm(v) { return Object.is(v, -0) ? 0 : v; }
       function routeRender(s) {
         var solved = s.a === 1 && s.b === 0, collapsed = s.a === 0 && s.b === 0 && s.c === 0, locked = solved || collapsed, nonnegative = s.op === 'add' || s.op === 'sub', kind = [['add', '+'], ['sub', '-'], ['mul', '\\times'], ['div', '\\div']];
         // All controls act on the CURRENT equation; the ledger preserves the original.

@@ -1,41 +1,17 @@
-/* Chapter 5 shared geometry-lesson styles, formerly repeated inline in G01–G05. */
-.g5-scope .sg.sg3{grid-template-columns:repeat(3,1fr)}
-.g5-scope .sg.sg3>div{text-align:center;padding:8px 4px}
-.g5-scope .sg.sg3 b .katex{font-size:1.2em}
-.g5-scope .sg.sg3>div>span{display:block;font-size:.84rem;color:var(--ink-soft);line-height:1.6;margin-top:2px}
 .g5-scope .sg.sg4{grid-template-columns:repeat(4,1fr)}
 .g5-scope .sg.sg4>div{text-align:center;padding:8px 4px}
 .g5-scope .sg.sg4>div>span{display:block;font-size:.8rem;color:var(--ink-soft);line-height:1.6;margin-top:2px}
 @media(max-width:520px){.g5-scope .sg.sg4{grid-template-columns:repeat(2,1fr)}}
-.g5-scope .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0 4px;direction:ltr}
-.g5-scope .chip{min-width:48px;min-height:42px;border:2px solid var(--ink);border-radius:12px;background:#fff;cursor:pointer;font:inherit;color:var(--ink);padding:2px 10px;box-shadow:2px 2px 0 var(--ink);transition:transform .10s ease,box-shadow .10s ease}
-.g5-scope .chip:active:not(:disabled){transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
-.g5-scope .chip.on{background:var(--mark)}
-.g5-scope .chip:disabled{opacity:.55;cursor:default}
-.g5-scope .chip:focus-visible, .g5-scope .g-act .btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.g5-scope .g-act .btn:focus-visible {outline:3px solid var(--accent);outline-offset:3px}
 .g5-scope .chips.g-fa{direction:rtl}
-.g5-scope .mc.m1{grid-template-columns:1fr}
-.g5-scope .mc.m3{grid-template-columns:repeat(3,1fr)}
-.g5-scope .mc.m2{grid-template-columns:repeat(2,1fr)}
-.g5-scope .opt svg{display:inline-block;width:auto;max-width:none;height:auto}
-.g5-scope .cq{direction:ltr;text-align:center;margin:8px 0}
-.g5-scope .cq .katex{font-size:1.4em}
-.g5-scope .legend{text-align:center;font-size:.9rem;color:var(--ink-soft);margin:4px 0 8px;line-height:1.85}
-.g5-scope .legend b{color:var(--ink)}
-.g5-scope .sgnrow{display:flex;gap:12px;justify-content:center;margin:10px 0;direction:ltr}
-.g5-scope .sgnrow .btn{min-width:84px;min-height:54px;font-size:1.1rem;font-weight:bold}
-.g5-scope .sgnrow .btn.right{background:#d2f0e9;border-color:var(--accent)}
-.g5-scope .sgnrow .btn.wrong{background:#fbd5d5;border-color:#b23a3a}
-.g5-scope .sgnrow .btn:disabled{opacity:1}
-.g5-scope .snt{display:block;direction:rtl;font-size:1rem;line-height:1.9;text-align:center}
-.g5-scope .snt .katex{font-size:1.1em}
 .g5-scope .g-act .opts.g-ops>.btn:not(.primary){box-shadow:2px 2px 0 var(--ink);transition:transform .10s ease,box-shadow .10s ease}
 .g5-scope .g-act .opts.g-ops>.btn:not(.primary):active:not(:disabled){transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
 .g5-scope .g-act .opts.g-pair>.btn, .g5-scope .g-act .opts.g-pair>.btn:active{box-shadow:none!important;transform:none!important;transition:none!important}
 .g5-scope .g-act .opts.g-ops>.btn.primary{box-shadow:none!important;transform:none!important}
 .g5-scope .g-act .opts.g-ops, .g5-scope .g-act .opts.g-pair{direction:rtl}
-@media(prefers-reduced-motion:reduce){.g5-scope .g-act .opts.g-ops>.btn:not(.primary), .g5-scope .chip{transition:none}
-.g5-scope .chip:active:not(:disabled), .g5-scope .g-act .opts.g-ops>.btn:not(.primary):active:not(:disabled){transform:none}}
+@media(prefers-reduced-motion:reduce){.g5-scope .g-act .opts.g-ops>.btn:not(.primary) {transition:none}
+.g5-scope .g-act .opts.g-ops>.btn:not(.primary):active:not(:disabled) {transform:none}
+}
 .g5-scope .g-act svg.gsv{display:block;margin:6px auto;max-width:100%;height:auto;direction:ltr}
 .g5-scope .g-act .gval{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0;font-size:1rem}
 .g5-scope .g-act .gval i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:3px 12px;border:2px solid var(--ink);border-radius:10px;background:#fff;box-shadow:2px 2px 0 var(--ink)}

@@ -7,14 +7,21 @@
   <link rel="stylesheet" href="../chapters/css/katex.min.css">
   <link rel="stylesheet" href="../chapters/css/style.css">
   <link rel="stylesheet" href="css/course-base.css">
-<link rel="stylesheet" href="css/ch2.css">
-<link rel="stylesheet" href="css/ch1.css">
-<link rel="stylesheet" href="css/course-shared-overrides.css">
-<link rel="stylesheet" href="css/ch3.css">
-<link rel="stylesheet" href="css/ch7.css">
-<link rel="stylesheet" href="css/ch5.css">
-<link rel="stylesheet" href="css/ch4.css">
-<link rel="stylesheet" href="css/ch6.css">
+  <script>
+  /* CSS هر فصل یک‌جا و همان ابتدای ورود به صفحه لود می‌شود (نه lazy). فقط CSS همان فصل (?ch=N) و قواعد مشترک؛
+     تکه‌های مشترک و فایل فصل دقیقاً به همان ترتیب قدیمیِ فایل‌ها می‌آیند تا cascade تغییر نکند. */
+  (function () {
+    var ORDER = [2, 1, 'ov', 3, 7, 5, 4, 6];          /* ترتیب اصلی فایل‌ها */
+    var SEG = { 2: 1, 1: 1, ov: 1, 3: 1, 7: 1, 5: 1, 4: 1 }; /* فصل‌هایی که تکهٔ مشترک دارند */
+    var n = parseInt(new URLSearchParams(location.search).get('ch'), 10) || 1;
+    if (n < 1 || n > 7) { n = 1; }
+    function add(x) { document.write('<link rel="stylesheet" href="css/' + x + '.css">'); }
+    ORDER.forEach(function (k) {
+      if (SEG[k]) { add(k === 'ov' ? 'course-shared-overrides' : 'course-shared-ch' + k); }
+      if (k === n) { add('ch' + n); }
+    });
+  })();
+  </script>
 </head>
 <body>
   <main class="page wide">
