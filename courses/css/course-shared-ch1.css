@@ -1,5 +1,6 @@
 /* قواعد مشترکِ بین چند فصل که قبلاً داخل ch1.css بودند؛ جای این فایل در ترتیب بارگذاری course.html عمداً همان جای قبلیِ فایل اصلی است (ترتیب cascade). */
 /* Quiz_44: unified compact controls. Never resize the circular info control. */
+<<<<<<< HEAD
 .mc .opt {
     font-size: 1rem;
     min-height: 44px;
@@ -129,12 +130,42 @@
     position: absolute;
     inset: -7px
 }
+=======
+.mc .opt {font-size:1rem;min-height:44px;padding:5px 10px;font-weight:600;overflow-wrap:anywhere;white-space:normal}
+.opts .btn,
+.modal-act .btn {min-height:36px;font-size:.88rem;padding:5px 12px}
+.infobtn,.infobtn.sm {box-sizing:border-box;flex:0 0 auto;min-width:22px;max-width:22px;width:22px;height:22px;min-height:22px;max-height:22px;padding:0;border-radius:50%;line-height:18px;font-size:13px;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}
+
+
+/* Compact navigation: first button left, next button right, regardless of RTL body. */
+.opts:has([data-p="1"]):has([data-nx="1"]){display:flex;justify-content:space-between;direction:ltr;gap:12px}
+.opts:has([data-p="1"]):has([data-nx="1"]) .btn{min-height:36px}
+.stg span{font-size:.87rem}
+
+/* Hover reference shared by HTML number lines (N04/N05). */
+.quiz44-hov-ghost{position:absolute;width:24px;height:24px;box-sizing:border-box;border:2px dashed var(--ink);background:rgba(20,33,61,.08);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:5}
+.quiz44-hov-tip{position:absolute;transform:translateX(-50%);background:var(--ink);color:white;border-radius:9px;padding:3px 9px;min-width:36px;text-align:center;white-space:nowrap;font-weight:bold;font-size:.9rem;pointer-events:none;z-index:6}
+.quiz44-hov-tip:after{content:"";position:absolute;top:100%;left:50%;margin-left:-6px;border:6px solid transparent;border-top-color:var(--ink);border-bottom:0}
+
+/* N01: shift the whole revealed-card content down, with unchanged total vertical padding. */
+#cards1 .cover {box-sizing:border-box;padding-top:24px;padding-bottom:6px;}
+@media(max-width:520px){
+ .lesson .sg{grid-template-columns:minmax(0,1fr)!important}
+ .lesson .sg>div{min-width:0;max-width:100%;box-sizing:border-box}
+ .lesson .sg .dm{max-width:100%;overflow-x:visible;white-space:normal}
+}
+
+/* N04: دکمهٔ ↻ و لینک «پاک‌کردن ترتیب» — ناحیهٔ لمس ≥۴۰px بدون تغییر ظاهر */
+.rp{position:relative}
+.rp::after{content:'';position:absolute;inset:-7px}
+>>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 
 #sd .nl .lv.lo {
     pointer-events: none;
 }
 
 @media(max-width:520px) {
+<<<<<<< HEAD
     .lesson table {
         font-size: .8rem !important;
     }
@@ -147,3 +178,9 @@
         font-size: .5rem !important;
     }
 }
+=======
+    .lesson table { font-size: .8rem !important; }
+    .lesson td .katex {white-space: break-spaces !important;}
+    #dm .tn {font-size: .5rem !important;}
+}
+>>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab

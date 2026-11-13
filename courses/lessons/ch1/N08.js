@@ -116,6 +116,7 @@ window.LESSONS.N08 = {
     var AB = function (s) { return '\\left|' + s + '\\right|'; };                   // قدرمطلق
     var fixK = function (root) { [].forEach.call(root.querySelectorAll('.opt .katex svg'), function (v) { v.style.height = 'inherit'; v.style.maxWidth = 'none'; v.style.width = '100%'; }); };
 
+<<<<<<< HEAD
     /* ---- محور افقی HTML ---- */
     /* o: {min,max,ticks:[{v,t,mn,z}], hits:[{v,c}] , hw, arcs:[{a,b,t,g}], cls}؛ marks: [{v,c,h,lv,gh}] */
     function axisHTML(o, marks) {
@@ -139,6 +140,227 @@ window.LESSONS.N08 = {
       (o.pts || []).forEach(function (p) { marks.push({ v: o.lo + p.i * st, c: p.c || CL[4], h: p.h, lv: hasArc && p.lv === undefined ? 1 : p.lv, gh: p.gh }); });
       (o.arcs || []).forEach(function (a) { arcs.push({ a: o.lo + a.a * st, b: o.lo + a.b * st, t: a.t, g: a.g }); });
       return '<div class="nl">' + axisHTML({ min: o.lo - .5 * st, max: o.lo + (o.n + .5) * st, ticks: ticks, arcs: arcs, cls: o.cls !== undefined ? o.cls : (hasArc || (o.pts && o.pts.some(function (p) { return p.lv; })) ? '' : 'lo') }, marks) + (o.cap ? '<p class="legend">' + o.cap + '</p>' : '') + '</div>';
+=======
+/* ---- محور افقی HTML ---- */
+/* o: {min,max,ticks:[{v,t,mn,z}], hits:[{v,c}] , hw, arcs:[{a,b,t,g}], cls}؛ marks: [{v,c,h,lv,gh}] */
+function axisHTML(o, marks) {
+  var sp = o.max - o.min, pc = function (v) { return (v - o.min) / sp * 100; }, h = '<div class="lv ' + (o.cls || '') + '"><i class="ax"></i>';
+  (o.arcs || []).forEach(function (a) { h += '<span class="arc' + (a.g ? ' g' : '') + '" style="left:' + pc(a.a) + '%;width:' + (pc(a.b) - pc(a.a)) + '%">' + (a.t ? '<i dir="rtl">' + a.t + '</i>' : '') + '</span>'; });
+  (o.ticks || []).forEach(function (t) { h += '<i class="tk' + (t.mn ? ' mn' : '') + (t.z ? ' z' : '') + '" style="left:' + pc(t.v) + '%"></i>' + (t.t ? '<span class="tn" dir="ltr" style="left:' + pc(t.v) + '%">' + t.t + '</span>' : ''); });
+  (o.hits || []).forEach(function (x, i) { h += '<b class="hit' + (x.k ? ' ' + x.k : '') + '" data-i="' + i + '" data-v="' + x.v + '" data-label="' + lab(x.v) + '" style="left:' + (pc(x.v) - 50 * o.hw / sp) + '%;width:' + (100 * o.hw / sp) + '%"></b>'; });
+  (marks || []).forEach(function (m) {
+    var hs = m.lv ? 66 : 10, low = (o.cls || '').indexOf('lo') >= 0;
+    if (m.lv && m.h) { h += '<i class="stem" style="left:' + pc(m.v) + '%;height:' + (hs + 4) + 'px"></i>'; }
+    h += '<i class="dot' + (m.gh ? ' gh' : '') + '" style="left:' + pc(m.v) + '%;--c:' + m.c + '"></i>';
+    if (m.h) { h += '<span class="tip" style="left:' + pc(m.v) + '%;bottom:' + (55 + hs - 10 - (low ? 6 : 0)) + 'px">' + m.h + '</span>'; }
+  });
+  return h + '</div>';
+}
+/* محور ساده با قدم مشخص: o={lo,step,n,lab:[اندیس‌های دارای برچسب]|'all',pts:[{i,c,h,lv}],arcs:[{a,b,t}] (به اندیس),cap,cls,f} */
+function ax(o) {
+  var ticks = [], marks = [], arcs = [], i, v, all = o.lab === 'all', st = o.step;
+  for (i = 0; i <= o.n; i++) { v = o.lo + i * st; ticks.push({ v: v, mn: !(all || (o.lab || []).indexOf(i) > -1 || abs(v) < 1e-9), z: abs(v) < 1e-9, t: (all || (o.lab || []).indexOf(i) > -1 || abs(v) < 1e-9) ? (o.f ? o.f(v) : lab(v)) : '' }); }
+  var hasArc = (o.arcs || []).length > 0 && (o.pts || []).length > 0;
+  (o.pts || []).forEach(function (p) { marks.push({ v: o.lo + p.i * st, c: p.c || CL[4], h: p.h, lv: hasArc && p.lv === undefined ? 1 : p.lv, gh: p.gh }); });
+  (o.arcs || []).forEach(function (a) { arcs.push({ a: o.lo + a.a * st, b: o.lo + a.b * st, t: a.t, g: a.g }); });
+  return '<div class="nl">' + axisHTML({ min: o.lo - .5 * st, max: o.lo + (o.n + .5) * st, ticks: ticks, arcs: arcs, cls: o.cls !== undefined ? o.cls : (hasArc || (o.pts && o.pts.some(function (p) { return p.lv; })) ? '' : 'lo') }, marks) + (o.cap ? '<p class="legend">' + o.cap + '</p>' : '') + '</div>';
+}
+/* محور عمودی (بالا = مثبت): o={lo,step,n,lab,pt:{i,h}} */
+/* ---- تاکردن محور: نیمهٔ منفی روی نیمهٔ مثبت می‌افتد ---- */
+K.absFold = function (host) {
+  var X = -4, t = 0, timer = null, out, caps;
+  var W = 7, pc = function (v) { return (v + W) / (2 * W) * 100; };
+  function layerL() {
+    var h = '<i class="ax"></i>', k;
+    for (k = -W; k <= 0; k++) { h += '<i class="tk' + (k === 0 ? ' z' : '') + '" style="left:' + (k + W) / W * 100 + '%"></i><span class="tn" dir="ltr" style="left:' + (k + W) / W * 100 + '%">' + lab(k) + '</span>'; }
+    h += '<i class="dot" style="left:' + (X + W) / W * 100 + '%;--c:' + CL[1] + '"></i><span class="tip" style="left:' + (X + W) / W * 100 + '%">' + M(tx(X)) + '</span>';
+    return h;
+  }
+  function layerR() {
+    var h = '<i class="ax"></i>', k;
+    for (k = 0; k <= W; k++) { h += '<i class="tk' + (k === 0 ? ' z' : '') + '" style="left:' + k / W * 100 + '%"></i><span class="tn" dir="ltr" style="left:' + k / W * 100 + '%">' + lab(k) + '</span>'; }
+    h += '<i class="dot" style="left:' + abs(X) / W * 100 + '%;--c:' + CL[0] + '"></i>';
+    return h;
+  }
+  function layerB() {
+    var h = '<i class="ax"></i>', k;
+    for (k = 0; k <= W; k++) { h += '<i class="tk' + (k === 0 ? ' z' : '') + '" style="left:' + k / W * 100 + '%"></i>'; }
+    h += '<i class="dot" style="left:' + abs(X) / W * 100 + '%;--c:' + CL[1] + '"></i><span class="tip" style="left:' + abs(X) / W * 100 + '%">' + M(AB(tx(X)) + '=' + abs(X)) + '</span>';
+    return h;
+  }
+  function build() {
+    var h = '<div class="chips" id="fc">' + [-6, -5, -4, -3, -2, -1].map(function (v) { return '<button type="button" class="chip' + (v === X ? ' on' : '') + '" data-x="' + v + '">' + M(tx(v)) + '</button>'; }).join('') + '</div>';
+    h += '<div class="fold"><div class="ghost"></div><div class="layer fr">' + layerR() + '</div><div class="layer fl">' + layerL() + '</div><div class="layer fb">' + layerB() + '</div></div>';
+    h += '<div class="rng"><span>عدد منفی</span><input type="range" min="0" max="100" value="' + Math.round(t * 100) + '" aria-label="تاکردن"><span>تاشده</span></div><div class="opts"><button type="button" class="btn primary" data-play="1">▶ تا کن</button><button type="button" class="btn" data-back="1">برگردان</button></div><div class="fcap"></div>';
+    host.innerHTML = rr(h); upd();
+  }
+  function upd() {
+    var fl = host.querySelector('.fl'), fb = host.querySelector('.fb'), c = host.querySelector('.fcap'), s;
+    if (t <= 0.5) { fl.style.transform = 'scaleX(' + (1 - 2 * t) + ')'; fb.style.transform = 'scaleX(0)'; fl.style.opacity = 1; }
+    else { fl.style.transform = 'scaleX(0)'; fb.style.transform = 'scaleX(' + (2 * t - 1) + ')'; }
+    if (t < 0.03) { s = '<p class="legend" style="font-size:.95rem;color:var(--ink)">عدد ' + M(tx(X)) + ' در سمت چپ صفر است و ' + fa(abs(X)) + ' واحد از آن فاصله دارد. دکمهٔ «تا کن» را بزن.</p>'; }
+    else if (t > 0.97) { s = K.dm(AB(tx(X)) + '=' + abs(X) + '=' + AB(String(abs(X)))) + '<p class="legend" style="font-size:.95rem;color:var(--ink)">نیمهٔ منفی روی نیمهٔ مثبت افتاد: ' + M(tx(X)) + ' و ' + M(String(abs(X))) + ' هر دو ' + fa(abs(X)) + ' واحد از صفر فاصله دارند.</p>'; }
+    else { s = '<p class="legend">در حال تاشدن…</p>'; }
+    c.innerHTML = rr(s);
+  }
+  function anim(to) {
+    clearInterval(timer);
+    if (Math.abs(t - to) < 0.001) { t = to; upd(); return; }
+    var dir = to > t ? 1 : -1;
+    timer = setInterval(function () { t += dir * 0.025; if ((dir > 0 && t >= to) || (dir < 0 && t <= to)) { t = to; clearInterval(timer); timer = null; } host.querySelector('input').value = Math.round(t * 100); upd(); }, 16);
+  }
+  host.addEventListener('input', function (e) { if (e.target.matches('input')) { clearInterval(timer); t = +e.target.value / 100; upd(); } });
+  host.addEventListener('click', function (e) {
+    var c = e.target.closest('.chip'), b = e.target.closest('button');
+    if (c && c.dataset.x) { X = +c.dataset.x; t = 0; build(); } else if (b && b.dataset.play) { anim(1); } else if (b && b.dataset.back) { anim(0); }
+  }); build();
+};
+
+/* ---- فاصله‌سنج: فاصلهٔ دو نقطه روی محور ---- */
+K.distMeter = function (host) {
+  var MIN = -8, MAX = 8, a = -3, b = 5, act = 0, ticks = [], hits = [], v;
+  for (v = MIN; v <= MAX; v++) { ticks.push({ v: v, t: lab(v), z: v === 0 }); hits.push({ v: v }); }
+  function paint() {
+    var d = abs(a - b), h, arcs = [];
+    if (d > 0) { arcs.push({ a: Math.min(a, b), b: Math.max(a, b), t: fa(d) + ' واحد', g: 1 }); }
+    h = '<div class="n8-distance-choices"><button type="button" class="btn opt' + (act === 0 ? ' on' : '') + '" data-a="0"><span style="color:var(--accent)">●</span> نقطهٔ اول</button><button type="button" class="btn opt' + (act === 1 ? ' on' : '') + '" data-a="1"><span style="color:var(--pink)">●</span> نقطهٔ دوم</button></div>';
+    h += axisHTML({ min: MIN - .5, max: MAX + .5, ticks: ticks, hits: hits, hw: 1, arcs: arcs }, [{ v: a, c: CL[0], h: M(tx(a)), lv: 1 }, { v: b, c: CL[1], h: M(tx(b)), lv: 1 }]);
+    h += AL(['|' + pn(a) + '-' + pn(b) + '|&=|' + tx(a - b) + '|=' + d, '|' + pn(b) + '-' + pn(a) + '|&=|' + tx(b - a) + '|=' + d]).replace(/\|/g, '|');
+    h += '<p class="legend" style="font-size:.92rem;color:var(--ink)">تفاضل ' + M(pn(b) + '-' + pn(a) + '=' + tx(b - a)) + ' می‌تواند منفی شود، اما فاصله هیچ‌وقت منفی نیست و به ترتیب دو نقطه بستگی ندارد.</p>';
+    h += '<div class="n8-distance-action"><button type="button" class="btn" data-sw="1">جابه‌جا کردن دو نقطه</button></div><p class="legend">یک نقطه را انتخاب کن و روی عددی از محور بزن.</p>';
+    host.innerHTML = rr(h);
+  }
+  host.addEventListener('click', function (e) {
+    var c = e.target.closest('button[data-a]'), hit = e.target.closest('.hit'), s = e.target.closest('[data-sw]');
+    if (c) { act = +c.dataset.a; paint(); } else if (hit) { var x = hits[+hit.dataset.i].v; if (act === 0) { a = x; } else { b = x; } paint(); } else if (s) { var t = a; a = b; b = t; paint(); }
+  }); paint();
+};
+
+/* ---- رادار: همهٔ نقطه‌هایی که فاصله‌شان از مرکز مشخص است ---- */
+K.ringFind = function (host) {
+  var c, d, sel, done, MIN = -10, MAX = 10, ticks = [], hits = [], v, none;
+  for (v = MIN; v <= MAX; v++) { ticks.push({ v: v, t: v % 2 === 0 ? lab(v) : '', mn: v % 2 !== 0, z: v === 0 }); hits.push({ v: v }); }
+  function nw() { none = Math.random() < 0.2; c = R(-4, 4); d = none ? R(1, 4) * -1 : R(1, 5); sel = {}; done = false; }
+  function sol() { return none ? [] : [c - d, c + d]; }
+  function paint() {
+    var s = sol(), chosen = Object.keys(sel).filter(function (k) { return sel[k]; }).map(Number).sort(function (x, y) { return x - y; }), h, marks = [], arcs = [], ok, i, hx = [];
+    chosen.forEach(function (x) { marks.push({ v: x, c: CL[1], h: done ? M(tx(x)) : '', lv: 0 }); });
+    if (c !== undefined) { marks.push({ v: c, c: CL[4], h: M(tx(c)), lv: 1 }); }
+    if (done && !none) { s.forEach(function (x) { arcs.push({ a: Math.min(c, x), b: Math.max(c, x), t: fa(d) + ' واحد', g: 1 }); }); }
+    hits.forEach(function (x, k) { hx.push({ v: x.v, k: done ? (s.indexOf(x.v) > -1 ? 'ok' : sel[x.v] ? 'no' : '') : '' }); });
+    h = '<p class="ask">همهٔ نقطه‌هایی را علامت بزن که فاصله‌شان از نقطهٔ زرد برابر ' + fa(none ? d : d) + ' است. (اگر هیچ نقطه‌ای نیست، چیزی علامت نزن.)</p><div class="cq">' + M(c === 0 ? '|x|=' + tx(d) : '|x-' + pn(c) + '|=' + tx(d)) + '</div>';
+    /* بعد از بررسی، hitها برداشته می‌شوند تا hover نقطه/برچسب روی محور نماند */
+    h += axisHTML({ min: MIN - .5, max: MAX + .5, ticks: ticks, hits: done ? [] : hx, hw: 1, arcs: arcs }, marks);
+    if (done) {
+      ok = chosen.length === s.length && chosen.every(function (x, k) { return x === s[k]; });
+      h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? '✓ درست است!' : 'درست نبود.') + '</div><div class="ex">' + (none ? '<p>فاصله هیچ‌وقت منفی نیست؛ پس هیچ نقطه‌ای با فاصلهٔ ' + M(tx(d)) + ' از ' + M(tx(c)) + ' وجود ندارد.</p>' : '<p>از ' + M(tx(c)) + ' به هر دو سمت ' + fa(d) + ' واحد می‌رویم:</p>' + AL([tx(c) + '-' + d + '&=' + tx(c - d), tx(c) + '+' + d + '&=' + tx(c + d)]) + '<div class="nleq vd sm"><i class="a">$' + tx(c - d) + '$</i><span class="or">و</span><i class="m">$' + tx(c + d) + '$</i></div>') + '</div>';
+    }
+    h += '<div class="opts n8-radar-new">' + (done ? '' : '<button type="button" class="btn primary" data-go="1">بررسی</button>') + '<button type="button" class="btn' + (done ? ' primary' : '') + '" data-nw="1" data-scroll>' + (done ? 'مسئلهٔ بعدی' : 'مسئلهٔ دیگر') + '</button></div>';
+    host.innerHTML = rr(h);
+  }
+  host.addEventListener('click', function (e) {
+    var hit = e.target.closest('.hit'), b = e.target.closest('button');
+    if (hit && !done) { var x = hits[+hit.dataset.i].v; sel[x] = !sel[x]; paint(); }
+    else if (b && b.dataset.go) { done = true; paint(); } else if (b && b.dataset.nw) { nw(); paint(); }
+  }); nw(); paint();
+};
+/* ================= تولید سؤال ================= */
+var fr = function (n, d) { var g = gcd(n, d); n /= g; d /= g; return d === 1 ? String(n) : (n < 0 ? '-' : '') + '\\dfrac{' + abs(n) + '}{' + d + '}'; };
+var VAL = [{ t: '3', v: 3, n: 3, d: 1 }, { t: '7', v: 7, n: 7, d: 1 }, { t: '12', v: 12, n: 12, d: 1 }, { t: '5', v: 5, n: 5, d: 1 }, { t: '9', v: 9, n: 9, d: 1 }, { t: '2.5', v: 2.5, n: 5, d: 2 }, { t: '1.5', v: 1.5, n: 3, d: 2 }, { t: '3.2', v: 3.2, n: 16, d: 5 }, { t: '\\dfrac{2}{3}', v: 2 / 3, n: 2, d: 3 }, { t: '\\dfrac{3}{4}', v: 0.75, n: 3, d: 4 }, { t: '\\dfrac{5}{2}', v: 2.5, n: 5, d: 2 }];
+var sg = function (x, neg) { return neg ? '-' + x.t : x.t; };
+function uniq(list) { var s = {}; return list.filter(function (x) { var k = nf(x.v); if (s[k]) { return false; } s[k] = 1; return true; }); }
+function valTex(v) { var f = [[1, 2], [3, 2], [5, 2], [2, 3], [3, 4], [16, 5]], i; for (i = 0; i < f.length; i++) { if (abs(abs(v) - f[i][0] / f[i][1]) < 1e-9 && Math.round(v * 10) / 10 !== v) { return (v < 0 ? '-' : '') + fr(f[i][0], f[i][1]); } } return tx(v); }
+function genA1() {   // قدرمطلق یک عدد
+  var x = VAL[R(0, VAL.length - 1)], ty = R(0, 3), neg = ty !== 0 && Math.random() < 0.8 || ty === 1, q, c, cand, notes = {}, v = x.v;
+  if (ty === 0) { neg = Math.random() < 0.3 ? false : true; }
+  var sgn = neg ? -1 : 1, a = sgn * v, outer = ty === 1 || ty === 3;   // ty 1,3: با منفی بیرون
+  q = (outer ? '-' : '') + AB(sg(x, neg)); c = (outer ? -1 : 1) * abs(a);
+  cand = uniq([{ v: c, ok: 1 }, { v: -c, m: outer ? 'منفی بیرونِ قدرمطلق می‌ماند؛ اول قدرمطلق را حساب کن و بعد منفی را بگذار.' : 'قدرمطلق هیچ‌وقت منفی نیست.' }, { v: a, m: 'قدرمطلق علامت منفیِ داخلش را برمی‌دارد.' }, { v: -a, m: 'این گزینه درست نیست.' }, { v: c + 1, m: 'این گزینه درست نیست.' }].filter(function (z) { return !(z.v === 0 && c !== 0); }));
+  var wr = shuffle(cand.slice(1)).slice(0, 3);
+  return { q: q, x: x, neg: neg, outer: outer, c: c, a: a, opts: shuffle([cand[0]].concat(wr).map(function (z) { return { h: M(valTex(z.v)), ok: !!z.ok, m: z.m || '' }; })) };
+}
+function exA1(g) {
+  var a = g.a, lo = Math.min(0, Math.ceil(a) - 1), hi = Math.max(0, Math.floor(a) + 1), h;
+  h = '<p>قدرمطلق یعنی فاصلهٔ عدد از صفر روی محور:</p>' + AL(['|' + sg(g.x, g.neg) + '|&=' + valTex(abs(a))]) + (g.outer ? '<p>منفیِ بیرون از قدرمطلق سر جایش می‌ماند:</p>' + K.dm('-|' + sg(g.x, g.neg) + '|=-' + valTex(abs(a))) : '');
+  return h + verdict([['a', g.q], ['b', '='], ['m', valTex(g.c)]]);
+}
+function genA2() {   // محاسبهٔ عبارت
+  var f = R(0, 3), a, b, q, c, steps, wrong = [];
+  if (f === 0) { do { a = R(-9, 9); b = R(-9, 9); } while (a >= b || a - b > -3); q = AB(a + '-' + pn(b)); steps = [AB(a + '-' + pn(b)) + '&=' + AB(tx(a - b)) + '=' + abs(a - b)]; c = abs(a - b); wrong = [{ v: a - b, m: 'اول داخل قدرمطلق را حساب کردی، اما بعد قدرمطلق را نگرفتی.' }, { v: abs(a) + abs(b), m: 'قدرمطلق را روی هر عدد جدا نگیر؛ اول داخل را حساب کن.' }, { v: a + b, m: 'این گزینه درست نیست.' }]; }
+  else if (f === 1) { do { a = R(-9, -2); b = R(2, 9); } while (false); q = AB(tx(a)) + '+' + AB(tx(b)); steps = [q + '&=' + abs(a) + '+' + abs(b) + '=' + (abs(a) + abs(b))]; c = abs(a) + abs(b); wrong = [{ v: a + b, m: 'قدرمطلق هر عدد را جدا حساب کن، بعد جمع کن.' }, { v: -abs(a) + abs(b), m: 'قدرمطلقِ هر عدد نامنفی است.' }, { v: abs(a) - abs(b), m: 'این گزینه درست نیست.' }]; }
+  else if (f === 2) { do { a = R(-9, -1); b = R(-9, 9); } while (abs(a) === abs(b) || b === 0); q = AB(tx(a)) + '-' + AB(pn(b)); steps = [q + '&=' + abs(a) + '-' + abs(b) + '=' + (abs(a) - abs(b))]; c = abs(a) - abs(b); wrong = [{ v: a - b, m: 'قدرمطلق هر عدد را جدا حساب کن، بعد تفریق کن.' }, { v: abs(abs(a) - abs(b)), m: 'پس از تفریقِ قدرمطلق‌ها دیگر قدرمطلقی نمانده؛ جواب می‌تواند منفی باشد.' }, { v: abs(a) + abs(b), m: 'این گزینه درست نیست.' }]; }
+  else { do { a = R(-9, -1); b = R(1, 9); } while (abs(a) === b); q = AB(a + '+' + b); steps = [AB(a + '+' + b) + '&=' + AB(tx(a + b)) + '=' + abs(a + b)]; c = abs(a + b); wrong = [{ v: a + b, m: 'اول داخل را حساب کردی، اما قدرمطلق را نگرفتی.' }, { v: abs(a) + abs(b), m: 'قدرمطلق روی جمع پخش نمی‌شود؛ اول داخل را حساب کن.' }, { v: abs(a) - abs(b), m: 'این گزینه درست نیست.' }]; }
+  var cand = uniq([{ v: c, ok: 1 }].concat(wrong)), wr = cand.slice(1);
+  var extra = [c + 2, c - 2, c + 1].map(function (v) { return { v: v, m: 'این گزینه درست نیست.' }; });
+  cand = uniq(cand.concat(extra));
+  return { q: q, c: c, steps: steps, opts: shuffle([cand[0]].concat(shuffle(cand.slice(1)).slice(0, 3)).map(function (z) { return { h: M(tx(z.v)), ok: !!z.ok, m: z.m || '' }; })) };
+}
+function exA2(g) { return '<p>اول داخل را حساب می‌کنیم، بعد قدرمطلق می‌گیریم (یا قدرمطلق هر عدد را جدا می‌گیریم):</p>' + AL(g.steps) + verdict([['a', g.q], ['b', '='], ['m', tx(g.c)]]); }
+function figDist(a, b) {
+  var lo = Math.min(a, b, 0) - 1, hi = Math.max(a, b, 0) + 1, n = hi - lo, labs = [0 - lo, a - lo, b - lo];
+  return ax({ lo: lo, step: 1, n: n, lab: labs, pts: [{ i: a - lo, c: CL[0], h: M(tx(a)), lv: 1 }, { i: b - lo, c: CL[1], h: M(tx(b)), lv: 1 }], arcs: [{ a: Math.min(a, b) - lo, b: Math.max(a, b) - lo, t: fa(abs(a - b)) + ' واحد', g: 1 }] });
+}
+function genA3() {   // فاصلهٔ دو نقطه
+  var a, b, c, cand;
+  do { a = R(-9, 9); b = R(-9, 9); } while (a === b || abs(a - b) < 2);
+  c = abs(a - b);
+  cand = uniq([{ v: c, ok: 1 }, { v: a - b, m: 'تفاضل می‌تواند منفی شود، اما فاصله نامنفی است.' }, { v: abs(a) + abs(b), m: 'این روش فقط وقتی درست است که دو نقطه دو طرف صفر باشند؛ قاعدهٔ کلی ' + M('|a-b|') + ' است.' }, { v: a + b, m: 'فاصله را با جمع حساب نمی‌کنیم؛ باید تفاضل را بگیری.' }, { v: abs(abs(a) - abs(b)), m: 'این روش فقط وقتی درست است که دو نقطه یک طرف صفر باشند؛ قاعدهٔ کلی ' + M('|a-b|') + ' است.' }, { v: c + 1, m: 'این گزینه درست نیست.' }, { v: c - 1, m: 'این گزینه درست نیست.' }].filter(function (z) { return z.v >= -30; }));
+  return { a: a, b: b, c: c, opts: shuffle([cand[0]].concat(shuffle(cand.slice(1)).slice(0, 3)).map(function (z) { return { h: M(tx(z.v)), ok: !!z.ok, m: z.m || '' }; })) };
+}
+function exA3(g) { return '<p>فاصلهٔ دو نقطه برابر قدرمطلق تفاضل آن‌هاست:</p>' + AL(['|' + pn(g.a) + '-' + pn(g.b) + '|&=|' + tx(g.a - g.b) + '|=' + g.c]) + figDist(g.a, g.b); }
+
+/* ---- تمرین مرحله‌ای ---- */
+K.absSteps = function (host) {
+  var ST = ['قدرمطلق یک عدد', 'قدرمطلق عبارت', 'فاصلهٔ دو نقطه'], si = 0, ok = 0, q, pick = null, fin = false;
+  function nw() {
+    pick = null;
+    if (si === 0) { var g = genA1(); q = { ask: 'حاصل را پیدا کن:', cq: M(g.q), opts: g.opts, fig: '', expl: function () { return exA1(g); } }; }
+    else if (si === 1) { var s = genA2(); q = { ask: 'حاصل را پیدا کن:', cq: M(s.q), opts: s.opts, fig: '', expl: function () { return exA2(s); } }; }
+    else { var t = genA3(); q = { ask: 'فاصلهٔ دو نقطهٔ ' + M(tx(t.a)) + ' و ' + M(tx(t.b)) + ' روی محور چقدر است؟', cq: '', opts: t.opts, fig: figDist(t.a, t.b).replace(/<span class="arc[^>]*>.*?<\/span>/, ''), expl: function () { return exA3(t); } }; }
+  }
+  function paint() {
+    var h = '<div class="stg">' + ST.map(function (s, i) { return '<span class="' + (i < si || fin ? 'dn' : i === si ? 'cu' : '') + '">' + (i < si || fin ? '✓ ' : '') + s + '</span>'; }).join('') + '</div>', oh = '', o;
+    if (fin) { host.innerHTML = rr(h + '<div class="fb ok"><b>همهٔ مرحله‌ها را گذراندی!</b> حالا برو سراغ رادار.</div><div class="opts"><button type="button" class="btn" data-r="1" data-scroll>از اول، با عددهای جدید</button></div>'); return; }
+    h += '<p class="stage-progress-meta">مرحلهٔ ' + fa(si + 1) + ' — پاسخ‌های درست: ' + fa(ok) + ' از ۲</p><p class="ask" style="font-weight:normal">' + q.ask + '</p>' + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + q.fig + '<div class="mc m2 n8-steps-options" id="asm"></div>';
+    q.opts.forEach(function (op, k) { var c = pick === null ? '' : op.ok ? ' right' : k === pick ? ' wrong' : ''; oh += '<button type="button" class="btn opt' + c + '" data-o="' + k + '"' + (pick === null ? '' : ' disabled') + '>' + op.h + '</button>'; });
+    if (pick !== null) { o = q.opts[pick]; h += '<div class="fb ' + (o.ok ? 'ok' : 'bad') + '">' + (o.ok ? '✓ درست است!' : o.m || 'این گزینه درست نیست.') + '</div><div class="ex">' + q.expl() + '</div><div class="opts"><button type="button" class="btn primary" data-n="1" data-scroll>' + (o.ok && ok >= 2 ? (si === 2 ? 'پایان' : 'مرحلهٔ بعد') : 'مرحلهٔ بعدی') + '</button></div>'; }
+    host.innerHTML = rr(h); host.querySelector('#asm').innerHTML = rr(oh); fixK(host);
+  }
+  host.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b || b.disabled) { return; }
+    if (b.dataset.o !== undefined) { pick = +b.dataset.o; if (q.opts[pick].ok) { ok++; } paint(); }
+    else if (b.dataset.n) { if (ok >= 2) { ok = 0; si++; if (si > 2) { fin = true; paint(); return; } } nw(); paint(); }
+    else if (b.dataset.r) { si = 0; ok = 0; fin = false; nw(); paint(); }
+  }); nw(); paint();
+};
+
+/* ---- درست یا نادرست؟ ---- */
+var TF = [
+  { h: M('|-7|=7'), ok: 1, e: '<p>فاصلهٔ ' + M('-7') + ' از صفر برابر ' + M('7') + ' است.</p>' },
+  { h: M('|-7|=-7'), ok: 0, e: '<p>قدرمطلق فاصله است و فاصله منفی نمی‌شود: ' + M('|-7|=7') + '.</p>' },
+  { h: M('-|-7|=-7'), ok: 1, e: '<p>اول قدرمطلق: ' + M('|-7|=7') + '؛ بعد منفیِ بیرونی: ' + M('-7') + '.</p>' },
+  { h: M('-|5|=5'), ok: 0, e: '<p>' + M('|5|=5') + ' است و منفیِ بیرونی آن را ' + M('-5') + ' می‌کند.</p>' },
+  { h: M('|3-8|=|3|-|8|'), ok: 0, e: '<p>سمت چپ ' + M('|-5|=5') + ' و سمت راست ' + M('3-8=-5') + ' است. قدرمطلق روی تفریق پخش نمی‌شود.</p>' },
+  { h: M('|2|+|-5|=|2+(-5)|'), ok: 0, e: '<p>سمت چپ ' + M('2+5=7') + ' و سمت راست ' + M('|-3|=3') + ' است.</p>' },
+  { h: M('|-2|+|-3|=|-2+(-3)|'), ok: 1, e: '<p>هر دو طرف ۵ است؛ وقتی دو عدد هم‌علامت‌اند این تساوی برقرار است.</p>' },
+  { h: M('|-4|\\times|3|=|-4\\times3|'), ok: 1, e: '<p>هر دو طرف ۱۲ است؛ قدرمطلق روی ضرب پخش می‌شود.</p>' },
+  { h: M('|-5|\\lt|3|'), ok: 0, e: '<p>' + M('|-5|=5') + ' و ' + M('|3|=3') + ' است؛ پس ' + M('|-5|\\gt|3|') + '، هرچند ' + M('-5\\lt3') + '.</p>' },
+  { h: M('|0|=0'), ok: 1, e: '<p>صفر فاصله‌ای از خودش ندارد.</p>' },
+  { h: 'فاصلهٔ ' + M('-3') + ' و ' + M('4') + ' روی محور برابر ' + M('1') + ' است', ok: 0, e: '<p>' + M('|-3-4|=|-7|=7') + '؛ باید از ' + M('-3') + ' تا ' + M('4') + ' را بشماری.</p>' },
+  { h: 'فاصلهٔ ' + M('-5') + ' و ' + M('-2') + ' روی محور برابر ' + M('3') + ' است', ok: 1, e: '<p>' + M('|-5-(-2)|=|-3|=3') + '.</p>' },
+  { h: M('|a-b|=|b-a|') + ' برای هر دو عدد ' + M('a') + ' و ' + M('b'), ok: 1, e: '<p>فاصله به ترتیب دو نقطه بستگی ندارد.</p>' },
+  { h: 'اگر ' + M('|x|=4') + ' آنگاه حتماً ' + M('x=4'), ok: 0, e: '<p>هم ' + M('4') + ' و هم ' + M('-4') + ' فاصلهٔ ' + M('4') + ' از صفر دارند.</p>' },
+  { h: 'عددی مثل ' + M('x') + ' هست که ' + M('|x|=-3'), ok: 0, e: '<p>قدرمطلق نامنفی است؛ پس هیچ عددی نیست.</p>' }
+];
+K.tfAbs = function (host) {
+  var L, i, answers;
+  function nw() { L = shuffle(TF.slice()).slice(0, 6); i = 0; answers = Array(L.length).fill(null); }
+  function paint() {
+    var h, q, ans = answers[i], finished = answers.every(function(x){return x !== null;});
+    if (i >= L.length) {
+      var sc = answers.filter(function(x,k){return x === L[k].ok;}).length;
+      host.innerHTML = rr('<div class="fb ' + (sc >= 5 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(sc) + ' از ' + fa(L.length) + '</b><br>' + (sc === L.length ? 'همهٔ پاسخ‌ها درست بودند!' : 'قدرمطلق فاصله است و نامنفی؛ روی جمع و تفریق پخش نمی‌شود.') + '</div><div class="opts n8-nav end-actions"><button type="button" class="btn" data-p="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
+>>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
     }
     /* محور عمودی (بالا = مثبت): o={lo,step,n,lab,pt:{i,h}} */
     /* ---- تاکردن محور: نیمهٔ منفی روی نیمهٔ مثبت می‌افتد ---- */
