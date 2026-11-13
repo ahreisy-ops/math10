@@ -30,12 +30,10 @@
       function lin(a, b) { return (a === 0 ? String(b) : ax(a) + (b ? signed(b) : '')); }
       function equation(a, b, c, d) { return lin(a, b) + '=' + lin(c, d); }
       function mathpanel(s) { return '<div class="e02-formula" dir="ltr">' + M(s) + '</div>'; }
-      function textpanel(s) { return '<div class="e02-reason">' + s + '</div>'; }
       function mark(ok, s) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + s + '</div>'; }
       var refreshSvg = '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.4-4.8L3 9"/><path d="M3 4v5h5"/><path d="M4 13a8 8 0 0 0 14.4 4.8L21 15"/><path d="M21 20v-5h-5"/></svg>';
       function activity(title, id, lead) { return '<h4 class="e02-activity-title">' + title + '</h4><p class="e02-activity-lead">' + lead + '</p><div class="e01-interaction e02-activity" id="' + id + '"><div data-stage></div></div>'; }
       function problemHead(tex) { return '<div class="e02-problem-head"><span class="e02-problem-chip">' + M(tex) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="مسئلهٔ جدید" aria-label="تغییر مسئله">' + refreshSvg + '</button></div>'; }
-      function choiceButton(label, act, value, extra) { return '<button type="button" class="btn e02-control ' + (extra || '') + '" data-' + act + '="' + value + '">' + label + '</button>'; }
       function bind(id, generate, paint, handle) {
         var root = document.getElementById(id); if (!root) return; var state;
         function repaint() { root.querySelector('[data-stage]').innerHTML = paint(state); if (id === 'e02-route') { var log = root.querySelector('.e02-route-scroll'); if (log) log.scrollTop = log.scrollHeight; } }
@@ -109,7 +107,6 @@
       }
       function rangeState() { var a = choose([-4, -3, -2, 2, 3, 4]), x = rand(-6, 6), b = nz(-8, 8); return { a: a, b: b, c: a * x + b, x: x, op: null, amount: 1, history: [], note: null }; }
       function routeText(s) { return lin(s.a, s.b) + '=' + s.c; }
-      function norm(v) { return Object.is(v, -0) ? 0 : v; }
       function routeRender(s) {
         var solved = s.a === 1 && s.b === 0, collapsed = s.a === 0 && s.b === 0 && s.c === 0, locked = solved || collapsed, nonnegative = s.op === 'add' || s.op === 'sub', kind = [['add', '+'], ['sub', '-'], ['mul', '\\times'], ['div', '\\div']];
         // All controls act on the CURRENT equation; the ledger preserves the original.
@@ -227,8 +224,8 @@
         return problemHead(equation(s.a, s.b, s.c, s.d)) + '<div class="e02-tile-board">' + column('L') + '<span class="e02-tile-equals">' + M('=') + '</span>' + column('R') + '</div>' +
           '<div class="e02-tile-log"><strong>تغییرهای انجام‌شده</strong>' + (s.history.length ? '<div class="e02-tile-step"><span class="e02-tile-step-num">' + F(1) + '</span><div class="e02-tile-step-detail"><span dir="ltr">' + M(s.history[0].eq) + '</span></div></div>' + s.history.map(function (h, i) { return '<div class="e02-tile-connector"><span class="e02-tile-operation"><span class="e02-tile-operation-arrow" aria-hidden="true">⇓</span>' + M(h.action) + '</span></div><div class="e02-tile-step"><span class="e02-tile-step-num">' + F(i + 2) + '</span><div class="e02-tile-step-detail"><span dir="ltr">' + M(h.result) + '</span></div></div>'; }).join('') : '<div class="e02-tile-empty"><svg viewBox="0 0 48 48" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 5h17l8 8v29H12z"/><path d="M29 5v9h8M17 21h15M17 27h11M17 33h11"/></svg><span>هنوز تغییری انجام نشده است.</span></div>') + '</div>' +
           (s.last ? mark(s.last.ok, s.last.text) : '') +
-          (alreadySolved ? '<div class="fb ok e02-tile-complete">به جواب نهایی رسیدیم: ' + M('x=' + s.x) + '</div>' : ready ? '<div class="e02-tile-solve"><label for="e02-tile-answer">اکنون مقدار مجهول را حساب کن:</label><div class="e02-tile-final-line" dir="ltr"><span class="e02-tile-final-equation">' + M(equation(s.a, s.b, s.c, s.d)) + '</span><span class="e02-tile-implies" aria-hidden="true">' + M('\\Longrightarrow') + '</span><span class="e02-tile-value-label">' + M('x=') + '</span><input id="e02-tile-answer" type="number" step="1" inputmode="numeric" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + ' ' + (s.finished ? 'disabled' : '') + ' aria-label="جواب معادله"></div>' + (s.finished ? '' : '<button type="button" class="btn primary" data-tile-solve>بررسی جواب</button>') + '</div>' : '') +
-          '<div class="e02-foot-actions"><button type="button" class="btn" data-tile-undo ' + (!s.history.length ? 'disabled' : '') + '>بازگشت یک گام</button></div>';
+          (alreadySolved ? '<div class="fb ok e02-tile-complete">به جواب نهایی رسیدیم: ' + M('x=' + s.x) + '</div>' : ready ? '<div class="e02-tile-solve"><label for="e02-tile-answer">اکنون مقدار مجهول را حساب کن:</label><div class="e02-tile-final-line" dir="ltr"><span class="e02-tile-final-equation">' + M(equation(s.a, s.b, s.c, s.d)) + '</span><span class="e02-tile-implies" aria-hidden="true">' + M('\\Longrightarrow') + '</span><span class="e02-tile-value-label">' + M('x=') + '</span><input id="e02-tile-answer" type="number" step="1" inputmode="numeric" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + ' ' + (s.finished ? 'disabled' : '') + ' aria-label="جواب معادله"></div>' + '</div>' : '') +
+          '<div class="e02-foot-actions"><button type="button" class="btn" data-tile-undo ' + (!s.history.length ? 'disabled' : '') + '>بازگشت یک گام</button>' + (ready && !alreadySolved && !s.finished ? '<button type="button" class="btn primary" data-tile-solve>بررسی جواب</button>' : '') + '</div>';
       }
       function tileHandle(s, b, paint, root) {
         if (root.classList.contains('e02-transfer-in-flight')) return; if (b.hasAttribute('data-tile-undo')) { var last = s.history.pop(); if (last) { s.a = last.a; s.b = last.b; s.c = last.c; s.d = last.d; } s.last = null; s.attempt = null; s.finished = false; paint(); return; }
@@ -322,7 +319,7 @@
       function finalRender(s) {
         if (s.finished && !s.review) {
           var score = s.answers.reduce(function (v, a, i) { return v + (a === s.q[i].x ? 1 : 0); }, 0);
-          return '<div class="fb ' + (score >= 4 ? 'ok' : 'bad') + '" role="status"><b>نتیجه: ' + F(score) + ' از ' + F(6) + '</b><br>' + (score === 6 ? 'همهٔ سؤال‌ها را درست پاسخ دادی.' : score >= 4 ? 'سؤال‌های نادرست را مرور کن و دلیل هر اشتباه را بررسی کن.' : 'یک بار دیگر درس را مرور کن؛ سپس با سؤال‌های تازه تمرین کن.') + '</div><div class="opts end-actions"><button type="button" class="btn" data-review data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-final-new data-scroll>سؤال‌های جدید</button></div>';
+          return window.CourseKit.res(score, 6) + '<div class="opts end-actions"><button type="button" class="btn" data-review data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-final-new data-scroll>سؤال‌های جدید</button></div>';
         }
         var item = s.q[s.pos], given = s.answers[s.pos], frozen = given !== null;
         var instruction = item.kind === 5 ? 'دانش‌آموزی معادلهٔ ' + M(item.solution[0]) + ' را مرحله‌به‌مرحله حل کرده است. نخستین مرحلهٔ نادرست کدام است؟' :

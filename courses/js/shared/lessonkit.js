@@ -64,7 +64,7 @@
         var n = qs.length, q = qs[i], a = ans[i], h, oh = '', s;
         if (i === n) {
           s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr('<div class="fb ' + (s >= n - 1 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(s) + ' از ' + fa(n) + '</b><br>' + resText(s, n) + '</div><div class="opts"><button type="button" class="btn" data-pv="1">مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>مجموعهٔ جدید</button></div>');
+          host.innerHTML = rr('<div class="fb ' + (s >= n - 1 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(s) + ' از ' + fa(n) + '</b><br>' + resText(s, n) + '</div><div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
           return;
         }
         h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">سؤال ' + fa(i + 1) + ' از ' + fa(n) + ': ' + q.ask + '</p>' + (q.extra || '') + (q.tex ? K.dm(q.tex) : '') + '<div class="mc" id="mcx"></div>';
@@ -77,6 +77,71 @@
         var b = e.target.closest('button'); if (!b || b.disabled) { return; }
         if (b.dataset.o) { ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); }
         else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { start(); paint(); }
+      });
+      start(); paint();
+    };
+
+    /* ---------- تمرین مرحله‌ای با مجموعهٔ ثابت سؤال (چندگزینه‌ای یا ورودی نوشتاری) ----------
+       cfg: { names:[نام مرحله‌ها], per:تعداد سؤال هر مرحله (پیش‌فرض ۲), make(si)→سؤال, after(host), stgCls }
+       سؤال: { ask, cq?, fig? (رشته یا تابعِ (پاسخ‌داده‌شده)→رشته), expl:function|string, cont:'mc m2', optCls:'btn opt',
+               opts:[{h,ok,m}]  ← چندگزینه‌ای
+               input:{ html(), wire(root,submit,noFocus), raw(root)→ورودی خام, read(root)→u|null, bad:'پیام ورودی نامعتبر', judge(u)→{ok,m,retry}, fill(root,raw,locked), correct:'جملهٔ جواب درست' } ← ورودی }
+       قبلی/بعدی و مرور دارد؛ قفل «تعداد پاسخ درست» ندارد و هر سؤال یک بار ثبت می‌شود. */
+    H.stages = function (host, cfg) {
+      var per = cfg.per || 2, qs, ans, i, touched = false, note = '';
+      function start() {
+        qs = []; ans = []; i = 0; note = '';
+        cfg.names.forEach(function (nm, si) { for (var k = 0; k < per; k++) { qs.push({ si: si, k: k, q: cfg.make(si) }); } });
+      }
+      function good(j) { var q = qs[j].q, a = ans[j]; return q.input ? !!a.ok : !!q.opts[a].ok; }
+      function stageState(si) {
+        var all = true, ok = true;
+        qs.forEach(function (x, j) { if (x.si === si) { if (ans[j] === undefined) { all = false; } else if (!good(j)) { ok = false; } } });
+        return all ? (ok ? 'dn' : 'wr') : '';
+      }
+      function submit() {
+        var q = qs[i].q, u, r, raw;
+        if (ans[i] !== undefined || !q.input) { return; }
+        raw = q.input.raw(host); u = q.input.read(host);
+        if (u === null) { note = fb(false, q.input.bad || 'جواب را کامل و درست بنویس.'); paint(true, raw); return; }
+        r = q.input.judge(u);
+        if (r.retry) { note = fb(false, r.m); paint(true, raw); return; }
+        note = ''; ans[i] = { raw: raw, ok: !!r.ok, m: r.m || '' }; paint();
+      }
+      function paint(keep, kept) {
+        var n = qs.length, it = qs[i], q, a, h, oh = '', s, o, pending;
+        if (i === n) {
+          s = qs.filter(function (x, j) { return good(j); }).length;
+          host.innerHTML = rr0(K0.res(s, n) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
+          return;
+        }
+        q = it.q; a = ans[i]; pending = a === undefined;
+        h = '<div class="stg' + (cfg.stgCls ? ' ' + cfg.stgCls : '') + '">' + cfg.names.map(function (nm, si) { var st = si === it.si ? 'cu' : stageState(si); return '<span class="' + st + '">' + (st === 'dn' ? '✓ ' : '') + nm + '</span>'; }).join('') + '</div>';
+        h += '<p class="stage-progress-meta">مرحلهٔ ' + fa(it.si + 1) + ' — سؤال ' + fa(it.k + 1) + ' از ' + fa(per) + '</p><p class="ask">' + q.ask + '</p>' + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + (typeof q.fig === 'function' ? q.fig(!pending) : (q.fig || ''));
+        if (q.input) { h += q.input.html(); }
+        else {
+          h += '<div class="' + (q.cont || 'mc m2') + '" id="stx"></div>';
+          q.opts.forEach(function (op, k) { oh += '<button type="button" class="' + (q.optCls || 'btn opt') + (!pending ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (!pending ? ' disabled' : '') + '>' + op.h + '</button>'; });
+        }
+        if (!pending) {
+          if (q.input) { h += '<div class="fb ' + (a.ok ? 'ok' : 'bad') + '">' + (a.ok ? '✓ درست است!' : ((a.m ? a.m + ' ' : '') + (q.input.correct || ''))) + '</div>'; }
+          else { o = q.opts[a]; h += '<div class="fb ' + (o.ok ? 'ok' : 'bad') + '">' + (o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.')) + '</div>'; }
+          h += '<div class="ex">' + (typeof q.expl === 'function' ? q.expl() : q.expl) + '</div>';
+        } else if (note) { h += note; }
+        h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (pending && !q.input ? ' disabled' : '') + (pending ? '' : ' data-scroll') + '>' + (pending && q.input ? 'بررسی' : (i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی')) + '</button></div>';
+        host.innerHTML = rr0(h);
+        if (!q.input) { host.querySelector('#stx').innerHTML = rr0(oh); }
+        else if (!pending) { q.input.fill(host, a.raw, true); }
+        else { q.input.wire(host, submit, !touched); if (keep && kept) { q.input.fill(host, kept, false); } }
+        if (cfg.after) { cfg.after(host); }
+      }
+      host.addEventListener('click', function (e) {
+        var b = e.target.closest('button'), q; if (!b || b.disabled) { return; } touched = true;
+        q = qs[i] && qs[i].q;
+        if (b.dataset.o !== undefined) { if (ans[i] === undefined) { ans[i] = +b.dataset.o; paint(); } }
+        else if (b.dataset.nx) { if (q && q.input && ans[i] === undefined) { submit(); } else { note = ''; i++; paint(); } }
+        else if (b.dataset.p) { note = ''; i--; paint(); }
+        else if (b.dataset.pv) { note = ''; i = 0; paint(); } else if (b.dataset.r) { start(); paint(); }
       });
       start(); paint();
     };

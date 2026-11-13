@@ -31,7 +31,7 @@
       h += '<div class="cards-title"><b>' + names[kind] + '</b></div>'
       h += '<p>مقدار عبارت زیر را برای مقدارهای داده‌شده محاسبه کن:</p><div class="dm">' + M(notation(q)) + '</div>';
       if (!done) { h += '<div class="a01-card-entry">' + input('a01-lab-input') + '</div><div class="opts a01-center"><button class="btn primary" type="button" data-act="check">ثبت</button></div>'; }
-      else { const ok = Number(norm(answer)) === q.answer; h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? 'آفرین، درست محاسبه کردی.' : 'پاسخ درست را در محاسبهٔ زیر ببین.') + '</div><div class="ex"><div class="dm">' + M(notation(q) + '=' + q.calc) + '</div></div><div class="opts a01-center">' + (ok ? '<button class="btn primary" data-act="new" data-scroll=".a01-card-detail">مثال جدید</button>' : '<button class="btn primary" data-act="new" data-scroll=".a01-card-detail">مثال جدید</button><button class="btn" data-act="retry">همین مثال دوباره</button>') + '</div>'; }
+      else { const ok = Number(norm(answer)) === q.answer; h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? 'آفرین، درست محاسبه کردی.' : 'پاسخ درست را در محاسبهٔ زیر ببین.') + '</div><div class="ex"><div class="dm">' + M(notation(q) + '=' + q.calc) + '</div></div><div class="opts a01-center">' + (ok ? '<button class="btn primary" data-act="new" data-scroll=".a01-card-detail">مثال جدید</button>' : '<button class="btn" data-act="retry">همین مثال دوباره</button><button class="btn primary" data-act="new" data-scroll=".a01-card-detail">مثال جدید</button>') + '</div>'; }
       cover.innerHTML = h; cover.hidden = false;
     }
     host.addEventListener('click', e => {
@@ -69,7 +69,7 @@
     function reset() { qs = finalQuestions(); i = 0; answers = []; ended = false; paint(); }
     function isRight(j) { const q = qs[j]; return answers[j] !== undefined && (q.kind === 'number' ? Number(norm(answers[j])) === q.answer : (j <= 1 ? answers[j] === q.answer : q.options[answers[j]] === q.answer)); }
     function paint() {
-      if (ended) { const s = qs.filter((_, j) => isRight(j)).length; host.innerHTML = '<div class="fb ' + (s >= 4 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(s) + ' از ۵</b><br>' + (s === 5 ? 'عالی بود! به همهٔ سؤال‌ها درست جواب دادی.' : s >= 3 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با سؤال‌های جدید امتحان کن.') + '</div><div class="opts end-actions"><button class="btn" data-action="review" data-scroll>مرور سؤال‌ها</button><button class="btn primary" data-action="new" data-scroll>سؤال‌های جدید</button></div>'; return; }
+      if (ended) { const s = qs.filter((_, j) => isRight(j)).length; host.innerHTML = window.CourseKit.res(s, 5) + '<div class="opts end-actions"><button class="btn" data-action="review" data-scroll>مرور سؤال‌ها</button><button class="btn primary" data-action="new" data-scroll>سؤال‌های جدید</button></div>'; return; }
       const q = qs[i], has = answers[i] !== undefined; let h = '<div class="stg">' + qs.map((_, j) => '<span class="' + (j === i ? 'cu' : answers[j] !== undefined ? (isRight(j) ? 'dn' : 'wr') : '') + '">' + fa(j + 1) + '</span>').join('') + '</div><p class="ask a2-question">' + R(q.label) + '</p>';
       if (q.expressions) { h += '<ol class="steps a01-expression-list">' + q.expressions.map(o => '<li>' + M(o.tex) + '</li>').join('') + '</ol>'; }
       else if (q.tex) { h += '<div class="dm">' + M(q.tex) + '</div>'; }

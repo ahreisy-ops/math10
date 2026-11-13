@@ -16,10 +16,11 @@ window.LESSONS.N09 = {
     if (!document.getElementById('n9css')) {
       var st = document.createElement('style'); st.id = 'n9css';
       st.textContent = [
-        '.n9-w{font-size:.95em}.n9-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n9-w .ask{font-size:.95rem}.n9-w .opts{gap:6px}',
+        '.n9-w{font-size:.95em}.n9-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n9-w .ask{font-size:.95rem}.n9-w .opts{gap:6px}.n9-w .fb,.n9-w .ex{font-size:1em}',
         '.n9-responsive-proof .n9-proof-mobile{display:none}.n9-responsive-proof .n9-proof-desktop .dm{white-space:nowrap;overflow:visible;padding:10px 0 12px;line-height:1.6}.n9-responsive-proof .n9-proof-mobile .dm{overflow:visible;padding:12px 0 10px;box-sizing:content-box;line-height:1.6;white-space:nowrap}.n9-responsive-proof .n9-proof-mobile .katex{font-size:1.22em}.n9-proof-intro{white-space:nowrap}',
         '@media(max-width:767px){.n9-proof-intro{white-space:normal}.n9-responsive-proof .n9-proof-desktop{display:none}.n9-responsive-proof .n9-proof-mobile{display:block}.n9-responsive-proof .n9-proof-mobile .dm{margin:6px auto}}',
         '.n9-w .mc .opt{min-height:44px;font-size:1rem}',
+        '#n9d,#n9e{font-size:1em}.n9-w .end-actions>.btn{min-width:120px;min-height:36px;padding:6px 14px;font-size:.9rem}.n9-w .opts>.btn{min-width:120px}',
         '.n9-line{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin:8px 0}',
         '.n9-sw{width:110px;height:78px;border:2px solid var(--ink);border-radius:16px;transition:background .25s}',
         '.n9-cap{font-size:.8rem;text-align:center;margin-top:4px;color:#46505e}',
@@ -30,11 +31,12 @@ window.LESSONS.N09 = {
         '.n9-t{border-collapse:collapse;margin:8px auto;direction:ltr}.n9-t td,.n9-t th{border:2px solid var(--ink);padding:3px 12px;text-align:center;min-width:3em}',
         '.n9-t th{background:var(--ink);color:#fff}.n9-t tr.tool td{background:#eef7f2;font-size:.9rem}',
         '.n9-chip{padding:2px 12px;border:2px solid var(--ink);border-radius:99px;background:#fff;font:inherit;font-size:.95rem;cursor:pointer}',
-        '.n9-mixer .n9-line{display:grid;grid-template-columns:110px 110px;gap:9px;justify-content:center;align-items:start;direction:rtl}.n9-mixer .n9-line>div{width:110px;min-width:110px;display:flex;flex-direction:column;align-items:center}.n9-mixer .n9-sw{width:110px;height:78px;box-sizing:border-box;flex:0 0 78px}.n9-mixer .n9-cap{width:100%;min-height:38px;line-height:1.55}.n9-mixer .n9-dots{display:flex;flex-direction:column;align-items:center;gap:3px;margin:8px auto 4px}.n9-mixer .n9-dotrow{display:flex;justify-content:center;align-items:center;gap:2px;flex-wrap:nowrap;height:16px;min-height:16px}.n9-mixer .n9-stp{display:grid;grid-template-columns:repeat(2,54px) 44px repeat(2,54px);gap:7px;align-items:center;justify-content:center;width:max-content;max-width:100%;margin:8px auto;direction:ltr}.n9-mixer .n9-stp .btn{width:54px;min-width:54px;height:36px;min-height:36px;padding:2px;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;line-height:1;box-shadow:2px 2px 0 var(--ink)}.n9-mixer .n9-stp .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}.n9-mixer .n9-stp b{min-width:44px}.n9-mixer .n9-next{display:flex;justify-content:center;margin:12px 0}.n9-mixer .n9-next .btn{min-height:36px;font-size:.88rem;padding:5px 12px}.n9-mixer .n9-next .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}.n9-mixer .n9-next .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}',
+        '.n9-mixer .n9-line{display:grid;grid-template-columns:110px 110px;gap:9px;justify-content:center;align-items:start;direction:rtl}.n9-mixer .n9-line>div{width:110px;min-width:110px;display:flex;flex-direction:column;align-items:center}.n9-mixer .n9-sw{width:110px;height:78px;box-sizing:border-box;flex:0 0 78px}.n9-mixer .n9-cap{width:100%;min-height:38px;line-height:1.55}.n9-mixer .n9-dots{display:flex;flex-direction:column;align-items:center;gap:3px;margin:8px auto 4px}.n9-mixer .n9-dotrow{display:flex;justify-content:center;align-items:center;gap:2px;flex-wrap:nowrap;height:16px;min-height:16px}.n9-mixer .n9-stp{display:grid;grid-template-columns:repeat(2,54px) 44px repeat(2,54px);gap:7px;align-items:center;justify-content:center;width:max-content;max-width:100%;margin:8px auto;direction:ltr}.n9-mixer .n9-stp .btn{width:54px;min-width:54px;height:36px;min-height:36px;padding:2px;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;line-height:1;box-shadow:2px 2px 0 var(--ink)}.n9-mixer .n9-stp .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}.n9-mixer .n9-stp b{min-width:44px}.n9-mixer .n9-next{display:flex;justify-content:center;margin:12px 0}.n9-mixer .n9-next .btn{min-height:36px;min-width:120px;font-size:.88rem;padding:5px 14px}.n9-mixer .n9-next .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}.n9-mixer .n9-next .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}',
         '.n9-bal-svg{width:100%;max-width:500px;position:relative;margin:6px auto 0;direction:ltr}.n9-bal-lab,.n9-bal-val{position:absolute;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;line-height:1}.n9-bal-lab{font-size:.95rem}.n9-bal-val{font-size:1.18rem;font-weight:bold}.n9-bal-ctrl .n9-stp{display:grid;grid-template-columns:repeat(2,54px) 74px repeat(2,54px);gap:7px;justify-content:center;align-items:center}.n9-bal-ctrl .btn{width:54px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 var(--ink)}.n9-bal-ctrl .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}@media(max-width:400px){.n9-stp,.n9-bal-ctrl .n9-stp,.n9-mixer .n9-stp{grid-template-columns:repeat(2,44px) 54px repeat(2,44px);gap:5px}.n9-stp .btn,.n9-bal-ctrl .btn,.n9-mixer .n9-stp .btn{width:44px;min-width:44px;height:40px;min-height:40px}.n9-mixer .n9-stp b{min-width:0}.n9-mixer .n9-dotrow{height:auto;min-height:16px;max-width:100%}.n9-mixer .n9-dotrow .n9-dot{flex:0 1 12px;min-width:3px;height:auto;aspect-ratio:1/1;margin:0}}@media(max-width:400px){.n9-bal-ctrl .n9-stp{grid-template-columns:repeat(2,54px);grid-template-rows:auto auto auto;gap:7px 10px}.n9-bal-ctrl .n9-stp .btn{width:54px;min-width:54px;height:40px;min-height:40px}.n9-bal-ctrl .n9-stp b{grid-column:1/-1;grid-row:2}.n9-bal-ctrl .n9-stp [data-s="1"]{grid-column:1;grid-row:1}.n9-bal-ctrl .n9-stp [data-s="5"]{grid-column:2;grid-row:1}.n9-bal-ctrl .n9-stp [data-s="-1"]{grid-column:1;grid-row:3}.n9-bal-ctrl .n9-stp [data-s="-5"]{grid-column:2;grid-row:3}}.n9-bal-ctrl b{text-align:center;white-space:nowrap}.n9-bal-next .btn{min-height:36px;font-size:.88rem;padding:5px 12px}.n9-bal-next .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}.n9-bal-next .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}',
-        '.n9-bal-single{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:nowrap;margin:7px auto 12px;white-space:nowrap;max-width:100%;overflow-x:auto;overflow-y:visible;padding:9px 3px 12px}.n9-bal-single .katex{font-size:1em}.n9-bal-factor{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0}.n9-bal-factor>span:last-child{font-size:.73rem;line-height:1.4;direction:rtl;white-space:nowrap}.n9-price-eq{display:flex;align-items:center;justify-content:center;gap:4px;padding:13px 2px;margin:8px auto;white-space:nowrap;max-width:100%;overflow-x:auto}.n9-fa-frac{display:inline-flex;flex-direction:column;align-items:stretch;text-align:center;line-height:1.3;font-size:1rem;flex-shrink:0}.n9-fa-frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 5px 3px}.n9-fa-frac>span:last-child{padding:3px 5px 0}', '.n9-w .dm{overflow-y:visible;padding-top:14px;padding-bottom:19px}.n9-w .n9-bal-math .dm{margin:4px 0;padding:12px 2px 20px}.n9-w .n9-bal-products{display:flex;justify-content:center;gap:20px;align-items:center;flex-wrap:wrap}.n9-w .n9-bal-products .dm{min-width:0;padding-bottom:30px}.n9-w .n9-bal-svg{margin-top:8px}.n9-w .n9-persian-math .katex .mord.text{direction:rtl!important;unicode-bidi:isolate!important}.n9-w .n9-persian-math .katex .mord.text>span{direction:rtl!important;unicode-bidi:isolate!important}', '.n9-chip.sel{background:var(--mark);box-shadow:2px 2px 0 var(--ink)}', '.n9-crew .n9-chip{min-width:46px;min-height:36px;box-shadow:2px 2px 0 var(--ink);display:inline-flex;align-items:center;justify-content:center}', '.n9-crew .n9-chip:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-crew .opts .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-crew .opts .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-price-colon{display:inline-block;margin:0 2px;font-weight:bold;line-height:1}', '.n9-crew .opts .btn,.n9-lab-next .btn{min-height:36px;font-size:.88rem;padding:5px 12px;font-weight:normal}', '.n9-const .n9-line .btn,.n9-const .n9-lab-next .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-const .n9-line .btn:active,.n9-const .n9-lab-next .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-const .n9-t{table-layout:fixed;width:min(100%,440px)}.n9-const .n9-t th,.n9-const .n9-t td{width:20%;min-width:0;box-sizing:border-box;padding:5px 3px;white-space:nowrap}', '.n9-end .mc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.n9-end .opts{display:flex;justify-content:space-between;direction:rtl}.n9-end .opts .btn{min-height:36px;font-size:.88rem;padding:5px 12px}', '.n9-crew .opts .btn,.n9-const .opts .btn,.n9-final .opts .btn{min-height:36px!important;font-size:.88rem!important;padding:5px 12px!important;font-weight:normal}', '.n9-const .n9-line .btn,.n9-const .opts .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-const .n9-line .btn:active,.n9-const .opts .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-const .n9-t{table-layout:fixed;width:min(100%,390px)}.n9-const .n9-t th,.n9-const .n9-t td{width:20%;box-sizing:border-box;min-width:0;padding:5px 2px;white-space:nowrap}', '.n9-final .mc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.n9-final .opts:has([data-p="1"]):has([data-nx="1"]){display:flex;direction:rtl;justify-content:space-between;width:100%}',
+        '.n9-bal-single{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:nowrap;margin:7px auto 12px;white-space:nowrap;max-width:100%;overflow-x:auto;overflow-y:visible;padding:9px 3px 12px}.n9-bal-single .katex{font-size:1em}.n9-bal-factor{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0}.n9-bal-factor>span:last-child{font-size:.73rem;line-height:1.4;direction:rtl;white-space:nowrap}.n9-price-eq{display:flex;align-items:center;justify-content:center;gap:4px;padding:13px 2px;margin:8px auto;white-space:nowrap;max-width:100%;overflow-x:auto}.n9-fa-frac{display:inline-flex;flex-direction:column;align-items:stretch;text-align:center;line-height:1.3;font-size:1rem;flex-shrink:0}.n9-fa-frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 5px 3px}.n9-fa-frac>span:last-child{padding:3px 5px 0}', '.n9-w .dm{overflow-y:visible;padding-top:14px;padding-bottom:10px}.n9-w .n9-bal-math .dm{margin:4px 0;padding:12px 2px 20px}.n9-w .n9-bal-products{display:flex;justify-content:center;gap:20px;align-items:center;flex-wrap:wrap}.n9-w .n9-bal-products .dm{min-width:0;padding-bottom:30px}.n9-w .n9-bal-svg{margin-top:8px}.n9-w .n9-persian-math .katex .mord.text{direction:rtl!important;unicode-bidi:isolate!important}.n9-w .n9-persian-math .katex .mord.text>span{direction:rtl!important;unicode-bidi:isolate!important}', '.n9-chip.sel{background:var(--mark);box-shadow:2px 2px 0 var(--ink)}', '.n9-crew .n9-chip{min-width:46px;min-height:36px;box-shadow:2px 2px 0 var(--ink);display:inline-flex;align-items:center;justify-content:center}', '.n9-crew .n9-chip:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-crew .opts .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-crew .opts .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-price-colon{display:inline-block;margin:0 2px;font-weight:bold;line-height:1}', '.n9-crew .opts .btn,.n9-lab-next .btn{min-height:36px;font-size:.88rem;padding:5px 12px;font-weight:normal}', '.n9-const .n9-line .btn,.n9-const .n9-lab-next .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-const .n9-line .btn:active,.n9-const .n9-lab-next .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-const .n9-t{table-layout:fixed;width:min(100%,440px)}.n9-const .n9-t th,.n9-const .n9-t td{width:20%;min-width:0;box-sizing:border-box;padding:5px 3px;white-space:nowrap}', '.n9-end .mc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.n9-end .opts{display:flex;justify-content:space-between;direction:rtl}.n9-end .opts .btn{min-height:36px;font-size:.88rem;padding:5px 12px}', '.n9-crew .opts .btn,.n9-const .opts .btn,.n9-final .opts .btn{min-height:36px!important;font-size:.9rem!important;padding:5px 14px!important;font-weight:normal}', '.n9-const .n9-line .btn,.n9-const .opts .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-const .n9-line .btn:active,.n9-const .opts .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-const .n9-t{table-layout:fixed;width:min(100%,390px)}.n9-const .n9-t th,.n9-const .n9-t td{width:20%;box-sizing:border-box;min-width:0;padding:5px 2px;white-space:nowrap}', '.n9-final .mc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.n9-final .opts:has([data-p="1"]):has([data-nx="1"]){display:flex;direction:rtl;justify-content:space-between;width:100%}',
         '.n9-crew .opts .btn,.n9-const .opts .btn,.n9-final .opts .btn,.n9-end .opts .btn{font-weight:700!important}',
         '.n9-end .opts .btn{box-shadow:none!important}.n9-end .mc .opt{box-shadow:none!important}', '.n9-const .mc{display:grid;grid-template-columns:minmax(0,300px);justify-content:center;gap:8px;margin-inline:auto}.n9-const .mc .btn{width:100%;min-height:44px;font-size:1rem}',
+        '#n9c .opts{margin:20px 0 0 0;}',
       ].join('\n');
       document.head.appendChild(st);
     }
@@ -53,19 +55,9 @@ window.LESSONS.N09 = {
     var rt = function (r) { return r.d === 1 ? '' + r.n : (r.n < 0 ? '-' : '') + '\\frac{' + Math.abs(r.n) + '}{' + r.d + '}'; };
 
     /* ---------- خواندن پاسخ دانش‌آموز (عدد صحیح، کسر یا اعشار) ---------- */
-    function norm(s) {
-      return String(s).replace(/[۰-۹]/g, function (c) { return c.charCodeAt(0) - 1776; }).replace(/[٠-٩]/g, function (c) { return c.charCodeAt(0) - 1632; })
-        .replace(/[٫,،]/g, '.').replace(/\s/g, '').replace(/[−–]/g, '-').replace(/÷/g, '/');
-    }
-    function pval(s) {
-      s = norm(s); var m = /^(-?)(\d+)\/(\d+)$/.exec(s);
-      if (m) { var d = parseInt(m[3], 10); return d ? simp((m[1] ? -1 : 1) * parseInt(m[2], 10), d) : null; }
-      m = /^(-?)(\d*)\.?(\d*)$/.exec(s); if (!m || (m[2] === '' && m[3] === '') || m[3].length > 6) { return null; }
-      return simp((m[1] ? -1 : 1) * parseInt((m[2] || '0') + m[3], 10), Math.pow(10, m[3].length));
-    }
 
     /* ---------- آزمون سؤال‌به‌سؤال: «سؤال n از m»، قبلی/بعدی، نتیجه و مجموعهٔ جدید ---------- */
-    function seq(host, build, resText) {
+    function seq(host, build) {
       host.classList.add('n9-end');
       var qs, i, ans;
       function start() { qs = build(); i = 0; ans = []; }
@@ -73,13 +65,13 @@ window.LESSONS.N09 = {
         var n = qs.length, q = qs[i], a = ans[i], h, oh = '', s;
         if (i === n) {
           s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr('<div class="fb ' + (s >= n - 1 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(s) + ' از ' + fa(n) + '</b><br>' + resText(s, n) + '</div><div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
+          host.innerHTML = rr(K.res(s, n) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
           return;
         }
         h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.extra || '') + (q.tex ? K.dm(q.tex) : '') + '<div class="mc" id="mcx"></div>';
         q.opts.forEach(function (o, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (o.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + o.h + '</button>'; });
         if (a !== undefined) { var o = q.opts[a]; h += fb(o.ok, o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl + '</div>'; }
-        h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه':'سؤال بعدی') + '</button></div>';
+        h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
         host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh);
       }
       host.addEventListener('click', function (e) {
@@ -111,7 +103,7 @@ window.LESSONS.N09 = {
         h += '<div class="n9-stp"><button type="button" class="btn" data-s="-5">' + M('-5') + '</button><button type="button" class="btn" data-s="-1">' + M('-') + '</button><b class="n9-cnt">' + M(String(adj)) + '</b><button type="button" class="btn" data-s="1">' + M('+') + '</button><button type="button" class="btn" data-s="5">' + M('+5') + '</button></div>';
         if (solved) { h += fb(true, 'رنگ‌ها یکی شد! ✓') + K.dm(RC(p, q, tm, k) + '=' + RT(p * k, q * k)) + '<div class="ex"><p>هر دو مقدار را در ' + fa(k) + ' ضرب کردیم؛ پس نسبت همان ماند و رنگ هم همان ماند.</p></div>'; }
         else if (hint) { h += '<p class="n9-cap" style="color:#9b2c2c;font-size:.9rem">' + hint + ' هنوز دقیقاً یکی نیست.</p>'; }
-        h += '<div class="n9-next"><button type="button" class="btn' + (solved ? ' primary' : '') + '" data-nx="1" data-scroll>' + (solved ? 'رنگ بعدی' : 'رنگ دیگر') + '</button></div></div>';
+        h += '<div class="n9-next"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (solved ? 'رنگ بعدی' : 'رنگ دیگر') + '</button></div></div>';
         host.innerHTML = rr(h);
       }
       host.addEventListener('click', function (e) {
@@ -130,15 +122,15 @@ window.LESSONS.N09 = {
         return '<line x1="' + x + '" y1="' + y + '" x2="' + x + '" y2="' + (y + 40) + '" stroke="currentColor" stroke-width="2"/><rect x="' + (x - 62) + '" y="' + (y + 40) + '" width="124" height="52" rx="12" style="fill:' + (isX ? '#fdecec' : '#e9f1fb') + ';stroke:' + (bal ? 'green' : 'currentColor') + '" stroke-width="2"/>';
       }
       function label(x, y, v) {
-        return '<span class="n9-bal-lab N04-Ex01-P02" style="left:' + (100*x/500) + '%;top:' + ((100*(y+51)/250)+2) + '%">' + M(v) + '</span>';
+        return '<span class="n9-bal-lab N04-Ex01-P02" style="left:' + (100 * x / 500) + '%;top:' + ((100 * (y + 51) / 250) + 2) + '%">' + M(v) + '</span>';
       }
       return '<div class="n9-bal-svg"><svg viewBox="0 0 500 250" style="width:100%;display:block;font-family:inherit;direction:ltr" role="img" aria-label="ترازو">' +
         '<polygon points="' + (cx - 20) + ',165 ' + (cx + 20) + ',165 ' + cx + ',' + cy + '" style="fill:#c9d1da;stroke:currentColor" stroke-width="2"/><rect x="' + (cx - 50) + '" y="165" width="100" height="10" rx="4" fill="currentColor"/>' +
         '<line x1="' + lx + '" y1="' + ly + '" x2="' + rx + '" y2="' + ry + '" style="stroke:' + col + '" stroke-width="7" stroke-linecap="round"/><circle cx="' + cx + '" cy="' + cy + '" r="8" fill="currentColor"/>' +
         pan(lx, ly, xl) + pan(rx, ry, !xl) + '</svg>' +
-        label(lx,ly,labL) + label(rx,ry,labR) +
-        '<span class="n9-bal-val N04-Ex01-P02" style="left:'+(100*lx/500)+'%;top:'+(100*(ly+76)/250)+'%">'+M(String(L))+'</span>'+
-        '<span class="n9-bal-val N04-Ex01-P02" style="left:'+(100*rx/500)+'%;top:'+(100*(ry+76)/250)+'%">'+M(String(Rr))+'</span></div>';
+        label(lx, ly, labL) + label(rx, ry, labR) +
+        '<span class="n9-bal-val N04-Ex01-P02" style="left:' + (100 * lx / 500) + '%;top:' + (100 * (ly + 76) / 250) + '%">' + M(String(L)) + '</span>' +
+        '<span class="n9-bal-val N04-Ex01-P02" style="left:' + (100 * rx / 500) + '%;top:' + (100 * (ry + 76) / 250) + '%">' + M(String(Rr)) + '</span></div>';
     }
     function genProp() {                                                           /* A:B = C:D با یک مجهول */
       var t = 0, a, b, m1, m2; do { a = R(1, 8); b = R(2, 9); } while ((gcd(a, b) !== 1 || a === b) && t++ < 200);
@@ -154,9 +146,9 @@ window.LESSONS.N09 = {
         other = hid === 0 ? c[3] : hid === 3 ? c[0] : hid === 1 ? c[2] : c[1];
         labL = (hid === 0 ? xs : String(c[0])) + '\\times ' + (hid === 3 ? xs : String(c[3])); labR = (hid === 1 ? xs : String(c[1])) + '\\times ' + (hid === 2 ? xs : String(c[2]));
         h = '<p class="ask">در تناسبِ زیر، ' + M(xs) + ' را طوری پیدا کن که ترازو به تعادل برسد. (ترازو حاصل‌ضرب‌های ضربدری را مقایسه می‌کند.)</p>';
-/*      h += '<div class="n9-bal-single" dir="ltr">' + M('\\dfrac{' + cell(0) + '}{' + cell(1) + '}=\\dfrac{' + cell(2) + '}{' + cell(3) + '}\\;\\Rightarrow');
-        h += '<div class="n9-bal-factor">' + M('\\underbrace{' + cell(0) + '\\times ' + cell(3) + '}') + '<span>کفه چپ ترازو</span></div>';
-        h += M('=') + '<div class="n9-bal-factor">' + M('\\underbrace{' + cell(1) + '\\times ' + cell(2) + '}') + '<span>کفه راست ترازو</span></div></div>';*/
+        /*      h += '<div class="n9-bal-single" dir="ltr">' + M('\\dfrac{' + cell(0) + '}{' + cell(1) + '}=\\dfrac{' + cell(2) + '}{' + cell(3) + '}\\;\\Rightarrow');
+                h += '<div class="n9-bal-factor">' + M('\\underbrace{' + cell(0) + '\\times ' + cell(3) + '}') + '<span>کفه چپ ترازو</span></div>';
+                h += M('=') + '<div class="n9-bal-factor">' + M('\\underbrace{' + cell(1) + '\\times ' + cell(2) + '}') + '<span>کفه راست ترازو</span></div></div>';*/
 
         h += '<div class="n06-same-base-product"><div class="n06-same-base-product-desktop">';
         h += '<div class="n9-bal-single" dir="ltr">' + M('\\dfrac{' + cell(0) + '}{' + cell(1) + '}=\\dfrac{' + cell(2) + '}{' + cell(3) + '}\\;\\Rightarrow');
@@ -175,12 +167,12 @@ window.LESSONS.N09 = {
 
 
         h += scaleSvg(L, Rr, labL, labR, xl, bal);
-        h += '<div class="n9-line n9-bal-ctrl"><span class="n9-stp"><button type="button" class="btn" data-s="-5">' + M('-5') + '</button><button type="button" class="btn" data-s="-1">' + M('-1') + '</button><b>' + M('x='+x) + '</b><button type="button" class="btn" data-s="1">' + M('+1') + '</button><button type="button" class="btn" data-s="5">' + M('+5') + '</button></span></div>';
+        h += '<div class="n9-line n9-bal-ctrl"><span class="n9-stp"><button type="button" class="btn" data-s="-5">' + M('-5') + '</button><button type="button" class="btn" data-s="-1">' + M('-1') + '</button><b>' + M('x=' + x) + '</b><button type="button" class="btn" data-s="1">' + M('+1') + '</button><button type="button" class="btn" data-s="5">' + M('+5') + '</button></span></div>';
         if (bal) {
           P = xl ? Rr : L; X = x;
-          h += fb(true, 'تعادل! ✓ ' + M('x='+x)) + '<div class="ex"><p>حاصل‌ضرب‌های ضربدری باید برابر باشند:</p>' + AL([T`${other}\times x&=${P}`, T`x&=${P}${dv}${other}=${CR(X)}`]) + '</div>';
+          h += fb(true, '✓ تعادل! ' + M('x=' + x)) + '<div class="ex"><p>حاصل‌ضرب‌های ضربدری باید برابر باشند:</p>' + AL([T`${other}\times x&=${P}`, T`x&=${P}${dv}${other}=${CR(X)}`]) + '</div>';
         } else { h += '<p class="n9-cap" style="font-size:.9rem;color:#9b2c2c">' + (((L > Rr) === xl) ? 'کفهٔ x سنگین‌تر است؛ x را کمتر کن.' : 'کفهٔ x سبک‌تر است؛ x را بیشتر کن.') + '</p>'; }
-        h += '<div class="opts n9-bal-next"><button type="button" class="btn' + (bal ? ' primary' : '') + '" data-nx="1" data-scroll>' + (bal ? 'تناسب بعدی' : 'تناسب دیگر') + '</button></div>';
+        h += '<div class="opts n9-bal-next"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (bal ? 'تناسب بعدی' : 'تناسب دیگر') + '</button></div>';
         host.innerHTML = rr(h);
       }
       host.addEventListener('click', function (e) {
@@ -206,10 +198,10 @@ window.LESSONS.N09 = {
         h += '<div class="n9-line">' + ws.map(function (x) { return '<button type="button" class="n9-chip' + (x === w ? ' sel' : '') + '" data-w="' + x + '">' + fa(x) + '</button>'; }).join('') + '</div>';
         if (w) {
           h += cal(w, d) + '<p class="n9-cap" style="font-size:.95rem">' + fa(w) + ' کارگر ← ' + fa(d) + ' روز</p>';
-          if (d === tgt) { h += fb(true, 'دیوار دقیقاً در ' + fa(tgt) + ' روز تمام می‌شود! ✓') + K.dm(w + tm + d + '=' + T0) + '<div class="ex"><p>هر شکلی که تقویم بگیرد، تعداد خانه‌ها (کار کل) ثابت می‌ماند: کارگر بیشتر، روز کمتر.</p></div>'; }
+          if (d === tgt) { h += fb(true, 'دیوار دقیقاً در ' + fa(tgt) + ' روز تمام می‌شود! ✓') + '<div class="ex">' + K.dm(w + tm + d + '=' + T0) + '<p>هر شکلی که تقویم بگیرد، تعداد خانه‌ها (کار کل) ثابت می‌ماند: کارگر بیشتر، روز کمتر.</p></div>'; }
           else { h += '<p class="n9-cap" style="font-size:.9rem;color:#9b2c2c">' + (d > tgt ? 'این‌طور دیرتر از هدف تمام می‌شود؛ کارگر بیشتری لازم داری.' : 'این‌طور زودتر از هدف تمام می‌شود؛ تعداد کمتری کارگر هم کافی است.') + '</p>'; }
         }
-        h += '<div class="opts"><button type="button" class="btn' + (w && T0 / w === tgt ? ' primary' : '') + '" data-nx="1" data-scroll>' + (w && T0 / w === tgt ? 'دیوار بعدی' : 'دیوار دیگر') + '</button></div>';
+        h += '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (w && T0 / w === tgt ? 'دیوار بعدی' : 'دیوار دیگر') + '</button></div>';
         host.innerHTML = rr(h);
       }
       host.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) { return; } if (b.dataset.w) { w = +b.dataset.w; paint(); } else if (b.dataset.nx) { newQ(); } });
@@ -234,7 +226,7 @@ window.LESSONS.N09 = {
       var q0 = simp(g.ys[0], g.xs[0]), p0 = g.xs[0] * g.ys[0];
       return g.kind === 'd' ? '<p>خارج‌قسمتِ ' + M(T`\frac{y}{x}`) + ' همه‌جا برابر ' + M(rt(q0)) + ' است؛ پس تناسب <b>مستقیم</b> است.</p>'
         : g.kind === 'i' ? '<p>حاصل‌ضرب ' + M(T`x\times y`) + ' همه‌جا برابر ' + M('' + p0) + ' است؛ پس تناسب <b>وارون</b> است.</p>'
-        : '<p>نه خارج‌قسمتِ ' + M(T`\frac{y}{x}`) + ' ثابت است و نه حاصل‌ضرب ' + M(T`x\times y`) + '. هر دو با هم بزرگ می‌شوند، اما این به‌تنهایی تناسب مستقیم نیست؛ پس <b>هیچ‌کدام</b>.</p>';
+          : '<p>نه خارج‌قسمتِ ' + M(T`\frac{y}{x}`) + ' ثابت است و نه حاصل‌ضرب ' + M(T`x\times y`) + '. هر دو با هم بزرگ می‌شوند، اما این به‌تنهایی تناسب مستقیم نیست؛ پس <b>هیچ‌کدام</b>.</p>';
     }
     K.constLab = function (host) {
       host.classList.add('n9-const');
@@ -245,7 +237,7 @@ window.LESSONS.N09 = {
         h += '<div class="n9-line"><button type="button" class="btn" data-t="q">محاسبهٔ y ÷ x</button><button type="button" class="btn" data-t="p">محاسبهٔ x × y</button></div>';
         h += '<div class="mc"><button type="button" class="btn opt' + (ans ? (g.kind === 'd' ? ' right' : ans === 'd' ? ' wrong' : '') : '') + '" data-a="d"' + (ans ? ' disabled' : '') + '>تناسب مستقیم</button><button type="button" class="btn opt' + (ans ? (g.kind === 'i' ? ' right' : ans === 'i' ? ' wrong' : '') : '') + '" data-a="i"' + (ans ? ' disabled' : '') + '>تناسب وارون</button><button type="button" class="btn opt' + (ans ? (g.kind === 'n' ? ' right' : ans === 'n' ? ' wrong' : '') : '') + '" data-a="n"' + (ans ? ' disabled' : '') + '>هیچ‌کدام</button></div>';
         if (ans) { h += fb(ans === g.kind, ans === g.kind ? '✓ درست است!' : 'این‌طور نیست.') + '<div class="ex">' + tableExplain(g) + '</div>'; }
-        h += '<div class="opts n9-lab-next"><button type="button" class="btn' + (ans ? ' primary' : '') + '" data-nx="1" data-scroll>' + (ans ? 'جدول بعدی' : 'جدول دیگر') + '</button></div>';
+        h += '<div class="opts n9-lab-next"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (ans ? 'جدول بعدی' : 'جدول دیگر') + '</button></div>';
         host.innerHTML = rr(h);
       }
       host.addEventListener('click', function (e) {
@@ -290,7 +282,7 @@ window.LESSONS.N09 = {
         var other = hid === 0 ? v[1] * v[2] / v[3] : hid === 1 ? v[0] * v[3] / v[2] : hid === 2 ? v[0] * v[3] / v[1] : v[1] * v[2] / v[0];
         var P = hid === 0 || hid === 3 ? v[1] * v[2] : v[0] * v[3], f = hid === 0 ? v[3] : hid === 3 ? v[0] : hid === 1 ? v[2] : v[1];
         cands.push([P * f, 'حاصل‌ضرب ضربدری را باید بر عدد دیگر تقسیم کنی، نه اینکه در آن ضرب کنی.']);
-        return { ask: 'در تناسب زیر، مقدار ' + M(CR('x')) + ' چند است؟', tex: '\\frac{' + cell(0) + '}{' + cell(1) + '}=\\frac{' + cell(2) + '}{' + cell(3) + '}', expl: '<p>' + (hid === 0 || hid === 3 ? M(v[1] + tm + v[2] + '=' + f + tm + 'x') : M(v[0] + tm + v[3] + '=' + f + tm + 'x')) + '، پس ' + M('x=' + correct) + '.</p>', opts: numOpts(correct, cands) };
+        return { ask: 'در تناسب زیر، مقدار ' + M(CR('x')) + ' چند است؟', tex: '\\frac{' + cell(0) + '}{' + cell(1) + '}=\\frac{' + cell(2) + '}{' + cell(3) + '}', expl: '<p>' + (hid === 0 || hid === 3 ? M(v[1] + tm + v[2] + '=' + f + tm + ' x') : M(v[0] + tm + v[3] + '=' + f + tm + ' x')) + '، پس ' + M('x=' + correct) + '.</p>', opts: numOpts(correct, cands) };
       }
       function qDirect() {
         var r = R(2, 9), x1 = R(2, 9), x2 = R(2, 12), y1, correct; while (x2 === x1) { x2 = R(2, 12); }
@@ -306,10 +298,9 @@ window.LESSONS.N09 = {
       }
       function qClass() {
         var g = genTable();
-        return { ask: 'جدول زیر چه رابطه‌ای بین x و y دارد؟', extra: tableHtml(g, false, false), expl: tableExplain(g), opts: [{ h: 'تناسب مستقیم', ok: g.kind === 'd', m: 'در تناسب مستقیم ' + M(T`\frac{y}{x}`) + ' ثابت است؛ این‌جا ثابت نیست.' }, { h: 'تناسب وارون', ok: g.kind === 'i', m: 'در تناسب وارون ' + M(T`x\times y`) + ' ثابت است؛ این‌جا ثابت نیست.' }, { h: 'هیچ‌کدام', ok: g.kind === 'n', m: 'یکی از این دو مقدار ثابت است؛ آن را پیدا کن.' }] };
+        return { ask: 'جدول زیر چه رابطه‌ای بین x و y دارد؟', extra: tableHtml(g, false, false), expl: tableExplain(g), opts: [{ h: 'تناسب مستقیم', ok: g.kind === 'd', m: 'در تناسب مستقیم ' + M(T`\frac{y}{x}`) + ' ثابت است؛ این‌جا ثابت نیست.' }, { h: 'تناسب وارون', ok: g.kind === 'i', m: 'در تناسب وارون ' + M(T`x\times y`) + ' ثابت است؛ این‌جا ثابت نیست.' }, { h: 'هیچ‌کدام', ok: g.kind === 'n', m: 'یکی از این دو مقدار ثابت است؛ آن را پیدا کن.' }, { h: 'هم مستقیم، هم وارون', m: 'در یک جدول، نسبت و حاصل‌ضرب با هم ثابت نمی‌مانند؛ فقط یکی از آن‌ها می‌تواند ثابت باشد.' }] };
       }
-      seq(host, function () { return [qSimp, qProp, qDirect, qInverse, qClass].map(function (f) { var q = f(); if (q.opts.length > 3 || q.opts[0].h.indexOf('$') === 0) { q.opts = shuffle(q.opts); } return q; }); },
-        function (s) { return s === 5 ? 'عالی بود! به همهٔ سؤال‌ها درست جواب دادی.' : s >= 3 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با عددهای جدید امتحان کن.'; });
+      seq(host, function () { return [qSimp, qProp, qDirect, qInverse, qClass].map(function (f) { var q = f(); if (q.opts.length > 3 || q.opts[0].h.indexOf('$') === 0) { q.opts = shuffle(q.opts); } return q; }); });
     };
 
     /* ---------- محتوای دیالوگ‌های i ---------- */
@@ -321,7 +312,6 @@ window.LESSONS.N09 = {
       html: function () {
         tipBtn('n9-ratio', 'نسبت را چطور بخوانیم و بنویسیم؟', RATIO_TIP); tipBtn('n9-terms', 'طرفین و وسطین', TERMS_TIP);
         var host = function (id) { return '<div class="cover n9-w" id="' + id + '" style="animation:none"></div>'; };
-        var FC = function (n, d, op, k) { var c = '{\\color{crimson}\\scriptsize' + op + k + '}'; return '\\frac{' + n + c + '}{' + d + c + '}'; };
         return fix([
           '<div class="lesson-bridge"><span class="lesson-bridge-title">از کسر تا نسبت؛ از نسبت تا تناسب</span><p>در درس کسرها با تقسیم و کسرهای معادل کار کردی. این بار همان ابزارها را برای مقایسهٔ <b>دو مقدار</b> به کار می‌بریم. نسبت ممکن است به شکل کسر نوشته شود، اما باید روشن باشد چه چیزی را با چه چیزی مقایسه می‌کنیم؛ سپس می‌فهمیم چه زمانی دو نسبت با هم تناسب دارند.</p><div class="lesson-bridge-route" aria-label="مسیر این درس"><span>مقایسهٔ دو مقدار</span><i aria-hidden="true">←</i><span>نسبت‌های هم‌ارز</span><i aria-hidden="true">←</i><span>تناسب</span><i aria-hidden="true">←</i><span>کاربردها</span></div></div>',
           /* ───────── ۱ ───────── */
@@ -392,7 +382,7 @@ window.LESSONS.N09 = {
         ].join(''));
       },
       init: function (panel) {
-    panel.classList.add('standard-n6-10');
+        panel.classList.add('standard-n6-10');
         K.mixer(panel.querySelector('#n9a')); K.balance(panel.querySelector('#n9b')); K.crew(panel.querySelector('#n9c'));
         K.constLab(panel.querySelector('#n9d')); K.finalN09(panel.querySelector('#n9e'));
       }

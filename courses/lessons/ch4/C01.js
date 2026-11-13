@@ -10,7 +10,6 @@ window.LESSONS.C01 = {
     var sgn = function (v) { return v < 0 ? 'منفی' : 'مثبت'; };
     var RE = function (k) { return 'ناحیهٔ ' + QN[k]; };
     var SIGN = { 1: [1, 1], 2: [-1, 1], 3: [-1, -1], 4: [1, -1] };
-    var tx = function (s) { return '<bdi dir="ltr">' + s + '</bdi>'; };
     var stSigns = function (k) { return C.signs(SIGN[k][0], SIGN[k][1]); };
 
     /* ============ ۱) ساختن صفحه، گام‌به‌گام ============ */

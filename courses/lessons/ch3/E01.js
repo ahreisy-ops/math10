@@ -213,7 +213,7 @@
         function scrollToContest() {
           window.requestAnimationFrame(function () {
             window.requestAnimationFrame(function () {
-              var target = root.querySelector('.e01-type-progress') || root.querySelector('.e01-speed-start') || root.querySelector('.e01-types-result');
+              var target = root.querySelector('.e01-type-progress') || root.querySelector('.e01-speed-start') || root.querySelector('.fb');
               if (!target || !root.contains(target) || !target.getClientRects().length) return;
               window.scrollTo({ top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - 80), behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
             });
@@ -283,12 +283,7 @@
           }
           if (state === 'result') {
             var c = counts();
-            root.innerHTML = '<div class="e01-types-result"><span class="e01-eyebrow">مسابقه به پایان رسید</span>' +
-              '<h5>نتیجهٔ چهار سؤال</h5><div class="e01-speed-score">' + f(c.correct) + ' <small>از ' + f(questions.length) + ' پاسخ درست</small></div>' +
-              '<div class="e01-speed-stats"><span class="e01-speed-good">درست: <b>' + f(c.correct) + '</b></span>' +
-              '<span class="e01-speed-bad">نادرست: <b>' + f(c.wrong) + '</b></span>' +
-              '<span>بی‌پاسخ: <b>' + f(c.missed) + '</b></span></div>' +
-              '<p class="e01-finish-message">' + (c.correct === 4 ? 'هر چهار نوشته درست تشخیص داده شد.' : c.correct >= 2 ? 'دلیل هر پاسخ در بخش «مرور سؤال‌ها» نمایش داده می‌شود.' : 'مرور سؤال‌ها به تشخیص بهتر عبارت جبری، تساوی عددی، معادله و اتحاد کمک می‌کند.') + '</p></div>' +
+            root.innerHTML = window.CourseKit.res(c.correct, questions.length) +
               '<div class="opts end-actions e01-speed-end-actions"><button type="button" class="btn" data-types-review data-scroll>مرور سؤال‌ها</button>' +
               '<button type="button" class="btn primary" data-types-restart data-scroll>سؤال‌های جدید</button></div>';
             return;
@@ -579,8 +574,7 @@
         function paint() {
           if (finished && !reviewing) {
             var score = answers.reduce(function (s, a, i) { return s + (a === q[i].a ? 1 : 0); }, 0);
-            root.innerHTML = '<div class="fb ' + (score >= 4 ? 'ok' : 'bad') + '" role="status"><b>نتیجه: ' + f(score) + ' از ' + f(q.length) + '</b><br>' +
-              (score === 6 ? 'همهٔ سؤال‌ها را درست پاسخ دادی.' : score >= 4 ? 'سؤال‌هایی را که اشتباه کردی مرور کن و دلیل هر پاسخ را بررسی کن.' : 'یک بار دیگر درس را مرور کن؛ سپس با سؤال‌های تازه تمرین کن.') + '</div>' +
+            root.innerHTML = window.CourseKit.res(score, q.length) +
               '<div class="opts end-actions"><button type="button" class="btn" data-review data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-new-set data-scroll>سؤال‌های جدید</button></div>';
             return;
           }

@@ -27,10 +27,6 @@
   margin: 10px 0
 }
 
-.algebra-new {
-  margin-top: 8px
-}
-
 @media(max-width:520px) {
   .algebra-choices {
     grid-template-columns: 1fr
@@ -97,43 +93,6 @@
   min-width: 0
 }
 
-
-.subttl {
-  margin: 14px 0 6px;
-  font-weight: bold;
-  color: var(--accent-dark);
-  font-size: 1rem
-}
-
-.termcards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 10px 0 14px
-}
-
-.termcard {
-  border: 2px solid var(--ink);
-  border-radius: 12px;
-  padding: 10px 12px;
-  background: #f7f9fc
-}
-
-.termcard b {
-  display: block;
-  margin-bottom: 4px;
-  color: var(--accent-dark)
-}
-
-.termcard p {
-  margin: 0;
-  text-align: justify
-}
-
-.plainlab {
-  margin: 18px 0
-}
-
 .lab-title {
   font-size: 1.02rem;
   font-weight: bold;
@@ -160,36 +119,12 @@
   background: transparent
 }
 
-.plaincover {
-  padding: 12px 14px;
-  background: #f8fbff;
-  border: 2px solid var(--line);
-  border-radius: 14px
-}
-
 .algebra-result .dm {
   margin: 6px 0
 }
 
 .algebra-result .fb p {
   margin: 8px 0 0
-}
-
-@media(max-width:640px) {
-  .termcards {
-    grid-template-columns: 1fr
-  }
-}
-
-/* A01: cards and concise local interaction, project-native theme */
-.termcards .dm {
-  margin: 5px 0;
-  text-align: center
-}
-
-.termcards .termcard {
-  min-width: 0;
-  overflow-wrap: normal;
 }
 
 #A01-lab .algebra-choices {
@@ -204,11 +139,6 @@
   min-height: 42px;
   padding: 5px 12px;
   border-radius: 12px
-}
-
-#A01-lab .algebra-new {
-  display: block;
-  margin: 14px auto 0
 }
 
 #A01-lab .lab-title {
@@ -257,11 +187,6 @@
 .a01-anatomy-part small {
   color: var(--ink-soft);
   font-weight: bold
-}
-
-.a01-anatomy-times {
-  align-self: center;
-  font-size: 1.2em
 }
 
 .a01-process {
@@ -323,26 +248,6 @@
   font-size: 1.16em
 }
 
-.a01-example-label {
-  font-weight: bold;
-  color: var(--accent-dark);
-  margin-top: 20px
-}
-
-.lesson h3.a01-activity-heading {
-  display: block;
-  font-size: 1.13rem;
-  margin-top: 25px
-}
-
-.lesson h3.a01-activity-heading::before {
-  content: '◆';
-  color: var(--mark);
-  -webkit-text-stroke: 1px var(--ink);
-  font-size: .7em;
-  margin-left: 9px
-}
-
 .a01-interaction {
   border: 1.5px solid var(--line);
   border-radius: 13px;
@@ -390,38 +295,12 @@
   margin: 10px 0 7px
 }
 
-.a01-text-input,
-.a01-answer-entry input {
-  width: 100%;
-  max-width: 400px;
-  padding: 10px;
-  border: 2px solid var(--line);
-  border-radius: 9px;
-  background: #fff;
-  color: var(--ink);
-  font-size: 1.05rem
-}
-
-.a01-input-tip {
-  font-size: .85rem;
-  color: var(--ink-soft)
-}
-
-.a01-actions,
-.a01-answer-entry {
+.a01-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
   margin: 13px 0
-}
-
-.a01-answer-entry input {
-  max-width: 210px
-}
-
-.a01-answer-entry label {
-  margin: 0
 }
 
 .a01-explain {
@@ -478,49 +357,9 @@
   padding: 5px 10px
 }
 
-.a01-formula-line {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: flex-start;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 8px;
-  margin: 12px 0
-}
-
-.a01-formula-line .a01-centered {
-  margin: 0;
-  text-align: left
-}
-
 .a01-interaction .a01-centered {
   text-align: left;
   margin: 9px 0
-}
-
-.a01-text-input,
-.a01-answer-entry input {
-  box-sizing: border-box;
-  text-align: left;
-  direction: ltr;
-  max-width: 100%;
-  width: 100%
-}
-
-.a01-text-input::placeholder,
-.a01-answer-entry input::placeholder {
-  direction: rtl;
-  text-align: right
-}
-
-.a01-answer-entry {
-  display: block;
-  max-width: 460px
-}
-
-.a01-answer-entry label {
-  display: block;
-  margin: 0 0 6px
 }
 
 .a01-actions {
@@ -539,10 +378,6 @@
 }
 
 @media(max-width:560px) {
-  .a01-formula-line {
-    flex-direction: column;
-    align-items: flex-start
-  }
 
   .a01-anatomy-part.a01-constant {
     margin-left: 0
@@ -590,50 +425,6 @@
   border-color: var(--ink)
 }
 
-.a01-lab-row {
-  display: grid;
-  grid-template-columns: minmax(145px, 30%) minmax(0, 1fr);
-  gap: 12px;
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-  padding: 12px 4px
-}
-
-.a01-lab-row>b {
-  text-align: right
-}
-
-.a01-lab-row .a01-tex {
-  text-align: left;
-  direction: ltr;
-  font-size: 1.14rem;
-  overflow-x: auto;
-  min-width: 0
-}
-
-.a01-var-controls {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: flex-start
-}
-
-.a01-var-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  direction: ltr
-}
-
-.a01-var-name {
-  background: white;
-  border: 1px solid var(--line);
-  padding: 5px 10px;
-  border-radius: 8px;
-  min-width: 55px;
-  text-align: center
-}
-
 .a01-adjust {
   width: 36px;
   min-height: 35px;
@@ -653,68 +444,7 @@
   margin: 0
 }
 
-.a01-small-answer,
-.a01-answer-entry input#a01-quiz-answer {
-  width: 190px;
-  max-width: 100%;
-  box-sizing: border-box;
-  border: 2px solid var(--line);
-  border-radius: 9px;
-  padding: 9px;
-  background: white;
-  color: var(--ink);
-  font: inherit;
-  text-align: left;
-  direction: ltr
-}
-
-.a01-small-answer::placeholder,
-.a01-answer-entry input::placeholder {
-  direction: rtl;
-  text-align: right;
-  font-size: .85rem
-}
-
-.a01-lab-actions {
-  display: flex;
-  justify-content: flex-start;
-  margin: 12px 0
-}
-
-.a01-fresh-wrap {
-  display: flex;
-  justify-content: center;
-  margin: 18px 0 3px
-}
-
-.a01-quiz-tip {
-  font-size: .82rem;
-  color: var(--ink-soft);
-  margin: 4px 0 0
-}
-
-.a01-interaction .a01-answer-entry {
-  max-width: none
-}
-
-.a01-interaction .a01-answer-entry input#a01-quiz-answer {
-  display: block;
-  margin-top: 3px
-}
-
-.a01-result-note {
-  margin: 8px 0 0 !important
-}
-
 @media(max-width:570px) {
-  .a01-lab-row {
-    grid-template-columns: 1fr;
-    gap: 5px
-  }
-
-  .a01-lab-row .a01-tex {
-    text-align: right
-  }
 
   .a01-predict label {
     width: 100%
@@ -773,34 +503,6 @@
   margin: 14px 0
 }
 
-.a01-expression-item {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  direction: rtl
-}
-
-.a01-expression-number {
-  display: grid;
-  place-items: center;
-  min-width: 30px;
-  height: 30px;
-  border: 2px solid var(--ink);
-  border-radius: 50%;
-  background: var(--grid);
-  font-weight: bold
-}
-
-.a01-expression-item>span:last-child {
-  direction: ltr
-}
-
-.prereqs a.ext {
-  border: 0;
-  background: rgba(0, 0, 0, .06);
-  color: inherit
-}
-
 @media(max-width:650px) {
   .a01-three {
     grid-template-columns: 1fr
@@ -810,9 +512,6 @@
     min-height: 110px
   }
 }
-
-/* A01: use the same card replacement behavior as N01, not a panel below the cards. */
-#a01-lab .cgrid[hidden],
 #A01-lab .cgrid[hidden],
 #A01-lab .a01-card-detail[hidden] {
   display: none !important
@@ -831,17 +530,6 @@
 
 #A01-quiz .mc .opt {
   font-weight: normal
-}
-
-#A01-quiz .a01-expression-number {
-  width: 32px;
-  min-width: 32px;
-  height: 32px;
-  flex: none;
-  background: var(--grid);
-  border: 2px solid var(--ink);
-  border-radius: 50%;
-  font-weight: bold
 }
 
 /* A01: number list styled like the four numbered stages in N01/Q03 */
@@ -890,15 +578,6 @@
   direction: rtl
 }
 
-/* فعالیت‌های اختصاصی فصل دوم: سازگار با رنگ‌بندی جاری */
-.alg2-slot {
-  margin: 12px 0 22px;
-  padding: 12px 16px;
-  border: 2px solid var(--line);
-  border-radius: 14px;
-  background: var(--card)
-}
-
 .alg2-counter {
   color: var(--ink-soft);
   font-size: .88rem;
@@ -916,7 +595,11 @@
 .alg2-options .btn {
   font-weight: normal;
   min-height: 44px;
-  white-space: normal
+  white-space: normal;
+  border-color: var(--line)
+}
+.alg2-options .btn:hover:not(:disabled) {
+  border-color: var(--ink)
 }
 
 .alg2-actions {
@@ -1712,29 +1395,6 @@
 }
 
 
-/* A04 SVG area model */
-.a04-area-svg-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 8px auto 0;
-  max-width: 380px
-}
-
-.a04-area-svg {
-  width: 100%;
-  height: auto;
-  display: block
-}
-
-.a04-area-svg-wrap .a04-innercap {
-  margin-top: 8px;
-  font-size: .89rem;
-  color: var(--ink-soft);
-  text-align: center
-}
-
-
 /* A04 final clean dimension lines + centered labels (Quiz_14 fix) */
 .a04-area-model {
   display: grid;
@@ -2481,20 +2141,8 @@
   margin: 0;
 }
 
-/* A05 — interactive mirrored-products lab */
-.a05-lab {
-  max-width: 690px;
-  margin: 16px auto;
-  padding: 20px;
-  border: 1.5px solid var(--line);
-  border-radius: 18px;
-  background: linear-gradient(140deg, #f7fbff, #fffaf2);
-  text-align: center
-}
-
 .a05-lab-head,
-.a05-lab-controls,
-.a05-answer-row {
+.a05-lab-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2517,21 +2165,13 @@
   border-bottom: 1px solid var(--line)
 }
 
-.a05-range-label {
-  font-size: .94rem
-}
-
-.a05-range-label strong {
-  font-size: 1.15rem
-}
-
 .a05-lab-controls input[type=range] {
   width: 130px;
   accent-color: #337db8
 }
 
 .a05-switch {
-  border: 1px solid var(--ink);
+  border: 2px solid var(--ink);
   background: white;
   border-radius: 99px;
   padding: 9px 14px;
@@ -2619,29 +2259,6 @@
   color: #51697c
 }
 
-.a05-tile-legend {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin: 9px 0;
-  font-size: .78rem;
-  color: var(--ink-soft)
-}
-
-.a05-legend-first:before,
-.a05-legend-second:before {
-  content: '●';
-  margin-left: 5px
-}
-
-.a05-legend-first:before {
-  color: #c6922e
-}
-
-.a05-legend-second:before {
-  color: #86ad50
-}
-
 .a05-sign-note {
   font-size: .88rem;
   color: var(--ink-soft);
@@ -2661,78 +2278,13 @@
   margin-bottom: 12px
 }
 
-.a05-answer-row {
-  justify-content: center;
-  direction: ltr
-}
 
-.a05-answer-row input {
-  width: 75px;
-  max-width: 75px;
-  border: 1.5px solid #9bb4c9;
-  border-radius: 9px;
-  padding: 8px;
-  font: inherit;
-  text-align: center;
-  background: white
-}
 
-.a05-answer-pre,
-.a05-answer-post {
-  font-size: 1.1rem
-}
 
-.a05-feedback {
-  padding: 10px 12px;
-  margin: 14px 0;
-  border-radius: 10px;
-  background: #fff0e7;
-  color: #8a3b2b
-}
 
-.a05-feedback.ok {
-  background: #e5f3e8;
-  color: #27683b
-}
 
-.a05-explanation {
-  margin: 14px auto;
-  padding: 12px;
-  border: 1px solid #bad0e4;
-  border-radius: 12px;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 9px
-}
-
-.a05-merge {
-  color: #497195;
-  font-weight: 700
-}
-
-.a05-middle-result {
-  font-size: 1.12rem;
-  border-top: 1px solid var(--line);
-  padding-top: 8px
-}
-
-.a05-explanation p {
-  margin: 0
-}
-
-.a05-expanded {
-  font-size: 1.1rem;
-  border-top: 1px solid var(--line);
-  padding-top: 10px;
-  max-width: 100%
-}
 
 @media(max-width:540px) {
-  .a05-lab {
-    padding: 12px
-  }
 
   .a05-lab-controls {
     justify-content: center
@@ -2740,14 +2292,6 @@
 
   .a05-tiles {
     max-width: 260px
-  }
-
-  .a05-answer-row {
-    gap: 6px
-  }
-
-  .a05-answer-row .btn {
-    width: 100%
   }
 }
 
@@ -2779,16 +2323,6 @@
   line-height: 1.85;
   margin: 4px 0;
   color: var(--ink-soft)
-}
-
-.a05-tile-guide {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px 20px;
-  font-size: .87rem;
-  margin-bottom: 10px;
-  color: #36516d
 }
 
 .a05-challenge>label {
@@ -2832,14 +2366,7 @@
   line-height: 1.9
 }
 
-.a05-explanation {
-  line-height: 1.85
-}
 
-.a05-geometry-note {
-  font-size: .83rem;
-  color: var(--ink-soft)
-}
 
 /* Quiz_18: range and graduated tick labels share the same physical LTR axis */
 .a05-slider-box input[type=range] {
@@ -3033,21 +2560,8 @@
   font-size: 1.05em;
 }
 
-/* A06 — factor workshop */
-.a06-lab {
-  margin: 12px 0 22px;
-  padding: 16px;
-  border: 2px solid var(--line);
-  border-radius: 14px;
-  background: var(--card)
-}
-
 .a06-controls {
   justify-content: center
-}
-
-.a06-lab .dm {
-  margin: 12px auto
 }
 
 /* A06: goal revealed only after answering */
@@ -3072,21 +2586,6 @@
   color: var(--ink-soft);
   line-height: 1.9;
   margin: 2px auto 12px
-}
-
-.a78-two {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin: 16px 0;
-  align-items: start
-}
-
-.a78-two section {
-  text-align: center;
-  background: var(--paper, #f7fafc);
-  border-radius: 12px;
-  padding: 12px 8px
 }
 
 .a78-chips {
@@ -3151,14 +2650,6 @@
   font-size: 1.3rem
 }
 
-.a78-actions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 17px auto 4px
-}
-
 .a78-options {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3183,12 +2674,6 @@
   background: #fdecec
 }
 
-.a78-ask {
-  line-height: 1.9;
-  margin: 10px 0;
-  font-weight: 600
-}
-
 .a78-goal {
   border-top: 1px solid var(--line);
   padding-top: 10px;
@@ -3196,9 +2681,7 @@
 }
 
 @media(max-width:600px) {
-
-  .a78-two,
-  .a78-meter {
+.a78-meter {
     grid-template-columns: 1fr
   }
 
@@ -3250,17 +2733,6 @@
   .a05-lab-controls {
     gap: 10px
   }
-}
-
-/* A07 — two physical numeric sliders without nested cards */
-.a78-labhead {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 10px 0;
-  font-size: 1.1rem
 }
 
 .a78-hint {
@@ -3398,12 +2870,6 @@
 .a78-message {
   color: var(--ink-soft);
   text-align: center
-}
-
-.a78-subhead {
-  font-weight: 700;
-  color: #08776a;
-  margin: 14px 0 3px
 }
 
 #A07-practice .a78-ask {
@@ -3595,15 +3061,6 @@
 
 .a08-domain-card .dm {
   margin: 8px auto
-}
-
-.a08-domain-value {
-  min-height: 2.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.05rem
 }
 
 .a08-domain-undefined {
@@ -4061,3 +3518,141 @@
     margin: 6px auto
   }
 }
+
+
+/* ===== منتقل‌شده از course-shared-overrides.css (فقط فصل 2) ===== */
+/* Group-local direction: Persian choice labels start at the right. */
+.a78-predict { direction: rtl; }
+.a05-switch,
+.a06-controls .btn:not(.primary) {
+  box-shadow:2px 2px 0 var(--ink);
+  transition:transform .10s ease, box-shadow .10s ease;
+}
+.a05-switch:active:not(:disabled),
+.a06-controls .btn:not(.primary):active:not(:disabled) {
+  transform:translate(1px,1px);
+  box-shadow:1px 1px 0 var(--ink);
+}
+/* N01 response alternatives: equal shadow, but NO moving pressed effect. */
+/* A07/A08 prediction/reason choice cards are answers, not toggles. */
+.a78-predict > .btn{transform:none!important;}
+.a78-predict > .btn:active{transform:none!important;}
+@media (prefers-reduced-motion:reduce){
+.a05-switch:active:not(:disabled),
+.a06-controls .btn:not(.primary):active:not(:disabled) {transform:none}
+}
+
+/* A01 lab: remove only the outer wrapper; final quiz retains its standard frame. */
+#A01-lab.a01-interaction{border:0;border-radius:0;background:transparent;padding:0;margin:12px 0 23px}
+.a2-final .alg2-options {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;direction:rtl;margin:12px 0;}
+.a2-final .alg2-options .btn,
+.a2-final .a78-options .opt {box-sizing:border-box;min-width:0;width:100%;min-height:44px;height:auto;padding:5px 10px;font-size:1rem;font-weight:400;white-space:normal;overflow-wrap:anywhere;text-align:center;}
+@media(max-width:520px){
+.a2-final .alg2-options {gap:7px}
+}
+
+#A01-quiz.a01-interaction.cover{border:2px solid var(--ink);border-radius:14px;background:#fff;box-shadow:4px 4px 0 var(--ink);padding:12px 16px 18px;}
+
+.a2-final .a2-question{font-size:1rem;font-weight:700;text-align:right;margin:10px 0;}
+.a2-final:has(.stg) .a2-question {font-size:1rem;font-weight:700;line-height:1.85}
+.a2-final:has(.stg) .alg2-options .btn,
+.a2-final:has(.stg) .a78-options .opt {font-size:1rem;line-height:1.7;font-weight:400}
+
+/* Chapter 2 selected interactive shells: identical outer framing to chapter 1 .cover. */
+.chapter-one-frame.alg2-slot,
+.chapter-one-frame.a05-slot,
+.chapter-one-frame.a06-lab,
+#A06-practice.a06-lab.a2-final.cover {
+  box-sizing:border-box;width:100%;max-width:none;margin:12px 0 22px;
+  padding:12px 16px 18px;border:2px solid var(--ink);
+  border-radius:14px;background:#fff;box-shadow:4px 4px 0 var(--ink);
+}
+/* A05 and A08 generate their own inner wrappers: retain the actual tools,
+   not a second background/card around the outer frame. */
+#A05-explore.chapter-one-frame > .a05-lab {
+  box-sizing:border-box;width:100%;max-width:none;margin:0;padding:0;
+  border:0;border-radius:0;background:transparent;
+}
+#A08-factor-check.chapter-one-frame > .a78-panel,
+#A08-domain-check.chapter-one-frame > .a78-panel,
+#A08-explore.chapter-one-frame > .a78-panel,
+#A07-explore.chapter-one-frame > .a78-panel {
+  max-width:none;width:100%;margin:0;padding:0;
+  border:0;border-radius:0;background:transparent;
+}
+@media(max-width:520px){
+  .chapter-one-frame.alg2-slot,.chapter-one-frame.a05-slot,
+  .chapter-one-frame.a06-lab,#A06-practice.a06-lab.a2-final.cover {padding:12px 12px 16px}
+}
+
+/* A07/A08 final: full-width two-column choice grid, matching other finals. */
+#A07-practice.a2-final .mc.a78-options,
+#A08-practice.a2-final .mc.a78-options {
+  display:grid;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  justify-content:stretch;
+  margin-inline:0;
+}
+#A07-practice.a2-final .mc.a78-options > .opt,
+#A08-practice.a2-final .mc.a78-options > .opt {
+  width:100%;
+  min-width:0;
+  max-width:none;
+  box-sizing:border-box;
+}
+@media (max-width:520px) {
+  #A07-practice.a2-final .mc.a78-options,
+  #A08-practice.a2-final .mc.a78-options {grid-template-columns:1fr;}
+}
+
+/* Quiz_143: A07/A08 role-specific controls and uniform chapter-two quiz options. */
+#A07-explore .a78-predict .btn, #A08-factor-check .a78-predict .btn,
+#A08-explore .a78-predict .btn {
+  min-height:52px; min-width:132px; padding:8px 13px; font-size:1rem; font-weight:700;
+  box-shadow:2px 2px 0 var(--ink);
+}
+#A07-explore .a78-predict .btn:active:not(:disabled),
+#A08-factor-check .a78-predict .btn:active:not(:disabled),
+#A08-explore .a78-predict .btn:active:not(:disabled) {
+  transform:translate(1px,1px)!important; box-shadow:1px 1px 0 var(--ink);
+}
+#A07-practice .a78-options .opt, #A08-practice .a78-options .opt {
+  font-size:1rem; font-weight:400; min-height:44px; height:auto; padding:5px 10px; width:100%; min-width:0; box-sizing:border-box;
+}
+#A07-practice .a78-ask, #A08-practice .a78-ask {
+  font-size:1rem; font-weight:700; line-height:1.85;
+}
+#A07-practice .a78-actions .btn, #A08-practice .a78-actions .btn {
+  font-size:.9rem; font-weight:700; min-height:36px; height:auto; padding:5px 12px;
+  min-width:120px; box-sizing:border-box;
+}
+
+/* پاسخ قطعیِ پرسش‌های چندگزینه‌ای: گزینهٔ درست و انتخاب نادرست */
+.alg2-options .btn.choice-correct, .alg2-options .btn.choice-correct:disabled {background:#d2f0e9;border-color:#438b6c;color:#173d2e;opacity:1;}
+.alg2-options .btn.choice-wrong, .alg2-options .btn.choice-wrong:disabled {background:#fbd5d5;border-color:#b23a3a;color:#632323;opacity:1;}
+#A08-factor-check .a78-predict .btn:disabled {opacity:1;filter:none;cursor:default;}
+#A08-factor-check .a78-predict .btn.a78-right:disabled {background:#e4f6e9;border-color:#30834c;color:#165d30;}
+#A08-factor-check .a78-predict .btn.a78-wrong-sign:disabled {background:#fff0f0;border-color:#be3f45;color:#972b30;}
+
+/* A06 workshop navigation: previous on right, next on left; navigation has no shadow or press motion. */
+.a06-lab .a06-controls { display:flex; flex-direction:row; direction:rtl; justify-content:space-between; width:100%; gap:12px; }
+.a06-lab .a06-controls > .btn { box-shadow:none; transform:none; transition:none; min-width:120px; }
+.a06-lab .a06-controls > .btn:active:not(:disabled) { box-shadow:none; transform:none; }
+
+/* هماهنگی حاشیهٔ گزینه‌های آزمون‌ها با استاندارد: فاصله ۸px و حاشیهٔ بالا و پایین ۱۰px */
+.a2-final .alg2-options,
+#A01-quiz .mc.a01-constant-choices,
+#A07-practice.a2-final .mc.a78-options,
+#A08-practice.a2-final .mc.a78-options {gap:8px;margin-top:10px;margin-bottom:10px}
+
+/* دکمه‌های کشف جملهٔ میانی هم‌اندازهٔ دکمه‌های استاندارد پروژه */
+.a05-check-row .btn,.a05-lab .opts .btn {min-height:36px;height:auto;font-size:.88rem;padding:5px 12px}
+
+/* دکمه‌های کارگاه A07/A08 هم‌اندازهٔ دکمه‌های استاندارد پروژه */
+#A07-explore .a78-actions .btn,
+#A08-explore .a78-actions .btn,
+#A08-factor-check .a78-actions .btn {min-width:120px;min-height:36px;height:auto;font-size:.88rem;padding:5px 12px}

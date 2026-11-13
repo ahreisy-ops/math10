@@ -1,0 +1,75 @@
+/* قواعد مشترکِ بین چند فصل که قبلاً داخل ch2.css بودند؛ جای این فایل در ترتیب بارگذاری course.html عمداً همان جای قبلیِ فایل اصلی است (ترتیب cascade). */
+.prereqs a.ext {
+  border: 0;
+  background: rgba(0, 0, 0, .06);
+  color: inherit
+}
+
+/* A01: use the same card replacement behavior as N01, not a panel below the cards. */
+#a01-lab .cgrid[hidden] {
+  display: none !important
+}
+
+/* فعالیت‌های اختصاصی فصل دوم: سازگار با رنگ‌بندی جاری */
+.alg2-slot {
+  margin: 12px 0 22px;
+  padding: 12px 16px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: var(--card)
+}
+
+/* A05 — interactive mirrored-products lab */
+.a05-lab {
+  max-width: 690px;
+  margin: 16px auto;
+  padding: 20px;
+  border: 1.5px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(140deg, #f7fbff, #fffaf2);
+  text-align: center
+}
+
+@media(max-width:540px) {
+  .a05-lab {
+    padding: 12px
+  }
+}
+
+/* A06 — factor workshop */
+.a06-lab {
+  margin: 12px 0 22px;
+  padding: 16px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: var(--card)
+}
+
+.a06-lab .dm {
+  margin: 12px auto
+}
+
+.a78-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 17px auto 4px
+}
+
+.a78-ask {
+  line-height: 1.9;
+  margin: 10px 0;
+  font-weight: 600
+}
+
+/* A07 — two physical numeric sliders without nested cards */
+.a78-labhead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+  font-size: 1.1rem
+}

@@ -2,7 +2,7 @@
 (function () {
     'use strict';
     const M = t => window.MathLite.renderRich('$' + t + '$'), fa = n => window.MathLite.fa(n), rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
-    const sign = v => v < 0 ? String(v) : '+' + v;
+    const sign = v => v < 0 ? String(v) : '+' + v, dm = t => '<div class="dm k">' + M(t) + '</div>';
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const norm = s => String(s).trim().replace(/[۰-۹]/g, c => String(c.charCodeAt(0) - 1776)).replace(/[٠-٩]/g, c => String(c.charCodeAt(0) - 1632)).replace(/−/g, '-').replace(/\s/g, '');
     function init(root) {
@@ -36,8 +36,8 @@
                 + '<div class="a05-challenge"><label for="a05-answer">ضریبِ ' + M('x') + ' در جملهٔ میانی چند است؟</label><p class="a05-example-note">فقط عدد را بنویس؛ اگر منفی بود، علامت منفی را هم وارد کن.</p>'
                 + '<div class="a05-equation">' + M('x^2+') + '<input id="a05-answer" type="text" inputmode="numeric" dir="ltr" aria-label="ضریب x" placeholder="؟" value="' + esc(guess) + '" ' + (revealed ? 'disabled' : '') + '>' + M('x+' + a * a) + '</div>'
                 + '<div class="a05-check-row"><button class="btn primary" type="button" data-check ' + (revealed ? 'disabled' : '') + '>بررسی پاسخ و نمایش دو ضرب</button></div>'
-                + (feedback ? '<div class="a05-feedback ' + (feedbackCorrect ? 'ok' : 'bad') + '" role="status">' + feedback + '</div>' : '')
-                + (revealed ? '<div class="a05-explanation"><p><b>دو خانهٔ پنهان از این دو ضرب ساخته شده‌اند:</b></p><div>' + M('x\\times(' + k + ')=' + k + 'x') + '</div><div>' + M('(' + k + ')\\times x=' + k + 'x') + '</div><p>حالا دو جملهٔ یکسان را جمع می‌کنیم:</p><div class="a05-middle-result">' + M(k + 'x' + sign(k) + 'x=' + 2 * k + 'x') + '</div><p>بنابراین ضریب جملهٔ میانی ' + M(String(2 * k)) + ' است.</p><div class="a05-expanded">' + M('(x' + sign(k) + ')^2=x^2' + sign(2 * k) + 'x+' + a * a) + '</div><p class="a05-geometry-note">در حالت منفی، کاشی‌های میانی مقدار جبری منفی دارند؛ شکل، مدل ضرب است نه مساحت منفیِ واقعی.</p></div><button class="btn primary" type="button" data-random data-scroll=".a05-lab-head">چالش بعدی</button>' : '') + '</div>';
+                + (feedback ? '<div class="fb ' + (feedbackCorrect ? 'ok' : 'bad') + '" role="status">' + feedback + '</div>' : '')
+                + (revealed ? '<div class="ex"><p><b>دو خانهٔ پنهان از این دو ضرب ساخته شده‌اند:</b></p>' + dm('x\\times(' + k + ')=' + k + 'x') + dm('(' + k + ')\\times x=' + k + 'x') + '<p>حالا دو جملهٔ یکسان را جمع می‌کنیم:</p>' + dm(k + 'x' + sign(k) + 'x=' + 2 * k + 'x') + '<p>بنابراین ضریب جملهٔ میانی ' + M(String(2 * k)) + ' است:</p>' + dm('(x' + sign(k) + ')^2=x^2' + sign(2 * k) + 'x+' + a * a) + '<p>در حالت منفی، کاشی‌های میانی مقدار جبری منفی دارند؛ شکل، مدل ضرب است نه مساحت منفیِ واقعی.</p></div><div class="opts"><button class="btn primary" type="button" data-random data-scroll=".a05-lab-head">چالش بعدی</button></div>' : '') + '</div>';
         }
         function reset() { revealed = false; guess = ''; feedback = ''; feedbackCorrect = false; draw(); }
         root.addEventListener('input', e => { if (e.target.id === 'a05-slider') { a = Number(e.target.value); reset(); } else if (e.target.id === 'a05-answer') { guess = e.target.value; } });
@@ -69,7 +69,7 @@
         }
         let questions = fresh(), index = 0, answers = Array(10).fill(null);
         function show() {
-            if (index === questions.length) { let score = answers.filter((v, i) => v === questions[i].ans).length; root.innerHTML = '<div class="fb ' + (score >= 7 ? 'ok' : 'bad') + '">' + '<b>نتیجه: ' + fa(score) + ' از ' + fa(10) + '</b><br>' + (score === 10 ? 'عالی بود! به همهٔ سؤال‌ها درست جواب دادی.' : score >= 10 - 2 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با سؤال‌های جدید امتحان کن.') + '</div><div class="opts end-actions"><button class="btn" data-review data-scroll>مرور سؤال‌ها</button><button class="btn primary" data-restart data-scroll>سؤال‌های جدید</button></div>'; return; }
+            if (index === questions.length) { let score = answers.filter((v, i) => v === questions[i].ans).length; root.innerHTML = window.CourseKit.res(score, 10) + '<div class="opts end-actions"><button class="btn" data-review data-scroll>مرور سؤال‌ها</button><button class="btn primary" data-restart data-scroll>سؤال‌های جدید</button></div>'; return; }
             let q = questions[index], sel = answers[index], done = sel !== null, ok = done && sel === q.ans; let opts = [q.ans, ...q.choices.map(String).filter((v, i, ar) => v !== q.ans && ar.indexOf(v) === i)].slice(0, 4); for (let z of ['0', '1', '-1', '4', '9', '12']) if (opts.length < 4 && !opts.includes(z)) opts.push(z);
             // Stable, per-question permutation across navigation.
             let salt = (index * 7 + Number(q.ans.replace('-', ''))) % 4; opts = [...opts.slice(salt), ...opts.slice(0, salt)];

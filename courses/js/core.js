@@ -55,6 +55,19 @@
       f.appendChild(document.createTextNode(t.slice(last))); nd.parentNode.replaceChild(f, nd);
     });
   }
+  /* تیک سبز تیره و ضربدر قرمز تیره در همهٔ متن‌های پیام و توضیح (روی زمینهٔ رنگی گم نمی‌شوند) */
+  function colorMarks(el) {
+    var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), list = [], n;
+    while ((n = w.nextNode())) { if (/[✓✔✗✘✕]/.test(n.nodeValue) && !n.parentNode.closest('.quiz44-tick,.quiz44-cross,button,.btn,.chip,.stg,.tm,.n6-mk,.katex,svg,script,style')) { list.push(n); } }
+    list.forEach(function (nd) {
+      var t = nd.nodeValue, re = /[✓✔✗✘✕]/g, last = 0, m, f = document.createDocumentFragment(), sp;
+      while ((m = re.exec(t))) {
+        if (m.index > last) { f.appendChild(document.createTextNode(t.slice(last, m.index))); }
+        sp = document.createElement('span'); sp.className = /[✓✔]/.test(m[0]) ? 'quiz44-tick' : 'quiz44-cross'; sp.textContent = m[0]; f.appendChild(sp); last = m.index + 1;
+      }
+      f.appendChild(document.createTextNode(t.slice(last))); nd.parentNode.replaceChild(f, nd);
+    });
+  }
   /* Uniform lesson feedback: keep the result in its colored box, move
      explanatory paragraphs into a separate dashed box. Never change answers. */
   function normalizeFeedback(root) {
@@ -70,11 +83,26 @@
         paragraphs.forEach(function (p) { ex.appendChild(p); });
         fb.insertAdjacentElement('afterend', ex);
       }
-      if (fb.classList.contains('ok') && !/[✓✔]/.test(fb.textContent)) {
+      if (fb.classList.contains('ok')) {
+        /* تیکِ انتهای متن (که در راست‌به‌چپ سمت چپ می‌افتد) به ابتدای پیام می‌رود */
+        var tw0 = document.createTreeWalker(fb, NodeFilter.SHOW_TEXT), last0 = null, nn0;
+        while ((nn0 = tw0.nextNode())) { if (nn0.nodeValue.trim()) { last0 = nn0; } }
+        if (last0 && /[✓✔]\s*$/.test(last0.nodeValue) && !/^\s*[✓✔]/.test(fb.textContent)) { last0.nodeValue = last0.nodeValue.replace(/\s*[✓✔]\s*$/, ''); }
+      }
+      if (fb.classList.contains('ok')) {
+        var tw = document.createTreeWalker(fb, NodeFilter.SHOW_TEXT), f0, mt;
+        while ((f0 = tw.nextNode()) && !f0.nodeValue.trim()) { /* اولین متن غیرخالی */ }
+        mt = f0 && f0.nodeValue.match(/^\s*([✓✔])/);
+        if (mt && !f0.parentNode.classList.contains('quiz44-tick')) { var sp = document.createElement('span'); sp.className = 'quiz44-tick'; sp.textContent = mt[1]; f0.nodeValue = f0.nodeValue.slice(mt[0].length); f0.parentNode.insertBefore(sp, f0); }
+      }
+      if (fb.classList.contains('ok') && !fb.hasAttribute('data-result') && !/^\s*نتیجه/.test(fb.textContent) && !/[✓✔]/.test(fb.textContent)) {
         var tick = document.createElement('span'); tick.className = 'quiz44-tick';
         tick.textContent = '✓ '; tick.setAttribute('aria-hidden', 'true'); fb.insertBefore(tick, fb.firstChild);
       }
+      colorMarks(fb);
     });
+    if (root.nodeType === 1 && root.matches && root.matches('.lesson .ex')) { colorMarks(root); }
+    if (root.querySelectorAll) { [].slice.call(root.querySelectorAll('.lesson .ex')).forEach(colorMarks); }
   }
   new MutationObserver(function (records) {
     records.forEach(function (r) { r.addedNodes.forEach(normalizeFeedback); });
@@ -104,6 +132,13 @@
     if (!hoveredHit) { return; }
     if (e.target === hoveredHit || !e.relatedTarget || !hoveredHit.contains(e.relatedTarget)) { clearLineHover(); }
   });
+  /* صفحهٔ نتیجهٔ استاندارد همهٔ آزمون‌ها: فقط یک متن برای هر سه حالت و فقط یک ساختار (خط اول پررنگ) */
+  K.resText = function (s, n) {
+    return s === n ? 'عالی بود! همهٔ سؤال‌ها را درست حل کردی.' : s >= n - 2 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با سؤال‌های جدید امتحان کن.';
+  };
+  K.res = function (s, n) {
+    return '<div class="fb ' + (s >= n - 2 ? 'ok' : 'bad') + '" data-result="1"><b>نتیجه: ' + fa(s) + ' از ' + fa(n) + '</b><br>' + K.resText(s, n) + '</div>';
+  };
   window.CourseKit = K;
 
   /* ---------- لودر اسکریپت‌ها: Loader مشترک پروژه (chapters/js/loader.js) ---------- */
@@ -116,7 +151,6 @@
     kit:        { src: 'js/shared/lessonkit.js', needs: ['utils', 'inputs'] },
     coord:      { src: 'js/shared/coord.js', needs: ['kit'] },
     frac:       { src: 'js/shared/frac.js', needs: ['utils'] },
-    algebra:    { src: 'js/shared/algebra.js' },
     algebra2:   { src: 'js/shared/algebra2.js' },
     linearvalues:{ src: 'js/shared/linear-values.js' },
     a01lab:     { src: 'js/shared/a01-lab.js', needs: ['linearvalues'] },

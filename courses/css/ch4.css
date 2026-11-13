@@ -45,7 +45,6 @@
 .cd-tile{padding:3px 12px;border:2px solid var(--ink);border-radius:10px;background:#fff;font:inherit;font-size:1rem;cursor:pointer;box-shadow:2px 2px 0 var(--ink);color:var(--ink)}
 .cd-tile.sel{background:var(--mark)}
 .cd-tile.shk{animation:cdshk .3s}
-@keyframes cdshk{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 .cd-bar{height:12px;border:2px solid var(--ink);border-radius:99px;background:#fff;overflow:hidden;margin:6px 0}
 .cd-bar i{display:block;height:100%;background:var(--accent);transition:width .25s}
 .cd-tg{display:inline-flex;border:2px solid var(--ink);border-radius:10px;overflow:hidden;direction:ltr}

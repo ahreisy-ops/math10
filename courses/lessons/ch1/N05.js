@@ -2,11 +2,11 @@
 window.LESSONS = window.LESSONS || {};
 /* بدنهٔ درس داخل setup است تا فقط بعد از لود شدن ماژول‌های needs اجرا شود */
 window.LESSONS.N05 = {
-  needs: ['utils'],
+  needs: ['utils', 'kit'],
   setup: function (K0) {
 var ML = window.MathLite, fa = ML.fa, rr = ML.renderRich, abs = Math.abs, df = K0.df;
 var _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
-var K = Object.create(K0);   // K0 = هستهٔ مشترک؛ K = همان + ابزارهای اختصاصی این درس
+var K = Object.create(K0), H = K0.lk(K);   // K0 = هستهٔ مشترک؛ K = همان + ابزارهای اختصاصی این درس
 
 /* ---- استایل اختصاصی این درس؛ فقط از رنگ‌ها و قالب‌های موجود پروژه ---- */
 (function () {
@@ -192,34 +192,18 @@ function readExpl(g, ask) {
 
 /* ---- تمرین مرحله‌ای: خواندن مقیاس و عدد ---- */
 K.scaleRead = function (host) {
-  var ST = ['گام محور', 'خواندن نقطه', 'منفی و شروع غیرصفر', 'اعشاری و عمودی'], si = 0, ok = 0, asked = 0, g, opts, pick = null, fin = false;
-  function nw() { g = genRead(si); opts = readOpts(g, si === 0 ? 'step' : 'val'); pick = null; }
-  function paint() {
-    var h = '<div class="stg">' + ST.map(function (s, i) { return '<span class="' + (i < si || fin ? 'dn' : i === si ? 'cu' : '') + '">' + (i < si || fin ? '✓ ' : '') + s + '</span>'; }).join('') + '</div>', i, cls, o;
-    if (fin) { host.innerHTML = rr(h + '<div class="fb ok"><b>همهٔ مرحله‌ها را گذراندی!</b> حالا برو سراغ جاگذاری.</div><div class="opts"><button type="button" class="btn" data-r="1" data-scroll>از اول، با محورهای جدید</button></div>'); return; }
-    h += '<p class="stage-progress-meta">مرحلهٔ ' + fa(si + 1) + ' — پاسخ‌های درست: ' + fa(ok) + ' از ۲</p><p class="ask" style="font-weight:normal">' + (si === 0 ? 'گام این محور (فاصلهٔ هر دو خط کنار هم) چند است؟' : 'نقطهٔ زرد چه عددی را نشان می‌دهد؟') + '</p>' + readFig(g, pick === null ? null : { show: 1 }) + '<div class="mc m2" id="rm"></div>';
-    h += '';
-
-/*  var oh = ''; opts.forEach(function (op, k) { cls = pick === null ? '' : op.ok ? ' right' : k === pick ? ' wrong' : ''; oh += '<button type="button" class="btn opt' + cls + '" data-o="' + k + '"' + (pick === null ? '' : ' disabled') + '>' + op.h + '</button>'; });
-    if (pick !== null) {
-        o = opts[pick]; h += '<div class="fb ' + (o.ok ? 'ok' : 'bad') + '">' + (o.ok ? 'درست است! ✓' : o.m) + '</div><div class="ex">' + readExpl(g, si === 0 ? 'step' : 'val') + '</div><div class="opts"><button type="button" class="btn primary" data-n="1" data-scroll>' + (asked >= 2 ? (si === 3 ? 'پایان' : 'مرحلهٔ بعد') : 'سؤال بعدی') + '</button></div>'; }*/
-
-/*  var small = (window.innerWidth < 392 && asked >= 2 && si < 3) ? ' data-scroll-offset="-5"' : '';*/
-    var small = (window.innerWidth < 392) ? ' data-scroll-offset="250"' : '';
-
-    var oh = ''; opts.forEach(function (op, k) { cls = pick === null ? '' : op.ok ? ' right' : k === pick ? ' wrong' : ''; oh += '<button type="button" class="btn opt' + cls + '" data-o="' + k + '"' + (pick === null ? '' : ' disabled') + '>' + op.h + '</button>'; });
-    if (pick !== null) {
-
-    o = opts[pick]; h += '<div class="fb ' + (o.ok ? 'ok' : 'bad') + '">' + (o.ok ? 'درست است! ✓' : o.m) + '</div><div class="ex">' + readExpl(g, si === 0 ? 'step' : 'val') + '</div><div class="opts"><button type="button" class="btn primary" data-n="1" data-scroll' + small + '>' + (asked >= 2 ? (si === 3 ? 'پایان' : 'مرحلهٔ بعد') : 'سؤال بعدی') + '</button></div>'; }
-
-    host.innerHTML = rr(h); host.querySelector('#rm').innerHTML = rr(oh);
-  }
-  host.addEventListener('click', function (e) {
-    var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-    if (b.dataset.o !== undefined) { pick = +b.dataset.o; asked++; if (opts[pick].ok) { ok++; } paint(); }
-    else if (b.dataset.n) { if (asked >= 2) { ok = 0; asked = 0; si++; if (si > 3) { fin = true; paint(); return; } } nw(); paint(); }
-    else if (b.dataset.r) { si = 0; ok = 0; asked = 0; fin = false; nw(); paint(); }
-  }); nw(); paint();
+  H.stages(host, {
+    names: ['گام محور', 'خواندن نقطه', 'منفی و شروع غیرصفر', 'اعشاری و عمودی'],
+    make: function (si) {
+      var g = genRead(si);
+      return {
+        ask: si === 0 ? 'گام این محور (فاصلهٔ هر دو خط کنار هم) چند است؟' : 'نقطهٔ زرد چه عددی را نشان می‌دهد؟',
+        fig: function (done) { return readFig(g, done ? { show: 1 } : null); },
+        opts: readOpts(g, si === 0 ? 'step' : 'val'),
+        expl: function () { return readExpl(g, si === 0 ? 'step' : 'val'); }
+      };
+    }
+  });
 };
 
 /* ---- جاگذاری: اول تقسیم‌بندی، بعد نقطه ---- */
@@ -231,41 +215,53 @@ function genPlace(stage) {
   return { v: v, num: num, den: den, lo: lo, hi: hi, dc: dc, u: hi - lo, tex: dc ? tx(v) : frT(num, den) };
 }
 K.placer = function (host) {
-  var ST = ['کسر بین ۰ و ۱', 'کسر منفی یا بزرگ‌تر از ۱', 'عدد اعشاری'], si = 0, ok = 0, q, np, phase, mist, msg, done, fin = false;
-  function nw() { q = genPlace(si); np = null; phase = 'parts'; mist = 0; msg = ''; done = false; }
-  function axisFor() {
-    var o, ticks = [], hits = [], i, v, stepv, n = np || 1, marks = [], arcs = [], tot = q.u * n;
-    for (i = 0; i <= tot; i++) { v = q.lo + i / n; ticks.push({ v: v, mn: i % n !== 0, z: abs(v) < 1e-9, t: i % n === 0 ? lab(v) : '' }); if (phase === 'tap' && !done) { hits.push({ v: v, k: '' }); } }
-    if (done) { var i0 = Math.round((0 - q.lo) * n), i1 = Math.round((q.v - q.lo) * n), a, b; for (i = Math.min(i0, i1); i < Math.max(i0, i1) && abs(i1 - i0) <= 12; i++) { arcs.push({ a: q.lo + i / n, b: q.lo + (i + 1) / n, g: 1 }); } marks.push({ v: q.v, c: CL[4], h: M(q.tex), lv: 0 }); }
+  var ST = ['کسر بین ۰ و ۱', 'کسر منفی یا بزرگ‌تر از ۱', 'عدد اعشاری'], per = 2, S, i, touched = false;
+  function start() { S = []; i = 0; ST.forEach(function (n, si) { for (var k = 0; k < per; k++) { S.push({ si: si, k: k, q: genPlace(si), np: null, phase: 'parts', mist: 0, msg: '', done: false }); } }); }
+  function good(s) { return s.done && s.mist === 0; }
+  function stageState(si) { var all = true, ok = true; S.forEach(function (s) { if (s.si === si) { if (!s.done) { all = false; } else if (!good(s)) { ok = false; } } }); return all ? (ok ? 'dn' : 'wr') : ''; }
+  function axisFor(s) {
+    var q = s.q, ticks = [], hits = [], k, v, n = s.np || 1, marks = [], arcs = [], tot = q.u * n, i0, i1;
+    for (k = 0; k <= tot; k++) { v = q.lo + k / n; ticks.push({ v: v, mn: k % n !== 0, z: abs(v) < 1e-9, t: k % n === 0 ? lab(v) : '' }); if (s.phase === 'tap' && !s.done) { hits.push({ v: v, k: '' }); } }
+    if (s.done) { i0 = Math.round((0 - q.lo) * n); i1 = Math.round((q.v - q.lo) * n); for (k = Math.min(i0, i1); k < Math.max(i0, i1) && abs(i1 - i0) <= 12; k++) { arcs.push({ a: q.lo + k / n, b: q.lo + (k + 1) / n, g: 1 }); } marks.push({ v: q.v, c: CL[4], h: M(q.tex), lv: 0 }); }
     return axisHTML({ min: q.lo - 0.08 * q.u, max: q.hi + 0.08 * q.u, ticks: ticks, hits: hits, hw: 1 / n, arcs: arcs, cls: 'lo' }, marks);
   }
   function paint() {
-    var h = '<div class="stg">' + ST.map(function (s, i) { return '<span class="' + (i < si || fin ? 'dn' : i === si ? 'cu' : '') + '">' + (i < si || fin ? '✓ ' : '') + s + '</span>'; }).join('') + '</div>', opts, i;
-    if (fin) { host.innerHTML = rr(h + '<div class="fb ok"><b>همهٔ مرحله‌ها را گذراندی!</b></div><div class="opts"><button type="button" class="btn" data-r="1" data-scroll>از اول، با عددهای جدید</button></div>'); return; }
-    h += '<p class="stage-progress-meta">مرحلهٔ ' + fa(si + 1) + ' — پاسخ‌های درست: ' + fa(ok) + ' از ۲</p><div class="cq">' + M('\\text{} ' + q.tex).replace('\\text{} ', '') + '</div>';
-    h += '<p class="ask" style="font-weight:normal">' + (phase === 'parts' ? 'هر واحد را به چند قسمتِ مساوی تقسیم کنیم تا این عدد روی یکی از خط‌ها بیفتد؟' : done ? '' : 'حالا روی جای درست عدد بزن.') + '</p>';
-    h += axisFor();
-    if (phase === 'parts' && !done) {
-      opts = [10, 8, 6, 5, 4, 3, 2].filter(function (x) { return q.u * x <= 24; });
-      h += '<div class="chips" style="direction:ltr">' + opts.map(function (x) { return '<button type="button" class="chip' + (x === np ? ' bad' : '') + '" data-p="' + x + '"><span dir="rtl">' + fa(x) + ' قسمت</span></button>'; }).join('') + '</div>';
+    var n = S.length, s = S[i], q, h, opts, sc;
+    if (i === n) {
+      sc = S.filter(good).length;
+      host.innerHTML = rr(K.res(sc, n) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
+      return;
     }
-    if (msg) { h += '<div class="fb ' + (done ? 'ok' : 'bad') + '">' + msg + '</div>'; }
-    if (done) { h += '<div class="ex"><p>مخرج ' + M(String(q.den)) + ' یعنی هر واحد را به ' + fa(q.den) + ' قسمت مساوی تقسیم کنیم؛ سپس ' + fa(abs(q.num)) + ' گام از صفر به ' + (q.v > 0 ? 'راست' : 'چپ') + ' می‌رویم:</p>' + K.dm(q.dc ? tx(q.v) + '=' + (q.v < 0 ? '-' : '') + tx(abs(q.v) * 10) + '\\times0.1' : q.tex + '=' + (q.num < 0 ? '-' : '') + abs(q.num) + '\\times\\dfrac{1}{' + q.den + '}') + '</div><div class="opts"><button type="button" class="btn primary" data-n="1" data-scroll>' + (mist === 0 && ok >= 2 ? (si === 2 ? 'پایان' : 'مرحلهٔ بعد') : 'سؤال بعدی') + '</button></div>'; }
+    q = s.q;
+    h = '<div class="stg">' + ST.map(function (nm, k) { var st = k === s.si ? 'cu' : stageState(k); return '<span class="' + st + '">' + (st === 'dn' ? '✓ ' : '') + nm + '</span>'; }).join('') + '</div>';
+    h += '<p class="stage-progress-meta">مرحلهٔ ' + fa(s.si + 1) + ' — سؤال ' + fa(s.k + 1) + ' از ' + fa(per) + '</p><div class="cq">' + M('\\text{} ' + q.tex).replace('\\text{} ', '') + '</div>';
+    h += '<p class="ask">' + (s.phase === 'parts' ? 'هر واحد را به چند قسمتِ مساوی تقسیم کنیم تا این عدد روی یکی از خط‌ها بیفتد؟' : s.done ? 'جای درست عدد روی محور:' : 'حالا روی جای درست عدد بزن.') + '</p>';
+    h += axisFor(s);
+    if (s.phase === 'parts' && !s.done) {
+      opts = [10, 8, 6, 5, 4, 3, 2].filter(function (x) { return q.u * x <= 24; });
+      h += '<div class="chips" style="direction:ltr">' + opts.map(function (x) { return '<button type="button" class="chip' + (x === s.np ? ' bad' : '') + '" data-parts="' + x + '"><span dir="rtl">' + fa(x) + ' قسمت</span></button>'; }).join('') + '</div>';
+    }
+    if (s.msg) { h += '<div class="fb ' + (s.done ? 'ok' : 'bad') + '">' + s.msg + '</div>'; }
+    if (s.done) { h += '<div class="ex"><p>مخرج ' + M(String(q.den)) + ' یعنی هر واحد را به ' + fa(q.den) + ' قسمت مساوی تقسیم کنیم؛ سپس ' + fa(abs(q.num)) + ' گام از صفر به ' + (q.v > 0 ? 'راست' : 'چپ') + ' می‌رویم:</p>' + K.dm(q.dc ? tx(q.v) + '=' + (q.v < 0 ? '-' : '') + tx(abs(q.v) * 10) + '\\times0.1' : q.tex + '=' + (q.num < 0 ? '-' : '') + abs(q.num) + '\\times\\dfrac{1}{' + q.den + '}') + '</div>'; }
+    h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (s.done ? '' : ' disabled') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
     host.innerHTML = rr(h);
   }
   host.addEventListener('click', function (e) {
-    var c = e.target.closest('.chip'), hit = e.target.closest('.hit'), b = e.target.closest('button'), v, i;
-    if (c && c.dataset.p) {
-      np = +c.dataset.p;
-      if (np % q.den === 0) { phase = 'tap'; msg = ''; } else { mist++; msg = 'با ' + fa(np) + ' قسمت، این عدد روی هیچ خطی نمی‌افتد؛ مخرج عدد ' + M(String(q.den)) + ' است. تقسیم‌بندی دیگری انتخاب کن.'; }
+    var c = e.target.closest('.chip'), hit = e.target.closest('.hit'), b = e.target.closest('button'), s = S[i], q, v, k;
+    touched = true;
+    if (c && c.dataset.parts && s) {
+      q = s.q; s.np = +c.dataset.parts;
+      if (s.np % q.den === 0) { s.phase = 'tap'; s.msg = ''; } else { s.mist++; s.msg = 'با ' + fa(s.np) + ' قسمت، این عدد روی هیچ خطی نمی‌افتد؛ مخرج عدد ' + M(String(q.den)) + ' است. تقسیم‌بندی دیگری انتخاب کن.'; }
       paint();
-    } else if (hit && phase === 'tap' && !done) {
-      i = +hit.dataset.i; v = +(q.lo + i / np).toFixed(6);
-      if (abs(v - q.v) < 1e-6) { done = true; if (!mist) { ok++; } msg = 'درست است! ✓'; } else { mist++; msg = 'این نقطه عدد ' + M(q.dc ? tx(v) : frT(Math.round((v - q.lo) * np) + q.lo * np, np)) + ' را نشان می‌دهد. جای ' + M(q.tex) + ' را دوباره پیدا کن.'; }
+    } else if (hit && s && s.phase === 'tap' && !s.done) {
+      q = s.q; k = +hit.dataset.i; v = +(q.lo + k / s.np).toFixed(6);
+      if (abs(v - q.v) < 1e-6) { s.done = true; s.msg = 'درست است! ✓'; } else { s.mist++; s.msg = 'این نقطه عدد ' + M(q.dc ? tx(v) : frT(Math.round((v - q.lo) * s.np) + q.lo * s.np, s.np)) + ' را نشان می‌دهد. جای ' + M(q.tex) + ' را دوباره پیدا کن.'; }
       paint();
-    } else if (b && b.dataset.n) { if (ok >= 2) { ok = 0; si++; if (si > 2) { fin = true; paint(); return; } } nw(); paint(); }
-    else if (b && b.dataset.r) { si = 0; ok = 0; fin = false; nw(); paint(); }
-  }); nw(); paint();
+    } else if (b && !b.disabled) {
+      if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { start(); paint(); }
+    }
+  });
+  start(); paint();
 };
 /* ---- ذره‌بین: خواندن عدد رقم‌به‌رقم ---- */
 K.lensRead = function (host) {
@@ -360,7 +356,7 @@ K.scaleFinal = function (host) {
     var q = qs[i], a = ans[i], h, oh = '', s, o;
     if (i === 5) {
       s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-      host.innerHTML = rr('<div class="fb ' + (s >= 4 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(s) + ' از ۵</b><br>' + (s === 5 ? 'عالی بود! محور برایت زبان آشنایی است.' : s >= 3 ? 'خوب بود. بخش‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با محورهای جدید امتحان کن.') + '</div><div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
+      host.innerHTML = rr(K.res(s, 5) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
     }
     h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.cq ? '<div class="cq" style="font-size:1rem">' + q.cq + '</div>' : '') + '<div class="mc ' + q.cls + '" id="mcx"></div>';
     q.opts.forEach(function (op, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + op.h + '</button>'; });

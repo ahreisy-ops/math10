@@ -15,8 +15,9 @@ window.LESSONS.N06 = {
     if (!document.getElementById('n6css')) {
       var st = document.createElement('style'); st.id = 'n6css';
       st.textContent = [
-        '.n6-w{font-size:.95em}.n6-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n6-w .ask{font-size:.95rem}.n6-w .opts{gap:6px}',
+        '.n6-w{font-size:.95em}.n6-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n6-w .ask{font-size:.95rem}.n6-w .opts{gap:6px}.n6-w .fb,.n6-w .ex{font-size:1em}',
         '.n6-w .mc .opt{min-height:44px;font-size:1rem}',
+        '#n6d,#n6e{font-size:1em}.n6-w .end-actions>.btn{min-width:120px;min-height:36px;padding:6px 14px;font-size:.9rem}',
         '.n6-chip{padding:2px 12px;border:2px solid var(--ink);border-radius:99px;background:#fff;font:inherit;font-size:.95rem;cursor:pointer;direction:ltr}',
         '.n6-chip.sel{background:var(--mark)}',
         '#n6a .n6-base-btn{min-width:73px;min-height:39px;display:inline-flex;justify-content:center;align-items:center}',
@@ -42,12 +43,12 @@ window.LESSONS.N06 = {
         ':is(#n6c,#n6-static) .n6-div-pill{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:52px;height:24px;box-sizing:border-box;padding:2px 9px;border:1.5px solid #c52b47;border-radius:999px;background:#d64564;color:white;font:bold .85rem/1 Tahoma,sans-serif;direction:ltr;unicode-bidi:isolate;white-space:nowrap}',
         ':is(#n6c,#n6-static) .n6-div-pill .n6-down{font-size:1.05rem;line-height:1}',
         '#n6c .btn[data-ck],#n6c .btn[data-nx]{box-sizing:border-box;min-height:44px;height:44px;font-size:1rem;line-height:1.3;padding:8px 16px}',
-        '#n6d .mc{grid-template-columns:1fr;justify-items:center;gap:8px}#n6d .mc .opt{width:min(100%,440px);max-width:440px;min-height:44px;padding:8px 12px;text-align:initial}',
+        '#n6d .mc{grid-template-columns:1fr;justify-items:center;gap:8px}#n6d .mc .opt{width:min(100%,300px);max-width:300px;min-height:44px;padding:5px 10px;text-align:initial}',
         '#n6d .n6-inspect-option{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%}#n6d .n6-sl{flex:0 0 auto;font-size:.82rem;color:#5b6675;margin:0;white-space:nowrap}#n6d .n6-inspect-math{flex:1;min-width:0;text-align:center}',
         '#n6d .n01-final-nav .btn,#n6e .n01-final-nav .btn{min-width:120px;min-height:36px;height:auto;font-size:.88rem;padding:5px 12px}',
 
         '#n6a{overflow-anchor:none}',
-        '.n6-mk{min-width:1.2em;font-weight:bold}.n6-msg{text-align:center;font-size:.88rem;color:#9b2c2c;min-height:1em}'
+        '.n6-mk{min-width:1.2em;font-weight:bold}.n6-msg{text-align:center;font-size:1rem;color:#9b2c2c;min-height:1em}'
       ].join('\n');
       document.head.appendChild(st);
     }
@@ -84,7 +85,7 @@ window.LESSONS.N06 = {
 
     /* ============ ۱) علامت‌یاب: توان، پرانتز و علامت ============ */
     K.signLab = function (host) {
-      var b = -2, n = 3, par = true, BASES = [-4, -3, -2, 2, 3, 4];
+      var b = -4, n = 3, par = true, BASES = [-4, -3, -2, 2, 3, 4];
       function paint() {
         var neg = b < 0, h = '', fac = [], i, ex, val, note;
         h = '<div class="n6-line" style="direction:rtl;flex-wrap:wrap"><span>پایه:</span><span style="display:inline-flex;gap:6px;flex-wrap:wrap;justify-content:center;direction:ltr">'; BASES.forEach(function (x) { h += '<button type="button" class="n6-chip n6-base-btn' + (x === b ? ' sel' : '') + '" data-b="' + x + '">' + M(x < 0 ? '(' + x + ')' : x) + '</button>'; });
@@ -120,9 +121,9 @@ window.LESSONS.N06 = {
         h += K.dm((q.prod ? q.a + '^{' + q.m + '}\\times ' + q.a + '^{' + q.n + '}' : '\\frac{' + q.a + '^{' + q.m + '}}{' + q.a + '^{' + q.n + '}}') + (solved ? '' : '=' + q.a + '^{\\boxed{?}}'));
         if (q.prod) { h += '<div class="n6-tks">' + tks('g1', q.a, q.m) + '<span style="display:inline-block;width:14px"></span>' + tks('g2', q.a, q.n) + '</div>'; }
         else { h += '<div class="n6-tks">' + tks(function (i) { return solved && i < q.n ? 'cx' : 'g1'; }, q.a, q.m) + '</div><div class="n6-bar"></div><div class="n6-tks">' + tks(solved ? 'cx' : 'g2', q.a, q.n) + '</div>'; }
-        if (!solved) { h += '<div class="n6-line"><span>توانِ جواب را بنویس:</span><input class="n6-in" type="text" dir="ltr" autocomplete="off" placeholder="؟"><button type="button" class="btn primary" data-ck="1">بررسی</button></div>'; }
+        if (!solved) { h += '<div class="n6-line"><span>توانِ جواب را بنویس:</span><input class="n6-in" type="text" dir="ltr" autocomplete="off" placeholder="؟"></div>'; }
         else { h += K.dm(q.prod ? q.a + '^{' + q.m + '}\\times ' + q.a + '^{' + q.n + '}=' + q.a + '^{' + q.m + '+' + q.n + '}=' + q.a + '^{' + q.ans + '}' : q.a + '^{' + q.m + '}\\div ' + q.a + '^{' + q.n + '}=' + q.a + '^{' + q.m + '-' + q.n + '}=' + q.a + '^{' + q.ans + '}'); }
-        h += '<div class="n6f">' + (msg || '') + '</div><div class="opts"><button type="button" class="btn' + (solved ? ' primary' : '') + '" data-nx="1" data-scroll=".n6-count-modes" data-scroll-offset="88">' + (solved ? 'مثال بعدی' : 'مثال دیگر') + '</button></div>';
+        h += '<div class="n6f">' + (msg || '') + '</div><div class="opts">' + (solved ? '' : '<button type="button" class="btn" data-ck="1">بررسی</button>') + '<button type="button" class="btn primary" data-nx="1" data-scroll=".n6-count-modes" data-scroll-offset="88">' + (solved ? 'مثال بعدی' : 'مثال دیگر') + '</button></div>';
         host.innerHTML = rr(h);
         var inp = host.querySelector('.n6-in'); if (inp) { inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { check(); } }); }
       }
@@ -161,9 +162,9 @@ window.LESSONS.N06 = {
         var h = '<p class="ask">هر ردیف را که پایین می‌آییم، مقدار بر ' + fa(b) + ' تقسیم می‌شود. ردیف‌های خالی را کامل کن (عدد صحیح، کسر مثل ' + '<bdi dir="ltr" style="white-space:nowrap">' + M('1') + '/' + M('8') + '</bdi>' + ' یا اعشار):</p>';
         rows.forEach(function (r, i) {
           if (i) { h += '<div class="n6-div-step"><span class="n6-div-pill" dir="ltr"><span class="n6-down">↓</span><span>÷</span><span>' + fa(b) + '</span></span></div>'; }
-          h += '<div class="n6-pr"><span class="e">' + M(b + '^{' + r.e + '}') + '</span><span class="eq">' + M('=') + '</span><span class="v">' + (r.blank ? '<input class="n6-in" data-e="' + r.e + '" type="text" dir="ltr" autocomplete="off" placeholder="؟"><span class="n6-mk" data-e="' + r.e + '"></span>' : M(rt(r.v))) + '</span></div>';
+          h += '<div class="n6-pr"><span class="e">' + M(b + '^{' + r.e + '}') + '</span><span class="eq">' + M('=') + '</span><span class="v">' + (r.blank ? '<input class="n6-in" data-e="' + r.e + '" type="text" dir="ltr" autocomplete="off" placeholder="؟"' + (solved ? ' value="' + ML.esc(r.val || '') + '" disabled' : '') + '><span class="n6-mk" data-e="' + r.e + '"' + (solved ? ' style="color:#0a6f61"' : '') + '>' + (solved ? '✓' : '') + '</span>' : M(rt(r.v))) + '</span></div>';
         });
-        h += '<div class="n6-msg"></div><div class="opts">' + (solved ? '' : '<button type="button" class="btn primary" data-ck="1">بررسی</button>') + (solved ? '' : '<button type="button" class="btn" data-nx="1" data-scroll>پایهٔ دیگر</button>') + '</div><div class="n6f"></div>';
+        h += '<div class="n6-msg"></div><div class="opts">' + (solved ? '' : '<button type="button" class="btn" data-ck="1">بررسی</button>') + (solved ? '' : '<button type="button" class="btn primary" data-nx="1" data-scroll>پایهٔ دیگر</button>') + '</div><div class="n6f"></div>';
         host.innerHTML = rr(h);
         host.querySelectorAll('.n6-in').forEach(function (inp) { inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { check(); } }); });
       }
@@ -172,7 +173,7 @@ window.LESSONS.N06 = {
         rows.forEach(function (r) {
           if (!r.blank) { return; }
           var inp = host.querySelector('.n6-in[data-e="' + r.e + '"]'), mk = host.querySelector('.n6-mk[data-e="' + r.e + '"]'), u = pval(inp.value), ok = u && u.n === r.v.n && u.d === r.v.d;
-          mk.textContent = ok ? '✓' : '✗'; mk.style.color = ok ? '#1f8a4c' : '#b83232'; if (!ok) { all = false; if (u && u.n === -r.v.n && u.d === r.v.d) { hint = 'توان منفی جواب را منفی نمی‌کند؛ فقط آن را کوچک می‌کند.'; } }
+          r.val = inp.value; mk.textContent = ok ? '✓' : '✗'; mk.style.color = ok ? '#0a6f61' : '#b83232'; if (!ok) { all = false; if (u && u.n === -r.v.n && u.d === r.v.d) { hint = 'توان منفی جواب را منفی نمی‌کند؛ فقط آن را کوچک می‌کند.'; } }
         });
         if (!all) { host.querySelector('.n6-msg').textContent = hint || 'هر قدم پایین‌تر یعنی تقسیم بر ' + fa(b) + '؛ از ردیف بالاییِ همان خانه ادامه بده.'; return; }
         solved = true; paint();
@@ -183,20 +184,20 @@ window.LESSONS.N06 = {
     };
 
     /* ---------- آزمون سؤال‌به‌سؤال: «سؤال n از m»، قبلی/بعدی، نتیجه و مجموعهٔ جدید ---------- */
-    function seq(host, build, resText) {
+    function seq(host, build) {
       var qs, i, ans;
       function start() { qs = build(); i = 0; ans = []; }
       function paint() {
         var n = qs.length, q = qs[i], a = ans[i], h, oh = '', s;
         if (i === n) {
           s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr('<div class="fb ' + (s >= n - 1 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(s) + ' از ' + fa(n) + '</b><br>' + resText(s, n) + '</div><div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
+          host.innerHTML = rr(K.res(s, n) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
           return;
         }
         h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.tex ? K.dm(q.tex) : '') + '<div class="mc" id="mcx"></div>';
         q.opts.forEach(function (o, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (o.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + o.h + '</button>'; });
         if (a !== undefined) { var o = q.opts[a]; h += fb(o.ok, o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl + '</div>'; }
-        h += '<div class="opts n01-final-nav"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه':'سؤال بعدی') + '</button></div>';
+        h += '<div class="opts n01-final-nav"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
         host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh); if (a !== undefined) { var note = host.querySelector('.fb'); if (note && !note.textContent.trim()) note.textContent = q.opts[a].ok ? 'درست است!' : 'این برابری درست نیست؛ قوانین توان‌ها را دوباره بررسی کن.'; }
       }
       host.addEventListener('click', function (e) {
@@ -250,7 +251,7 @@ window.LESSONS.N06 = {
         return shuffle(INSPECT.slice()).map(function (g) {
           var q = g(); return { ask: 'عبارت ' + M(q.ex) + ' را ساده کرده‌ایم، ولی <b>یکی از سه مرحله اشتباه</b> است. آن را پیدا کن و روی آن بزن.', expl: '<p>' + q.why + '</p>', opts: q.lines.map(function (l, k) { return { h: '<span class="n6-inspect-option" dir="rtl"><span class="n6-sl">مرحلهٔ ' + fa(k + 1) + '</span><span class="n6-inspect-math" dir="ltr">' + M(l) + '</span></span>', ok: k === q.w, m: 'این مرحله درست است. مرحلهٔ اشتباه را پیدا کن.' }; }) };
         });
-      }, function (s, n) { return s === n ? 'همهٔ خطاها را پیدا کردی!' : 'توضیح زیر هر سؤال را دوباره بخوان؛ بعد یک مجموعهٔ جدید بزن.'; });
+      });
     };
 
     /* ============ آزمون پایانی (۵ سؤال تصادفی) ============ */
@@ -269,33 +270,49 @@ window.LESSONS.N06 = {
       function qValue() {
         var a = pick([Z(-2), Z(-3), Z(2), Z(3), Z(-4), simp(1, 2), simp(2, 3), simp(-1, 2)]), n = R(2, 4), c = rpow(a, n), ex = pt(a, n), neg = function (r) { return simp(-r.n, r.d); };
         var cands = [[neg(c), 'علامت را بررسی کن: ' + (a.n < 0 ? 'تعداد عامل‌های منفی ' + fa(n) + ' است و زوج یا فرد بودنش علامت جواب را تعیین می‌کند.' : 'پایه مثبت است؛ پس جواب مثبت است.')],
-          [simp(a.n * n, a.d), 'توان یعنی ضرب تکراریِ پایه در خودش، نه ضرب پایه در توان.'], [rpow(a, n - 1), 'تعداد عامل‌ها را یکی کم گرفته‌ای.'], [rpow(a, n + 1), 'یک عامل اضافه گرفته‌ای؛ فقط ' + fa(n) + ' عامل داریم.'], [neg(simp(a.n * n, a.d)), 'توان یعنی ضرب تکراری، نه ضرب پایه در توان.']];
+        [simp(a.n * n, a.d), 'توان یعنی ضرب تکراریِ پایه در خودش، نه ضرب پایه در توان.'], [rpow(a, n - 1), 'تعداد عامل‌ها را یکی کم گرفته‌ای.'], [rpow(a, n + 1), 'یک عامل اضافه گرفته‌ای؛ فقط ' + fa(n) + ' عامل داریم.'], [neg(simp(a.n * n, a.d)), 'توان یعنی ضرب تکراری، نه ضرب پایه در توان.']];
         var out = [{ h: M(rt(c)), ok: true }], seen = {}; seen[rt(c)] = 1;
         cands.forEach(function (x) { var k = rt(x[0]); if (!seen[k] && out.length < 4) { seen[k] = 1; out.push(mk(k, x[1])); } });
         return { ask: 'مقدار ' + M(ex) + ' کدام است؟', expl: '<p>' + M(ex + '=' + Array(n + 1).join(bt(a) + tm).slice(0, -tm.length) + '=' + rt(c)) + '</p>', opts: out };
       }
       function qProduct() {
         var a = pick([2, 3, 4, 5]), m, n, t = 0; do { m = R(2, 5); n = R(2, 5); } while ((m * n === m + n || m === n) && t++ < 100);
-        return { ask: 'حاصل ' + M(P2(a, m) + tm + P2(a, n)) + ' را به‌صورت یک توان بنویس:', expl: '<p>' + M(P2(a, m) + tm + P2(a, n) + '=' + P2(a, m + '+' + n) + '=' + P2(a, m + n)) + '</p>', opts: [{ h: M(P2(a, m + n)), ok: true },
-          mk(P2(a, m * n), 'توان‌ها را در هم ضرب کرده‌ای؛ باید جمع کنی.'), mk('(' + a + tm + a + ')^{' + (m + n) + '}', 'پایه عوض نمی‌شود؛ همان ' + fa(a) + ' می‌ماند.'), mk(P2(a, m - n), 'تفریق مال تقسیم است؛ در ضرب توان‌ها جمع می‌شوند.')] };
+        return {
+          ask: 'حاصل ' + M(P2(a, m) + tm + P2(a, n)) + ' را به‌صورت یک توان بنویس:', expl: '<p>' + M(P2(a, m) + tm + P2(a, n) + '=' + P2(a, m + '+' + n) + '=' + P2(a, m + n)) + '</p>', opts: [{ h: M(P2(a, m + n)), ok: true },
+          mk(P2(a, m * n), 'توان‌ها را در هم ضرب کرده‌ای؛ باید جمع کنی.'), mk('(' + a + tm + a + ')^{' + (m + n) + '}', 'پایه عوض نمی‌شود؛ همان ' + fa(a) + ' می‌ماند.'), mk(P2(a, m - n), 'تفریق مال تقسیم است؛ در ضرب توان‌ها جمع می‌شوند.')]
+        };
       }
       function qQuot() {
         var a = pick([2, 3, 4, 5]), m = R(1, 6), n = R(1, 6); while (m === n) { n = R(1, 6); }
-        return { ask: 'حاصل ' + M(P2(a, m) + dv + P2(a, n)) + ' را به‌صورت یک توان بنویس:', expl: '<p>' + M(P2(a, m) + dv + P2(a, n) + '=' + P2(a, m + '-' + n) + '=' + P2(a, m - n)) + (m < n ? '</p><p>توان منفی شد، یعنی جواب یک کسر است: ' + M(P2(a, m - n) + '=\\frac{1}{' + Math.pow(a, n - m) + '}') : '') + '</p>', opts: [{ h: M(P2(a, m - n)), ok: true },
-          mk(P2(a, n - m), 'ترتیب تفریق را برعکس کرده‌ای: توانِ صورت منهای توانِ مخرج.'), mk(P2(a, m + n), 'در تقسیم توان‌ها کم می‌شوند، نه جمع.'), mk(P2(a, m * n), 'توان‌ها در هم ضرب نمی‌شوند؛ در تقسیم کم می‌شوند.')] };
+        return {
+          ask: 'حاصل ' + M(P2(a, m) + dv + P2(a, n)) + ' را به‌صورت یک توان بنویس:', expl: '<p>' + M(P2(a, m) + dv + P2(a, n) + '=' + P2(a, m + '-' + n) + '=' + P2(a, m - n)) + (m < n ? '</p><p>توان منفی شد، یعنی جواب یک کسر است: ' + M(P2(a, m - n) + '=\\frac{1}{' + Math.pow(a, n - m) + '}') : '') + '</p>', opts: [{ h: M(P2(a, m - n)), ok: true },
+          mk(P2(a, n - m), 'ترتیب تفریق را برعکس کرده‌ای: توانِ صورت منهای توانِ مخرج.'), mk(P2(a, m + n), 'در تقسیم توان‌ها کم می‌شوند، نه جمع.'), mk(P2(a, m * n), 'توان‌ها در هم ضرب نمی‌شوند؛ در تقسیم کم می‌شوند.')]
+        };
       }
       function qNeg() {
         var a = pick([Z(2), Z(3), Z(4), Z(5), Z(10), simp(2, 3), simp(3, 2)]), n = R(1, 3), c = rpow(a, -n), neg = function (r) { return simp(-r.n, r.d); };
-        return { ask: 'مقدار ' + M(pt(a, -n)) + ' کدام است؟', expl: '<p>' + M(pt(a, -n) + '=\\frac{1}{' + pt(a, n) + '}=' + rt(c)) + '</p>', opts: [{ h: M(rt(c)), ok: true },
-          mk(rt(neg(c)), 'توان منفی عدد را منفی نمی‌کند.'), mk(rt(rpow(a, n)), 'علامت توان را نادیده گرفته‌ای؛ توان منفی یعنی «یک تقسیم بر ...» (وارونه).'), mk(rt(neg(rpow(a, n))), 'توان منفی عدد را منفی نمی‌کند؛ فقط وارونه‌اش می‌کند.')] };
+        return {
+          ask: 'مقدار ' + M(pt(a, -n)) + ' کدام است؟', expl: '<p>' + M(pt(a, -n) + '=\\frac{1}{' + pt(a, n) + '}=' + rt(c)) + '</p>', opts: [{ h: M(rt(c)), ok: true },
+          mk(rt(neg(c)), 'توان منفی عدد را منفی نمی‌کند.'), mk(rt(rpow(a, n)), 'علامت توان را نادیده گرفته‌ای؛ توان منفی یعنی «یک تقسیم بر ...» (وارونه).'), mk(rt(neg(rpow(a, n))), 'توان منفی عدد را منفی نمی‌کند؛ فقط وارونه‌اش می‌کند.')]
+        };
       }
       function qWhich() {
-        var ty = shuffle([0, 1, 2, 3, 4]).slice(0, 4), g = stmt(ty[0], true), opts = [{ h: M(g.tex), ok: true }];
-        [1, 2, 3].forEach(function (x) { var w = stmt(ty[x], false); opts.push({ h: M(w.tex), m: w.why }); });
+        var ty = shuffle([0, 1, 2, 3, 4]).slice(0, 4),
+          g = stmt(ty[0], true),
+          opts = [{
+            h: M(g.tex),
+            ok: true
+          }];
+        [1, 2, 3].forEach(function (x) {
+          var w = stmt(ty[x], false);
+          opts.push({
+            h: M(w.tex),
+            m: 'این برابری نادرست است.' + w.why
+          });
+        });
         return { ask: 'کدام برابری درست است؟', expl: g.why, opts: opts };
       }
-      seq(host, function () { return [qValue, qProduct, qQuot, qNeg, qWhich].map(function (f) { var q, tries = 0; do { q = f(); tries++; } while (uniq(q.opts).length !== 4 && tries < 150); q.opts = shuffle(uniq(q.opts)); return q; }); },
-        function (s) { return s === 5 ? 'عالی بود! به همهٔ سؤال‌ها درست جواب دادی.' : s >= 3 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با عددهای جدید امتحان کن.'; });
+      seq(host, function () { return [qValue, qProduct, qQuot, qNeg, qWhich].map(function (f) { var q, tries = 0; do { q = f(); tries++; } while (uniq(q.opts).length !== 4 && tries < 150); q.opts = shuffle(uniq(q.opts)); return q; }); });
     };
 
     /* ---------- دیالوگ‌های i و شکل مربع/مکعب ---------- */
@@ -410,7 +427,7 @@ window.LESSONS.N06 = {
         ].join(''));
       },
       init: function (panel) {
-    panel.classList.add('standard-n6-10');
+        panel.classList.add('standard-n6-10');
         K.signLab(panel.querySelector('#n6a')); K.countLab(panel.querySelector('#n6b')); K.patternLab(panel.querySelector('#n6c'));
         K.inspect(panel.querySelector('#n6d')); K.finalN06(panel.querySelector('#n6e'));
       }

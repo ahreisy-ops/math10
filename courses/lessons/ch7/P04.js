@@ -15,37 +15,12 @@ var pick = function (a) { return a[R(0, a.length - 1)]; };
 var AL = function (lines) { return K.dm('\\begin{aligned}' + lines.join('\\\\') + '\\end{aligned}'); };
 var verdict = function (parts, cls) { return '<div class="nleq vd ' + (cls || '') + '">' + parts.map(function (p) { return '<i class="' + p[0] + '">$' + p[1] + '$</i>'; }).join('') + '</div>'; };
 var tg = function (label, inner) { return '<div class="nleq vd"><span class="tg">' + label + '</span>' + inner + '</div>'; };
-var cards2 = function (cells) { return '<div class="sg">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + (c.e ? K.dm(c.e) : '') + '</div>'; }).join('') + '</div>'; };
-var cards3 = function (cells) { return '<div class="sg sg3">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.h + '</b><span>' + c.t + '</span></div>'; }).join('') + '</div>'; };
 var refs = function (cells) { return '<div class="sg refs">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + K.dm(c.e) + '</div>'; }).join('') + '</div>'; };
 var fr = function (n, d) { var g = gcd(n, d) || 1; n /= g; d /= g; return d === 1 ? String(n) : '\\dfrac{' + n + '}{' + d + '}'; };
-var frU = function (n, d) { return '\\dfrac{' + n + '}{' + d + '}'; };
 var nf = function (v) { var s = String(+(+v).toFixed(4)); return s === '-0' ? '0' : s; };
 function uniqBy(arr, key) { var s = {}; return arr.filter(function (x) { var k = key(x); if (s[k]) { return false; } s[k] = 1; return true; }); }
 /* جدول فراوانی/داده جمع‌وجور؛ rows: آرایهٔ ردیف‌ها (ردیف اول سرستون) — hl: اندیس ستون برجسته */
-function ftab(rows, o) {
-  o = o || {}; var h = '<div class="tblw"><table class="ft">';
-  rows.forEach(function (r, i) { h += '<tr>' + r.map(function (c, j) { var th = (i === 0 && !o.noHead) || (j === 0 && o.rowHead !== false); return '<' + (th ? 'th' : 'td') + (o.hl !== undefined && j === o.hl && !th ? ' class="hl"' : '') + '>' + c + '</' + (th ? 'th' : 'td') + '>'; }).join('') + '</tr>'; });
-  return h + '</table></div>';
-}
 /* نمودار ستونی SVG: o={labels,vals,max,step,w,h,hi(اندیس برجسته),showVals,ylab,title,interactive} */
-function barSVG(o) {
-  var W = o.w || 340, H = o.h || 230, L = 44, Rr = 12, Tp = o.title ? 34 : 16, B = 40, pw = W - L - Rr, ph = H - Tp - B, n = o.labels.length, slot = pw / n, bw = Math.min(46, slot * 0.56), s, v, i, py = function (x) { return Tp + ph - x / o.max * ph; };
-  s = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="max-width:100%;height:auto;display:block;margin:6px auto;direction:ltr" role="img">';
-  if (o.title) { s += '<text x="' + W / 2 + '" y="18" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#14213d" font-family="Tahoma,sans-serif">' + o.title + '</text>'; }
-  if (o.ylab) { s += '<text x="' + (L + 4) + '" y="' + (Tp - 5) + '" text-anchor="start" font-size="10.5" fill="#5a6a85" font-family="Tahoma,sans-serif">' + o.ylab + '</text>'; }
-  for (v = 0; v <= o.max + 1e-9; v += o.step) { s += '<line x1="' + L + '" y1="' + py(v) + '" x2="' + (W - Rr) + '" y2="' + py(v) + '" stroke="' + (v === 0 ? '#14213d' : '#d5dde8') + '" stroke-width="' + (v === 0 ? 2.2 : 1) + '"/>' + (Math.round(v / o.step) % (o.labEvery || 1) === 0 ? '<text x="' + (L - 6) + '" y="' + (py(v) + 4) + '" text-anchor="end" font-size="11" fill="#14213d" font-family="Tahoma,sans-serif">' + fa(nf(v)) + '</text>' : ''); }
-  s += '<line x1="' + L + '" y1="' + Tp + '" x2="' + L + '" y2="' + py(0) + '" stroke="#14213d" stroke-width="2.2"/>';
-  for (i = 0; i < n; i++) {
-    var x = L + i * slot + (slot - bw) / 2, hh = o.vals[i] / o.max * ph, hi = o.hi !== undefined && (o.hi === i || (o.hi.indexOf && o.hi.indexOf(i) > -1));
-    s += '<rect class="bar" data-i="' + i + '" x="' + x + '" y="' + (Tp + ph - hh) + '" width="' + bw + '" height="' + hh + '" rx="3" fill="' + (hi ? '#ffc233' : (o.colors ? o.colors[i % o.colors.length] : '#0e8f7e')) + '" stroke="#14213d" stroke-width="1.8" style="' + (o.interactive ? 'cursor:pointer' : '') + '"/>';
-    s += '<text x="' + (x + bw / 2) + '" y="' + (py(0) + 16) + '" text-anchor="middle" font-size="11.5" fill="#14213d" font-family="Tahoma,sans-serif">' + o.labels[i] + '</text>';
-    if (o.guide === i) { s += '<line x1="' + L + '" y1="' + py(o.vals[i]) + '" x2="' + x + '" y2="' + py(o.vals[i]) + '" stroke="#d6457a" stroke-width="2" stroke-dasharray="5 4"/>'; }
-    if (o.showVals || (o.showAt === i)) { s += '<text x="' + (x + bw / 2) + '" y="' + (Tp + ph - hh - 5) + '" text-anchor="middle" font-size="12" font-weight="bold" fill="#14213d" font-family="Tahoma,sans-serif">' + fa(nf(o.vals[i])) + '</text>'; }
-  }
-  return s + '</svg>';
-}
-var fig1 = function (inner, cap) { return '<div class="figs one"><figure>' + inner + (cap ? '<figcaption>' + cap + '</figcaption>' : '') + '</figure></div>'; };
 
 /* ---------- موتورهای تمرین (مشترک بین درس‌ها) ---------- */
 /* stages: [{n, gen}] ؛ gen() → {ask, cq, fig, opts:[{h,ok,m}], expl(), cls} */

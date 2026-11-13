@@ -18,19 +18,23 @@ window.LESSONS.N03 = {
         '.wf{direction:rtl;text-align:center;margin:12px 0;font-size:1.15em;line-height:2.2}',
         '.wf .hf{display:inline-block;vertical-align:middle;text-align:center;margin:0 8px;line-height:1.6}',
         '.wf .hf>span{display:block;padding:0 8px}.wf .hf>span:first-child{border-bottom:2px solid currentColor}',
-        '.n3-w{font-size:.95em}.n3-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n3-w .ask{font-size:.95rem}.n3-w .opts{gap:6px}',
-        '.n3-w .mc .opt{min-height:44px;font-size:1rem}',
+        // '.n3-w{font-size:.95em}.n3-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n3-w .ask{font-size:.95rem}.n3-w .opts{gap:6px}.n3-w .fb,.n3-w .ex{font-size:1rem}',
+        '.n3-w .ask{font-size:.95rem}.n3-w .opts{gap:6px}.n3-w .tlf .fb,.n3-w .tlf .ex{font-size:1rem}',
+        '.n3-w .mc .opt, #n3e .plf, #n3b .plf, #n3c .pmf, #n3c .pmo{min-height:44px;font-size:1rem}',
+        '#n3b .plf:empty{display:none}',
+        '#n3c .pmo:empty{display:none}',
+        '#n3e .plf:empty{display:none}',
         '.n3-chip{display:inline-block;padding:1px 10px;border:2px solid;border-radius:99px;font-size:.85rem;font-weight:bold;white-space:nowrap}',
         '.n3-given{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0}.n3-val .katex{font-size:1.5em}',
-        '.n3-row{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 2px;direction:rtl}',
+        // '.n3-row{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 2px;direction:rtl}',
         '.n3-in{width:8.5em;padding:4px 8px;border:2px solid var(--ink);border-radius:10px;font:inherit;font-size:1rem;text-align:center;direction:ltr}',
         '.n3-mk{min-width:1.4em;font-weight:bold}.n3-msg{text-align:center;font-size:.9rem;color:#9b2c2c}',
         '.n3-pv{display:flex;justify-content:center;align-items:flex-start;gap:7px;margin:8px 0;direction:rtl}',
         '.n3-pv>div{text-align:center;min-width:2.8em}.n3-pv b{display:block;font-size:1.3em;line-height:1.3}',
         '.n3-pv i{display:block;font-style:normal;font-size:.75rem;color:#5b6675}.n3-pv .dot{min-width:.8em}',
         '.scw{text-align:center;margin:10px auto}.scan{display:inline-grid;direction:ltr;gap:6px;align-items:center;justify-items:center;padding:4px 2px}.scan .ph{font:.72rem/1.3 Tahoma,sans-serif;color:var(--ink-soft);padding:2px 4px;border-radius:6px;text-align:center}.scan .rl i{display:inline-block;border:2px solid var(--ink);border-radius:8px;padding:0 8px;line-height:1.55;color:#fff;font-weight:bold;white-space:nowrap;background:var(--accent,#0d8f87);font-style:normal}.scan .t{width:44px;height:48px;border-radius:10px;border:2px solid var(--line,#c5d0db);background:#f3f6fa;display:grid;place-items:center;font:bold 1.4rem Tahoma,sans-serif;color:var(--ink)}.scan .pt{width:10px;height:48px;display:grid;align-items:end;justify-items:center;font:bold 1.6rem/.9 Tahoma,sans-serif;color:var(--ink)}.n3-scan{margin:0 auto}',
-        '.n3-row{display:grid;grid-template-columns:150px 150px 24px;justify-content:center;align-items:center;column-gap:14px;margin:8px auto;max-width:380px;direction:ltr}.n3-langmeta{grid-column:2;grid-row-end:1;display:flex;flex-direction:row-reverse;align-items:center;justify-content:flex-end;gap:8px;width:150px;font-size:.92rem;white-space:nowrap}.n3-langlabel{line-height:1.2}.n3-language-icon{display:grid;place-items:center;width:28px;height:28px;flex:0 0 28px;position:relative}.n3-language-icon.fr{display:flex;flex-direction:column;align-items:center;justify-content:center;width:22px;height:28px}.n3-fr-num,.n3-fr-den{font:700 .7rem/1 Tahoma,serif;color:var(--ink)}.n3-fr-bar{display:block;width:14px;height:1.5px;background:var(--ink);margin:1px 0}.n3-language-icon.dec{width:26px;height:26px}.n3-dec-outer{position:absolute;width:20px;height:20px;border:2.5px solid var(--ink);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);box-sizing:border-box}.n3-dec-inner{position:absolute;width:7px;height:7px;background:var(--ink);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}.n3-language-icon.pct{font:700 1rem/1 Tahoma,sans-serif;color:var(--ink);border:2px solid var(--ink);border-radius:50%;width:26px;height:26px;box-sizing:border-box}.n3-inbox,.n3-row .n3-in{grid-column:1;grid-row-end:1;width:150px;height:40px;box-sizing:border-box;border:1.5px solid #c5ced6;border-radius:10px;display:grid;place-items:center;padding:0 8px;font:inherit;font-size:1rem;text-align:center;direction:ltr;background:#fff}.n3-inbox.n3-given-box{background:#eef3f7;border-color:#b8c4ce;pointer-events:none}.n3-row .n3-in{display:block;line-height:38px}.n3-row .n3-mk{grid-column:3;grid-row-end:1;width:24px;text-align:center;font-weight:bold}.n3-msg{max-width:380px;margin:0 auto 4px;text-align:center;font-size:.88rem;color:#9b2c2c}',
-
+        // '.n3-row{display:grid;grid-template-columns:150px 150px 24px                                        ;justify-content:center;align-items:center;column-gap:14px;margin:8px auto;            max-width:380px;direction:ltr                     }.n3-langmeta{grid-column:2;grid-row-end:1;display:flex;flex-direction:row-reverse;align-items:center;justify-content:flex-end;gap:8px;width:150px;               font-size:.92rem;white-space:nowrap}.n3-langlabel{line-height:1.2}.n3-language-icon{display:grid;place-items:center;width:28px;height:28px;flex:0 0 28px;position:relative}.n3-language-icon.fr{display:block;width:28px;height:28px;border-radius:50%;border:2.5px solid var(--ink);box-sizing:border-box;background:conic-gradient(#0f8f7e 0 50%,#f6c9dc 0);overflow:hidden}.n3-language-icon.fr::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:2.5px;margin-left:-1.25px;background:var(--ink)}.n3-fr-num,.n3-fr-den,.n3-fr-bar{display:none}.n3-language-icon.dec{width:26px;height:26px}.n3-dec-outer{position:absolute;width:20px;height:20px;border:2.5px solid var(--ink);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);box-sizing:border-box}.n3-dec-inner{position:absolute;width:7px;height:7px;background:var(--ink);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}.n3-language-icon.pct{font:700 1rem/1 Tahoma,sans-serif;color:var(--ink);border:2px solid var(--ink);border-radius:50%;width:26px;height:26px;box-sizing:border-box}.n3-inbox,.n3-row .n3-in{grid-column:1;grid-row-end:1;width:150px;height:40px;box-sizing:border-box;border:1.5px solid #c5ced6;border-radius:10px;display:grid;place-items:center;padding:0 8px;font:inherit;font-size:1rem;text-align:center;direction:ltr;background:#fff}.n3-inbox.n3-given-box{background:#eef3f7;border-color:#b8c4ce;pointer-events:none}.n3-row .n3-in{display:block;line-height:38px}.n3-row .n3-mk{grid-column:3;grid-row-end:1;                                    width:24px;text-align:center;font-weight:bold}.n3-msg{max-width:380px;margin:0 auto 4px;text-align:center;font-size:.88rem;color:#9b2c2c}',
+        '.n3-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,150px) minmax(0,150px) minmax(0,1fr);justify-content:center;align-items:center;column-gap:14px;margin:8px 0 2px;width:100%;max-width:100%;direction:ltr;box-sizing:border-box}.n3-langmeta{grid-column:3;grid-row-end:1;display:flex;flex-direction:row-reverse;align-items:center;justify-content:flex-end;gap:8px;width:100%;max-width:150px;font-size:.92rem;white-space:nowrap}.n3-langlabel{line-height:1.2}.n3-language-icon{display:grid;place-items:center;width:28px;height:28px;flex:0 0 28px;position:relative}.n3-language-icon.fr{display:block;width:28px;height:28px;border-radius:50%;border:2.5px solid var(--ink);box-sizing:border-box;background:conic-gradient(#0f8f7e 0 50%,#f6c9dc 0);overflow:hidden}.n3-language-icon.fr::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:2.5px;margin-left:-1.25px;background:var(--ink)}.n3-fr-num,.n3-fr-den,.n3-fr-bar{display:none}.n3-language-icon.dec{width:26px;height:26px}.n3-dec-outer{position:absolute;width:20px;height:20px;border:2.5px solid var(--ink);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);box-sizing:border-box}.n3-dec-inner{position:absolute;width:7px;height:7px;background:var(--ink);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}.n3-language-icon.pct{font:700 1rem/1 Tahoma,sans-serif;color:var(--ink);border:2px solid var(--ink);border-radius:50%;width:26px;height:26px;box-sizing:border-box}.n3-inbox,.n3-row .n3-in{grid-column:2;grid-row-end:1;width:100%;max-width:150px;height:40px;box-sizing:border-box;border:1.5px solid #c5ced6;border-radius:10px;display:grid;place-items:center;padding:0 8px;font:inherit;font-size:1rem;text-align:center;direction:ltr;background:#fff}.n3-inbox.n3-given-box{background:#eef3f7;border-color:#b8c4ce;pointer-events:none}.n3-row .n3-in{display:block;line-height:38px}.n3-row .n3-mk{grid-column:3;grid-row-end:1;justify-self:end;width:24px;margin-right:-32px;text-align:center;font-weight:bold}.n3-msg{max-width:380px;margin:0 auto 4px;text-align:center;font-size:.88rem;color:#9b2c2c}@media (max-width:520px){.n3-row{grid-template-columns:minmax(0,1fr) minmax(100px,140px) minmax(88px,130px) minmax(0,1fr);column-gap:8px;padding:0 6px}.n3-inbox,.n3-row .n3-in{max-width:140px}.n3-langmeta{max-width:130px}.n3-row .n3-mk{margin-right:0}}',
         '.n3-bins{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;direction:rtl}',
         '.n3-bin{border:2px dashed var(--line);border-radius:12px;padding:6px;min-height:96px;text-align:center;cursor:pointer;background:#fafcfe}',
         '.n3-bin:hover{border-color:var(--accent)}.n3-bin>b{display:block;font-size:.9rem;margin-bottom:4px}',
@@ -38,10 +42,14 @@ window.LESSONS.N03 = {
         '.n3-cards{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}',
         '.n3-card .katex{font-size:1.2em}.n3-card{padding:4px 14px;border:2px solid var(--ink);border-radius:10px;background:#fff;cursor:pointer;font:inherit}',
         '.n3-card.sel{background:var(--mark);box-shadow:3px 3px 0 var(--ink)}',
+        '.n3-pm-controls .btn.primary{min-width:120px;min-height:36px;font-size:.88rem;padding:5px 14px}',
+        '.n3-card{touch-action:none;cursor:grab}.n3-card:active{cursor:grabbing}.n3-bin.over{border-color:var(--accent);background:#e6f6f3}',
         '.n3-dv{display:inline-grid;grid-template-columns:auto auto;direction:ltr;font-size:1.3em;margin:6px 0}',
         '.n3-dv span{padding:2px 12px;text-align:center}.n3-dv .a,.n3-dv .s,.n3-dv .r{border-right:2px solid var(--ink)}',
         '.n3-longdiv{display:inline-grid;grid-template-columns:auto auto;direction:ltr;align-items:start;margin:4px auto 0;font-size:1.25em}.n3-longdiv .lhs{display:grid;grid-template-rows:auto auto auto;justify-items:center;min-width:78px}.n3-longdiv .top,.n3-longdiv .sub,.n3-longdiv .rem{padding:2px 10px;min-width:72px;text-align:center}.n3-longdiv .sub{border-bottom:2px solid var(--ink)}.n3-longdiv .rhs{display:grid;grid-template-rows:auto auto;min-width:44px}.n3-longdiv .divisor{display:grid;place-items:center;min-height:30px;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:0 10px}.n3-longdiv .quot{display:grid;place-items:center;min-height:30px;border-left:2px solid var(--ink);padding:0 10px}.n3-longdiv .katex{font-size:1em}',
-        '.n3-place-den .btn{border:2px solid #162947;border-radius:11px;box-shadow:3px 4px 0 #162947;background:#fff;font-weight:700;min-width:63px}.n3-place-den .btn:active{box-shadow:1px 1px 0 #162947;transform:translate(2px,3px)}.n3-place-answer{display:flex!important;grid-template-columns:none!important;justify-content:center!important;align-items:center;gap:4px!important;max-width:none!important;direction:rtl}.n3-place-answer .n3-in{grid-column:auto;margin:0}.n3-pm-controls{display:flex;flex-direction:column;align-items:center;gap:8px;margin:12px auto;width:min(100%,230px)}.n3-pm-entry{display:flex;direction:ltr;align-items:center;gap:8px;width:100%}.n3-pm-entry .n3-in{flex:1 1 auto;width:auto;min-width:0;height:38px;box-sizing:border-box}.n3-pm-controls>[data-go]{width:100%}.n3-pm-rnd{display:grid;place-items:center;color:#fff!important;background:#19a7a0!important;min-width:38px;height:38px;padding:0;border-radius:9px;font-size:1rem;line-height:1}.n3-pm-rnd svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.n3-actions-44{display:flex;direction:ltr;justify-content:center;gap:9px;flex-wrap:wrap}.n3-actions-44 .btn{font-size:.88rem}',
+        '.n3-place-den .btn{border:2px solid #162947;border-radius:11px;box-shadow:3px 4px 0 #162947;background:#fff;font-weight:700;min-width:63px}.n3-place-den .btn:active{box-shadow:1px 1px 0 #162947;transform:translate(2px,3px)}.n3-place-answer{display:flex!important;grid-template-columns:none!important;justify-content:center!important;align-items:center;gap:4px!important;max-width:none!important;direction:rtl}.n3-place-answer .n3-in{grid-column:auto;margin:0}.n3-pm-controls{display:flex;flex-direction:column;align-items:center;gap:8px;margin:12px auto;width:min(100%,230px)}.n3-pm-entry{display:flex;direction:ltr;align-items:center;gap:8px;width:100%}.n3-pm-entry .n3-in{flex:1 1 auto;width:auto;min-width:0;height:38px;box-sizing:border-box}.n3-pm-controls>[data-go]{width:100%}.n3-pm-rnd{display:grid;place-items:center;color:#fff!important;background:#19a7a0!important;min-width:38px;height:38px;padding:0;border-radius:9px;font-size:1rem;line-height:1}.n3-pm-rnd svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}',
+        // '.n3-actions-44{display:flex;direction:rtl;justify-content:center;gap:8px;flex-wrap:nowrap}.n3-actions-44 .btn{flex:1 1 0;min-width:0;padding:5px 6px;font-size:.88rem}',
+        '.n3-actions-44{display:flex;direction:rtl;justify-content:center;gap:8px;flex-wrap:nowrap}.n3-actions-44 .btn{font-size:.9rem}',
         '.opts.n3-seqnav{display:flex;direction:rtl!important;justify-content:space-between!important;gap:12px;flex-wrap: nowrap}.opts.n3-seqnav [data-p]{order:0}.opts.n3-seqnav [data-nx]{order:1}.n3-dv .b{border-bottom:2px solid var(--ink)}.tipg{cursor:pointer}.tipg:hover rect{fill:#f3f6fa}.trifig.n3-compact,.n3-tiplist{display:none!important}.n3-tipbtn{min-height:44px;border:2px solid;border-radius:12px;background:#fff;font:inherit;font-weight:700;font-size:.85rem;padding:4px 4px;white-space:nowrap}.n3-tipbtn .n3-i{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-size:.78rem;font-style:italic}@media(max-width:560px){.trifig.n3-wide{display:none!important}.trifig.n3-compact{display:block!important}.n3-tiplist{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:8px 0}.n3-tipbtn{padding:4px 2px;font-size:.82rem}}'
       ].join('\n');
       document.head.appendChild(st);
@@ -188,7 +196,7 @@ window.LESSONS.N03 = {
       function path() {
         return start === 'f' ? 'مسیر: کسر ← اعشار (صورت ÷ مخرج)، سپس اعشار ← درصد (ضرب در ۱۰۰).'
           : start === 'd' ? 'مسیر: اعشار ← کسر (مخرج ۱۰، ۱۰۰ یا ۱۰۰۰ و ساده‌کردن)، سپس اعشار ← درصد (ضرب در ۱۰۰).'
-          : 'مسیر: درصد ← اعشار (تقسیم بر ۱۰۰)، سپس درصد ← کسر (روی ۱۰۰ گذاشتن و ساده‌کردن).';
+            : 'مسیر: درصد ← اعشار (تقسیم بر ۱۰۰)، سپس درصد ← کسر (روی ۱۰۰ گذاشتن و ساده‌کردن).';
       }
       function langMeta(k) {
         var label = k === 'f' ? 'کسر' : k === 'd' ? 'عدد اعشاری' : 'درصد';
@@ -204,7 +212,8 @@ window.LESSONS.N03 = {
       }
       function paint() {
         var h = '<p class="ask">مقدار عدد $' + given() + '$ را به دو شکل دیگر بنویس. اگر خواستی، با دکمهٔ «پاسخ را نشان بده» می‌توانی پاسخ درست را فوری ببینی:</p>';
-        ['f','d','p'].forEach(function (k) {
+        // h += '<div class="n3-actions-44">';
+        ['f', 'd', 'p'].forEach(function (k) {
           h += '<div class="n3-row">' + langMeta(k);
           if (k === start) {
             h += '<span class="n3-inbox n3-given-box">$' + given() + '$</span><span class="n3-mk"></span>';
@@ -214,7 +223,13 @@ window.LESSONS.N03 = {
           h += '</div>';
           if (k !== start) { h += '<div class="n3-msg" data-k="' + k + '"></div>'; }
         });
-        host.innerHTML = rr(h + '<div class="opts n3-actions-44"><button type="button" class="btn primary" data-ck="1">بررسی</button><button type="button" class="btn" data-sh="1">پاسخ را نشان بده</button><button type="button" class="btn" data-nx="1" data-scroll>مثال بعدی</button></div><div class="tlf"></div>');
+        // h += '</div>';
+        // host.innerHTML = rr(h + '<div class="opts n3-actions-44"><button type="button" class="btn primary" data-ck="1">بررسی</button><button type="button" class="btn" data-sh="1">نمایش پاسخ</button><button type="button" class="btn" data-nx="1" data-scroll>مثال بعدی</button></div><div class="tlf"></div>');
+        host.innerHTML = rr(h + '<div class="opts n3-actions-44">' +
+          '<button type="button" class="btn" data-ck="1">بررسی</button>' +
+          '<button type="button" class="btn" data-sh="1">نمایش پاسخ</button>' +
+          '<button type="button" class="btn primary" data-nx="1" data-scroll>مثال بعدی</button>' +
+          '</div><div class="tlf"></div>');
         host.querySelectorAll('.n3-in').forEach(function (inp) { inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { check(); } }); });
       }
       function newQ() { v = pickVal(true); start = ['f', 'd', 'p'][R(0, 2)]; targets = ['f', 'd', 'p'].filter(function (x) { return x !== start; }); paint(); }
@@ -224,7 +239,7 @@ window.LESSONS.N03 = {
           var inp = host.querySelector('.n3-in[data-k="' + k + '"]'), mk = host.querySelector('.n3-mk[data-k="' + k + '"]'), ms = host.querySelector('.n3-msg[data-k="' + k + '"]'), u, msg = '';
           if (k === 'f') {
             u = pfrac(inp.value);
-            if (!u) { msg = 'کسر را به شکل صورت/مخرج بنویس؛ مثلاً ۳/۴.'; }
+            if (!u) { msg = 'کسر را به شکل صورت/مخرج بنویس؛ مثلاً ' + M('3/4') + '.'; }
             else if (!eq(u, v)) { msg = fracHint(u, v); }
             else if (gcd(u.n, u.d) !== 1) { msg = 'مقدارش درست است، ولی کسر ساده نشده؛ صورت و مخرج را بر ' + fa(gcd(u.n, u.d)) + ' تقسیم کن.'; }
           } else {
@@ -267,17 +282,20 @@ window.LESSONS.N03 = {
         if (stage === 1) {
           h += '<p class="ask">آخرین رقم در کدام جایگاه است؟ پس مخرج اولیهٔ کسر کدام است؟</p><div class="opts n3-place-den">' + [10, 100, 1000, 10000].map(function (d) { return '<button type="button" class="btn" data-den="' + d + '">' + fa(d) + '</button>'; }).join('') + '</div>';
         } else if (stage === 2) {
-          h += K.dm(decTex(v.n, v.d) + '=\\frac{' + v.n + '}{' + v.d + '}') + '<p class="ask">حالا کسر را تا جای ممکن ساده کن:</p><div class="n3-row n3-place-answer"><input class="n3-in" type="text" dir="ltr" autocomplete="off" placeholder="مثلاً ۹/۲۰۰"><button type="button" class="btn primary" data-ck="1">بررسی</button></div>';
+          // h += K.dm(decTex(v.n, v.d) + '=\\frac{' + v.n + '}{' + v.d + '}') + '<p class="ask">حالا کسر را تا جای ممکن ساده کن:</p><div class="n3-row n3-place-answer"><input class="n3-in" type="text" dir="ltr" autocomplete="off" placeholder="مثلاً ۹/۲۰۰"><button type="button" class="btn primary" data-ck="1">بررسی</button></div>';
+          h += K.dm(decTex(v.n, v.d) + '=\\frac{' + v.n + '}{' + v.d + '}') + '<p class="ask">حالا کسر را تا جای ممکن ساده کن:</p><div class="n3-row n3-place-answer"><input class="n3-in" type="text" dir="ltr" autocomplete="off" placeholder="مثلاً ۹/۲۰۰"></div>';
         } else {
           h += K.dm(decTex(v.n, v.d) + '=\\frac{' + v.n + '}{' + v.d + '}=' + fracTex(simp(v.n, v.d)));
         }
-        h += '<div class="plf">' + msg + '</div><div class="opts"><button type="button" class="btn' + (stage === 3 ? ' primary' : ' press-effect') + '"' + (stage === 3 ? '' : ' style="box-shadow:2px 2px 0 var(--ink)"') + ' data-nx="1" data-scroll=".scw">' + (stage === 3 ? 'مثال بعدی' : 'عدد دیگر') + '</button></div>';
+        h += '<div class="plf">' + msg + '</div><div class="opts">' +
+          (stage == 2 ? '<button type="button" class="btn" data-ck="1">بررسی</button>' : '') +
+          '<button type="button" class="btn primary" data-nx="1" data-scroll=".scw">' + (stage === 3 ? 'مثال بعدی' : 'عدد دیگر') + '</button></div>';
         host.innerHTML = rr(h);
         var inp = host.querySelector('.n3-in'); if (inp) { inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { check(); } }); }
       }
       function check() {
         var u = pfrac(host.querySelector('.n3-in').value), g;
-        if (!u) { msg = fb(false, 'کسر را به شکل صورت/مخرج بنویس؛ مثلاً ۹/۲۰۰.'); paint(); return; }
+        if (!u) { msg = fb(false, 'کسر را به شکل صورت/مخرج بنویس؛ مثلاً ' + M('9/200') + '.'); paint(); return; }
         if (!eq(u, v)) {
           msg = fb(false, fracHint(u, v) + (eq(simp(u.n, u.d), { n: v.n * 10, d: v.d }) || eq(simp(u.n, u.d), { n: v.n, d: v.d * 10 }) ? ' دقت کن: صفرِ بلافاصله بعد از ممیز را نمی‌شود حذف کرد.' : '')); paint(); return;
         }
@@ -298,18 +316,19 @@ window.LESSONS.N03 = {
     /* ============ ۳) درصدساز: بنویس، درصدش را از چهار گزینه انتخاب کن، بعد محاسبه را ببین ============ */
     K.percentMaker = function (host) {
       var cur = null, lastInput = null;
-      host.innerHTML = rr('<p class="ask">یک کسر (مثل ۷/۸) یا یک عدد اعشاری (مثل ۰٫۳۷۵) بنویس. بعد روی دکمهٔ «درصدش چند است؟» بزن و در نهایت از میان چهار گزینه انتخاب کن. (اگر عددی به ذهنت نمی‌رسد، با دکمهٔ چرخشِ کنار کادر، یک مثال تصادفی بساز.)</p><div class="n3-pm-controls"><div class="n3-pm-entry"><input class="n3-in" type="text" dir="ltr" autocomplete="off" placeholder="مثلاً ۷/۸ یا ۰٫۳۷۵"><button type="button" class="btn n3-pm-rnd" data-rnd="1" aria-label="مثال تصادفی" title="مثال تصادفی"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-14.6 6.1"></path><path d="M6.4 18.1H2.9v3.5"></path><path d="M3 12A8.5 8.5 0 0 1 17.6 5.9"></path><path d="M17.6 5.9h3.5V2.4"></path></svg></button></div><button type="button" class="btn primary" data-go="1">درصدش چند است؟</button></div><div class="pmo"></div>');
+      // host.innerHTML = rr('<p class="ask">یک کسر (مثل ۷/۸) یا یک عدد اعشاری (مثل ۰٫۳۷۵) بنویس. بعد روی دکمهٔ «درصدش چند است؟» بزن و در نهایت از میان چهار گزینه انتخاب کن. (اگر عددی به ذهنت نمی‌رسد، با دکمهٔ چرخشِ کنار کادر، یک مثال تصادفی بساز.)</p><div class="n3-pm-controls"><div class="n3-pm-entry"><input class="n3-in" type="text" dir="ltr" autocomplete="off" placeholder="مثلاً ۷/۸ یا ۰٫۳۷۵"><button type="button" class="btn n3-pm-rnd" data-rnd="1" aria-label="مثال تصادفی" title="مثال تصادفی"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-14.6 6.1"></path><path d="M6.4 18.1H2.9v3.5"></path><path d="M3 12A8.5 8.5 0 0 1 17.6 5.9"></path><path d="M17.6 5.9h3.5V2.4"></path></svg></button></div><button type="button" class="btn primary" data-go="1">درصدش چند است؟</button></div><div class="pmo"></div>');
+      host.innerHTML = rr('<p class="ask">یک کسر (مثل ۷/۸) یا یک عدد اعشاری (مثل ۰٫۳۷۵) بنویس. بعد روی دکمهٔ «درصدش چند است؟» بزن و در نهایت از میان چهار گزینه انتخاب کن. (اگر عددی به ذهنت نمی‌رسد، با دکمهٔ چرخشِ کنار کادر، یک مثال تصادفی بساز.)</p><div class="n3-pm-controls"><div class="n3-pm-entry"><input class="n3-in" type="text" dir="ltr" autocomplete="off" placeholder="مثلاً ۷/۸ یا ۰٫۳۷۵"><button type="button" class="btn n3-pm-rnd" data-rnd="1" aria-label="مثال تصادفی" title="مثال تصادفی"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.4-4.8L3 9"/><path d="M3 4v5h5"/><path d="M4 13a8 8 0 0 0 14.4 4.8L21 15"/><path d="M21 20v-5h-5"/></svg></button></div><button type="button" class="btn primary" data-go="1">درصدش چند است؟</button></div><div class="pmo"></div>');
       var inp = host.querySelector('.n3-in'), out = host.querySelector('.pmo');
       function go() {
         var s = inp.value.trim(), u, v, isF = s.indexOf('/') > -1 || s.indexOf('÷') > -1;
-        if (isF) { u = pfrac(s); if (!u || u.d === 0 || u.n > 99999 || u.d > 99999) { out.innerHTML = rr(fb(false, 'کسر را به شکل صورت/مخرج بنویس (مخرج صفر نباشد)؛ مثلاً ۷/۸.')); cur = null; lastInput = null; return; } v = simp(u.n, u.d); }
-        else { v = pdec(s); if (!v || String(v.d).length > 5) { out.innerHTML = rr(fb(false, 'یک عدد اعشاری با حداکثر چهار رقم اعشار بنویس؛ مثلاً ۰٫۳۷۵.')); cur = null; lastInput = null; return; } u = v; }
+        if (isF) { u = pfrac(s); if (!u || u.d === 0 || u.n > 99999 || u.d > 99999) { out.innerHTML = rr(fb(false, 'کسر را به شکل صورت/مخرج بنویس (مخرج صفر نباشد)؛ مثلاً ' + M('7/8') + '.')); cur = null; lastInput = null; return; } v = simp(u.n, u.d); }
+        else { v = pdec(s); if (!v || String(v.d).length > 5) { out.innerHTML = rr(fb(false, 'یک عدد اعشاری با حداکثر چهار رقم اعشار بنویس؛ مثلاً ' + M('0.375') + '.')); cur = null; lastInput = null; return; } u = v; }
         if (cur && lastInput === s) { return; }
         lastInput = s;
         var term = isTerm(v.n, v.d), P = simp(100 * v.n, v.d), x = 100 * v.n / v.d;
         var tx = function (mu, di) { if (term) { var q = simp(P.n * mu, P.d * di); return decTex(q.n, q.d) + '\\%'; } return '\\approx' + fmt1(x * mu / di) + '\\%'; };
         var opts = [{ h: M(tx(1, 1)), ok: true }, { h: M(tx(10, 1)), m: 'ممیز را یک جایگاه زیادی به راست برده‌ای.' }, { h: M(tx(1, 10)), m: 'ممیز را یک جایگاه زیادی به چپ برده‌ای.' },
-          { h: M(tx(1, 100)), m: 'فقط حاصل تقسیم (یا همان عدد اعشاری) را با علامت درصد نوشته‌ای؛ باید آن را در ۱۰۰ هم ضرب کنی.' }, { h: M(tx(100, 1)), m: 'بیش از حد ضرب کرده‌ای؛ فقط یک بار در ۱۰۰ ضرب می‌کنیم.' }];
+        { h: M(tx(1, 100)), m: 'فقط حاصل تقسیم (یا همان عدد اعشاری) را با علامت درصد نوشته‌ای؛ باید آن را در ۱۰۰ هم ضرب کنی.' }, { h: M(tx(100, 1)), m: 'بیش از حد ضرب کرده‌ای؛ فقط یک بار در ۱۰۰ ضرب می‌کنیم.' }];
         var seen = {}, list = []; opts.forEach(function (o) { if (!seen[o.h]) { seen[o.h] = 1; list.push(o); } });
         list = [list[0]].concat(shuffle(list.slice(1)).slice(0, 3)); list = shuffle(list);
         var dec = decTex(v.n, v.d), lines, fin;
@@ -371,20 +390,20 @@ window.LESSONS.N03 = {
     }
 
     /* ---------- آزمون سؤال‌به‌سؤال: «سؤال n از m»، قبلی/بعدی، نتیجه و مجموعهٔ جدید ---------- */
-    function seq(host, build, resText) {
+    function seq(host, build) {
       var qs, i, ans;
       function start() { qs = build(); i = 0; ans = []; }
       function paint() {
         var n = qs.length, q = qs[i], a = ans[i], h, oh = '', s;
         if (i === n) {
           s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr('<div class="fb ' + (s >= n - 1 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(s) + ' از ' + fa(n) + '</b><br>' + resText(s, n) + '</div><div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
+          host.innerHTML = rr(K.res(s, n) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
           return;
         }
         h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.tex ? K.dm(q.tex) : '') + '<div class="mc" id="mcx"></div>';
         q.opts.forEach(function (o, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (o.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + o.h + '</button>'; });
         if (a !== undefined) { var o = q.opts[a]; h += fb(o.ok, o.ok ? 'درست است! ✓' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl + '</div>'; }
-        h += '<div class="opts n3-seqnav"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه':'سؤال بعدی') + '</button></div>';
+        h += '<div class="opts n3-seqnav"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
         host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh);
       }
       host.addEventListener('click', function (e) {
@@ -403,7 +422,7 @@ window.LESSONS.N03 = {
           var it = mkItem(types[k], ok);
           return { ask: 'این برابری درست است یا نادرست؟', tex: it.tex, expl: it.why, opts: [{ h: 'درست', ok: ok, m: 'این برابری نادرست است.' }, { h: 'نادرست', ok: !ok, m: 'این برابری درست است.' }] };
         });
-      }, function (s, n) { return s === n ? 'همهٔ خطاها را پیدا کردی!' : 'هر جا اشتباه کردی، توضیح زیر آن سؤال را دوباره بخوان؛ بعد یک مجموعهٔ جدید بزن.'; });
+      });
     };
 
     /* ============ ۵) پایان‌پذیر یا متناوب؟ — بازی دسته‌بندی: کارت را بردار، در سینی بگذار ============ */
@@ -419,30 +438,59 @@ window.LESSONS.N03 = {
         sel = -1; mistakes = 0; msg = ''; paint();
       }
       function paint() {
-        var left = cards.filter(function (c) { return !c.done; }).length, h = '<p class="ask">کارت را انتخاب کن، بعد روی سینیِ مناسبِ نوع اعشارش بزن.</p><div class="n3-bins">';
+        var left = cards.filter(function (c) { return !c.done; }).length, h = '<p class="ask">کارت را بکش و در سینیِ مناسبِ نوع اعشارش رها کن؛ یا کارت را انتخاب کن و روی سینی بزن.</p><div class="n3-bins">';
         TITLES.forEach(function (t, b) {
           h += '<div class="n3-bin" data-b="' + b + '"><b>' + t + '</b>' + cards.filter(function (c) { return c.done && c.c === b; }).map(function (c) { return '<div class="n3-it">$\\frac{' + c.n + '}{' + c.d + '}=' + c.dec + '$</div>'; }).join('') + '</div>';
         });
         h += '</div>';
-        if (left) { h += '<div class="n3-cards">' + cards.map(function (c, k) { return c.done ? '' : '<button type="button" class="n3-card' + (k === sel ? ' sel' : '') + '" data-c="' + k + '">$\\frac{' + c.n + '}{' + c.d + '}$</button>'; }).join('') + '</div>'; }
+        if (left) { h += '<div class="n3-cards">' + cards.map(function (c, k) { return c.done ? '' : '<button type="button" class="n3-card' + (k === sel ? ' sel' : '') + '" draggable="true" data-c="' + k + '">$\\frac{' + c.n + '}{' + c.d + '}$</button>'; }).join('') + '</div>'; }
         var end = left ? '' : fb(mistakes === 0, 'همهٔ کارت‌ها جا افتادند. تعداد اشتباه‌ها: ' + fa(mistakes)) + '<div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>دست جدید</button></div>';
         host.innerHTML = rr(h + '<div class="plf">' + msg + end + '</div>');
       }
+      function place(b) {
+        var cd;
+        if (sel < 0) { msg = fb(false, 'اول یک کارت را انتخاب کن.'); paint(); return; }
+        cd = cards[sel];
+        if (b === cd.c) {
+          cd.done = true; sel = -1;
+          msg = fb(true, 'درست است! ' + (cd.c === 0 ? 'تقسیم تمام شد (باقی‌مانده صفر).' : cd.c === 1 ? 'تکرار درست بعد از ممیز شروع می‌شود.' : 'ابتدا چند رقم غیرتکراری می‌آید، بعد تکرار شروع می‌شود.'));
+        } else {
+          mistakes++; msg = fb(false, 'بسط اعشاری این کسر ' + M('\\frac{' + cd.n + '}{' + cd.d + '}=' + cd.dec) + ' است. ببین تقسیم تمام می‌شود یا نه، و اگر تمام نمی‌شود تکرار از کجا شروع می‌شود؛ بعد دوباره امتحان کن.');
+        }
+        paint();
+      }
+      /* کشیدن و رها کردن: همان قاعدهٔ «نردبان ترتیب» (ماوس: drag؛ لمس: pointer)؛ کلیک هم مثل قبل کار می‌کند */
+      var dragCard = null, touchDrag = null, skipClick = false;
+      function binAt(x, y) { var el = document.elementFromPoint(x, y); return el && el.closest('.n3-bin'); }
+      host.addEventListener('dragstart', function (e) {
+        var c = e.target.closest('.n3-card'); if (!c) { return; }
+        dragCard = +c.dataset.c; sel = dragCard;
+        if (e.dataTransfer) { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', String(dragCard)); }
+      });
+      host.addEventListener('dragover', function (e) { var b = e.target.closest('.n3-bin'); if (b && dragCard !== null) { e.preventDefault(); if (e.dataTransfer) { e.dataTransfer.dropEffect = 'move'; } } });
+      host.addEventListener('drop', function (e) { var b = e.target.closest('.n3-bin'); if (b && dragCard !== null) { e.preventDefault(); sel = dragCard; dragCard = null; place(+b.dataset.b); } dragCard = null; });
+      host.addEventListener('dragend', function () { dragCard = null; });
+      host.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'mouse') { return; }
+        var c = e.target.closest('.n3-card'); if (c) { touchDrag = { x: e.clientX, y: e.clientY, moved: false, k: +c.dataset.c }; }
+      });
+      host.addEventListener('pointermove', function (e) {
+        if (!touchDrag) { return; }
+        if (Math.hypot(e.clientX - touchDrag.x, e.clientY - touchDrag.y) > 9) { touchDrag.moved = true; e.preventDefault(); }
+        if (touchDrag.moved) { var b = binAt(e.clientX, e.clientY); host.querySelectorAll('.n3-bin.over').forEach(function (x) { x.classList.remove('over'); }); if (b) { b.classList.add('over'); } }
+      }, { passive: false });
+      host.addEventListener('pointerup', function (e) {
+        if (!touchDrag) { return; } var d = touchDrag; touchDrag = null;
+        host.querySelectorAll('.n3-bin.over').forEach(function (x) { x.classList.remove('over'); });
+        if (d.moved) { skipClick = true; var b = binAt(e.clientX, e.clientY); if (b) { e.preventDefault(); sel = d.k; place(+b.dataset.b); } }
+      });
+      host.addEventListener('pointercancel', function () { touchDrag = null; host.querySelectorAll('.n3-bin.over').forEach(function (x) { x.classList.remove('over'); }); });
       host.addEventListener('click', function (e) {
-        var c = e.target.closest('.n3-card'), b = e.target.closest('.n3-bin'), r = e.target.closest('[data-r]'), cd;
+        var c = e.target.closest('.n3-card'), b = e.target.closest('.n3-bin'), r = e.target.closest('[data-r]');
+        if (skipClick) { skipClick = false; return; }
         if (r) { build(); return; }
         if (c) { sel = +c.dataset.c; msg = ''; paint(); return; }
-        if (b) {
-          if (sel < 0) { msg = fb(false, 'اول یک کارت را انتخاب کن.'); paint(); return; }
-          cd = cards[sel];
-          if (+b.dataset.b === cd.c) {
-            cd.done = true; sel = -1;
-            msg = fb(true, 'درست است! ' + (cd.c === 0 ? 'تقسیم تمام شد (باقی‌مانده صفر).' : cd.c === 1 ? 'تکرار درست بعد از ممیز شروع می‌شود.' : 'ابتدا چند رقم غیرتکراری می‌آید، بعد تکرار شروع می‌شود.'));
-          } else {
-            mistakes++; msg = fb(false, 'بسط اعشاری این کسر ' + M('\\frac{' + cd.n + '}{' + cd.d + '}=' + cd.dec) + ' است. ببین تقسیم تمام می‌شود یا نه، و اگر تمام نمی‌شود تکرار از کجا شروع می‌شود؛ بعد دوباره امتحان کن.');
-          }
-          paint();
-        }
+        if (b) { place(+b.dataset.b); }
       });
       build();
     };
@@ -460,39 +508,58 @@ window.LESSONS.N03 = {
           wrong4Tex = decTex(d - n, d);
           wrong4Msg = 'به‌جای تقسیم، صورت را از مخرج کم کرده‌ای. برای ساختن عدد اعشاری باید صورت را بر مخرج تقسیم کنیم.';
         }
-        return { ask: 'کسر ' + M(fracTex(v)) + ' برابر کدام عدد اعشاری است؟', expl: '<p>' + M(fracTex(v) + '=' + n + '\\div' + d + '=' + D) + '</p>', opts: [{ h: M(D), ok: true },
+        return {
+          ask: 'کسر ' + M(fracTex(v)) + ' برابر کدام عدد اعشاری است؟', expl: '<p>' + M(fracTex(v) + '=' + n + '\\div' + d + '=' + D) + '</p>', opts: [{ h: M(D), ok: true },
           mk(decTex(10 * n, d), 'ممیز را یک جایگاه به راست برده‌ای؛ تقسیم ' + fa(n) + ' بر ' + fa(d) + ' را دوباره حساب کن.'),
-          mk(decTex(n, 10 * d), 'ممیز را یک جایگاه زیادی به چپ برده‌ای.'), mk(wrong4Tex, wrong4Msg)] };
+          mk(decTex(n, 10 * d), 'ممیز را یک جایگاه زیادی به چپ برده‌ای.'), mk(wrong4Tex, wrong4Msg)]
+        };
       }
 
       function qDecToFrac() {
         var v, s, t = 0; do { v = pickDec(3); s = simp(v.n, v.d); } while (s.d === 1000 && t++ < 200);
         var D = decTex(v.n, v.d);
-        return { ask: 'عدد ' + M(D) + ' با کدام کسرِ ساده‌شده برابر است؟', expl: '<p>' + M(D + '=\\frac{' + v.n + '}{1000}=' + fracTex(s)) + '</p>', opts: [{ h: M(fracTex(s)), ok: true },
+        return {
+          ask: 'عدد ' + M(D) + ' با کدام کسرِ ساده‌شده برابر است؟', expl: '<p>' + M(D + '=\\frac{' + v.n + '}{1000}=' + fracTex(s)) + '</p>', opts: [{ h: M(fracTex(s)), ok: true },
           { h: M('\\frac{' + v.n + '}{1000}'), m: 'این کسر با عدد برابر است، اما ساده نشده؛ ساده‌ترین شکل را خواسته‌ایم.' },
           mk(fracTex(simp(v.n, 100)), 'این کسر برابر ' + M(decTex(v.n, 100)) + ' است؛ صفرِ بعد از ممیز را حذف کرده‌ای یا رقم‌ها را اشتباه شمرده‌ای.'),
-          mk(fracTex(simp(v.n, 10000)), 'این کسر برابر ' + M(decTex(v.n, 10000)) + ' است؛ مخرج را بزرگ‌تر از لازم گرفته‌ای.')] };
+          mk(fracTex(simp(v.n, 10000)), 'این کسر برابر ' + M(decTex(v.n, 10000)) + ' است؛ مخرج را بزرگ‌تر از لازم گرفته‌ای.')]
+        };
       }
       function qFracToPct() {
         var v = pickVal(true), n = v.n, d = v.d, dig = parseInt('' + n + d, 10);
-        return { ask: 'کسر ' + M(fracTex(v)) + ' برابر چند درصد است؟', expl: '<p>' + M(fracTex(v) + '=' + decTex(n, d) + '\\Rightarrow ' + decTex(n, d) + '\\times100=' + decTex(100 * n, d)) + '</p>', opts: [{ h: M(pctTex(n, d)), ok: true },
+        return {
+          ask: 'کسر ' + M(fracTex(v)) + ' برابر چند درصد است؟', expl: '<p>' + M(fracTex(v) + '=' + decTex(n, d) + '\\Rightarrow ' + decTex(n, d) + '\\times100=' + decTex(100 * n, d)) + '</p>', opts: [{ h: M(pctTex(n, d)), ok: true },
           mk(dig + '\\%', 'صورت و مخرج را کنار هم نوشته‌ای! ابتدا باید تقسیم کنی و بعد در ۱۰۰ ضرب کنی.'),
-          mk(decTex(1000 * n, d) + '\\%', 'ممیز را یک جایگاه زیادی به راست برده‌ای.'), mk(decTex(10 * n, d) + '\\%', 'ممیز را یک جایگاه زیادی به چپ برده‌ای.')] };
+          mk(decTex(1000 * n, d) + '\\%', 'ممیز را یک جایگاه زیادی به راست برده‌ای.'), mk(decTex(10 * n, d) + '\\%', 'ممیز را یک جایگاه زیادی به چپ برده‌ای.')]
+        };
       }
       function qPctToDec() {
         var P = [[8, 1], [35, 1], [6, 1], [72, 1], [15, 1], [125, 1], [150, 1], [45, 10], [125, 10], [5, 10], [75, 10], [375, 10], [625, 10], [8, 10], [25, 10]][R(0, 14)], pn = P[0], pd = P[1];
-        return { ask: 'عدد ' + M(decTex(pn, pd) + '\\%') + ' به شکل اعشاری کدام است؟', expl: '<p>' + M(decTex(pn, pd) + '\\%=' + decTex(pn, pd) + '\\div100=' + decTex(pn, pd * 100)) + '</p>', opts: [{ h: M(decTex(pn, pd * 100)), ok: true },
+        return {
+          ask: 'عدد ' + M(decTex(pn, pd) + '\\%') + ' به شکل اعشاری کدام است؟', expl: '<p>' + M(decTex(pn, pd) + '\\%=' + decTex(pn, pd) + '\\div100=' + decTex(pn, pd * 100)) + '</p>', opts: [{ h: M(decTex(pn, pd * 100)), ok: true },
           mk(decTex(pn, pd * 10), 'بر ۱۰ تقسیم کرده‌ای؛ درصد یعنی «از هر ۱۰۰»، پس باید بر ۱۰۰ تقسیم کنی.'),
-          mk(decTex(pn, pd * 1000), 'بر ۱۰۰۰ تقسیم کرده‌ای؛ باید فقط بر ۱۰۰ تقسیم کنی.'), mk(decTex(pn, pd), 'عدد درصد را بدون تغییر نوشته‌ای؛ برای اعشار باید بر ۱۰۰ تقسیم کنی.')] };
+          mk(decTex(pn, pd * 1000), 'بر ۱۰۰۰ تقسیم کرده‌ای؛ باید فقط بر ۱۰۰ تقسیم کنی.'), mk(decTex(pn, pd), 'عدد درصد را بدون تغییر نوشته‌ای؛ برای اعشار باید بر ۱۰۰ تقسیم کنی.')]
+        };
       }
       function qWhichTrue() {
-        var ty = shuffle([0, 1, 2, 3, 4, 5]).slice(0, 4), g = mkItem(ty[0], true), opts = [{ h: M(g.tex), ok: true }];
-        [1, 2, 3].forEach(function (x) { var w = mkItem(ty[x], false); opts.push({ h: M(w.tex), m: w.why }); });
+        var ty = shuffle([0, 1, 2, 3, 4, 5]).slice(0, 4),
+          g = mkItem(ty[0], true),
+          opts = [{
+            h: M(g.tex),
+            ok: true
+          }];
+        [1, 2, 3].forEach(function (x) {
+          var w = mkItem(ty[x], false);
+          opts.push({
+            h: M(w.tex),
+            m: 'این برابری نادرست است.' + w.why
+          });
+        });
         return { ask: 'کدام برابری درست است؟', expl: g.why, opts: opts };
       }
       seq(host, function () {
         return [qFracToDec, qDecToFrac, qFracToPct, qPctToDec, qWhichTrue].map(function (f) { var q, tries = 0; do { q = f(); tries++; } while (uniq(q.opts).length !== 4 && tries < 120); q.opts = shuffle(uniq(q.opts)); return q; });
-      }, function (s) { return s === 5 ? 'عالی بود! به همهٔ سؤال‌ها درست جواب دادی.' : s >= 3 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با عددهای جدید امتحان کن.'; });
+      });
     };
 
     /* ---------- محتوای دیالوگ‌های i ---------- */

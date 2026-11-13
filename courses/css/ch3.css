@@ -11,8 +11,7 @@
   box-sizing: border-box
 }
 
-.e01-lesson .e01-intro,
-.lesson-bridge {
+.e01-lesson .e01-intro {
   margin: 12px 0 20px;
   padding: 12px 16px;
   border: 2px solid var(--ink);
@@ -20,22 +19,19 @@
   background: #e6f6f3;
 }
 
-.e01-lesson .e01-intro p,
-.lesson-bridge p {
+.e01-lesson .e01-intro p {
   margin: 6px 0 12px
 }
 
 .e01-kicker,
-.e01-eyebrow,
-.lesson-bridge-title {
+.e01-eyebrow {
   display: block;
   font-size: .85rem;
   font-weight: 700;
   color: var(--accent-dark)
 }
 
-.e01-route,
-.lesson-bridge-route {
+.e01-route {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -44,8 +40,7 @@
   margin-top: 10px
 }
 
-.e01-route>span,
-.lesson-bridge-route>span {
+.e01-route>span {
   font-size: .85rem;
   font-weight: 400;
   border: 1.5px solid var(--line);
@@ -54,8 +49,7 @@
   padding: 3px 10px
 }
 
-.e01-route>i,
-.lesson-bridge-route>i {
+.e01-route>i {
   font-style: normal;
   font-weight: 700;
   color: var(--accent-dark)
@@ -81,10 +75,6 @@
   border-radius: 12px;
   background: #f7f9fc;
   padding: 12px 10px
-}
-
-.e01-pair-em {
-  background: #e6f6f3
 }
 
 .e01-pair>span {
@@ -133,22 +123,6 @@
   border: 2px solid var(--ink);
   background: #fff;
   font-weight: 700
-}
-
-/* Match the shared .cover's line, radius, white fill and crisp 4px shadow. */
-.e01-interaction {
-  width: 100%;
-  min-width: 0;
-  margin: 12px 0 22px;
-  padding: 12px 16px 18px;
-  border: 2px solid var(--ink);
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 4px 4px 0 var(--ink)
-}
-
-.e01-interaction button {
-  font-family: inherit
 }
 
 .e01-station-head {
@@ -223,78 +197,6 @@
   border: 1.5px solid var(--line);
   border-radius: 10px;
   padding: 5px 12px;
-  max-width: 100%;
-  overflow-x: auto
-}
-
-/* Progress is not a click target: same stg-style pills, RTL order. */
-.e01-case-tabs {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  direction: rtl;
-  margin: 10px 0 14px;
-  pointer-events: none
-}
-
-.e01-case-tab {
-  display: grid;
-  place-items: center;
-  min-width: 37px;
-  min-height: 31px;
-  padding: 2px 9px;
-  font-size: .88rem;
-  background: #fff;
-  color: var(--ink-soft);
-  border: 2px solid var(--line);
-  border-radius: 999px;
-  cursor: default
-}
-
-.e01-case-tab.current {
-  background: var(--mark);
-  color: var(--ink);
-  border-color: var(--ink);
-  font-weight: 700
-}
-
-.e01-case-tab.done:not(.current) {
-  background: #e6f6f3;
-  border-color: var(--accent);
-  color: var(--accent-dark)
-}
-
-.e01-case-tab.error:not(.current) {
-  background: #fdeaea;
-  border-color: #b23a3a;
-  color: #b23a3a
-}
-
-/* Math display: same grey mathematical expression panel as .dm.k. */
-.e01-statement {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 7px;
-  min-height: 108px;
-  margin: 9px 0 14px;
-  padding: 12px 9px;
-  background: #f3f6fa;
-  border: 1.5px solid var(--line);
-  border-radius: 10px;
-  text-align: center
-}
-
-.e01-statement>span {
-  font-size: .86rem;
-  color: var(--ink-soft)
-}
-
-.e01-statement-math {
-  font-size: 1.25rem;
-  direction: ltr;
   max-width: 100%;
   overflow-x: auto
 }
@@ -400,18 +302,6 @@
   border-radius: 0
 }
 
-.e01-interaction>.fb {
-  margin: 12px 0 6px
-}
-
-.e01-interaction>.ex {
-  margin: 6px 0 10px
-}
-
-.e01-interaction .ex .katex {
-  direction: ltr
-}
-
 .e01-navigation {
   display: flex;
   justify-content: space-between;
@@ -443,23 +333,6 @@
   text-align: center
 }
 
-.e01-value-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 11px 0 16px;
-  padding: 8px 10px;
-  border-bottom: 1.5px dashed var(--line)
-}
-
-.e01-value-controls>span {
-  font-size: .95rem;
-  font-weight: 700;
-  color: var(--ink)
-}
-
 .e01-spinner {
   display: flex;
   direction: ltr;
@@ -486,64 +359,10 @@
   font-size: 1.05rem
 }
 
-.e01-two-sides {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 35px minmax(0, 1fr);
-  gap: 10px;
-  align-items: center;
-  direction: rtl
-}
-
-.e01-two-sides>div:not(.e01-equals) {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  min-width: 0;
-  min-height: 132px;
-  padding: 13px 8px;
-  text-align: center;
-  background: #e6f6f3;
-  border: 2px solid var(--ink);
-  border-radius: 12px
-}
-
-.e01-two-sides>div:last-child {
-  background: #eef2ff
-}
-
-.e01-two-sides>div>span {
-  font-size: .86rem;
-  color: var(--ink-soft)
-}
-
-.e01-two-sides strong {
-  font-size: 1.2rem;
-  direction: ltr;
-  max-width: 100%;
-  overflow-x: auto
-}
-
 .e01-equals {
   text-align: center;
   font-size: 1.28rem;
   font-weight: 700
-}
-
-.e01-side-answer {
-  display: grid;
-  place-items: center;
-  min-height: 35px;
-  direction: ltr;
-  font-size: 1.04rem;
-  max-width: 100%;
-  overflow-x: auto
-}
-
-.e01-question-mark {
-  font-size: 1.22rem;
-  color: var(--ink-soft)
 }
 
 .e01-prompt {
@@ -570,8 +389,7 @@
   transition: none !important
 }
 
-.e01-visited,
-.e01-lab-history {
+.e01-visited {
   border-top: 1.5px dashed var(--line);
   padding-top: 10px;
   margin-top: 13px;
@@ -586,8 +404,7 @@
   gap: 7px
 }
 
-.e01-visited>span,
-.e01-lab-history span {
+.e01-visited>span {
   display: inline-flex;
   gap: 4px;
   align-items: center;
@@ -599,15 +416,13 @@
   direction: rtl
 }
 
-.e01-visited>.e01-pass,
-.e01-lab-history .e01-pass {
+.e01-visited>.e01-pass {
   background: #e6f6f3;
   border-color: var(--accent);
   color: var(--accent-dark)
 }
 
-.e01-visited>.e01-fail,
-.e01-lab-history .e01-fail {
+.e01-visited>.e01-fail {
   background: #fdeaea;
   border-color: #b23a3a;
   color: #8b2626
@@ -854,48 +669,12 @@
   color: #8b2626
 }
 
-.e01-lab-history>div {
-  display: flex;
-  gap: 7px;
-  flex-wrap: wrap;
-  margin-top: 7px
-}
-
 .e01-proof {
   margin: 15px 0;
   padding: 12px 15px;
   border: 2px solid var(--line);
   border-radius: 12px;
   background: #f3f6fa
-}
-
-.e01-proof-head {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  direction: ltr;
-  font-size: 1.05rem
-}
-
-.e01-proof-num {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 28px;
-  height: 28px;
-  border: 1.5px solid var(--ink);
-  border-radius: 50%;
-  background: var(--mark);
-  color: var(--ink);
-  font-size: .83rem;
-  font-weight: 700
-}
-
-.e01-proof-arrow {
-  color: var(--accent-dark);
-  font-size: 1.12rem
 }
 
 .e01-proof p {
@@ -981,20 +760,6 @@
   background: #e6f6f3
 }
 
-.e01-result-score {
-  direction: rtl;
-  color: var(--ink);
-  font-weight: 700;
-  font-size: 2.6rem;
-  line-height: 1.4
-}
-
-.e01-result-score span {
-  font-size: 1.16rem;
-  font-weight: 400;
-  color: var(--ink-soft)
-}
-
 .e01-result p {
   text-align: center;
   max-width: 560px;
@@ -1006,36 +771,29 @@
 }
 
 @media(max-width:680px) {
-  .e01-interaction {
-    padding: 12px 12px 16px
-  }
 
   .e01-lab-groups,
   .e01-lab-readout {
     grid-template-columns: 1fr
   }
 
-  .e01-route,
-  .lesson-bridge-route {
+  .e01-route {
     gap: 4px
   }
 
-  .e01-route>span,
-  .lesson-bridge-route>span {
+  .e01-route>span {
     font-size: .81rem;
     padding: 3px 7px
   }
 
-  .e01-route>i,
-  .lesson-bridge-route>i {
+  .e01-route>i {
     font-size: .83rem
   }
 }
 
 @media(max-width:490px) {
 
-  .e01-lesson .e01-intro,
-  .lesson-bridge {
+  .e01-lesson .e01-intro {
     padding: 11px 12px
   }
 
@@ -1052,28 +810,6 @@
     min-height: 44px;
     font-size: .89rem;
     padding: 5px 7px
-  }
-
-  .e01-value-controls {
-    justify-content: center
-  }
-
-  .e01-two-sides {
-    grid-template-columns: minmax(0, 1fr) 23px minmax(0, 1fr);
-    gap: 5px
-  }
-
-  .e01-two-sides>div:not(.e01-equals) {
-    padding: 10px 4px;
-    min-height: 118px
-  }
-
-  .e01-two-sides strong {
-    font-size: 1rem
-  }
-
-  .e01-side-answer {
-    font-size: .94rem
   }
 
   .e01-navigation>.btn {
@@ -1114,21 +850,6 @@
   }
 }
 
-/* Intro bridge starts each selected lesson before the first numbered section. */
-.lesson>.lesson-bridge+h3 {
-  margin-top: 16px;
-  padding-top: 0;
-  border-top: 0
-}
-
-.lesson-bridge {
-  min-width: 0
-}
-
-.lesson-bridge-route>span {
-  white-space: normal
-}
-
 /* E01 answer choices follow chapter-one answer-option borders, not operation controls. */
 
 .e01-lesson .e01-four>.e01-option,
@@ -1150,35 +871,15 @@
 .e01-lesson .e01-answer-grid>.e01-answer.e01-wrong {
   border-color: #b23a3a;
 }
-
-/* KaTeX's hidden phantom dimensions can make even very short expressions
-   trigger an overflow scrollbar in intrinsic-sized flex children.  These
-   particular formulas are short; let their glyphs render naturally. */
-.e01-lesson .e01-statement-math,
 .e01-lesson .e01-pair>strong,
 .e01-lesson .e01-chip {
   overflow-x: visible;
 }
-
-/* Narrow phone layouts can still scroll genuinely long expressions by touch,
-   without intrusive native scrollbar arrows over their content. */
-.e01-lesson .e01-two-sides strong,
-.e01-lesson .e01-side-answer,
 .e01-lesson .e01-formula {
   scrollbar-width: none;
 }
-
-.e01-lesson .e01-two-sides strong::-webkit-scrollbar,
-.e01-lesson .e01-side-answer::-webkit-scrollbar,
 .e01-lesson .e01-formula::-webkit-scrollbar {
   display: none;
-}
-
-/* With the redundant card-number caption removed, use a compact prompt panel. */
-.e01-lesson .e01-statement {
-  min-height: 76px;
-  margin: 9px 0 12px;
-  padding: 10px 9px;
 }
 
 /* E01: classification questions share the chapter-two quiz hierarchy. */
@@ -1207,10 +908,6 @@
   min-height: 44px;
 }
 
-.e01-lesson .e01-types-result .fb p {
-  margin: 8px 0 0;
-}
-
 .e01-lesson .e01-review-hint {
   color: var(--ink-soft);
   font-size: .85rem;
@@ -1227,13 +924,6 @@
 }
 
 .e01-lesson .e01-speed-start h5,
-.e01-lesson .e01-types-result h5 {
-  font-size: 1.3rem;
-  line-height: 1.6;
-  color: var(--ink);
-  margin: 7px 0 10px;
-}
-
 .e01-lesson .e01-speed-start p {
   line-height: 1.85;
   margin: 8px auto 12px;
@@ -1397,58 +1087,6 @@
   border-color: #aa7834;
   background: #fff2d9;
   color: #7d5422;
-}
-
-.e01-lesson .e01-types-result {
-  text-align: center;
-  padding: 12px 6px 15px;
-}
-
-.e01-lesson .e01-speed-score {
-  margin: 4px 0 12px;
-  font-size: 2.4rem;
-  font-weight: 700;
-  line-height: 1.45;
-  color: var(--accent-dark);
-}
-
-.e01-lesson .e01-speed-score small {
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--ink);
-}
-
-.e01-lesson .e01-speed-stats {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 12px 0 16px;
-}
-
-.e01-lesson .e01-speed-stats span {
-  border: 1.5px solid var(--line);
-  border-radius: 999px;
-  padding: 4px 12px;
-  background: #f3f6fa;
-  font-size: .9rem;
-}
-
-.e01-lesson .e01-speed-stats .e01-speed-good {
-  background: #d2f0e9;
-  border-color: #438b6c;
-}
-
-.e01-lesson .e01-speed-stats .e01-speed-bad {
-  background: #fbd5d5;
-  border-color: #b23a3a;
-}
-
-.e01-lesson .e01-types-result p {
-  margin: 9px auto;
-  max-width: 560px;
-  line-height: 1.8;
 }
 
 .e01-lesson .e01-speed-end-actions {
@@ -1641,166 +1279,11 @@
     min-height: 0;
   }
 }
-
-
-/* Graduated sliders: shared alignment of native thumbs and KaTeX scale labels.
-   Apply only to ranges that already have a numbered graduation. */
-.graduated-range {
-  --gr-half: 8px;
-  min-width: 0;
-}
-
-/* Do not restyle the range itself: each lesson retains its original
-   native/custom track, thumb, accent and normal/hover/active states.
-   Only the graduation labels below it share positioning rules. */
-.graduated-range .graduated-ticks {
-  display: block !important;
-  position: relative !important;
-  box-sizing: border-box !important;
-  height: 31px !important;
-  width: auto !important;
-  margin: 1px var(--gr-half) 0 !important;
-  padding: 0 !important;
-  direction: ltr !important;
-  line-height: 1 !important;
-  text-align: center !important;
-  font-size: .70rem !important;
-  color: var(--ink-soft);
-  grid-template-columns: none !important;
-  gap: 0 !important;
-}
-
-.graduated-range .graduated-ticks>span {
-  display: block !important;
-  position: absolute !important;
-  left: calc(var(--gr-step) * 100% / var(--gr-total)) !important;
-  top: 0 !important;
-  width: auto !important;
-  min-width: 0 !important;
-  padding: 0 !important;
-  transform: translateX(-50%) !important;
-  white-space: nowrap !important;
-  line-height: 1.2 !important;
-  font-weight: normal;
-}
-
-.graduated-range .graduated-ticks>span>i {
-  display: block !important;
-  width: 1px !important;
-  height: 6px !important;
-  margin: 0 auto 3px !important;
-  background: #9cb3c5 !important;
-  opacity: 1 !important;
-  font-style: normal;
-}
-
-.graduated-range .graduated-ticks>span:before {
-  content: none !important;
-}
-
-.graduated-range .graduated-ticks .katex {
-  font-size: 1em;
-}
-
-.graduated-range .graduated-ticks .zero,
-.graduated-range .graduated-ticks .target {
-  color: var(--ink);
-  font-weight: 700;
-}
-
-/* Center only the message displayed after all four timed questions are finished. */
-.e01-lesson .e01-types-result>p {
-  text-align: center !important;
-}
-
-/* Schematic: the two sides are computed independently, then their results meet. */
-.e01-lesson .e01-identity-diagram {
-  max-width: 650px;
-  margin: 10px auto 14px;
-  padding: 12px;
-  border: 1.5px solid var(--line);
-  border-radius: 12px;
-  background: #fff;
-}
-
-.e01-lesson .e01-identity-parts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  direction: ltr;
-}
-
-.e01-lesson .e01-identity-parts>div {
-  background: var(--paper, #f7fafc);
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  padding: 10px 5px;
-  min-width: 0;
-  text-align: center;
-}
-
-.e01-lesson .e01-identity-parts b {
-  display: block;
-  color: var(--accent-dark);
-  margin-bottom: 8px;
-}
-
-.e01-lesson .e01-identity-parts .katex {
-  font-size: 1.04em;
-}
-
-.e01-lesson .e01-identity-arrows {
-  display: flex;
-  justify-content: space-around;
-  margin: 2px 0 0;
-  color: var(--accent-dark);
-  font-size: 1.6rem;
-  direction: ltr;
-}
-
-.e01-lesson .e01-identity-equals {
-  text-align: center;
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-top: 0;
-}
-
-@media(max-width:480px) {
-  .graduated-range .graduated-ticks {
-    font-size: .64rem !important;
-  }
-
-  .e01-lesson .e01-identity-parts {
-    gap: 6px;
-  }
-
-  .e01-lesson .e01-identity-parts>div {
-    padding: 8px 3px;
-  }
-
-  .e01-lesson .e01-identity-parts .katex {
-    font-size: .87em;
-  }
-}
-
 /* The original E01 and A08 custom thumbs are 18px wide; their scale ends
    must sit below the 9px-inset centers, without changing either slider. */
-.e01-compare-control.graduated-range,
-.a08-domain-control.graduated-range {
+.e01-compare-control.graduated-range {
   --gr-half: 9px;
 }
-
-/* Preserve A05's original control width; the shared tick class must not
-   override the slider box's existing minimum width. */
-.a05-slider-box.graduated-range {
-  min-width: 195px;
-}
-
-/* Slider colour alignment, restricted to the four already graduated activities.
-   Native Firefox thumb states match the N07 reference; tick layouts are untouched. */
-.a05-slider-box.graduated-range input[type=range],
-.a78-control.graduated-range input[type=range],
-.a08-domain-control.graduated-range input[type=range],
 .e01-compare-control.graduated-range input[type=range] {
   accent-color: #078b80 !important;
 }
@@ -1817,22 +1300,13 @@
   overflow-x: auto;
 }
 
-.e01-lesson .e01-types-result .e01-finish-message {
-  text-align: center !important;
-}
-
-.e01-lesson .e01-values-verified {
-  text-align: center;
-}
-
 .e01-lesson .e01-highlight-ten {
   color: #087d73;
   font-weight: 700;
 }
 
 /* E01 — equal neutral comparison cards; mint only when the equation is true. */
-.e01-lesson .e01-compare .e01-pair,
-.e01-lesson .e01-compare .e01-pair-em {
+.e01-lesson .e01-compare .e01-pair {
   background: #f7f9fc;
 }
 
@@ -2499,12 +1973,6 @@
   margin: 12px 0 14px !important
 }
 
-.e02-lesson .e02-muted {
-  color: var(--ink-soft);
-  font-size: .86rem;
-  margin: 9px 0
-}
-
 .e02-lesson .e02-eyebrow,
 .e02-lesson .e02-route-caption,
 .e02-lesson .e02-side-caption {
@@ -3101,11 +2569,6 @@
   font-size: .8rem
 }
 
-.e02-lesson .e02-detect-search {
-  font-size: 1.3rem;
-  color: var(--accent-dark)
-}
-
 .e02-lesson .e02-correction {
   border: 1.5px solid var(--line);
   background: #f3f6fa;
@@ -3116,37 +2579,6 @@
 
 .e02-lesson .e02-correction p {
   margin: 5px 0 9px !important
-}
-
-.e02-lesson .e02-detect-why {
-  font-size: .92rem;
-  line-height: 1.8
-}
-
-.e02-lesson .e02-final-answer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  flex-wrap: wrap;
-  margin: 14px auto
-}
-
-.e02-lesson .e02-final-answer input {
-  direction: ltr;
-  text-align: center;
-  max-width: 150px;
-  width: 100%;
-  min-height: 43px;
-  border: 1.5px solid var(--line);
-  border-radius: 9px;
-  background: #fff;
-  color: var(--ink);
-  font: inherit
-}
-
-.e02-lesson .e02-final-answer label {
-  direction: ltr
 }
 
 .e02-lesson button:focus-visible,
@@ -3322,41 +2754,6 @@
     font-size: 16px;
     color: var(--accent-dark)
   }
-}
-
-.e02-lesson .e02-final-trace {
-  border: 1.5px solid var(--line);
-  background: #f3f6fa;
-  border-radius: 10px;
-  padding: 8px 12px;
-  display: grid;
-  gap: 0
-}
-
-.e02-lesson .e02-final-trace>div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  border-bottom: 1px dashed var(--line);
-  padding: 10px 5px;
-  direction: rtl
-}
-
-.e02-lesson .e02-final-trace>div:last-child {
-  border-bottom: 0
-}
-
-.e02-lesson .e02-final-trace>div>span {
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line);
-  background: #fff;
-  border-radius: 50%;
-  width: 27px;
-  height: 27px;
-  flex: none;
-  font-size: .78rem
 }
 
 /* Machine results are narrated separately rather than strung into one equation chain. */
@@ -3617,14 +3014,6 @@
   border-color: #527cb4
 }
 
-.e02-lesson .e02-final-counter {
-  text-align: right;
-  font-size: .87rem;
-  color: var(--ink-soft);
-  margin: 7px 0 9px;
-  font-weight: 700
-}
-
 .e02-lesson .e02-inline-equation {
   display: inline-block;
   direction: ltr;
@@ -3686,171 +3075,6 @@
   }
 }
 
-
-/* E02: fractional unknown practice is a compact two-stage manipulation,
-   not a fifth clone of the original multiple-choice interactions. */
-.e02-lesson .e02-fraction-activity {
-  padding: 13px 14px 15px;
-  margin: 5px 0 23px
-}
-
-.e02-lesson .e02-fraction-levels {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 10px 0 13px
-}
-
-.e02-lesson .e02-fraction-level {
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 5px 12px;
-  color: var(--ink-soft);
-  background: #f5f7fa;
-  font-size: .79rem
-}
-
-.e02-lesson .e02-fraction-level.current {
-  border-color: #79b8ac;
-  background: #e9f6f1;
-  color: #086f68;
-  font-weight: 700
-}
-
-.e02-lesson .e02-fraction-level.done {
-  border-color: #aac6bd;
-  background: #f3faf7
-}
-
-.e02-lesson .e02-fraction-board>p {
-  text-align: center;
-  margin: 9px auto 12px;
-  line-height: 1.9
-}
-
-.e02-lesson .e02-fraction-actions {
-  display: flex;
-  justify-content: center;
-  margin: 8px auto 14px
-}
-
-.e02-lesson .e02-fraction-actions .btn {
-  min-height: 43px
-}
-
-.e02-lesson .e02-fraction-work {
-  display: grid;
-  place-items: center;
-  padding: 8px 12px;
-  background: #f3f6fa;
-  border: 1px dashed var(--line);
-  border-radius: 10px;
-  min-height: 53px;
-  margin: 12px auto;
-  max-width: 380px;
-  font-size: 1.15rem
-}
-
-.e02-lesson .e02-fraction-answer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 9px;
-  flex-wrap: wrap;
-  margin: 11px 0 15px
-}
-
-.e02-lesson .e02-fraction-answer>label {
-  font-size: .91rem
-}
-
-.e02-lesson .e02-fraction-answer>span {
-  direction: ltr
-}
-
-.e02-lesson .e02-fraction-answer input {
-  width: 96px;
-  max-width: 90%;
-  height: 42px;
-  border: 1.5px solid var(--line);
-  border-radius: 9px;
-  background: white;
-  text-align: center;
-  direction: ltr;
-  font: inherit
-}
-
-.e02-lesson .e02-fraction-answer .btn {
-  min-height: 42px
-}
-
-/* A bounded history keeps the operation controls spatially stable while a learner
-   experiments with long paths. New entries become visible within the same panel. */
-/* Final exercise: same E01 navigation/status, three genuinely distinct answer methods. */
-.e02-lesson .e02-final-choices {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 9px;
-  margin: 13px auto 16px;
-  max-width: 690px
-}
-
-.e02-lesson .e02-final-option {
-  min-width: 0;
-  min-height: 58px;
-  padding: 9px 7px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  direction: ltr;
-  background: #fff;
-  white-space: normal;
-  box-shadow: 2px 2px 0 var(--ink)
-}
-
-.e02-lesson .e02-final-option .katex {
-  font-size: 1.04em
-}
-
-.e02-lesson .e02-final-option:active:not(:disabled) {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 var(--ink)
-}
-
-.e02-lesson .e02-final-option.is-answer {
-  background: #e4f4e9;
-  border-color: #4b9477;
-  color: #175b47;
-  box-shadow: none
-}
-
-.e02-lesson .e02-final-option.is-incorrect {
-  background: #f9e6e6;
-  border-color: #bc6060;
-  color: #832e2e;
-  box-shadow: none
-}
-
-.e02-lesson .e02-final-option:disabled {
-  opacity: 1;
-  cursor: default
-}
-
-.e02-lesson .e02-final-initial {
-  text-align: center;
-  margin: 0 auto 11px;
-  font-size: 1.1rem
-}
-
-.e02-lesson .e02-final-pick {
-  display: grid;
-  gap: 6px;
-  border: 0;
-  padding: 0;
-  background: transparent
-}
-
 .e02-lesson .e02-final-line {
   display: flex;
   direction: rtl;
@@ -3866,18 +3090,6 @@
   cursor: pointer;
   padding: 9px 10px;
   transition: background-color .11s, border-color .11s
-}
-
-.e02-lesson .e02-final-line-index {
-  border: 1px solid var(--line);
-  background: #f3f6fa;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  font-size: .79rem
 }
 
 .e02-lesson .e02-final-line:hover:not(:disabled) {
@@ -3900,21 +3112,9 @@
   opacity: 1
 }
 
-@media(max-width:420px) {
-  .e02-lesson .e02-final-choices {
-    grid-template-columns: 1fr;
-    gap: 7px
-  }
-
-  .e02-lesson .e02-fraction-activity {
-    padding: 11px 9px 13px
-  }
-}
-
 @media(prefers-reduced-motion:reduce) {
 
-  .e02-lesson .e02-final-line,
-  .e02-lesson .e02-final-option {
+  .e02-lesson .e02-final-line {
     transition: none
   }
 }
@@ -4602,83 +3802,6 @@
   outline-offset: 2px
 }
 
-.e02-lesson .e02-final-choices {
-  direction: rtl;
-  gap: 10px;
-  margin: 13px auto 16px;
-  max-width: none
-}
-
-.e02-lesson .e02-final-choices .e02-final-option {
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.7;
-  min-height: 44px;
-  padding: 6px 10px;
-  border-color: var(--line);
-  background: #fff;
-  box-shadow: none !important;
-  transform: none !important;
-  transition: none !important;
-}
-
-.e02-lesson .e02-final-choices .e02-final-option .katex {
-  font-size: 1em
-}
-
-.e02-lesson .e02-final-choices .e02-final-option:hover:not(:disabled) {
-  border-color: var(--ink)
-}
-
-.e02-lesson .e02-final-choices .e02-final-option.is-answer,
-.e02-lesson .e02-final-choices .e02-final-option.is-answer:disabled {
-  background: #d2f0e9;
-  color: #173d2e;
-  border-color: #438b6c;
-  opacity: 1;
-}
-
-.e02-lesson .e02-final-choices .e02-final-option.is-incorrect,
-.e02-lesson .e02-final-choices .e02-final-option.is-incorrect:disabled {
-  background: #fbd5d5;
-  color: #632323;
-  border-color: #b23a3a;
-  opacity: 1;
-}
-
-.e02-lesson .e02-final-choices .e02-final-option:disabled:not(.is-answer):not(.is-incorrect) {
-  opacity: 1;
-  background: #fff;
-  color: var(--ink)
-}
-
-.e02-lesson .e02-final-pick .e02-final-line {
-  border-color: var(--line);
-  background: #fff;
-  min-height: 44px;
-  font-size: 1rem;
-  box-shadow: none !important;
-  transform: none !important;
-  transition: none !important;
-}
-
-.e02-lesson .e02-final-pick .e02-final-line:hover:not(:disabled) {
-  border-color: var(--ink);
-  background: #fff
-}
-
-.e02-lesson .e02-final-pick .e02-final-line.is-answer {
-  background: #d2f0e9;
-  color: #173d2e;
-  border-color: #438b6c
-}
-
-.e02-lesson .e02-final-pick .e02-final-line.is-chosen:not(.is-answer) {
-  background: #fbd5d5;
-  color: #632323;
-  border-color: #b23a3a
-}
-
 @media(max-width:650px) {
   .e02-lesson .e02-machine-flow {
     flex-direction: row;
@@ -5252,16 +4375,6 @@
   padding: 6px 10px;
 }
 
-.e02-lesson .e02-final .e02-choice-index {
-  display: grid;
-  place-items: center;
-  flex: 0 0 22px;
-  height: 22px;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  font-size: .77rem
-}
-
 @media(max-width:650px) {
   .e02-lesson .e02-machine-flow>.e02-machine-node {
     flex: 1 1 60px;
@@ -5803,11 +4916,6 @@
   padding: 14px 9px
 }
 
-.e02-lesson .e02-tile-solve-current {
-  direction: ltr;
-  font-size: 1.16rem
-}
-
 .e02-lesson .e02-value-answer {
   display: flex;
   align-items: center;
@@ -5883,70 +4991,6 @@
   font-size: 1.03rem
 }
 
-/* The full worked solution is present and in reading order before its four choices. */
-.e02-lesson .e02-final-solution {
-  border: 1px solid #bdd5df;
-  background: #f3f9f9;
-  border-radius: 11px;
-  margin: 10px auto 15px;
-  overflow: hidden
-}
-
-.e02-lesson .e02-final-solution>strong {
-  display: block;
-  padding: 9px 13px;
-  color: var(--accent-dark);
-  border-bottom: 1px dashed #bdd5df;
-  font-size: .93rem
-}
-
-.e02-lesson .e02-final-solution-step {
-  display: grid;
-  grid-template-columns: 29px minmax(0, 1fr);
-  gap: 9px;
-  align-items: center;
-  padding: 7px 12px;
-  border-bottom: 1px dashed #cbd9e3;
-  direction: rtl;
-  min-height: 40px
-}
-
-.e02-lesson .e02-final-solution-step:last-child {
-  border-bottom: 0
-}
-
-.e02-lesson .e02-final-solution-num {
-  display: grid;
-  place-items: center;
-  width: 25px;
-  height: 25px;
-  border: 1px solid #9fb9d3;
-  border-radius: 50%;
-  background: #fff;
-  font-size: .77rem
-}
-
-.e02-lesson .e02-final-solution-step>span:last-child {
-  text-align: center;
-  direction: ltr
-}
-
-.e02-lesson .e02-final-summary {
-  margin: 10px 0 15px;
-  padding: 12px 15px;
-  text-align: right;
-  border-radius: 9px
-}
-
-.e02-lesson .e02-final-summary>b {
-  font-size: 1.1rem
-}
-
-.e02-lesson .e02-final-summary>p {
-  margin: 4px 0 0 !important;
-  font-size: .94rem
-}
-
 /* A single correction line with the input IN the math, rather than a detached form. */
 .e02-lesson .e02-correction {
   background: transparent;
@@ -6004,10 +5048,6 @@
 
   .e02-lesson .e02-fr-cancel-side>div {
     font-size: clamp(.73rem, 3.0vw, .98rem)
-  }
-
-  .e02-lesson .e02-final-solution-step {
-    padding: 7px 6px
   }
 }
 
@@ -6094,75 +5134,6 @@
   align-self: center
 }
 
-.e02-lesson .e02-final-steps-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin: 13px auto 15px;
-  width: 100%
-}
-
-.e02-lesson .e02-final .e02-final-step-option {
-  display: grid;
-  grid-template-columns: 32px minmax(0, 1fr);
-  direction: rtl;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  min-height: 45px;
-  padding: 5px 10px;
-  text-align: center;
-  border: 1.5px solid var(--line);
-  border-radius: 10px;
-  box-shadow: none !important;
-  transform: none !important;
-  background: #fff;
-  color: var(--ink)
-}
-
-.e02-lesson .e02-final .e02-final-step-option:hover:not(:disabled) {
-  border-color: var(--ink);
-  background: #f2f7fc
-}
-
-.e02-lesson .e02-final-step-badge {
-  display: grid;
-  place-items: center;
-  width: 29px;
-  height: 29px;
-  border-radius: 50%;
-  background: var(--ink);
-  color: #fff;
-  font-weight: 700;
-  font-size: .9rem
-}
-
-.e02-lesson .e02-final-step-math {
-  min-width: 0;
-  display: block;
-  text-align: center;
-  direction: ltr
-}
-
-.e02-lesson .e02-final .e02-final-step-option.e01-right,
-.e02-lesson .e02-final .e02-final-step-option.e01-right:disabled {
-  background: #d2f0e9;
-  border-color: #438b6c;
-  color: #173d2e
-}
-
-.e02-lesson .e02-final .e02-final-step-option.e01-wrong,
-.e02-lesson .e02-final .e02-final-step-option.e01-wrong:disabled {
-  background: #fbd5d5;
-  border-color: #b23a3a;
-  color: #632323
-}
-
-.e02-lesson .e02-final .e02-final-step-option:disabled {
-  opacity: 1;
-  cursor: default
-}
-
 .e02-lesson .e02-detect-row:disabled {
   opacity: 1;
   cursor: default
@@ -6231,28 +5202,6 @@
    color only the slash, not the number being cancelled. */
 .e02-lesson .e02-fr-cancel-math .katex svg line {
   stroke: #c13939 !important
-}
-
-/* E02: numbered choices, exact operation chips, and LTR x = input row. */
-.e02-lesson .e02-final .e01-answer-grid .e01-answer:has(.e02-final-stage-num) {
-  direction: rtl;
-  position: relative;
-  gap: 8px;
-  padding-inline: 9px
-}
-
-.e02-lesson .e02-final-stage-num {
-  display: inline-grid;
-  place-items: center;
-  flex: 0 0 28px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #091c45;
-  color: white;
-  border: 2px solid #159c91;
-  font-size: .9rem;
-  line-height: 1
 }
 
 .e02-lesson .e02-tile-operation {
@@ -6584,11 +5533,6 @@
     margin-top: 4px
   }
 
-  .e01-two-sides>div:not(.e01-equals) {
-    min-height: 95px;
-    padding: 8px 5px
-  }
-
   .e02-lesson #e02-route .e02-route-layout {
     height: auto;
     min-height: 0;
@@ -6758,10 +5702,6 @@
   justify-content: flex-end;
 }
 
-#n3b>.scw.dm>.scan.n3-scan {
-  padding: 4px 2px 16px 2px !important;
-}
-
 /* موبایل باریک (≤۴۰۰px): ماشین عملیات بدون هم‌پوشانی و با برچسب‌های خواناتر */
 @media(max-width:400px) {
   .e02-lesson .e02-machine-flow>.e02-machine-node {
@@ -6787,3 +5727,16 @@
     font-size: .7rem
   }
 }
+
+/* هماهنگی حاشیهٔ گزینه‌های آزمون‌ها با استاندارد: فاصله ۸px و حاشیهٔ بالا و پایین ۱۰px */
+#e01-final .e01-answer-grid,
+#e02-final .e01-answer-grid,
+#e03-solve .e01-answer-grid,
+#e03-final .e01-answer-grid {gap:8px;margin-top:10px;margin-bottom:10px}
+
+/* دکمه‌های عمل کارگاه‌های فصل ۳ هم‌اندازهٔ دکمه‌های استاندارد پروژه */
+.e02-foot-actions .btn,
+.e02-fr-action,
+.e02-fr-next .btn,
+.e02-detect-repair .btn,
+.e01-speed-start-button {min-width:120px;min-height:36px;height:auto;padding:5px 12px;font-size:.9rem}

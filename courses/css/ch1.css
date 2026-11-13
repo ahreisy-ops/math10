@@ -1,133 +1,606 @@
-/* Quiz_44: unified compact controls. Never resize the circular info control. */
-.mc .opt {font-size:1rem;min-height:44px;padding:5px 10px;font-weight:600;overflow-wrap:anywhere;white-space:normal}
-.opts .btn,.modal-act .btn,.opseg .btn,.nl .ctl .btn{min-height:36px;font-size:.88rem;padding:5px 12px}
-.infobtn,.infobtn.sm {box-sizing:border-box;flex:0 0 auto;min-width:22px;max-width:22px;width:22px;height:22px;min-height:22px;max-height:22px;padding:0;border-radius:50%;line-height:18px;font-size:13px;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}
-.opseg .btn.on{background:var(--mark);color:var(--ink);border-color:var(--ink)}
-.n3-w .btn{min-height:36px}
-.n3-w .mc .opt{min-height:44px;font-size:1rem}
-.quiz44-prev-next{display:flex;justify-content:space-between;direction:ltr;width:100%}
-.quiz44-prev-next .btn{min-height:36px}
+.opseg .btn,
+.nl .ctl .btn {
+  min-height: 36px;
+  font-size: .88rem;
+  padding: 5px 12px
+}
 
+.opseg .btn.on {
+  background: var(--mark);
+  color: var(--ink);
+  border-color: var(--ink)
+}
 
-/* Compact navigation: first button left, next button right, regardless of RTL body. */
-.opts:has([data-p="1"]):has([data-nx="1"]){display:flex;justify-content:space-between;direction:ltr;gap:12px}
-.opts:has([data-p="1"]):has([data-nx="1"]) .btn{min-height:36px}
-.stg span{font-size:.87rem}
+#flab .fb,
+#flab .ex,
+#ld .fb,
+#ld .ex {
+  font-size: 1rem;
+  line-height: 1.9;
+}
 
-/* Hover reference shared by HTML number lines (N04/N05). */
-.quiz44-hov-ghost{position:absolute;width:24px;height:24px;box-sizing:border-box;border:2px dashed var(--ink);background:rgba(20,33,61,.08);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:5}
-.quiz44-hov-tip{position:absolute;transform:translateX(-50%);background:var(--ink);color:white;border-radius:9px;padding:3px 9px;min-width:36px;text-align:center;white-space:nowrap;font-weight:bold;font-size:.9rem;pointer-events:none;z-index:6}
-.quiz44-hov-tip:after{content:"";position:absolute;top:100%;left:50%;margin-left:-6px;border:6px solid transparent;border-top-color:var(--ink);border-bottom:0}
+.n3-w .btn {
+  min-height: 36px
+}
 
-/* N01: shift the whole revealed-card content down, with unchanged total vertical padding. */
-#cards1 .cover {box-sizing:border-box;padding-top:24px;padding-bottom:6px;}
+.n3-w .mc .opt {
+  min-height: 44px;
+  font-size: 1rem
+}
+
 /* N01: previous right, next left in RTL (HTML order follows reading direction). */
-.n01-final-nav {direction:rtl !important;justify-content:space-between !important;}
+.n01-final-nav {
+  direction: rtl !important;
+  justify-content: space-between !important;
+}
 
 /* N02 final practice: previous on the right, next on the left. */
-.n02-final-nav {direction:rtl !important;justify-content:space-between !important;}
+.n02-final-nav {
+  direction: rtl !important;
+  justify-content: space-between !important;
+}
 
 /* N06–N10 scoped visual harmonization; excludes info icons and compact controls. */
-.standard-n6-10 .mc .opt { min-height:44px; height:auto; font-size:1rem; padding:5px 10px; font-weight:600; white-space:normal; overflow-wrap:anywhere; }
-.standard-n6-10 .mc .opt .katex { max-width:100%; }
+.standard-n6-10 .mc .opt {
+  min-height: 44px;
+  height: auto;
+  font-size: 1rem;
+  padding: 5px 10px;
+  font-weight: 600;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.standard-n6-10 .mc .opt .katex {
+  max-width: 100%;
+}
+
 .standard-n6-10 .opts .btn,
 .standard-n6-10 .modal-act .btn,
-.standard-n6-10 .opseg .btn { min-height:36px; height:auto; font-size:.88rem; padding:5px 12px; }
-.standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) { display:flex; flex-direction:row; justify-content:space-between; direction:rtl; width:100%; gap:12px; }
-.standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) > [data-p="1"] { order:0; margin-inline:0; }
-.standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) > [data-nx="1"] { order:1; margin-inline:0; }
-.standard-n6-10 .stg span { font-size:.87rem; }
-.standard-n6-10 .stg .cu { background:var(--mark); border-color:var(--ink); color:var(--ink); }
-.standard-n6-10 .stg .dn { background:#e6f6f3; border-color:var(--accent); color:var(--accent-dark); }
-.standard-n6-10 .stg span:not(.cu):not(.dn):not(.wr) { background:#fff; border-color:var(--line); color:var(--ink-soft); }
-.standard-n6-10 .ex { border:1.5px dashed var(--line); border-radius:10px; }
+.standard-n6-10 .opseg .btn {
+  min-height: 36px;
+  height: auto;
+  font-size: .9rem;
+  padding: 5px 14px;
+}
+
+.standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  direction: rtl;
+  width: 100%;
+  gap: 12px;
+}
+
+.standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"])>[data-p="1"] {
+  order: 0;
+  margin-inline: 0;
+}
+
+.standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"])>[data-nx="1"] {
+  order: 1;
+  margin-inline: 0;
+}
+
+.standard-n6-10 .stg span {
+  font-size: .87rem;
+}
+
+.standard-n6-10 .stg .cu {
+  background: var(--mark);
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.standard-n6-10 .stg .dn {
+  background: #e6f6f3;
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+
+.standard-n6-10 .stg span:not(.cu):not(.dn):not(.wr) {
+  background: #fff;
+  border-color: var(--line);
+  color: var(--ink-soft);
+}
+
+.standard-n6-10 .ex {
+  border: 1.5px dashed var(--line);
+  border-radius: 10px;
+}
+
 /* High-specificity guard against broad button rules; preserve miniature controls */
-.standard-n6-10 .infobtn,.standard-n6-10 .infobtn.sm { box-sizing:border-box; min-height:22px; max-height:22px; height:22px; min-width:22px; max-width:22px; width:22px; padding:0; font-size:13px; border-radius:50%; }
-@media(max-width:520px) { .standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) { flex-wrap:wrap; } }
+.standard-n6-10 .infobtn,
+.standard-n6-10 .infobtn.sm {
+  box-sizing: border-box;
+  min-height: 22px;
+  max-height: 22px;
+  height: 22px;
+  min-width: 22px;
+  max-width: 22px;
+  width: 22px;
+  padding: 0;
+  font-size: 13px;
+  border-radius: 50%;
+}
+
+@media(max-width:520px) {
+  .standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) {
+    flex-wrap: wrap;
+  }
+}
 
 /* N03: final-exam navigation matches the shared navigation button sizing. */
-.n3-w .opts.n3-seqnav>.btn{min-height:38px;padding:5px 12px;min-width:112px}
+.n3-w .opts.n3-seqnav>.btn {
+  min-height: 38px;
+  padding: 5px 12px;
+  min-width: 112px
+}
+
+#n3b .scw.dm .scan.n3-scan .rl i {
+  background: var(--pink);
+}
+
+#n3b .opts.n3-place-den button {
+  min-height: 34px;
+  min-width: 0;
+  padding: 2px 14px;
+  margin-bottom: 10px;
+}
+
+#n3b>.scw.dm>.scan.n3-scan {
+  padding: 4px 2px 16px 2px !important;
+}
+
+#n3b .dm:nth-child(2),
+#n3d .dm:nth-child(3) {
+  padding-top: 1px;
+}
 
 /* Quiz-3-94: mobile layout for N03 conversion lab and N07 trap cards. */
-@media(max-width:520px){
- .n3-w .n3-row{grid-template-columns:minmax(0,1fr) minmax(0,105px) 16px;column-gap:5px;width:100%;max-width:100%;box-sizing:border-box;justify-content:center}
- .n3-w .n3-langmeta{width:auto;max-width:100%;min-width:0;gap:5px;font-size:.83rem}
- .n3-w .n3-row .n3-in,.n3-w .n3-row .n3-inbox{width:100%;min-width:0;max-width:150px}
- .n3-w .n3-row .n3-mk{width:16px}
- .standard-n6-10 .sg{grid-template-columns:minmax(0,1fr)!important}
- .standard-n6-10 .sg>div{min-width:0;max-width:100%;box-sizing:border-box}
- .standard-n6-10 .sg .dm{max-width:100%;overflow-x:visible;white-space:normal}
- .standard-n6-10 .sg .katex{font-size:.88em}
+@media(max-width:520px) {
+  .n3-w .n3-row {
+    /* grid-template-columns: minmax(0, 1fr) minmax(0, 105px) 16px; */
+    grid-template-columns: minmax(0, 1fr) minmax(100px, 140px) minmax(88px, 130px) minmax(0, 1fr);
+    /* column-gap: 5px; */
+    column-gap: 8px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0 6px;
+    justify-content: center;
+  }
+
+  .n3-w .n3-langmeta {
+    /* width: auto; */
+    width: 100%;
+    /* max-width: 100%; */
+    max-width: 130px;
+    min-width: 0;
+    gap: 5px;
+    font-size: .83rem
+  }
+
+  .n3-w .n3-row .n3-in,
+  .n3-w .n3-row .n3-inbox {
+    width: 100%;
+    min-width: 0;
+    /* max-width: 150px; */
+    max-width: 140px
+  }
+
+  .n3-w .n3-row .n3-mk {
+    width: 16px;
+    margin-right: 0
+  }
+
+  .standard-n6-10 .sg {
+    grid-template-columns: minmax(0, 1fr) !important
+  }
+
+  .standard-n6-10 .sg>div {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box
+  }
+
+  .standard-n6-10 .sg .dm {
+    max-width: 100%;
+    overflow-x: visible;
+    white-space: normal
+  }
+
+  .standard-n6-10 .sg .katex {
+    font-size: .88em
+  }
 }
 
 /* Quiz-3-116: mobile-only wrapping for long lesson formulas and sign-rule cards. */
-.n01-repeat-mul-mobile,.n01-sign-logic-mobile,.n03-times100-mobile,
-.n06-same-base-product-mobile,.n06-product-examples-mobile,.n06-cancel-example-mobile,
-.n06-division-examples-mobile,.n10-factor-example-mobile{display:none}
-@media(max-width:520px){
- .nl .ctl{flex-wrap:wrap;align-items:stretch}
- .nl .ctl .btn{flex:1 1 calc(50% - 8px);min-width:0;max-width:none;white-space:normal;box-sizing:border-box}
- .nl .ctl .btn:nth-child(3){flex:1 1 100%;max-width:none}
- .lesson .sg{grid-template-columns:minmax(0,1fr)!important}
- .lesson .sg>div{min-width:0;max-width:100%;box-sizing:border-box}
- .lesson .sg .dm{max-width:100%;overflow-x:visible;white-space:normal}
- .n01-repeat-mul-desktop,.n01-sign-logic-desktop,.n03-times100-desktop,
- .n06-same-base-product-desktop,.n06-product-examples-desktop,.n06-cancel-example-desktop,
- .n06-division-examples-desktop,.n10-factor-example-desktop{display:none}
- .n01-repeat-mul-mobile,.n01-sign-logic-mobile,.n03-times100-mobile,
- .n06-same-base-product-mobile,.n06-product-examples-mobile,.n06-cancel-example-mobile,
- .n06-division-examples-mobile,.n10-factor-example-mobile{display:block;max-width:100%;min-width:0}
- .n01-repeat-mul-mobile .dm,.n01-sign-logic-mobile .dm,.n03-times100-mobile .dm,
- .n06-same-base-product-mobile .dm,.n06-product-examples-mobile .dm,.n06-cancel-example-mobile .dm,
- .n06-division-examples-mobile .dm,.n10-factor-example-mobile .dm{max-width:100%;min-width:0;overflow-x:visible;overflow-y:hidden;box-sizing:border-box;margin:8px auto}
- .n01-sign-logic-mobile .dm{margin:10px auto 14px}
- /* Quiz-3-119: add mobile-only vertical separation between independent calculations. */
- .n01-sign-logic-mobile .dm:nth-child(2),
- .n03-times100-mobile .dm:nth-child(2),.n03-times100-mobile .dm:nth-child(4),
- .n06-product-examples-mobile .dm:nth-child(3),
- .n06-division-examples-mobile .dm:nth-child(2){margin-bottom:28px}
- /* Quiz-3-120: add top breathing room before division examples and separate all three product-example groups. */
- .n06-division-examples{margin-top:14px}
- .n06-product-examples-mobile .dm:nth-child(1){margin-bottom:28px}
+.n01-repeat-mul-mobile,
+.n01-sign-logic-mobile,
+.n03-times100-mobile,
+.n06-same-base-product-mobile,
+.n06-product-examples-mobile,
+.n06-cancel-example-mobile,
+.n06-division-examples-mobile,
+.n10-factor-example-mobile {
+  display: none
+}
+
+@media(max-width:520px) {
+  .nl .ctl {
+    flex-wrap: wrap;
+    align-items: stretch
+  }
+
+  .nl .ctl .btn {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 0;
+    max-width: none;
+    white-space: normal;
+    box-sizing: border-box
+  }
+
+  .nl .ctl .btn:nth-child(3) {
+    flex: 1 1 100%;
+    max-width: none
+  }
+
+  .n01-repeat-mul-desktop,
+  .n01-sign-logic-desktop,
+  .n03-times100-desktop,
+  .n06-same-base-product-desktop,
+  .n06-product-examples-desktop,
+  .n06-cancel-example-desktop,
+  .n06-division-examples-desktop,
+  .n10-factor-example-desktop {
+    display: none
+  }
+
+  .n01-repeat-mul-mobile,
+  .n01-sign-logic-mobile,
+  .n03-times100-mobile,
+  .n06-same-base-product-mobile,
+  .n06-product-examples-mobile,
+  .n06-cancel-example-mobile,
+  .n06-division-examples-mobile,
+  .n10-factor-example-mobile {
+    display: block;
+    max-width: 100%;
+    min-width: 0
+  }
+
+  .n01-repeat-mul-mobile .dm,
+  .n01-sign-logic-mobile .dm,
+  .n03-times100-mobile .dm,
+  .n06-same-base-product-mobile .dm,
+  .n06-product-examples-mobile .dm,
+  .n06-cancel-example-mobile .dm,
+  .n06-division-examples-mobile .dm,
+  .n10-factor-example-mobile .dm {
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: visible;
+    overflow-y: hidden;
+    box-sizing: border-box;
+    margin: 8px auto
+  }
+
+  .n01-sign-logic-mobile .dm {
+    margin: 10px auto 14px
+  }
+
+  /* Quiz-3-119: add mobile-only vertical separation between independent calculations. */
+  .n01-sign-logic-mobile .dm:nth-child(2),
+  .n03-times100-mobile .dm:nth-child(2),
+  .n03-times100-mobile .dm:nth-child(4),
+  .n06-product-examples-mobile .dm:nth-child(3),
+  .n06-division-examples-mobile .dm:nth-child(2) {
+    margin-bottom: 28px
+  }
+
+  /* Quiz-3-120: add top breathing room before division examples and separate all three product-example groups. */
+  .n06-division-examples {
+    margin-top: 14px
+  }
+
+  .n06-product-examples-mobile .dm:nth-child(1) {
+    margin-bottom: 28px
+  }
 }
 
 
 /* محور اعداد روی گوشی: به‌جای کوچک‌کردن (نوشتهٔ ۶px)، با عرض خوانا قابل کشیدن است */
-.nl .nl-sc, .scw.dm {
-	overflow-x:auto;
-	direction:ltr;
-	-webkit-overflow-scrolling:touch;
-	overscroll-behavior-x:contain;
-	
-	scrollbar-width: thin;
-	scrollbar-color: var(--accent-dark) var(--grid);
-	border: 1px dotted var(--line);
-	border-radius: 8px;
-	box-shadow: inset 0 1px 2px var(--grid), 0 2px 3px -1px var(--line);
+.nl .nl-sc,
+.scw.dm {
+  overflow-x: auto;
+  direction: ltr;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-dark) var(--grid);
+  border: 1px dotted var(--line);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 2px var(--grid), 0 2px 3px -1px var(--line);
 }
 
-.nl .nl-scrollhint{display:none;margin:2px 0 0;font-size:.82rem;color:var(--ink-soft);text-align:center}
-@media(max-width:560px){.nl .nl-sc svg{width:560px;max-width:none}.nl .nl-scrollhint{display:block}}
+.nl .nl-scrollhint {
+  display: none;
+  margin: 2px 0 0;
+  font-size: .82rem;
+  color: var(--ink-soft);
+  text-align: center
+}
 
-/* N04: دکمهٔ ↻ و لینک «پاک‌کردن ترتیب» — ناحیهٔ لمس ≥۴۰px بدون تغییر ظاهر */
-.rp{position:relative}
-.rp::after{content:'';position:absolute;inset:-7px}
-.ladn a{display:inline-block;padding:10px 8px;margin:-10px -8px}
+@media(max-width:560px) {
+  .nl .nl-sc svg {
+    width: 560px;
+    max-width: none
+  }
 
-#sd .nl .lv.lo {
-    pointer-events: none;
+  .nl .nl-scrollhint {
+    display: block
+  }
+}
+
+.ladn a {
+  display: inline-block;
+  padding: 10px 8px;
+  margin: -10px -8px
 }
 
 @media(max-width:520px) {
-    .lesson table { font-size: .8rem !important; }
-    .lesson td .katex {white-space: break-spaces !important;}
-    .fold .tn {font-size: .5rem !important;}
-    #dm .tn {font-size: .5rem !important;}
-    #mr input, #af input { max-width: 60% !important; }
+  .fold .tn {
+    font-size: .5rem !important;
+  }
+
+  #mr input,
+  #af input {
+    max-width: 60% !important;
+  }
 }
 
-@media(max-width:520px) { .N04-Ex01-P01 { font-size: .8rem !important; } .N04-Ex01-P02 { font-size: .7rem !important; } .N04-Ex01-P03 { font-size: .55rem !important; }}
+@media(max-width:520px) {
+  .N04-Ex01-P01 {
+    font-size: .8rem !important;
+  }
 
-@media(max-width:384px) {#bR { font-size: .776rem; }}
-@media(max-width:384px) {#bR { font-size: .776rem; }}
-@media(max-width:416px) {#bR { font-size: .778rem; }}
+  .N04-Ex01-P02 {
+    font-size: .7rem !important;
+  }
+
+  .N04-Ex01-P03 {
+    font-size: .55rem !important;
+  }
+}
+
+@media(max-width:384px) {
+  #bR {
+    font-size: .776rem;
+  }
+}
+
+@media(max-width:384px) {
+  #bR {
+    font-size: .776rem;
+  }
+}
+
+@media(max-width:416px) {
+  #bR {
+    font-size: .778rem;
+  }
+}
+
+
+/* ===== منتقل‌شده از course-shared-overrides.css (فقط فصل 1) ===== */
+/* Non-invasive standardized optional press feedback: applied ONLY where explicitly opted-in. */
+.press-effect {
+  transition: transform .10s ease, box-shadow .10s ease;
+}
+
+.press-effect:active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+.press-effect:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press-effect {
+    transition: none
+  }
+
+  .press-effect:active:not(:disabled) {
+    transform: none
+  }
+}
+
+
+/* Quiz_101: enacted, role-scoped interaction standards for chapters 1–2.
+   White operational controls may depress; primary green progression buttons,
+   quiz answers and prev/next navigation deliberately never acquire this effect.
+   These selectors target existing control groups rather than all .btn elements. */
+.opseg>.btn.press-effect {
+  transition: transform .10s ease, box-shadow .10s ease;
+}
+
+.opseg {
+  direction: rtl;
+}
+
+/* Numeric-only choice rows remain left-to-right; these are not progress badges. */
+.n7-hunt-controls,
+.n9-mixer .n9-stp {
+  direction: ltr;
+}
+
+
+/* Quiz_102 — scoped role-aware normalization for 18 existing lessons.
+   Never apply press feedback to assessment choices, progression, disabled buttons,
+   or next/previous navigation.  Original font metrics and geometry retained. */
+/* Chapter one: genuine state selection and repeatable arithmetic operations. */
+#n6a .n6-chip,
+#n6a .n6-sign-step,
+.n6-count-modes .n6-count-mode,
+.btn.press-effect[data-sw],
+.n8-radar-new .btn[data-nw]:not(.primary),
+.n7-hunt-modes .chip,
+.n7-hunt-controls .btn,
+.n9-mixer .btn[data-s],
+.opseg .btn:not(.primary),
+.n7-hunt-modes .chip,
+.n7-hunt-controls .btn {
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: transform .10s ease, box-shadow .10s ease;
+}
+
+#n6a .n6-chip:active:not(:disabled),
+#n6a .n6-sign-step:active:not(:disabled),
+.n6-count-modes .n6-count-mode:active:not(:disabled),
+.btn.press-effect[data-sw]:active:not(:disabled),
+.n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
+.n7-hunt-modes .chip:active:not(:disabled),
+.n7-hunt-controls .btn:active:not(:disabled),
+.n9-mixer .btn[data-s]:active:not(:disabled),
+.opseg .btn:not(.primary):active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+/* N08: a swap is a white tool action; green is reserved for confirmed progression. */
+.n8-radar-new>.btn[data-nw]:not(.primary) {
+  box-shadow: 2px 2px 0 var(--ink)
+}
+
+/* Chapter 1 count tabs: preserve yellow for selected; selection does not change font sizing. */
+.n6-count-modes .n6-count-mode.sel {
+  background: var(--mark)
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+  #n6a .n6-chip:active:not(:disabled),
+  #n6a .n6-sign-step:active:not(:disabled),
+  .n6-count-modes .n6-count-mode:active:not(:disabled),
+  .btn.press-effect[data-sw]:active:not(:disabled),
+  .n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
+  .n7-hunt-modes .chip:active:not(:disabled),
+  .n7-hunt-controls .btn:active:not(:disabled),
+  .n9-mixer .btn[data-s]:active:not(:disabled),
+  .opseg .btn:not(.primary):active:not(:disabled) {
+    transform: none
+  }
+}
+
+/* N02 final: fractions in answer choices use normal weight, not the generic 600. */
+#ffin .mc .opt {
+  font-weight: 400
+}
+
+.n4-neg-nav,
+.n10-tf-nav {
+  display: flex;
+  direction: rtl;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%
+}
+
+.n4-neg-nav .btn,
+.n10-tf-nav .btn,
+.n9-end .opts:has(> [data-p="1"]):has(> [data-nx="1"])>.btn {
+  min-width: 120px;
+  min-height: 36px;
+  font-size: .9rem;
+  font-weight: 700
+}
+
+.n8-radar-new>.btn[data-nw]:not(.primary) {
+  box-shadow: none !important;
+  transform: none !important
+}
+
+.n8-radar-new>.btn[data-nw]:not(.primary):active:not(:disabled) {
+  box-shadow: none !important;
+  transform: none !important
+}
+
+/* Consistent widths for binary and three-control question interfaces */
+.n4-neg-choices {
+  width: 100%;
+  max-width: none;
+  margin: 10px 0;
+  direction: rtl
+}
+
+.n4-neg-choices>.opt {
+  min-width: 0;
+  width: 100%;
+  min-height: 44px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  font-weight: 400
+}
+
+/* N08 distance meter: compact, centered point controls and swap action. */
+.n8-distance-choices {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  direction: rtl;
+  margin: 10px 0
+}
+
+.n8-distance-choices>.btn {
+  box-sizing: border-box;
+  width: auto;
+  min-width: 0;
+  min-height: 44px;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 7px 11px;
+  box-shadow: 3px 3px 0 var(--ink)
+}
+
+.n8-distance-choices>.btn:not(.on) {
+  border-color: var(--ink)
+}
+
+.n8-distance-choices>.btn.on {
+  background: var(--mark);
+  color: var(--ink);
+  border-color: var(--ink)
+}
+
+.n8-distance-choices>.btn:active:not(:disabled),
+.n8-distance-action>.btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink)
+}
+
+.n8-distance-action {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 10px 0
+}
+
+.n8-distance-action>.btn {
+  box-sizing: border-box;
+  width: auto;
+  min-width: 0;
+  min-height: 40px;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  box-shadow: 3px 3px 0 var(--ink)
+}

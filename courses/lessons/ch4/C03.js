@@ -21,7 +21,6 @@ window.LESSONS.C03 = {
     function dp(d, o) { return C.plane(Object.assign({ x0: 0, x1: 6, y0: Math.min(0, d.ctx.lo), y1: d.ctx.hi, cell: 32, xt: d.ctx.xn, yt: d.ctx.yu }, o || {})); }
     function pts(d, cl) { return d.xs.map(function (x, i) { return { x: x, y: d.ys[i], c: cl || C.PINK, r: 6 }; }); }
     var tab = function (d, o) { return C.table(d.xs, d.ys, Object.assign({ xh: d.ctx.xn, yh: d.ctx.yn }, o || {})); };
-    var the = function (d, x) { return d.ctx.xn + ' ' + C.num(x); };
 
     /* ============ ۱) جدول و نمودار: دو زبان ============ */
     K.linked = function (host) {
