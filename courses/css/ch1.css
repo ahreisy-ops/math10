@@ -1,5 +1,4 @@
 .opseg .btn,
-<<<<<<< HEAD
 .nl .ctl .btn {
   min-height: 36px;
   font-size: .88rem;
@@ -29,12 +28,6 @@
   font-size: 1rem
 }
 
-=======
-.nl .ctl .btn {min-height:36px;font-size:.88rem;padding:5px 12px}
-.opseg .btn.on{background:var(--mark);color:var(--ink);border-color:var(--ink)}
-.n3-w .btn{min-height:36px}
-.n3-w .mc .opt{min-height:44px;font-size:1rem}
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 /* N01: previous right, next left in RTL (HTML order follows reading direction). */
 .n01-final-nav {
   direction: rtl !important;
@@ -224,7 +217,6 @@
 }
 
 /* Quiz-3-116: mobile-only wrapping for long lesson formulas and sign-rule cards. */
-<<<<<<< HEAD
 .n01-repeat-mul-mobile,
 .n01-sign-logic-mobile,
 .n03-times100-mobile,
@@ -316,33 +308,6 @@
   .n06-product-examples-mobile .dm:nth-child(1) {
     margin-bottom: 28px
   }
-=======
-.n01-repeat-mul-mobile,.n01-sign-logic-mobile,.n03-times100-mobile,
-.n06-same-base-product-mobile,.n06-product-examples-mobile,.n06-cancel-example-mobile,
-.n06-division-examples-mobile,.n10-factor-example-mobile{display:none}
-@media(max-width:520px){
- .nl .ctl{flex-wrap:wrap;align-items:stretch}
- .nl .ctl .btn{flex:1 1 calc(50% - 8px);min-width:0;max-width:none;white-space:normal;box-sizing:border-box}
- .nl .ctl .btn:nth-child(3){flex:1 1 100%;max-width:none}
- .n01-repeat-mul-desktop,.n01-sign-logic-desktop,.n03-times100-desktop,
- .n06-same-base-product-desktop,.n06-product-examples-desktop,.n06-cancel-example-desktop,
- .n06-division-examples-desktop,.n10-factor-example-desktop{display:none}
- .n01-repeat-mul-mobile,.n01-sign-logic-mobile,.n03-times100-mobile,
- .n06-same-base-product-mobile,.n06-product-examples-mobile,.n06-cancel-example-mobile,
- .n06-division-examples-mobile,.n10-factor-example-mobile{display:block;max-width:100%;min-width:0}
- .n01-repeat-mul-mobile .dm,.n01-sign-logic-mobile .dm,.n03-times100-mobile .dm,
- .n06-same-base-product-mobile .dm,.n06-product-examples-mobile .dm,.n06-cancel-example-mobile .dm,
- .n06-division-examples-mobile .dm,.n10-factor-example-mobile .dm{max-width:100%;min-width:0;overflow-x:visible;overflow-y:hidden;box-sizing:border-box;margin:8px auto}
- .n01-sign-logic-mobile .dm{margin:10px auto 14px}
- /* Quiz-3-119: add mobile-only vertical separation between independent calculations. */
- .n01-sign-logic-mobile .dm:nth-child(2),
- .n03-times100-mobile .dm:nth-child(2),.n03-times100-mobile .dm:nth-child(4),
- .n06-product-examples-mobile .dm:nth-child(3),
- .n06-division-examples-mobile .dm:nth-child(2){margin-bottom:28px}
- /* Quiz-3-120: add top breathing room before division examples and separate all three product-example groups. */
- .n06-division-examples{margin-top:14px}
- .n06-product-examples-mobile .dm:nth-child(1){margin-bottom:28px}
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 }
 
 
@@ -361,7 +326,6 @@
   box-shadow: inset 0 1px 2px var(--grid), 0 2px 3px -1px var(--line);
 }
 
-<<<<<<< HEAD
 .nl .nl-scrollhint {
   display: none;
   margin: 2px 0 0;
@@ -396,15 +360,6 @@
   #af input {
     max-width: 60% !important;
   }
-=======
-.nl .nl-scrollhint{display:none;margin:2px 0 0;font-size:.82rem;color:var(--ink-soft);text-align:center}
-@media(max-width:560px){.nl .nl-sc svg{width:560px;max-width:none}.nl .nl-scrollhint{display:block}}
-.ladn a{display:inline-block;padding:10px 8px;margin:-10px -8px}
-
-@media(max-width:520px) {
-    .fold .tn {font-size: .5rem !important;}
-    #mr input, #af input { max-width: 60% !important; }
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 }
 
 @media(max-width:520px) {
@@ -412,7 +367,6 @@
     font-size: .8rem !important;
   }
 
-<<<<<<< HEAD
   .N04-Ex01-P02 {
     font-size: .7rem !important;
   }
@@ -465,22 +419,6 @@
   .press-effect:active:not(:disabled) {
     transform: none
   }
-=======
-@media(max-width:384px) {#bR { font-size: .776rem; }}
-@media(max-width:384px) {#bR { font-size: .776rem; }}
-@media(max-width:416px) {#bR { font-size: .778rem; }}
-
-<<<<<<< HEAD
-
-/* ===== منتقل‌شده از course-shared-overrides.css (فقط فصل 1) ===== */
-/* Non-invasive standardized optional press feedback: applied ONLY where explicitly opted-in. */
-.press-effect { transition: transform .10s ease, box-shadow .10s ease; }
-.press-effect:active:not(:disabled) { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--ink); }
-.press-effect:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) {
-  .press-effect {transition:none}
-  .press-effect:active:not(:disabled) { transform:none }
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 }
 
 
@@ -488,7 +426,6 @@
    White operational controls may depress; primary green progression buttons,
    quiz answers and prev/next navigation deliberately never acquire this effect.
    These selectors target existing control groups rather than all .btn elements. */
-<<<<<<< HEAD
 .opseg>.btn.press-effect {
   transition: transform .10s ease, box-shadow .10s ease;
 }
@@ -502,17 +439,6 @@
 .n9-mixer .n9-stp {
   direction: ltr;
 }
-=======
-.opseg > .btn.press-effect {
-  transition: transform .10s ease, box-shadow .10s ease;
-}
-.opseg { direction: rtl; }
-=======
-/* ===== منتقل‌شده از course-shared-overrides.css (فقط فصل ۱) ===== */
->>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
-/* Numeric-only choice rows remain left-to-right; these are not progress badges. */
-.n7-hunt-controls, .n9-mixer .n9-stp { direction:ltr; }
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 
 
 /* Quiz_102 — scoped role-aware normalization for 18 existing lessons.
@@ -522,19 +448,11 @@
 #n6a .n6-chip,
 #n6a .n6-sign-step,
 .n6-count-modes .n6-count-mode,
-<<<<<<< HEAD
 .btn.press-effect[data-sw],
-=======
-<<<<<<< HEAD
-.btn.press-effect[data-sw],
-=======
->>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 .n8-radar-new .btn[data-nw]:not(.primary),
 .n7-hunt-modes .chip,
 .n7-hunt-controls .btn,
 .n9-mixer .btn[data-s],
-<<<<<<< HEAD
 .opseg .btn:not(.primary),
 .n7-hunt-modes .chip,
 .n7-hunt-controls .btn {
@@ -545,28 +463,12 @@
 #n6a .n6-chip:active:not(:disabled),
 #n6a .n6-sign-step:active:not(:disabled),
 .n6-count-modes .n6-count-mode:active:not(:disabled),
-=======
-<<<<<<< HEAD
-.opseg .btn:not(.primary),
-=======
->>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
-.n7-hunt-modes .chip,
-.n7-hunt-controls .btn {
-  box-shadow:2px 2px 0 var(--ink);
-  transition:transform .10s ease, box-shadow .10s ease;
-}
-#n6a .n6-chip:active:not(:disabled),
-#n6a .n6-sign-step:active:not(:disabled),
-.n6-count-modes .n6-count-mode:active:not(:disabled),
-<<<<<<< HEAD
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 .btn.press-effect[data-sw]:active:not(:disabled),
 .n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
 .n7-hunt-modes .chip:active:not(:disabled),
 .n7-hunt-controls .btn:active:not(:disabled),
 .n9-mixer .btn[data-s]:active:not(:disabled),
 .opseg .btn:not(.primary):active:not(:disabled) {
-<<<<<<< HEAD
   transform: translate(1px, 1px);
   box-shadow: 1px 1px 0 var(--ink);
 }
@@ -702,56 +604,3 @@
   padding: 6px 12px;
   box-shadow: 3px 3px 0 var(--ink)
 }
-=======
-=======
-.n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
-.n7-hunt-modes .chip:active:not(:disabled),
-.n7-hunt-controls .btn:active:not(:disabled),
-.n9-mixer .btn[data-s]:active:not(:disabled) {
->>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
-  transform:translate(1px,1px);
-  box-shadow:1px 1px 0 var(--ink);
-}
-/* N08: a swap is a white tool action; green is reserved for confirmed progression. */
-.n8-radar-new > .btn[data-nw]:not(.primary){box-shadow:2px 2px 0 var(--ink)}
-/* Chapter 1 count tabs: preserve yellow for selected; selection does not change font sizing. */
-.n6-count-modes .n6-count-mode.sel{background:var(--mark)}
-@media (prefers-reduced-motion:reduce){
- #n6a .n6-chip:active:not(:disabled),
-#n6a .n6-sign-step:active:not(:disabled),
-.n6-count-modes .n6-count-mode:active:not(:disabled),
-<<<<<<< HEAD
-.btn.press-effect[data-sw]:active:not(:disabled),
-.n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
-.n7-hunt-modes .chip:active:not(:disabled),
-.n7-hunt-controls .btn:active:not(:disabled),
-.n9-mixer .btn[data-s]:active:not(:disabled),
-.opseg .btn:not(.primary):active:not(:disabled) {transform:none}
-}
-
-/* N02 final: fractions in answer choices use normal weight, not the generic 600. */
-#ffin .mc .opt{font-weight:400}
-=======
-.n8-radar-new .btn[data-nw]:not(.primary):active:not(:disabled),
-.n7-hunt-modes .chip:active:not(:disabled),
-.n7-hunt-controls .btn:active:not(:disabled),
-.n9-mixer .btn[data-s]:active:not(:disabled) {transform:none}
-}
->>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
-.n4-neg-nav,.n10-tf-nav{display:flex;direction:rtl;justify-content:space-between;gap:12px;width:100%}
-.n4-neg-nav .btn,.n10-tf-nav .btn,.n9-end .opts:has(> [data-p="1"]):has(> [data-nx="1"]) > .btn{min-width:120px;min-height:36px;font-size:.9rem;font-weight:700}
-.n8-radar-new > .btn[data-nw]:not(.primary){box-shadow:none!important;transform:none!important}
-.n8-radar-new > .btn[data-nw]:not(.primary):active:not(:disabled){box-shadow:none!important;transform:none!important}
-
-/* Consistent widths for binary and three-control question interfaces */
-.n4-neg-choices{width:100%;max-width:none;margin:10px 0;direction:rtl}
-.n4-neg-choices>.opt{min-width:0;width:100%;min-height:44px;padding:5px 10px;font-size:1rem;font-weight:400}
-/* N08 distance meter: compact, centered point controls and swap action. */
-.n8-distance-choices{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px;width:100%;direction:rtl;margin:10px 0}
-.n8-distance-choices>.btn{box-sizing:border-box;width:auto;min-width:0;min-height:44px;font-size:1rem;font-weight:400;padding:7px 11px;box-shadow:3px 3px 0 var(--ink)}
-.n8-distance-choices>.btn:not(.on){border-color:var(--ink)}
-.n8-distance-choices>.btn.on{background:var(--mark);color:var(--ink);border-color:var(--ink)}
-.n8-distance-choices>.btn:active:not(:disabled),.n8-distance-action>.btn:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
-.n8-distance-action{display:flex;justify-content:center;width:100%;margin:10px 0}
-.n8-distance-action>.btn{box-sizing:border-box;width:auto;min-width:0;min-height:40px;font-size:1rem;font-weight:700;padding:6px 12px;box-shadow:3px 3px 0 var(--ink)}
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab

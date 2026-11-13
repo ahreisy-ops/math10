@@ -63,7 +63,6 @@ window.LESSONS.N10 = {
       document.head.appendChild(s);
     })();
 
-<<<<<<< HEAD
     /* ================= ابزارهای مشترک ================= */
     var AL = function (lines) { return K.dm('\\begin{aligned}' + lines.join('\\\\') + '\\end{aligned}'); };
     var CL = ['var(--accent)', 'var(--pink)', '#4c5fd5', '#e08a00', 'var(--mark)'];
@@ -81,51 +80,6 @@ window.LESSONS.N10 = {
       if (r1 && Math.random() < 0.15) { return [g, g * R(2, 6)]; }
       do { r = R(2, 9); s = R(2, 9); } while (gcd(r, s) !== 1 || r === s);
       return [g * r, g * s];
-=======
-/* ================= ابزارهای مشترک ================= */
-var AL = function (lines) { return K.dm('\\begin{aligned}' + lines.join('\\\\') + '\\end{aligned}'); };
-var CL = ['var(--accent)', 'var(--pink)', '#4c5fd5', '#e08a00', 'var(--mark)'];
-var PR = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
-var pf = function (n) { var o = [], p = 2; while (n > 1) { while (n % p === 0) { o.push(p); n /= p; } p++; } return o; };
-var pfm = function (n) { var m = {}; pf(n).forEach(function (p) { m[p] = (m[p] || 0) + 1; }); return m; };
-var fexp = function (n) { var m = pfm(n), k = Object.keys(m).map(Number).sort(function (a, b) { return a - b; }); return k.map(function (p) { return m[p] > 1 ? p + '^{' + m[p] + '}' : String(p); }).join('\\times'); };
-var fprod = function (n) { return pf(n).join('\\times'); };
-var tg = function (label, inner) { return '<div class="nleq vd"><span class="tg">' + label + '</span>' + inner + '</div>'; };
-var gv = function (a, b, g) { return tg('ب.م.م', '<i class="n">$(' + a + ',\\,' + b + ')$</i><i class="b">$=$</i><i class="a">$' + g + '$</i>'); };
-var lv = function (a, b, l) { return tg('ک.م.م', '<i class="n">$[' + a + ',\\,' + b + ']$</i><i class="b">$=$</i><i class="m">$' + l + '$</i>'); };
-var uniq = function (arr) { var s = {}; return arr.filter(function (x) { var k = String(x.v); if (s[k]) { return false; } s[k] = 1; return true; }); };
-function genPair(r1) {
-  var g = [2, 3, 4, 5, 6, 8, 9, 10, 12][R(0, 8)], r, s;
-  if (r1 && Math.random() < 0.15) { return [g, g * R(2, 6)]; }
-  do { r = R(2, 9); s = R(2, 9); } while (gcd(r, s) !== 1 || r === s);
-  return [g * r, g * s];
-}
-/* نوارهای مخرج مشترک */
-function bars(a, b) {
-  var L = lcm(a[1], b[1]), W = 288, w = W / L, n1 = a[0] * L / a[1], n2 = b[0] * L / b[1], s = '', rows = [[a, n1, '#7fd0c3', 14], [b, n2, '#f2a6c0', 78]], i;
-  rows.forEach(function (rw) {
-    var x = rw[0], nn = rw[1], y = rw[3], step = L / x[1], label = '‫از ' + fa(L) + ' قسمت، ' + fa(nn) + ' قسمت‬';
-    s += '<text x="146" y="' + (y - 4) + '" text-anchor="middle" direction="rtl" unicode-bidi="bidi-override" font-size="13" font-weight="bold" font-family="Tahoma" fill="#14213d">' + label + '</text><rect x="2" y="' + y + '" width="' + (nn * w) + '" height="38" fill="' + rw[2] + '"/>';
-    for (i = 0; i <= L; i++) { s += '<line x1="' + (2 + i * w) + '" y1="' + y + '" x2="' + (2 + i * w) + '" y2="' + (y + 38) + '" stroke="#14213d" stroke-width="' + (i % step === 0 ? 2.6 : 1) + '" ' + (i % step === 0 ? '' : 'stroke-opacity=".45"') + '/>'; }
-    s += '<rect x="2" y="' + y + '" width="' + W + '" height="38" fill="none" stroke="#14213d" stroke-width="2.5"/>';
-  });
-  return '<div class="figs one"><figure><svg viewBox="0 0 296 130" aria-hidden="true">' + s + '</svg><figcaption>خط‌های پررنگ، تقسیم‌بندی اصلی است؛ با تکه‌های ' + M('\\dfrac{1}{' + L + '}') + ' هر دو نوار را می‌شماریم.</figcaption></figure></div>';
-}
-
-/* ---- تجزیه: عددی را با تقسیم بر عددهای اول بشکن ---- */
-K.factorTree = function (host) {
-  var NS = [12, 18, 20, 24, 28, 30, 36, 40, 45, 48, 50, 60, 72, 84, 90, 100, 126, 150], n, cur, steps, msg;
-  function nw() { n = NS[R(0, NS.length - 1)]; cur = n; steps = []; msg = ''; }
-  function divisionBox(before, divisor, after) {
-    return '<div class="dbox">' + M(String(before) + '\\div' + divisor + '=' + after) + '</div>';
-  }
-  function paint() {
-    var h = '<p class="ask">عدد ' + M(String(n)) + ' را با تقسیم بر عددهای اول بشکن:</p><div class="ftr">', i, done = cur === 1, prev = n;
-    for (i = 0; i < steps.length; i++) {
-      if (i > 0) { h += '<div class="stepTag" aria-hidden="true">↓</div>'; }
-      h += divisionBox(prev, steps[i].p, steps[i].r);
-      prev = steps[i].r;
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
     }
     /* نوارهای مخرج مشترک */
     function bars(a, b) {

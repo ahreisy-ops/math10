@@ -74,16 +74,7 @@ tools/sync-data.js       ← به‌روزرسانی خودکار count و ready
 | `courses/css/course-base.css` | شالودهٔ درسنامه: متغیرهای رنگ، سربرگ، چیدمان پایه، اجزای عمومی |
 | `ch2.css` | عبارت‌های جبری و ابزارهای تعاملی جبر؛ بعضی قواعدش بر استایل‌های پیشین تقدم دارند |
 | `ch1.css` | کنترل‌ها و فعالیت‌های عدد و کسر؛ بعضی انتخابگرهایش عمومی‌اند |
-<<<<<<< HEAD
 | `course-shared-overrides.css` | فقط قواعد واقعاً بین‌فصلی که قبلاً در این فایل بودند (`.stg`، دکمه‌های قبلی/بعدی، `.end-actions`، `.ask`…). قواعد مخصوص هر فصل به `chN.css` همان فصل رفته‌اند |
-=======
-<<<<<<< HEAD
-| `course-shared-overrides.css` | فقط قواعد واقعاً بین‌فصلی که قبلاً در این فایل بودند (`.stg`، دکمه‌های قبلی/بعدی، `.end-actions`، `.ask`…). قواعد مخصوص هر فصل به `chN.css` همان فصل رفته‌اند |
-=======
-| `course-shared-overrides.css` | فقط یکسان‌سازی‌های واقعاً بین‌فصلی (نشانگر پیشرفت `.stg`، دکمه‌های قبلی/بعدی، `.end-actions`، `.ask`، ناحیهٔ لمس). قواعد مخصوص فصل ۱ و ۲ به انتهای `ch1.css` و `ch2.css` منتقل شد |
-| `course-shared.css` | اجزای مشترک بین چند فصل که قبلاً داخل `ch3.css` بودند: `.lesson-bridge*` (فصل ۱، ۲، ۳) و `.graduated-*` (فصل ۱، ۳، ۵) |
->>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 | `ch3.css` | درس‌های معادله و فعالیت‌هایشان |
 | `ch7.css` | فعالیت‌های فصل هفتم (انتخابگرهای محدود به `.p7-act`) |
 | `ch5.css` | استایل مشترک هندسه (انتخابگرهای محدود به `.g5-scope`) |
@@ -93,23 +84,13 @@ tools/sync-data.js       ← به‌روزرسانی خودکار count و ready
 هر `chN.css` فقط قواعد اختصاصی همان فصل را دارد. قاعده‌هایی که فصل‌های دیگر هم از آن‌ها استفاده می‌کنند (مثل `.mc .opt`، `.lesson-bridge*`، `.graduated-*`) در فایل‌های `course-shared-chN.css` و `course-shared-overrides.css` مانده‌اند؛ این فایل‌ها عمداً جدا از هم نگه داشته شده‌اند تا ترتیب cascade همان ترتیب قبلی بماند.
 
 ### ترتیب بارگذاری در `courses/course.html`
-CSS هر فصل یک‌جا و همان ابتدای ورود به صفحه (نه lazy) و بر پایهٔ `?ch=N` لینک می‌شود؛ فقط فایل همان فصل لود می‌شود. (lazy-load فقط برای JS درس‌هاست.)
 ```
-<<<<<<< HEAD
 katex.min.css -> style.css -> course-base.css -> (به ترتیب ORDER در course.html) course-shared-ch2 -> ch2* -> course-shared-ch1 -> ch1* -> course-shared-overrides -> course-shared-ch3 -> ch3* -> course-shared-ch7 -> ch7* -> course-shared-ch5 -> ch5* -> course-shared-ch4 -> ch4* -> ch6*
-=======
-<<<<<<< HEAD
-katex.min.css -> style.css -> course-base.css -> (به ترتیب ORDER در course.html) course-shared-ch2 -> ch2* -> course-shared-ch1 -> ch1* -> course-shared-overrides -> course-shared-ch3 -> ch3* -> course-shared-ch7 -> ch7* -> course-shared-ch5 -> ch5* -> course-shared-ch4 -> ch4* -> ch6*
-=======
-فصل ۱ و ۲ :  katex → style → course-base → chN → course-shared-overrides → course-shared
-فصل ۳ تا ۷:  katex → style → course-base → course-shared-overrides → course-shared → chN
->>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 ```
 (*) فقط CSS همان فصلی که با `?ch=N` باز شده لود می‌شود؛ بقیهٔ فصل‌ها لود نمی‌شوند. همهٔ CSS هنگام ورود به صفحه و یک‌جا لود می‌شود (lazy نیست)؛ lazy-load فقط برای JS درس‌هاست.
 
 ### قواعد نوشتن استایل
-1. اجزای مشترک اول در `style.css`، `course-base.css`، `course-shared.css` و `course-shared-overrides.css` جست‌وجو می‌شوند؛ هر کلاسی که چند فصل استفاده می‌کنند باید در `course-shared.css` باشد، نه در فایل یک فصل تا تعریف تکراری ساخته نشود.
+1. اجزای مشترک اول در `style.css`، `course-base.css` و `course-shared-overrides.css` جست‌وجو می‌شوند تا تعریف تکراری ساخته نشود.
 2. استایل فعالیت اختصاصی در فایل همان فصل می‌آید و انتخابگرها زیر کلاس ریشهٔ همان درس/فصل محدود می‌شوند.
 3. کلاس‌های عمومی (`.btn`، `.opt`، `.ch`، `.infobtn` …) در چند فصل استفاده می‌شوند؛ اصلاح موردی با انتخابگر محدود به همان فعالیت انجام می‌شود.
 4. هنگام انتقال قواعد، محتوای `@media`، ترتیب قاعده‌ها و مسیر `url(...)` (که نسبت به خود فایل CSS تفسیر می‌شود) حفظ می‌شود.

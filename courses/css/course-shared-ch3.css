@@ -6,27 +6,18 @@
   border-radius: 12px;
   background: #e6f6f3;
 }
-<<<<<<< HEAD
 
 .lesson-bridge p {
   margin: 6px 0 12px
 }
 
-=======
-.lesson-bridge p {
-  margin: 6px 0 12px
-}
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 .lesson-bridge-title {
   display: block;
   font-size: .85rem;
   font-weight: 700;
   color: var(--accent-dark)
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 .lesson-bridge-route {
   display: flex;
   align-items: center;
@@ -35,10 +26,7 @@
   max-width: 100%;
   margin-top: 10px
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 .lesson-bridge-route>span {
   font-size: .85rem;
   font-weight: 400;
@@ -47,10 +35,7 @@
   background: #fff;
   padding: 3px 10px
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 .lesson-bridge-route>i {
   font-style: normal;
   font-weight: 700;
@@ -89,7 +74,6 @@
   .e01-interaction {
     padding: 12px 12px 16px
   }
-<<<<<<< HEAD
 
   .lesson-bridge-route {
     gap: 4px
@@ -101,26 +85,12 @@
   }
 
   .lesson-bridge-route>i {
-=======
-.lesson-bridge-route {
-    gap: 4px
-  }
-.lesson-bridge-route>span {
-    font-size: .81rem;
-    padding: 3px 7px
-  }
-.lesson-bridge-route>i {
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
     font-size: .83rem
   }
 }
 
 @media(max-width:490px) {
-<<<<<<< HEAD
   .lesson-bridge {
-=======
-.lesson-bridge {
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
     padding: 11px 12px
   }
 }
@@ -211,10 +181,7 @@
     font-size: .64rem !important;
   }
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 .a08-domain-control.graduated-range {
   --gr-half: 9px;
 }
@@ -231,12 +198,4 @@
 .a78-control.graduated-range input[type=range],
 .a08-domain-control.graduated-range input[type=range] {
   accent-color: #078b80 !important;
-<<<<<<< HEAD
 }
-=======
-}
-
-#n3b>.scw.dm>.scan.n3-scan {
-  padding: 4px 2px 16px 2px !important;
-}
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab

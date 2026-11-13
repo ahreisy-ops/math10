@@ -1279,16 +1279,6 @@
     min-height: 0;
   }
 }
-<<<<<<< HEAD
-=======
-
-/* Center only the message displayed after all four timed questions are finished. */
-.e01-lesson .e01-types-result>p {
-  text-align: center !important;
-}
-
-<<<<<<< HEAD
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 /* The original E01 and A08 custom thumbs are 18px wide; their scale ends
    must sit below the 9px-inset centers, without changing either slider. */
 .e01-compare-control.graduated-range {
@@ -1296,76 +1286,6 @@
 }
 .e01-compare-control.graduated-range input[type=range] {
   accent-color: #078b80 !important;
-<<<<<<< HEAD
-=======
-=======
-/* Schematic: the two sides are computed independently, then their results meet. */
-.e01-lesson .e01-identity-diagram {
-  max-width: 650px;
-  margin: 10px auto 14px;
-  padding: 12px;
-  border: 1.5px solid var(--line);
-  border-radius: 12px;
-  background: #fff;
-}
-
-.e01-lesson .e01-identity-parts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  direction: ltr;
-}
-
-.e01-lesson .e01-identity-parts>div {
-  background: var(--paper, #f7fafc);
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  padding: 10px 5px;
-  min-width: 0;
-  text-align: center;
-}
-
-.e01-lesson .e01-identity-parts b {
-  display: block;
-  color: var(--accent-dark);
-  margin-bottom: 8px;
-}
-
-.e01-lesson .e01-identity-parts .katex {
-  font-size: 1.04em;
-}
-
-.e01-lesson .e01-identity-arrows {
-  display: flex;
-  justify-content: space-around;
-  margin: 2px 0 0;
-  color: var(--accent-dark);
-  font-size: 1.6rem;
-  direction: ltr;
-}
-
-.e01-lesson .e01-identity-equals {
-  text-align: center;
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-top: 0;
-}
-
-@media(max-width:480px) {
-
-  .e01-lesson .e01-identity-parts {
-    gap: 6px;
-  }
-
-  .e01-lesson .e01-identity-parts>div {
-    padding: 8px 3px;
-  }
-
-  .e01-lesson .e01-identity-parts .katex {
-    font-size: .87em;
-  }
->>>>>>> 57a12019c448796c4fb3c9981421661d9217ccf2
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 }
 
 /* E01 fine tuning: formula labels and final contest feedback. */
@@ -1380,13 +1300,6 @@
   overflow-x: auto;
 }
 
-<<<<<<< HEAD
-=======
-.e01-lesson .e01-types-result .e01-finish-message {
-  text-align: center !important;
-}
-
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
 .e01-lesson .e01-highlight-ten {
   color: #087d73;
   font-weight: 700;
@@ -5814,7 +5727,6 @@
     font-size: .7rem
   }
 }
-<<<<<<< HEAD
 
 /* هماهنگی حاشیهٔ گزینه‌های آزمون‌ها با استاندارد: فاصله ۸px و حاشیهٔ بالا و پایین ۱۰px */
 #e01-final .e01-answer-grid,
@@ -5828,5 +5740,3 @@
 .e02-fr-next .btn,
 .e02-detect-repair .btn,
 .e01-speed-start-button {min-width:120px;min-height:36px;height:auto;padding:5px 12px;font-size:.9rem}
-=======
->>>>>>> 8709fe8078d381644e9ca0a5a7aef371e757efab
