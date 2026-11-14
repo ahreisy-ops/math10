@@ -74,7 +74,7 @@
       if (q.expressions) { h += '<ol class="steps a01-expression-list">' + q.expressions.map(o => '<li>' + M(o.tex) + '</li>').join('') + '</ol>'; }
       else if (q.tex) { h += '<div class="dm">' + M(q.tex) + '</div>'; }
       if (q.kind === 'number') { h += '<div class="a01-card-entry">' + input('a01-final-input') + '</div>'; }
-      else { h += '<div class="mc ' + (i <= 1 ? 'a01-constant-choices' : '') + '">' + q.options.map((v, j) => '<button type="button" class="btn opt ' + (has ? ((i <= 1 ? j === q.answer : v === q.answer) ? 'right' : answers[i] === j ? 'wrong' : '') : '') + '" data-opt="' + j + '" ' + '' + '>' + (i <= 1 ? v : M(String(v))) + '</button>').join('') + '</div>'; }
+      else { h += '<div class="mc ' + (i <= 1 ? 'a01-constant-choices' : '') + '">' + q.options.map((v, j) => '<button type="button" class="btn opt ' + (has ? ((i <= 1 ? j === q.answer : v === q.answer) ? 'right' : answers[i] === j ? 'wrong' : '') : '') + '" data-opt="' + j + '" ' + (has ? 'disabled' : '') + '>' + (i <= 1 ? v : M(String(v))) + '</button>').join('') + '</div>'; }
       if (has) {
         const ok = isRight(i);
         h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? '✓ ' + R(q.correct) : 'پاسخت درست نیست؛ راه‌حل را در کادر زیر بررسی کن.') + '</div>';

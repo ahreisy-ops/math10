@@ -1,39 +1,31 @@
-/* فصل دوم: اجزای اختصاصی با استفاده از رنگ‌های موجود پروژه */
-.algebra-expression {
-  padding: 14px;
-  margin: 12px 0;
-  border: 2px solid var(--ink);
-  border-radius: 12px;
-  background: var(--amber);
-  text-align: center;
-  overflow-x: auto;
-  font-size: 1.2rem
-}
+/* Chapter 2 styles (cleaned: duplicate rules merged, overridden declarations removed; cascade order preserved) */
+
+/* ===== Shared chapter-2 components ===== */
 
 .algebra-choices {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  margin: 14px 0
+  margin: 14px 0;
 }
 
 .algebra-choices .btn {
   min-height: 52px;
   white-space: normal;
-  overflow-wrap: anywhere
+  overflow-wrap: anywhere;
 }
 
 .algebra-result {
-  margin: 10px 0
+  margin: 10px 0;
 }
 
-@media(max-width:520px) {
+@media (max-width:520px) {
   .algebra-choices {
-    grid-template-columns: 1fr
+    grid-template-columns: 1fr;
   }
 
   .algebra-expression {
-    font-size: 1rem
+    font-size: 1rem;
   }
 }
 
@@ -43,7 +35,7 @@
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
-  margin: 14px 0
+  margin: 14px 0;
 }
 
 .algebra-flow span,
@@ -51,7 +43,7 @@
   border: 1px solid var(--ink);
   border-radius: 10px;
   padding: 9px 13px;
-  background: var(--amber)
+  background: var(--amber);
 }
 
 .algebra-tiles {
@@ -60,7 +52,7 @@
   gap: 6px;
   max-width: 340px;
   margin: 16px auto;
-  direction: ltr
+  direction: ltr;
 }
 
 .algebra-tile {
@@ -69,11 +61,11 @@
   min-height: 60px;
   display: grid;
   place-items: center;
-  border-radius: 5px
+  border-radius: 5px;
 }
 
 .algebra-tile.big {
-  min-height: 90px
+  min-height: 90px;
 }
 
 .algebra-grid {
@@ -82,7 +74,7 @@
   margin: 14px auto;
   max-width: 400px;
   direction: rtl;
-  gap: 3px
+  gap: 3px;
 }
 
 .algebra-grid>span {
@@ -90,14 +82,14 @@
   background: var(--amber);
   padding: 12px 4px;
   text-align: center;
-  min-width: 0
+  min-width: 0;
 }
 
 .lab-title {
   font-size: 1.02rem;
   font-weight: bold;
   color: var(--accent-dark);
-  margin: 0 0 8px
+  margin: 0 0 8px;
 }
 
 .algebra-expression {
@@ -109,60 +101,60 @@
   text-align: center;
   overflow-x: auto;
   font-size: 1.2rem;
-  direction: ltr
+  direction: ltr;
 }
 
 .algebra-expression.plain {
   padding: 4px 0;
   border: 0;
   border-radius: 0;
-  background: transparent
+  background: transparent;
 }
 
 .algebra-result .dm {
-  margin: 6px 0
+  margin: 6px 0;
 }
 
 .algebra-result .fb p {
-  margin: 8px 0 0
+  margin: 8px 0 0;
 }
+
+/* ===== A01 ===== */
 
 #A01-lab .algebra-choices {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   max-width: 590px;
-  margin: 14px auto
+  margin: 14px auto;
 }
 
 #A01-lab .algebra-choices .btn {
   min-height: 42px;
   padding: 5px 12px;
-  border-radius: 12px
+  border-radius: 12px;
 }
 
 #A01-lab .lab-title {
-  display: none
+  display: none;
 }
 
 #A01-quiz .dm.k {
   background: #f3f6fa;
   border: 1.5px solid var(--line);
-  padding: 7px 10px
+  padding: 7px 10px;
 }
 
-/* A01: نمایش آموزشی مینیمال هماهنگ با پالت پروژه */
 .a01-anatomy {
   display: flex;
   justify-content: center;
-  margin: 12px auto 18px
+  margin: 12px auto 18px;
 }
 
 .a01-anatomy-parts {
   display: flex;
   direction: ltr;
-  align-items: flex-start;
-  gap: 7px
+  gap: 7px;
 }
 
 .a01-anatomy-part {
@@ -171,22 +163,22 @@
   border: 1.5px solid var(--ink);
   border-radius: 12px;
   text-align: center;
-  background: #eef2ff
+  background: #eef2ff;
 }
 
 .a01-anatomy-part.a01-coeff {
-  background: #e6f6f3
+  background: #e6f6f3;
 }
 
 .a01-anatomy-part .a01-math {
-  font-size: 1.35em;
+  font-size: 1.1em;
   direction: ltr;
-  margin: 0 0 7px
+  margin: 0 0 7px;
 }
 
 .a01-anatomy-part small {
   color: var(--ink-soft);
-  font-weight: bold
+  font-weight: bold;
 }
 
 .a01-process {
@@ -195,7 +187,7 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  margin: 18px 0
+  margin: 18px 0;
 }
 
 .a01-process>div {
@@ -204,48 +196,38 @@
   border-radius: 12px;
   text-align: center;
   background: #f7f9fc;
-  min-width: 150px
+  min-width: 150px;
 }
 
 .a01-process>div>b {
   display: block;
   margin-bottom: 5px;
-  font-size: .91rem
+  font-size: .91rem;
 }
 
 .a01-process>span {
   font-weight: bold;
-  color: var(--accent-dark)
+  color: var(--accent-dark);
 }
 
 .a01-process .a01-math {
   direction: ltr;
-  font-size: 1.1em
+  font-size: 1.1em;
 }
 
 .a01-compare {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin: 14px 0
-}
-
-.a01-compare>div {
-  border: 2px solid var(--ink);
-  border-radius: 12px;
-  background: #f7f9fc;
-  text-align: center;
-  padding: 12px 7px
+  margin: 14px 0;
 }
 
 .a01-compare>div:first-child {
-  background: #e6f6f3
+  background: #e6f6f3;
 }
 
 .a01-compare .a01-math {
   direction: ltr;
-  margin: 9px 0;
-  font-size: 1.16em
 }
 
 .a01-interaction {
@@ -253,64 +235,39 @@
   border-radius: 13px;
   background: #f7f9fc;
   padding: 15px;
-  margin: 12px 0 23px
-}
-
-.a01-interaction .a01-centered {
-  text-align: center;
-  direction: ltr;
-  font-size: 1.2em;
-  margin: 12px auto;
-  overflow-x: auto
+  margin: 12px 0 23px;
 }
 
 .a01-lab-head {
   font-weight: bold;
-  text-align: center
+  text-align: center;
 }
 
 .a01-given {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 12px;
   flex-wrap: wrap;
-  margin: 10px auto 17px;
-  font-size: .94rem
-}
-
-.a01-given>span {
-  direction: ltr;
-  display: inline-flex;
-  align-items: center;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  padding: 5px 11px
 }
 
 .a01-interaction label {
   font-weight: bold;
   display: block;
-  margin: 10px 0 7px
+  margin: 10px 0 7px;
 }
 
 .a01-actions {
-  display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
-  margin: 13px 0
+  margin: 13px 0;
 }
 
 .a01-explain {
   margin: 16px 0;
   border-top: 1px solid var(--line);
-  padding-top: 10px
+  padding-top: 10px;
 }
 
 .a01-interaction .stg {
-  margin-bottom: 18px
+  margin-bottom: 18px;
 }
 
 .a01-interaction .opts {
@@ -318,86 +275,95 @@
   justify-content: space-between;
   gap: 10px;
   margin: 15px 0 0;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
-@media(max-width:620px) {
+@media (max-width:620px) {
   .a01-process>span {
-    display: none
+    display: none;
   }
 
   .a01-process>div {
-    flex: 1 1 100%
+    flex: 1 1 100%;
   }
 
   .a01-compare {
-    grid-template-columns: 1fr
+    grid-template-columns: 1fr;
   }
 
   .a01-anatomy-part {
     min-width: 100px;
-    padding: 10px
+    padding: 10px;
   }
 }
 
 .a01-given {
+  font-size: .94rem;
   justify-content: flex-start;
   gap: 9px;
   margin: 12px 0;
-  direction: rtl
+  direction: rtl;
 }
 
 .a01-given>span {
+  align-items: center;
   direction: ltr;
   display: inline-flex;
   white-space: nowrap;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 5px 10px
+  padding: 5px 10px;
 }
 
 .a01-interaction .a01-centered {
+  overflow-x: auto;
+  font-size: 1.2em;
+  direction: ltr;
   text-align: left;
-  margin: 9px 0
+  margin: 9px 0;
 }
 
 .a01-actions {
+  flex-wrap: wrap;
+  display: flex;
   justify-content: flex-start;
-  gap: 9px
+  gap: 9px;
 }
 
 .a01-anatomy-parts {
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center
+  justify-content: center;
 }
 
 .a01-anatomy-part.a01-constant {
-  background: var(--amber)
+  background: var(--amber);
 }
 
-@media(max-width:560px) {
-
+@media (max-width:560px) {
   .a01-anatomy-part.a01-constant {
-    margin-left: 0
+    margin-left: 0;
   }
 }
 
-/* A01: compact, horizontal investigation and numeric assessment */
 .a01-compare>div {
+  text-align: center;
+  background: #f7f9fc;
+  border-radius: 12px;
+  border: 2px solid var(--ink);
   padding: 12px 9px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 9px;
-  min-width: 0
+  min-width: 0;
 }
 
 .a01-compare .a01-math {
   margin: 0;
   overflow-x: auto;
-  font-size: 1.06rem
+  font-size: 1.06rem;
 }
 
 .a01-interaction .a01-levels {
@@ -405,7 +371,7 @@
   gap: 6px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 16px
+  margin-bottom: 16px;
 }
 
 .a01-level {
@@ -416,20 +382,20 @@
   color: var(--ink);
   cursor: pointer;
   font: inherit;
-  font-size: .85rem
+  font-size: .85rem;
 }
 
 .a01-level.active {
   background: var(--accent);
   color: #fff;
-  border-color: var(--ink)
+  border-color: var(--ink);
 }
 
 .a01-adjust {
   width: 36px;
   min-height: 35px;
   padding: 3px 7px;
-  line-height: 1
+  line-height: 1;
 }
 
 .a01-predict {
@@ -437,41 +403,39 @@
   gap: 9px;
   align-items: center;
   flex-wrap: wrap;
-  margin: 16px 0 7px
+  margin: 16px 0 7px;
 }
 
 .a01-predict label {
-  margin: 0
+  margin: 0;
 }
 
-@media(max-width:570px) {
-
+@media (max-width:570px) {
   .a01-predict label {
-    width: 100%
+    width: 100%;
   }
 }
 
-/* A01 cards and final inputs: consistent with N01 */
 .a01-three {
-  grid-template-columns: repeat(3, minmax(0, 1fr))
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .a01-three .cd {
   min-height: 154px;
-  justify-content: center
+  justify-content: center;
 }
 
 .a01-three .cd small {
   text-align: center;
-  line-height: 1.6
+  line-height: 1.6;
 }
 
 .a01-card-detail {
-  margin-top: 14px
+  margin-top: 14px;
 }
 
 .a01-card-entry {
-  margin: 10px 0 4px
+  margin: 10px 0 4px;
 }
 
 .a01-number-input {
@@ -484,55 +448,54 @@
   padding: 9px 12px;
   font: inherit;
   direction: ltr;
-  text-align: left
+  text-align: left;
 }
 
 .a01-number-input::placeholder {
   direction: rtl;
   text-align: right;
-  color: var(--ink-soft)
+  color: var(--ink-soft);
 }
 
 .a01-center {
-  justify-content: center !important
+  justify-content: center !important;
 }
 
 .a01-expression-list {
   display: grid;
   gap: 8px;
-  margin: 14px 0
+  margin: 14px 0;
 }
 
-@media(max-width:650px) {
+@media (max-width:650px) {
   .a01-three {
-    grid-template-columns: 1fr
+    grid-template-columns: 1fr;
   }
 
   .a01-three .cd {
-    min-height: 110px
+    min-height: 110px;
   }
 }
+
 #A01-lab .cgrid[hidden],
 #A01-lab .a01-card-detail[hidden] {
-  display: none !important
+  display: none !important;
 }
 
 #A01-lab .a01-card-detail {
   margin-top: 0;
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
-/* Keep A01 card titles opposite the close button; N01 cards keep their separate header layout. */
 #A01-lab .a01-card-detail .ch {
   justify-content: flex-end;
-  margin-bottom: 6px
+  margin-bottom: 6px;
 }
 
 #A01-quiz .mc .opt {
-  font-weight: normal
+  font-weight: normal;
 }
 
-/* A01: number list styled like the four numbered stages in N01/Q03 */
 #A01-quiz ol.steps.a01-expression-list {
   list-style: none;
   counter-reset: a01-steps;
@@ -570,18 +533,19 @@
 }
 
 #A01-quiz ol.steps.a01-expression-list li .katex {
-  direction: ltr
+  direction: ltr;
 }
 
-/* Question 1: RTL grid so 'هیچ‌کدام' stays the fourth (bottom-left) option. */
 #A01-quiz .mc.a01-constant-choices {
-  direction: rtl
+  direction: rtl;
 }
+
+/* ===== Shared chapter-2 components ===== */
 
 .alg2-counter {
   color: var(--ink-soft);
   font-size: .88rem;
-  margin-bottom: 8px
+  margin-bottom: 8px;
 }
 
 .alg2-options {
@@ -589,21 +553,22 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 9px;
   margin: 14px 0;
-  direction: rtl
+  direction: rtl;
 }
 
 .alg2-options .btn {
   font-weight: normal;
   min-height: 44px;
   white-space: normal;
-  border-color: var(--line)
+  border-color: var(--line);
 }
+
 .alg2-options .btn:hover:not(:disabled) {
-  border-color: var(--ink)
+  border-color: var(--ink);
 }
 
 .alg2-actions {
-  justify-content: center
+  justify-content: center;
 }
 
 .alg2-grid {
@@ -612,14 +577,14 @@
   grid-template-columns: repeat(3, 1fr);
   max-width: 320px;
   margin: 12px auto;
-  gap: 3px
+  gap: 3px;
 }
 
 .alg2-grid span {
   background: var(--amber);
   border: 1px solid var(--line);
   padding: 6px;
-  text-align: center
+  text-align: center;
 }
 
 .alg2-area {
@@ -628,7 +593,7 @@
   gap: 4px;
   max-width: 300px;
   margin: 14px auto;
-  direction: ltr
+  direction: ltr;
 }
 
 .alg2-area span {
@@ -637,7 +602,7 @@
   place-items: center;
   background: var(--amber);
   border: 1.5px solid var(--line);
-  border-radius: 6px
+  border-radius: 6px;
 }
 
 .alg2-strip {
@@ -645,16 +610,17 @@
   text-align: center;
   border-bottom: 2px solid var(--line);
   padding: 10px;
-  max-width: 450px
+  max-width: 450px;
 }
 
-@media(max-width:520px) {
+@media (max-width:520px) {
   .alg2-options {
-    grid-template-columns: 1fr
+    grid-template-columns: 1fr;
   }
 }
 
-/* A04: legible area model and multiplication grid */
+/* ===== A04 - area model / multiplication grid ===== */
+
 .a04-figure {
   margin: 18px auto;
   max-width: 650px;
@@ -662,20 +628,20 @@
   padding: 14px;
   background: transparent;
   border: 0;
-  border-radius: 0
+  border-radius: 0;
 }
 
 .a04-figure svg {
   display: block;
   max-width: 100%;
   height: auto;
-  margin: auto
+  margin: auto;
 }
 
 .a04-figure figcaption {
   font-size: .89rem;
   color: var(--ink-soft);
-  margin-top: 6px
+  margin-top: 6px;
 }
 
 .a04-workbench {
@@ -684,14 +650,14 @@
   padding: 14px;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 12px
+  border-radius: 12px;
 }
 
 .a04-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 5px;
-  direction: ltr
+  direction: ltr;
 }
 
 .a04-grid>div {
@@ -702,34 +668,33 @@
   border: 1.5px solid var(--line);
   border-radius: 8px;
   padding: 5px;
-  overflow: visible
+  overflow: visible;
 }
 
 .a04-grid .a04-head {
   background: #e8f0fb;
-  font-weight: 600
+  font-weight: 600;
 }
 
 .a04-grid .a04-cell {
-  background: #fff1c6
+  background: #fff1c6;
 }
 
 .a04-grid .katex {
-  font-size: 1.12em
+  font-size: 1.12em;
 }
 
 .a04-caption {
   text-align: center;
   margin: 8px auto;
-  font-size: .94rem
+  font-size: .94rem;
 }
 
-/* A04 refinements */
 .a04-bridge {
   text-align: center;
   margin: -2px 0 8px;
   color: var(--ink-soft);
-  font-weight: 600
+  font-weight: 600;
 }
 
 .a04-eqblock {
@@ -738,7 +703,7 @@
   background: transparent;
   border: 0;
   border-radius: 0;
-  max-width: 760px
+  max-width: 760px;
 }
 
 .a04-eqline {
@@ -748,294 +713,77 @@
   gap: 8px;
   flex-wrap: wrap;
   margin: 4px 0;
-  font-size: 1.3em
+  font-size: 1.3em;
+  direction: ltr;
 }
 
 .a04-eqline .katex {
-  font-size: 1.08em
+  font-size: .94em;
 }
 
 .a04-eqline .a04-base {
-  margin-left: 6px
+  margin-left: 6px;
 }
 
 .a04-plus {
   font-weight: 700;
-  color: var(--ink-soft)
+  color: var(--ink-soft);
 }
 
 .a04-final {
-  margin-top: 6px
+  margin-top: 6px;
 }
 
 .a04-c1 {
-  color: #2a6fbe
+  color: #2a6fbe;
 }
 
 .a04-c2 {
-  color: #c06a00
+  color: #c06a00;
 }
 
 .a04-c3 {
-  color: #558b2f
+  color: #558b2f;
 }
 
 .a04-c4 {
-  color: #9b4d78
-}
-
-.a04-area-model {
-  display: grid;
-  grid-template-columns: 74px 46px 180px 108px;
-  grid-template-rows: auto auto 180px 90px;
-  justify-content: center;
-  align-items: stretch;
-  gap: 0;
-  margin: 8px auto 0;
-  direction: ltr
-}
-
-.a04-top-total {
-  grid-column: 3/5;
-  grid-row: 1;
-  text-align: center;
-  font-weight: 700;
-  padding-bottom: 6px;
-  border-bottom: 2px solid #5b7387
-}
-
-.a04-top-x,
-.a04-top-3 {
-  grid-row: 2;
-  text-align: center;
-  padding: 8px 0 10px;
-  font-weight: 700
-}
-
-.a04-top-x {
-  grid-column: 3
-}
-
-.a04-top-3 {
-  grid-column: 4
+  color: #9b4d78;
 }
 
 .a04-left-total {
-  grid-column: 1;
-  grid-row: 3/5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  border-left: 2px solid #5b7387;
-  padding-left: 6px
-}
-
-.a04-left-x,
-.a04-left-2 {
-  grid-column: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700
-}
-
-.a04-left-x {
-  grid-row: 3
-}
-
-.a04-left-2 {
-  grid-row: 4
-}
-
-.a04-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.7px solid #36516d;
-  font-size: 1.18rem
-}
-
-.a04-sq1 {
-  grid-column: 3;
-  grid-row: 3;
-  background: #d9eafa
-}
-
-.a04-sq2 {
-  grid-column: 4;
-  grid-row: 3;
-  background: #ffe3a6
-}
-
-.a04-sq3 {
-  grid-column: 3;
-  grid-row: 4;
-  background: #e5efd4
-}
-
-.a04-sq4 {
-  grid-column: 4;
-  grid-row: 4;
-  background: #f6dfe8
-}
-
-.a04-area-model .katex {
-  font-size: 1.14em
-}
-
-@media(max-width:720px) {
-  .a04-area-model {
-    grid-template-columns: 62px 38px 130px 78px;
-    grid-template-rows: auto auto 130px 65px
-  }
-
-  .a04-cell {
-    font-size: 1rem
-  }
-}
-
-/* A04 override tweaks for Quiz_12 */
-.a04-area-model {
-  display: grid;
-  grid-template-columns: 82px 42px 180px 108px;
-  grid-template-rows: auto auto 180px 90px auto;
-  justify-content: center;
-  align-items: stretch;
-  gap: 0;
-  margin: 8px auto 0;
-  direction: ltr
+  padding-left: 6px;
 }
 
 .a04-top-total {
-  grid-column: 3/5;
-  grid-row: 1;
   text-align: center;
-  font-weight: 700;
   padding-bottom: 10px;
-  position: relative;
-  border-bottom: 2px solid #5b7387
 }
 
 .a04-top-total::before,
 .a04-top-total::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  width: 10px;
-  height: 10px;
-  border-bottom: 2px solid #5b7387
+  border-bottom: 2px solid #5b7387;
 }
 
 .a04-top-total::before {
-  right: 100%;
-  border-right: 2px solid #5b7387
+  border-right: 2px solid #5b7387;
 }
 
 .a04-top-total::after {
-  left: 100%;
-  border-left: 2px solid #5b7387
-}
-
-.a04-top-x,
-.a04-top-3 {
-  grid-row: 2;
-  text-align: center;
-  padding: 8px 0 10px;
-  font-weight: 700
-}
-
-.a04-top-x {
-  grid-column: 3
-}
-
-.a04-top-3 {
-  grid-column: 4
-}
-
-.a04-left-total {
-  grid-column: 1;
-  grid-row: 3/5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  position: relative;
-  padding-right: 10px;
-  border-right: 2px solid #5b7387
+  border-left: 2px solid #5b7387;
 }
 
 .a04-left-total::before,
 .a04-left-total::after {
-  content: '';
-  position: absolute;
   right: 0;
-  width: 10px;
-  border-right: 2px solid #5b7387
+  border-right: 2px solid #5b7387;
 }
 
 .a04-left-total::before {
-  top: 0;
   height: 10px;
-  border-top: 2px solid #5b7387
 }
 
 .a04-left-total::after {
-  bottom: 0;
   height: 10px;
-  border-bottom: 2px solid #5b7387
-}
-
-.a04-left-x,
-.a04-left-2 {
-  grid-column: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700
-}
-
-.a04-left-x {
-  grid-row: 3
-}
-
-.a04-left-2 {
-  grid-row: 4
-}
-
-.a04-innercap {
-  grid-column: 3/5;
-  grid-row: 5;
-  text-align: center;
-  margin-top: 10px;
-  font-size: .89rem;
-  color: var(--ink-soft)
-}
-
-@media(max-width:720px) {
-  .a04-area-model {
-    grid-template-columns: 72px 34px 130px 78px;
-    grid-template-rows: auto auto 130px 65px auto
-  }
-
-  .a04-cell {
-    font-size: 1rem
-  }
-}
-
-
-/* A04 polish for Quiz_13 */
-.a04-eqline {
-  direction: ltr
-}
-
-.a04-eqstart {
-  row-gap: 8px;
-  column-gap: 6px
-}
-
-.a04-eqstart .katex {
-  font-size: 1.04em
 }
 
 .a04-inline-group {
@@ -1043,54 +791,32 @@
   align-items: center;
   justify-content: center;
   color: var(--ink);
-  font-weight: 600;
-  line-height: 1
 }
 
 .a04-term {
   display: inline-flex;
   align-items: center;
-  gap: 2px
+  gap: 2px;
 }
 
 .a04-src1 {
-  color: #2a6fbe
+  color: #2a6fbe;
 }
 
 .a04-src2 {
-  color: #558b2f
+  color: #558b2f;
 }
 
 .a04-src3 {
-  color: #c06a00
+  color: #c06a00;
 }
 
 .a04-src4 {
-  color: #9b4d78
-}
-
-.a04-area-model {
-  display: grid;
-  grid-template-columns: 90px 44px 180px 108px;
-  grid-template-rows: auto auto 180px 90px auto;
-  justify-content: center;
-  align-items: stretch;
-  gap: 0;
-  margin: 8px auto 0;
-  direction: ltr
+  color: #9b4d78;
 }
 
 .a04-top-total {
-  grid-column: 3/5;
-  grid-row: 1;
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  font-weight: 700;
-  padding: 0 16px 18px;
-  background: linear-gradient(#5b7387, #5b7387) center calc(100% - 6px)/calc(100% - 28px) 2px no-repeat;
-  border-bottom: none
+  border-bottom: none;
 }
 
 .a04-top-total::before,
@@ -1099,49 +825,26 @@
   position: absolute;
   bottom: 6px;
   width: 10px;
-  height: 10px
+  height: 10px;
 }
 
 .a04-top-total::before {
-  left: 14px;
   border-left: 2px solid #5b7387;
-  border-bottom: 2px solid #5b7387
+  border-bottom: 2px solid #5b7387;
 }
 
 .a04-top-total::after {
-  right: 14px;
   border-right: 2px solid #5b7387;
-  border-bottom: 2px solid #5b7387
+  border-bottom: 2px solid #5b7387;
 }
 
 .a04-top-x,
 .a04-top-3 {
-  grid-row: 2;
   text-align: center;
-  padding: 8px 0 10px;
-  font-weight: 700
-}
-
-.a04-top-x {
-  grid-column: 3
-}
-
-.a04-top-3 {
-  grid-column: 4
 }
 
 .a04-left-total {
-  grid-column: 1;
-  grid-row: 3/5;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  font-weight: 700;
-  padding: 0 0 0 24px;
-  background: linear-gradient(#5b7387, #5b7387) 10px center/2px calc(100% - 26px) no-repeat;
-  border-right: none;
-  border-left: none
+  padding-right: 10px;
 }
 
 .a04-left-total::before,
@@ -1150,94 +853,28 @@
   position: absolute;
   left: 10px;
   width: 10px;
-  height: 10px
+  height: 10px;
 }
 
 .a04-left-total::before {
-  top: 12px;
   border-top: 2px solid #5b7387;
-  border-left: 2px solid #5b7387
+  border-left: 2px solid #5b7387;
 }
 
-.a04-left-total::after {
-  bottom: 12px;
-  border-bottom: 2px solid #5b7387;
-  border-left: 2px solid #5b7387
-}
-
-.a04-left-x,
-.a04-left-2 {
-  grid-column: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700
-}
-
-.a04-left-x {
-  grid-row: 3
-}
-
-.a04-left-2 {
-  grid-row: 4
-}
-
-.a04-innercap {
-  grid-column: 3/5;
-  grid-row: 5;
-  text-align: center;
-  justify-self: center;
-  max-width: 288px;
-  margin-top: 10px;
-  font-size: .89rem;
-  color: var(--ink-soft)
-}
-
-@media(max-width:720px) {
-  .a04-area-model {
-    grid-template-columns: 76px 34px 130px 78px;
-    grid-template-rows: auto auto 130px 65px auto
-  }
-
+@media (max-width:720px) {
   .a04-top-total {
     padding: 0 12px 16px;
-    background-size: calc(100% - 22px) 2px
-  }
-
-  .a04-top-total::before {
-    left: 11px
-  }
-
-  .a04-top-total::after {
-    right: 11px
-  }
-
-  .a04-left-total {
-    padding-left: 20px;
-    background-size: 2px calc(100% - 22px)
-  }
-
-  .a04-left-total::before {
-    top: 10px
-  }
-
-  .a04-left-total::after {
-    bottom: 10px
+    background-size: calc(100% - 22px) 2px;
   }
 
   .a04-innercap {
-    max-width: 210px
-  }
-
-  .a04-cell {
-    font-size: 1rem
+    max-width: 210px;
   }
 }
 
-
-/* A04 polish for Quiz_14 */
 .a04-inline-group {
-  font-weight: 400
+  line-height: 1;
+  font-weight: 400;
 }
 
 .a04-top-total,
@@ -1246,144 +883,21 @@
 .a04-left-total,
 .a04-left-x,
 .a04-left-2 {
-  font-weight: 400
-}
-
-.a04-area-model {
-  grid-template-columns: 110px 42px 180px 108px;
-  grid-template-rows: 38px 34px 180px 90px auto;
-  align-items: stretch;
-  column-gap: 0;
-  row-gap: 0
-}
-
-.a04-top-total {
-  grid-column: 3/5;
-  grid-row: 1;
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 0 0 8px;
-  background: none;
-  border: none
+  font-weight: 400;
 }
 
 .a04-top-total::before {
-  content: '';
-  position: absolute;
-  left: 22px;
-  right: 22px;
-  bottom: 0;
-  border-top: 2px solid #5b7387
+  border-top: 2px solid #5b7387;
 }
 
-.a04-top-total::after {
-  content: '';
-  position: absolute;
-  left: 22px;
-  right: 22px;
-  bottom: 0;
-  height: 12px;
-  background:
-    linear-gradient(#5b7387, #5b7387) left bottom/2px 12px no-repeat,
-    linear-gradient(#5b7387, #5b7387) right bottom/2px 12px no-repeat
-}
-
-.a04-top-x,
-.a04-top-3 {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 8px 0 10px
-}
-
-.a04-left-total {
-  grid-column: 1;
-  grid-row: 3/5;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 24px 0 0;
-  background: none;
-  border: none
-}
-
-.a04-left-total::before {
-  content: '';
-  position: absolute;
-  top: 12px;
-  bottom: 12px;
-  right: 10px;
-  border-right: 2px solid #5b7387
-}
-
-.a04-left-total::after {
-  content: '';
-  position: absolute;
-  top: 12px;
-  bottom: 12px;
-  right: 10px;
-  width: 12px;
-  background:
-    linear-gradient(#5b7387, #5b7387) right top/12px 2px no-repeat,
-    linear-gradient(#5b7387, #5b7387) right bottom/12px 2px no-repeat
-}
-
-.a04-left-x,
-.a04-left-2 {
-  display: flex;
-  align-items: center;
-  justify-content: center
-}
-
-.a04-innercap {
-  justify-self: center;
-  max-width: 300px;
-  margin-top: 10px
-}
-
-@media(max-width:720px) {
-  .a04-area-model {
-    grid-template-columns: 86px 32px 130px 78px;
-    grid-template-rows: 34px 28px 130px 65px auto
-  }
-
-  .a04-top-total::before {
-    left: 16px;
-    right: 16px
-  }
-
-  .a04-top-total::after {
-    left: 16px;
-    right: 16px;
-    height: 10px;
-    background:
-      linear-gradient(#5b7387, #5b7387) left bottom/2px 10px no-repeat,
-      linear-gradient(#5b7387, #5b7387) right bottom/2px 10px no-repeat
-  }
-
+@media (max-width:720px) {
   .a04-left-total {
-    padding-right: 20px
-  }
-
-  .a04-left-total::before {
-    top: 10px;
-    bottom: 10px
-  }
-
-  .a04-left-total::after {
-    top: 10px;
-    bottom: 10px;
-    width: 10px;
-    background:
-      linear-gradient(#5b7387, #5b7387) right top/10px 2px no-repeat,
-      linear-gradient(#5b7387, #5b7387) right bottom/10px 2px no-repeat
+    background-size: 2px calc(100% - 22px);
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
-/* A04 mul symbol */
 .a04-mul {
   display: inline-flex;
   align-items: center;
@@ -1391,33 +905,7 @@
   font-weight: 500;
   color: var(--ink);
   padding: 0 1px;
-  font-size: 1.05em
-}
-
-
-/* A04 final clean dimension lines + centered labels (Quiz_14 fix) */
-.a04-area-model {
-  display: grid;
-  grid-template-columns: 90px 40px 160px 100px;
-  grid-template-rows: 36px 32px 160px 80px auto;
-  justify-content: center;
-  align-items: stretch;
-  gap: 0;
-  margin: 12px auto 0;
-  direction: ltr;
-}
-
-.a04-top-total {
-  grid-column: 3 / 5;
-  grid-row: 1;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 0 10px;
-  background: none;
-  border: none;
-  font-weight: 400;
+  font-size: 1.05em;
 }
 
 .a04-top-total::before {
@@ -1437,8 +925,7 @@
   right: 12px;
   bottom: 0;
   height: 10px;
-  background:
-    linear-gradient(#5b7387, #5b7387) left bottom / 2px 10px no-repeat,
+  background: linear-gradient(#5b7387, #5b7387) left bottom / 2px 10px no-repeat,
     linear-gradient(#5b7387, #5b7387) right bottom / 2px 10px no-repeat;
   pointer-events: none;
 }
@@ -1446,35 +933,23 @@
 .a04-top-x,
 .a04-top-3 {
   grid-row: 2;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 4px 0 6px;
-  font-weight: 400;
 }
 
 .a04-top-x {
-  grid-column: 3
+  grid-column: 3;
 }
 
 .a04-top-3 {
-  grid-column: 4
+  grid-column: 4;
 }
 
 .a04-left-total {
-  grid-column: 1;
-  grid-row: 3 / 5;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 12px 0 0;
-  background: none;
-  border: none;
-  font-weight: 400;
+  border-right: none;
+  border-left: none;
 }
 
 .a04-left-total::before {
+  border-right: 2px solid #5b7387;
   content: '';
   position: absolute;
   top: 12px;
@@ -1485,14 +960,15 @@
 }
 
 .a04-left-total::after {
+  border-left: 2px solid #5b7387;
+  border-bottom: 2px solid #5b7387;
   content: '';
   position: absolute;
   top: 12px;
   bottom: 12px;
   right: 0;
   width: 10px;
-  background:
-    linear-gradient(#5b7387, #5b7387) right top / 10px 2px no-repeat,
+  background: linear-gradient(#5b7387, #5b7387) right top / 10px 2px no-repeat,
     linear-gradient(#5b7387, #5b7387) right bottom / 10px 2px no-repeat;
   pointer-events: none;
 }
@@ -1500,18 +976,14 @@
 .a04-left-x,
 .a04-left-2 {
   grid-column: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 400;
 }
 
 .a04-left-x {
-  grid-row: 3
+  grid-row: 3;
 }
 
 .a04-left-2 {
-  grid-row: 4
+  grid-row: 4;
 }
 
 .a04-cell {
@@ -1525,28 +997,29 @@
 .a04-sq1 {
   grid-column: 3;
   grid-row: 3;
-  background: #d9eafa
+  background: #d9eafa;
 }
 
 .a04-sq2 {
   grid-column: 4;
   grid-row: 3;
-  background: #ffe3a6
+  background: #ffe3a6;
 }
 
 .a04-sq3 {
   grid-column: 3;
   grid-row: 4;
-  background: #e5efd4
+  background: #e5efd4;
 }
 
 .a04-sq4 {
   grid-column: 4;
   grid-row: 4;
-  background: #f6dfe8
+  background: #f6dfe8;
 }
 
 .a04-innercap {
+  max-width: 300px;
   grid-column: 3 / 5;
   grid-row: 5;
   text-align: center;
@@ -1556,251 +1029,71 @@
   color: var(--ink-soft);
 }
 
-.a04-area-model .katex {
-  font-size: 1.12em
-}
-
-@media(max-width:720px) {
-  .a04-area-model {
-    grid-template-columns: 72px 32px 120px 76px;
-    grid-template-rows: 32px 28px 120px 60px auto;
-  }
-
+@media (max-width:720px) {
   .a04-top-total::before {
     left: 8px;
-    right: 8px
+    right: 8px;
   }
 
   .a04-top-total::after {
     left: 8px;
     right: 8px;
     height: 8px;
-    background:
-      linear-gradient(#5b7387, #5b7387) left bottom / 2px 8px no-repeat,
-      linear-gradient(#5b7387, #5b7387) right bottom / 2px 8px no-repeat
+    background: linear-gradient(#5b7387, #5b7387) left bottom / 2px 8px no-repeat,
+      linear-gradient(#5b7387, #5b7387) right bottom / 2px 8px no-repeat;
   }
 
   .a04-left-total::before {
     top: 8px;
-    bottom: 8px
+    bottom: 8px;
   }
 
   .a04-left-total::after {
     top: 8px;
     bottom: 8px;
     width: 8px;
-    background:
-      linear-gradient(#5b7387, #5b7387) right top / 8px 2px no-repeat,
-      linear-gradient(#5b7387, #5b7387) right bottom / 8px 2px no-repeat
+    background: linear-gradient(#5b7387, #5b7387) right top / 8px 2px no-repeat,
+      linear-gradient(#5b7387, #5b7387) right bottom / 8px 2px no-repeat;
   }
 
   .a04-cell {
-    font-size: 1rem
+    font-size: 1rem;
   }
 }
 
-/* A04 robust dimension lines (KaTeX-safe) */
-.a04-area-model {
-  display: grid !important;
-  grid-template-columns: 88px 40px 160px 100px !important;
-  grid-template-rows: 40px 30px 160px 80px auto !important;
-  justify-content: center;
-  align-items: stretch;
-  gap: 0;
-  margin: 12px auto 0;
-  direction: ltr;
-}
-
 .a04-top-total {
-  grid-column: 3 / 5 !important;
-  grid-row: 1 !important;
-  position: relative;
-  display: flex !important;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 !important;
-  background: none !important;
-  border: none !important;
   font-weight: 400 !important;
-}
-
-.a04-top-total .a04-dim-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 26px;
-  line-height: 1;
 }
 
 .a04-top-total .a04-dim-line.a04-dim-h {
   display: block;
-  position: relative;
-  width: calc(100% - 20px);
-  height: 12px;
-  margin: 0 auto;
-}
-
-.a04-top-total .a04-dim-line.a04-dim-h::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  background: #5b7387;
-}
-
-.a04-top-total .a04-dim-line.a04-dim-h::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 10px;
-  background:
-    linear-gradient(#5b7387, #5b7387) left bottom / 2px 10px no-repeat,
-    linear-gradient(#5b7387, #5b7387) right bottom / 2px 10px no-repeat;
 }
 
 .a04-left-total {
-  grid-column: 1 !important;
-  grid-row: 3 / 5 !important;
-  position: relative;
-  display: flex !important;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 !important;
-  background: none !important;
-  border: none !important;
   font-weight: 400 !important;
 }
 
-.a04-left-total .a04-dim-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  line-height: 1;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  text-align: center;
-}
-
-.a04-left-total .a04-dim-line.a04-dim-v {
-  display: block;
-  position: relative;
-  width: 14px;
-  height: calc(100% - 20px);
-  margin: 10px 0;
-  flex-shrink: 0;
-}
-
-.a04-left-total .a04-dim-line.a04-dim-v::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 2px;
-  background: #5b7387;
-}
-
-.a04-left-total .a04-dim-line.a04-dim-v::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 10px;
-  background:
-    linear-gradient(#5b7387, #5b7387) right top / 10px 2px no-repeat,
-    linear-gradient(#5b7387, #5b7387) right bottom / 10px 2px no-repeat;
-}
-
-.a04-top-x,
-.a04-top-3 {
-  display: flex !important;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 4px 0 6px !important;
-  font-weight: 400 !important;
-}
-
-.a04-left-x,
-.a04-left-2 {
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  font-weight: 400 !important;
-}
-
-.a04-area-model .katex {
-  font-size: 1.1em !important;
-  line-height: 1 !important;
-}
-
-.a04-area-model .katex-html {
-  white-space: nowrap;
-}
-
-@media(max-width:720px) {
-  .a04-area-model {
-    grid-template-columns: 72px 32px 120px 76px !important;
-    grid-template-rows: 36px 26px 120px 60px auto !important;
-  }
-
-  .a04-left-total .a04-dim-label {
-    width: 50px
-  }
-}
-
-/* A04 FINAL dimension lines – no artifacts */
 .a04-area-model {
+  row-gap: 0;
+  column-gap: 0;
   display: grid !important;
-  grid-template-columns: 92px 38px 160px 100px !important;
   grid-template-rows: 42px 28px 160px 80px auto !important;
   justify-content: center;
   align-items: stretch;
   gap: 0;
   margin: 14px auto 0;
-  direction: ltr;
 }
 
-/* kill all old pseudo-elements on totals */
-.a04-top-total::before,
-.a04-top-total::after,
-.a04-left-total::before,
-.a04-left-total::after {
-  content: none !important;
-  display: none !important;
-  background: none !important;
-  border: none !important;
-}
-
-/* TOP total: label + clean horizontal dimension line */
 .a04-top-total {
   grid-column: 3 / 5 !important;
   grid-row: 1 !important;
-  display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: flex-start !important;
-  padding: 0 !important;
   margin: 0 !important;
   background: none !important;
   border: none !important;
   position: relative;
-}
-
-.a04-top-total .a04-dim-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 24px;
-  line-height: 1;
-  margin-bottom: 2px;
 }
 
 .a04-top-total .a04-dim-line.a04-dim-h {
@@ -1812,7 +1105,6 @@
   border: none !important;
 }
 
-/* the main horizontal stroke */
 .a04-top-total .a04-dim-line.a04-dim-h::before {
   content: '' !important;
   display: block !important;
@@ -1825,7 +1117,6 @@
   border: none !important;
 }
 
-/* the two vertical end ticks */
 .a04-top-total .a04-dim-line.a04-dim-h::after {
   content: '' !important;
   display: block !important;
@@ -1834,40 +1125,23 @@
   right: 0;
   bottom: 4px;
   height: 10px;
-  background:
-    linear-gradient(#5b7387, #5b7387) 0 0 / 2px 10px no-repeat,
+  background: linear-gradient(#5b7387, #5b7387) 0 0 / 2px 10px no-repeat,
     linear-gradient(#5b7387, #5b7387) 100% 0 / 2px 10px no-repeat !important;
   border: none !important;
 }
 
-/* LEFT total: label + clean vertical dimension line */
 .a04-left-total {
   grid-column: 1 !important;
   grid-row: 3 / 5 !important;
-  display: flex !important;
-  flex-direction: row !important;
   align-items: center !important;
   justify-content: flex-end !important;
-  padding: 0 !important;
-  margin: 0 !important;
   background: none !important;
   border: none !important;
   position: relative;
 }
 
-.a04-left-total .a04-dim-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 100%;
-  line-height: 1;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  text-align: center;
-}
-
 .a04-left-total .a04-dim-line.a04-dim-v {
+  display: block;
   position: relative;
   width: 14px;
   height: calc(100% - 16px);
@@ -1877,7 +1151,6 @@
   border: none !important;
 }
 
-/* the main vertical stroke */
 .a04-left-total .a04-dim-line.a04-dim-v::before {
   content: '' !important;
   display: block !important;
@@ -1890,7 +1163,6 @@
   border: none !important;
 }
 
-/* the two horizontal end ticks */
 .a04-left-total .a04-dim-line.a04-dim-v::after {
   content: '' !important;
   display: block !important;
@@ -1899,13 +1171,11 @@
   bottom: 0;
   right: 4px;
   width: 10px;
-  background:
-    linear-gradient(#5b7387, #5b7387) 0 0 / 10px 2px no-repeat,
+  background: linear-gradient(#5b7387, #5b7387) 0 0 / 10px 2px no-repeat,
     linear-gradient(#5b7387, #5b7387) 0 100% / 10px 2px no-repeat !important;
   border: none !important;
 }
 
-/* sub labels */
 .a04-top-x,
 .a04-top-3 {
   display: flex !important;
@@ -1936,18 +1206,17 @@
   white-space: nowrap !important;
 }
 
-@media(max-width:720px) {
+@media (max-width:720px) {
   .a04-area-model {
     grid-template-columns: 74px 30px 120px 76px !important;
     grid-template-rows: 38px 24px 120px 60px auto !important;
   }
 
   .a04-left-total .a04-dim-label {
-    width: 48px
+    width: 48px;
   }
 }
 
-/* === A04 FINAL: kill ALL old pseudo-elements & backgrounds === */
 .a04-top-total,
 .a04-left-total {
   background: none !important;
@@ -1969,14 +1238,12 @@
   height: 0 !important;
 }
 
-/* dimension line elements (the only ones that draw the ticks) */
 .a04-dim-line {
   position: relative;
   display: block;
   box-sizing: border-box;
 }
 
-/* horizontal dimension (top) */
 .a04-dim-h {
   width: calc(100% - 16px);
   height: 12px;
@@ -1984,13 +1251,12 @@
 }
 
 .a04-dim-h::before {
-  /* main horizontal line */
   content: '' !important;
   display: block !important;
   position: absolute;
   left: 0;
   right: 0;
-  top: 5px;
+  top: 4px;
   height: 2px;
   background: #5b7387;
   border: none !important;
@@ -1998,7 +1264,6 @@
 }
 
 .a04-dim-h::after {
-  /* two vertical end ticks pointing DOWN toward the figure */
   content: '' !important;
   display: block !important;
   position: absolute;
@@ -2006,14 +1271,12 @@
   right: 0;
   top: 0;
   height: 12px;
-  background:
-    linear-gradient(#5b7387, #5b7387) left top / 2px 12px no-repeat,
+  background: linear-gradient(#5b7387, #5b7387) left top / 2px 12px no-repeat,
     linear-gradient(#5b7387, #5b7387) right top / 2px 12px no-repeat;
   border: none !important;
   width: auto !important;
 }
 
-/* vertical dimension (left) */
 .a04-dim-v {
   width: 14px;
   height: calc(100% - 16px);
@@ -2022,13 +1285,12 @@
 }
 
 .a04-dim-v::before {
-  /* main vertical line */
   content: '' !important;
   display: block !important;
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 6px;
+  left: 4px;
   width: 2px;
   background: #5b7387;
   border: none !important;
@@ -2036,7 +1298,6 @@
 }
 
 .a04-dim-v::after {
-  /* two horizontal end ticks pointing RIGHT toward the figure */
   content: '' !important;
   display: block !important;
   position: absolute;
@@ -2044,14 +1305,12 @@
   bottom: 0;
   left: 0;
   width: 14px;
-  background:
-    linear-gradient(#5b7387, #5b7387) left top / 14px 2px no-repeat,
+  background: linear-gradient(#5b7387, #5b7387) left top / 14px 2px no-repeat,
     linear-gradient(#5b7387, #5b7387) left bottom / 14px 2px no-repeat;
   border: none !important;
   height: auto !important;
 }
 
-/* layout of the total containers */
 .a04-top-total {
   display: flex !important;
   flex-direction: column;
@@ -2061,6 +1320,7 @@
 }
 
 .a04-top-total .a04-dim-label {
+  margin-bottom: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2069,77 +1329,35 @@
 }
 
 .a04-left-total {
+  margin: 0 !important;
+  flex-direction: row !important;
   display: flex !important;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 !important;
-}
-
-.a04-left-total .a04-dim-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  line-height: 1;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-}
-
-/* Fix left label orientation (readable x+2) */
-.a04-left-total .a04-dim-label {
-  writing-mode: vertical-rl !important;
-  transform: none !important;
-  /* no extra 180deg rotation */
-  text-orientation: mixed;
-  direction: ltr;
-  width: auto !important;
-  min-width: 28px;
-  height: auto;
-  padding: 0 4px;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-}
-
-.a04-left-total {
-  gap: 4px;
-}
-
-/* === FINAL left label fix: rotate the whole label cleanly === */
-.a04-left-total {
-  display: flex !important;
-  flex-direction: row;
   align-items: center;
   justify-content: flex-end;
   gap: 6px;
   padding: 0 !important;
 }
 
-.a04-left-total .a04-dim-label {
-  writing-mode: horizontal-tb !important;
-  transform: rotate(-90deg) !important;
-  transform-origin: center center;
-  white-space: nowrap;
-  width: auto !important;
-  height: auto !important;
-  min-width: unset !important;
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  padding: 0;
-}
-
-/* give the rotated label enough space so it doesn't get clipped */
 .a04-area-model {
-  grid-template-columns: 100px 40px 160px 100px !important;
+  direction: ltr;
+  grid-template-columns: 48px 40px 160px 100px !important;
 }
 
 .a04-left-total .a04-dim-label {
-  /* after -90deg rotation the visual height becomes the original width */
+  padding: 0;
+  line-height: 1;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex !important;
+  height: auto !important;
+  width: auto !important;
+  white-space: nowrap;
+  direction: ltr;
+  text-align: center;
   margin: 0;
 }
+
+/* ===== A05 - area-model lab ===== */
 
 .a05-lab-head,
 .a05-lab-controls {
@@ -2147,27 +1365,27 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px
+  gap: 12px;
 }
 
 .a05-eyebrow {
   font-weight: 700;
-  color: #234d78
+  color: #234d78;
 }
 
 .a05-score {
   font-size: .86rem;
-  color: var(--ink-soft)
+  color: var(--ink-soft);
 }
 
 .a05-lab-controls {
   padding: 12px 0;
-  border-bottom: 1px solid var(--line)
+  border-bottom: 1px solid var(--line);
 }
 
 .a05-lab-controls input[type=range] {
   width: 130px;
-  accent-color: #337db8
+  accent-color: #337db8;
 }
 
 .a05-switch {
@@ -2177,7 +1395,7 @@
   padding: 9px 14px;
   color: #24547e;
   cursor: pointer;
-  font: inherit
+  font: inherit;
 }
 
 .a05-target {
@@ -2185,18 +1403,16 @@
   gap: 9px;
   align-items: center;
   flex-direction: column;
-  margin: 16px auto 13px;
-  font-size: 1.5rem
 }
 
 .a05-target span:last-child {
   font-size: .88rem;
-  color: var(--ink-soft)
+  color: var(--ink-soft);
 }
 
 .a05-stage {
   width: min(100%, 410px);
-  margin: 0 auto
+  margin: 0 auto;
 }
 
 .a05-tiles {
@@ -2209,7 +1425,7 @@
   margin: auto;
   border: 2px solid #36516d;
   direction: ltr;
-  box-shadow: 0 8px 20px #304b631a
+  box-shadow: 0 8px 20px #304b631a;
 }
 
 .a05-tile {
@@ -2220,93 +1436,74 @@
   position: relative;
   overflow: hidden;
   font-size: 1.23rem;
-  transition: background .25s ease
+  transition: background .25s ease;
 }
 
 .a05-core {
-  background: #d7e9fb
+  background: #d7e9fb;
 }
 
 .a05-corner {
-  background: #f1dbe7
+  background: #f1dbe7;
 }
 
 .a05-cross-one {
-  background: #ffdda0
+  background: #ffdda0;
 }
 
 .a05-cross-two {
-  background: #dcebc9
+  background: #dcebc9;
 }
 
 .a05-negative .a05-cross-one,
 .a05-negative .a05-cross-two {
-  background: #f0d4da
+  background: #f0d4da;
 }
 
 .a05-tile.a05-covered {
-  background: repeating-linear-gradient(135deg, #eaf0f5, #eaf0f5 12px, #dde7ef 12px, #dde7ef 24px)
+  background: repeating-linear-gradient(135deg, #eaf0f5, #eaf0f5 12px, #dde7ef 12px, #dde7ef 24px);
 }
 
 .a05-tile-symbol {
-  font-size: 1.18em
+  font-size: .96em;
 }
 
 .a05-tile-hint {
   position: absolute;
   bottom: 6px;
   font-size: .66rem;
-  color: #51697c
+  color: #51697c;
 }
 
 .a05-sign-note {
   font-size: .88rem;
   color: var(--ink-soft);
   margin: 12px auto;
-  max-width: 500px
+  max-width: 500px;
 }
 
 .a05-challenge {
   border-top: 1px solid var(--line);
   padding-top: 14px;
-  margin-top: 16px
+  margin-top: 16px;
 }
 
-.a05-challenge>label {
-  font-weight: 650;
-  display: block;
-  margin-bottom: 12px
-}
-
-
-
-
-
-
-
-@media(max-width:540px) {
-
+@media (max-width:540px) {
   .a05-lab-controls {
-    justify-content: center
+    justify-content: center;
   }
 
   .a05-tiles {
-    max-width: 260px
+    max-width: 260px;
   }
 }
 
-/* A05 clearer laboratory, Quiz_17 */
 .a05-slider-box {
   display: flex;
   flex-direction: column;
   gap: 4px;
   min-width: 195px;
-  text-align: right
-}
-
-.a05-slider-box input[type=range] {
-  width: 100%;
-  margin: 8px 0 0
+  text-align: right;
 }
 
 .a05-ticks {
@@ -2314,27 +1511,20 @@
   justify-content: space-between;
   font-size: .81rem;
   color: #426784;
-  padding: 0 3px;
-  direction: ltr
-}
-
-.a05-target p {
-  font-size: .94rem;
-  line-height: 1.85;
-  margin: 4px 0;
-  color: var(--ink-soft)
 }
 
 .a05-challenge>label {
+  margin-bottom: 12px;
+  display: block;
   text-align: right;
-  font-weight: 600
+  font-weight: 600;
 }
 
 .a05-example-note {
   text-align: right;
   font-size: .88rem;
   color: var(--ink-soft);
-  margin: 0 0 12px
+  margin: 0 0 12px;
 }
 
 .a05-equation {
@@ -2343,7 +1533,7 @@
   justify-content: center;
   gap: 8px;
   direction: ltr;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .a05-equation input {
@@ -2353,33 +1543,32 @@
   font: inherit;
   border: 1.5px solid #8eacc7;
   background: white;
-  border-radius: 9px
+  border-radius: 9px;
 }
 
 .a05-check-row {
   display: flex;
   justify-content: center;
-  margin: 14px 0
+  margin: 14px 0;
 }
 
 .a05-sign-note {
-  line-height: 1.9
+  line-height: 1.9;
 }
 
-
-
-/* Quiz_18: range and graduated tick labels share the same physical LTR axis */
 .a05-slider-box input[type=range] {
+  margin: 8px 0 0;
+  width: 100%;
   direction: ltr;
   writing-mode: horizontal-tb;
-  appearance: auto
+  appearance: auto;
 }
 
 .a05-ticks {
-  direction: ltr
+  padding: 0 3px;
+  direction: ltr;
 }
 
-/* A05 lab area-model with dimension lines (mirrors A04) */
 .a05-stage .a05-area-model {
   display: grid;
   grid-template-columns: 80px 36px 140px 90px;
@@ -2437,8 +1626,7 @@
   right: 0;
   top: 0;
   height: 12px;
-  background:
-    linear-gradient(#5b7387, #5b7387) left top / 2px 12px no-repeat,
+  background: linear-gradient(#5b7387, #5b7387) left top / 2px 12px no-repeat,
     linear-gradient(#5b7387, #5b7387) right top / 2px 12px no-repeat;
 }
 
@@ -2511,8 +1699,7 @@
   bottom: 0;
   left: 0;
   width: 14px;
-  background:
-    linear-gradient(#5b7387, #5b7387) left top / 14px 2px no-repeat,
+  background: linear-gradient(#5b7387, #5b7387) left top / 14px 2px no-repeat,
     linear-gradient(#5b7387, #5b7387) left bottom / 14px 2px no-repeat;
 }
 
@@ -2557,35 +1744,35 @@
 }
 
 .a05-stage .a05-area-model .katex {
-  font-size: 1.05em;
+  font-size: 1.1em;
 }
 
 .a06-controls {
-  justify-content: center
+  justify-content: center;
 }
 
-/* A06: goal revealed only after answering */
 .a06-goal {
   margin: 12px 0 0;
   color: var(--ink-soft);
-  font-size: .94rem
+  font-size: .94rem;
 }
 
-/* A07–A08: two distinct offline learning laboratories */
+/* ===== A07-A08 - learning laboratories ===== */
+
 .a78-panel {
   margin: 16px auto;
   padding: 18px;
   background: var(--card);
   border: 1.5px solid var(--line);
   border-radius: 15px;
-  max-width: 780px
+  max-width: 780px;
 }
 
 .a78-mini {
   text-align: center;
   color: var(--ink-soft);
   line-height: 1.9;
-  margin: 2px auto 12px
+  margin: 2px auto 12px;
 }
 
 .a78-chips {
@@ -2594,7 +1781,7 @@
   justify-content: center;
   gap: 5px;
   margin-top: 10px;
-  direction: ltr
+  direction: ltr;
 }
 
 .a78-chip {
@@ -2605,14 +1792,14 @@
   border-radius: 8px;
   background: white;
   cursor: pointer;
-  color: var(--ink)
+  color: var(--ink);
 }
 
 .a78-chip.selected {
   background: #244f7a;
   color: white;
   border-color: #244f7a;
-  font-weight: 700
+  font-weight: 700;
 }
 
 .a78-meter {
@@ -2620,34 +1807,22 @@
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin: 16px auto;
-  direction: ltr
-}
-
-.a78-meter>div {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  text-align: center;
-  border: 2px solid #c3cfdb;
-  border-radius: 12px;
-  padding: 12px;
-  gap: 8px;
-  background: #f6f8fb
+  direction: ltr;
 }
 
 .a78-meter>div.pass {
   background: #e6f5eb;
-  border-color: #4c9970
+  border-color: #4c9970;
 }
 
 .a78-meter small {
   grid-column: 1/3;
   direction: rtl;
-  color: var(--ink-soft)
+  color: var(--ink-soft);
 }
 
 .a78-meter span {
-  font-size: 1.3rem
+  font-size: 1.3rem;
 }
 
 .a78-options {
@@ -2655,50 +1830,51 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   max-width: 580px;
-  margin: 16px auto
+  margin: 16px auto;
 }
 
 .a78-options .btn {
   min-height: 53px;
   white-space: normal;
-  overflow-wrap: anywhere
+  overflow-wrap: anywhere;
 }
 
 .a78-options .a78-correct {
   border-color: #408c62;
-  background: #e6f5eb
+  background: #e6f5eb;
 }
 
 .a78-options .a78-wrong {
   border-color: #af4a4a;
-  background: #fdecec
+  background: #fdecec;
 }
 
 .a78-goal {
   border-top: 1px solid var(--line);
   padding-top: 10px;
-  color: var(--ink-soft)
+  color: var(--ink-soft);
 }
 
-@media(max-width:600px) {
-.a78-meter {
-    grid-template-columns: 1fr
+@media (max-width:600px) {
+  .a78-meter {
+    grid-template-columns: 1fr;
   }
 
   .a78-panel {
-    padding: 10px
+    padding: 10px;
   }
 
   .a78-chip {
-    min-width: 30px
+    min-width: 30px;
   }
 
   .a78-options {
-    gap: 7px
+    gap: 7px;
   }
 }
 
-/* A05: the current binomial occupies the former sign-control position. */
+/* ===== A05 - area-model lab ===== */
+
 .a05-current-expression {
   font-size: 1.45rem;
   line-height: 1.5;
@@ -2706,71 +1882,74 @@
   white-space: nowrap;
   display: flex;
   align-items: center;
-  justify-content: center
+  justify-content: center;
 }
 
 .a05-current-expression .katex {
-  font-size: 1.08em
+  font-size: .9em;
 }
 
 .a05-target {
   font-size: 1rem;
-  margin: 9px auto 13px
+  margin: 9px auto 13px;
 }
 
 .a05-target p {
+  color: var(--ink-soft);
   font-size: 1rem;
   line-height: 2;
   text-align: center;
-  margin: 0
+  margin: 0;
 }
 
-@media(max-width:540px) {
+@media (max-width:540px) {
   .a05-current-expression {
-    font-size: 1.25rem
+    font-size: 1.25rem;
   }
 
   .a05-lab-controls {
-    gap: 10px
+    gap: 10px;
   }
 }
 
+/* ===== A07-A08 - learning laboratories ===== */
+
 .a78-hint {
   text-align: center;
-  color: var(--ink-soft)
+  color: var(--ink-soft);
 }
 
 .a78-controls {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
-  margin: 18px 0
+  margin: 18px 0;
 }
 
 .a78-control {
   background: var(--paper, #f7fafc);
   border: 1px solid var(--line);
   border-radius: 14px;
-  padding: 16px
+  padding: 16px;
 }
 
 .a78-control-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px
+  margin-bottom: 10px;
 }
 
 .a78-value {
   font-size: 1.6rem;
-  color: var(--ink)
+  color: var(--ink);
 }
 
 .a78-control input[type=range] {
   width: 100%;
   direction: ltr;
   accent-color: #267a8a;
-  cursor: pointer
+  cursor: pointer;
 }
 
 .a78-ends {
@@ -2778,13 +1957,20 @@
   justify-content: space-between;
   font-size: .8rem;
   color: var(--ink-soft);
-  direction: ltr
+  direction: ltr;
 }
 
 .a78-meter>div {
+  background: #f6f8fb;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid #c3cfdb;
+  text-align: center;
+  align-items: center;
+  grid-template-columns: 1fr auto;
   display: flex;
   flex-direction: column;
-  gap: 6px
+  gap: 6px;
 }
 
 .a78-inline-math {
@@ -2792,16 +1978,15 @@
   direction: ltr;
   unicode-bidi: isolate;
   margin-inline: 5px;
-  vertical-align: middle
+  vertical-align: middle;
 }
 
-@media(max-width:600px) {
+@media (max-width:600px) {
   .a78-controls {
-    grid-template-columns: 1fr
+    grid-template-columns: 1fr;
   }
 }
 
-/* A07 guided discovery */
 .a78-ticks {
   display: grid;
   grid-template-columns: repeat(17, minmax(0, 1fr));
@@ -2810,39 +1995,39 @@
   margin-top: 6px;
   text-align: center;
   font-size: .65rem;
-  color: var(--ink-soft)
+  color: var(--ink-soft);
 }
 
 .a78-tick {
   min-width: 0;
-  white-space: nowrap
+  white-space: nowrap;
 }
 
 .a78-tick i {
   font-style: normal;
-  opacity: .5
+  opacity: .5;
 }
 
 .a78-tick.zero {
   font-weight: 700;
-  color: var(--ink)
+  color: var(--ink);
 }
 
 .a78-signed {
   direction: ltr;
   unicode-bidi: isolate;
-  display: inline-block
+  display: inline-block;
 }
 
 .a78-reason {
   margin: 12px 0;
   padding: 12px 0;
-  border-bottom: 1px solid var(--line)
+  border-bottom: 1px solid var(--line);
 }
 
 .a78-reason p {
   margin: 8px 0;
-  line-height: 1.9
+  line-height: 1.9;
 }
 
 .a78-predict,
@@ -2851,12 +2036,12 @@
   gap: 8px;
   justify-content: center;
   flex-wrap: wrap;
-  margin: 12px 0
+  margin: 12px 0;
 }
 
 .a78-predict .selected {
   border-color: #267a8a;
-  background: #e0f2ef
+  background: #e0f2ef;
 }
 
 .a78-pair {
@@ -2864,61 +2049,58 @@
   padding: 5px 12px;
   border-radius: 9px;
   border: 1px solid var(--line);
-  direction: ltr
+  direction: ltr;
 }
 
 .a78-message {
   color: var(--ink-soft);
-  text-align: center
+  text-align: center;
 }
 
 #A07-practice .a78-ask {
-  display: block
+  display: block;
 }
 
 #A07-practice .a78-inline-math {
-  white-space: nowrap
+  white-space: nowrap;
 }
 
-/* A07: clear prediction feedback and incorrect-balance symbols */
 .a78-predict .a78-right {
   background: #e4f6e9;
   border: 2px solid #30834c;
   color: #165d30;
-  font-weight: 700
+  font-weight: 700;
 }
 
 .a78-predict .a78-wrong-sign {
   background: #fff0f0;
   border: 2px solid #be3f45;
   color: #972b30;
-  font-weight: 700
+  font-weight: 700;
 }
 
 .a78-meter>div:not(.pass) {
   background: #fff3f3;
-  border-color: #c36b70
+  border-color: #c36b70;
 }
 
 .a78-meter>div>b {
   direction: rtl;
-  unicode-bidi: isolate
+  unicode-bidi: isolate;
 }
 
-/* A08 — progress through the three conceptual gates */
 .a08-example {
-  margin-block: 12px 18px
+  margin-block: 12px 18px;
 }
 
 #A08-practice .a78-ask {
-  display: block
+  display: block;
 }
 
 #A08-practice .a78-inline-math {
-  white-space: nowrap
+  white-space: nowrap;
 }
 
-/* A07–A08 — same question-choice style as chapter-one multiple choice. */
 #A07-practice .a78-options,
 #A08-practice .a78-options,
 #A08-explore .a78-options {
@@ -2959,11 +2141,10 @@
 
 #A07-practice .a78-options .opt:disabled,
 #A08-practice .a78-options .opt:disabled {
-  opacity: 1;
-  cursor: default
+  /* opacity: 1; */
+  cursor: default;
 }
 
-/* One frame per activity, not an extra nested panel. */
 #A07-practice .a78-panel,
 #A08-practice .a78-panel,
 #A08-explore .a78-panel {
@@ -2975,41 +2156,37 @@
   max-width: none;
 }
 
-@media(max-width:520px) {
+@media (max-width:520px) {
 
   #A07-practice .a78-options,
   #A08-practice .a78-options,
   #A08-explore .a78-options {
-    grid-template-columns: 1fr
+    grid-template-columns: 1fr;
   }
 }
 
-/* Shared solved-example grouping: problem statement stays outside; work follows inside. */
 .solved-example-work {
-  margin-block: 8px 18px
+  margin-block: 8px 18px;
 }
 
 .solved-example-work>:first-child {
-  margin-block-start: 0
+  margin-block-start: 0;
 }
 
 .solved-example-work>:last-child {
-  margin-block-end: 0
+  margin-block-end: 0;
 }
 
+/* ===== A07-A08 - learning laboratories ===== */
 
-/* A08 refinements: numbered subheads, randomized factor-check, and clearer domain experiment */
 .a08-domain-lab {
   border-bottom: 0;
-  padding-bottom: 0
+  padding-bottom: 0;
 }
 
 .a08-domain-control {
-  background: var(--paper, #f7fafc);
-  border: 1px solid var(--line);
-  border-radius: 14px;
   padding: 14px 14px 10px;
-  margin: 10px 0 14px
+  margin: 10px 0 14px;
 }
 
 .a08-domain-head {
@@ -3017,23 +2194,21 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 10px
+  margin-bottom: 10px;
 }
 
 .a08-domain-current {
   font-size: 1.2rem;
   direction: ltr;
   unicode-bidi: isolate;
-  display: inline-block
+  display: inline-block;
 }
 
-/* neutralized old domain range width */
-/* neutralized old domain-ticks */
 .a08-domain-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin: 14px 0
+  margin: 14px 0;
 }
 
 .a08-domain-card {
@@ -3041,86 +2216,75 @@
   border: 1.5px solid var(--line);
   border-radius: 14px;
   padding: 12px 10px;
-  text-align: center
+  text-align: center;
 }
 
 .a08-domain-card.ok {
   background: #edf8f1;
-  border-color: #7eb08c
+  border-color: #7eb08c;
 }
 
 .a08-domain-card.bad {
   background: #fff3f3;
-  border-color: #c36b70
+  border-color: #c36b70;
 }
 
 .a08-domain-card h5 {
   margin: 0 0 6px;
-  color: var(--ink)
+  color: var(--ink);
 }
 
 .a08-domain-card .dm {
-  margin: 8px auto
+  margin: 8px auto;
 }
 
 .a08-domain-undefined {
-  color: #a13a3a
+  color: #a13a3a;
 }
 
-@media(max-width:600px) {
+@media (max-width:600px) {
   .a08-domain-cards {
-    grid-template-columns: 1fr
+    grid-template-columns: 1fr;
   }
 }
 
-.a08-domain-equation {
-  min-height: 70px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow-x: auto;
-  padding: 8px 2px;
-  direction: ltr
-}
-
 .a08-domain-equation .katex {
-  font-size: 1.08em
+  font-size: 1.08em;
 }
 
-/* Keep Persian undefined-status text outside the LTR KaTeX equation. */
 .a08-domain-equation {
+  padding: 8px 2px;
+  overflow-x: auto;
+  min-height: 70px;
   direction: ltr;
   unicode-bidi: isolate;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: .4rem;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .a08-domain-equation .a08-domain-undefined {
   direction: rtl;
   unicode-bidi: isolate;
   display: inline-block;
-  white-space: nowrap
+  white-space: nowrap;
 }
 
 .a08-domain-ticks .target {
   font-weight: 800;
-  color: var(--ink)
+  color: var(--ink);
 }
 
-
-
-
-/* A08 domain slider: precise thumb/label alignment */
 .a08-domain-control {
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--paper, #f7fafc);
   --a08-thumb: 18px;
   --a08-half: 9px;
 }
 
-/* Keep the slider native (as in N07), including its filled track,
-   normal, hover, and pressed thumb states in Firefox. */
 .a08-domain-control input[type=range][data-domain-range] {
   appearance: auto !important;
   -webkit-appearance: auto !important;
@@ -3131,10 +2295,6 @@
   cursor: pointer;
 }
 
-/*
-  Thumb center at min/max sits roughly half-thumb inward from the ends.
-  Labels use the same inset + space-between so first/last centers match the thumb.
-*/
 .a08-domain-control .a08-domain-ticks {
   display: flex !important;
   justify-content: space-between !important;
@@ -3158,147 +2318,141 @@
   line-height: 1.2;
 }
 
+/* ===== A04 - area model / multiplication grid ===== */
 
-/* پیام نتیجهٔ آزمون‌های فصل دوم: همان اندازه و فاصلهٔ خطوط نمونهٔ فصل اول */
-/* Final result cards inherit the same typography as chapter 1 .fb.
-   Do not set font-size here: the chapter-one result has no .stg and therefore
-   does not match the in-question .cover:has(.stg) .fb override. */
-
-/* Quiz-3-94: A04/A05 mobile calculations and four-part model. */
-@media(max-width:600px) {
+@media (max-width:600px) {
   .a04-figure {
     width: 100%;
     min-width: 0;
     max-width: 100%;
     box-sizing: border-box;
-    padding: 0 2px
+    padding: 0 2px;
   }
 
   .a04-area-model {
-    grid-template-columns: 24% 10% 42% 24% !important;
+    /* grid-template-columns: 24% 10% 42% 24% !important; */
+    grid-template-columns: 16% 10% 50% 24% !important;
     width: 100%;
     max-width: 335px;
     min-width: 0;
     box-sizing: border-box;
     grid-template-rows: 30px 26px minmax(0, 120px) minmax(0, 65px) auto !important;
-    margin-inline: auto
+    margin-inline: auto;
   }
 
   .a04-area-model .katex {
-    font-size: .92em
+    font-size: .92em;
   }
 
   .a04-eqblock {
     max-width: 100%;
     padding-inline: 0;
-    box-sizing: border-box
+    box-sizing: border-box;
   }
 
-  /*.a04-eqline{gap:4px;font-size:.91rem}*/
   .a04-eqline {
-    gap: 4px
+    gap: 4px;
   }
 
   .a04-eqline .katex {
-    font-size: .91em
+    font-size: .91em;
   }
 
   .a04-figure+.dm {
-    max-width: 100%
+    max-width: 100%;
   }
 
   .a05-stage,
   .a05-tiles {
-    margin-inline: auto
+    margin-inline: auto;
   }
 
   .a05-lab .a05-stage {
     display: flex;
     flex-direction: column;
-    align-items: center
+    align-items: center;
   }
 }
 
-@media(max-width:390px) {
+/* ===== A04 - area model / multiplication grid ===== */
+
+@media (max-width:390px) {
   .a04-area-model {
-    grid-template-rows: 30px 26px 105px 56px auto !important
+    grid-template-rows: 30px 26px 105px 56px auto !important;
   }
 
   .a04-area-model .katex {
-    font-size: .85em
+    font-size: .85em;
   }
 }
 
 .a04-mobile-break {
-  display: none
+  display: none;
 }
 
-@media(max-width:600px) {
+@media (max-width:600px) {
   .a04-eqline.a04-eqstart {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 3px 5px
+    gap: 3px 5px;
   }
 
   .a04-eqstart .a04-mobile-break {
     display: block;
     flex: 0 0 100%;
-    height: 0
+    height: 0;
   }
 
   .a04-eqstart .a04-term {
-    white-space: nowrap
+    white-space: nowrap;
   }
-}
 
-/* Quiz-3-95: center both area models and avoid mobile formula overflow. */
-@media (max-width:600px) {
   .a04-figure {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-inline: auto !important;
-    overflow: visible
+    overflow: visible;
   }
 
   .a04-figure .a04-area-model {
     width: min(100%, 320px) !important;
     max-width: 100% !important;
     margin: 10px auto 0 !important;
-    grid-template-columns: 24% 10% 42% 24% !important;
-    justify-content: stretch !important
+    /* grid-template-columns: 24% 10% 42% 24% !important; */
+    grid-template-columns: 16% 10% 50% 24% !important;
+    justify-content: stretch !important;
   }
 
   .a05-stage .a05-area-model,
   .a05-lab .a05-area-model {
     margin-inline: auto !important;
     align-self: center;
-    max-width: 100%
+    max-width: 100%;
   }
 
   .a04-figure+.dm,
   .a04-figure+.dm+.dm {
     max-width: 100%;
     box-sizing: border-box;
-    text-align: center
+    text-align: center;
   }
 
   .a04-figure+.dm .katex,
   .a04-figure+.dm+.dm .katex {
-    font-size: clamp(.72em, 3.4vw, 1em)
+    font-size: clamp(.72em, 3.4vw, 1em);
   }
 }
 
-/* Quiz-3-96: center complete A05 diagram (including measurement rails). */
 .a05-lab .a05-stage {
   width: 100%;
   max-width: 100%;
   margin-inline: auto;
   display: flex;
   flex-direction: column;
-  align-items: center
+  align-items: center;
 }
 
 .a05-lab .a05-stage .a05-area-model {
@@ -3309,35 +2463,35 @@
   align-self: center;
   justify-content: center;
   grid-template-columns: 23.12% 10.40% 40.46% 26.02%;
-  grid-template-rows: 36px 28px minmax(0, 140px) minmax(0, 80px)
+  grid-template-rows: 36px 28px minmax(0, 140px) minmax(0, 80px);
 }
 
-@media(max-width:390px) {
+@media (max-width:390px) {
   .a05-lab .a05-stage .a05-area-model {
-    grid-template-rows: 31px 24px minmax(0, 110px) minmax(0, 64px)
+    grid-template-rows: 31px 24px minmax(0, 110px) minmax(0, 64px);
   }
 
   .a05-lab .a05-stage .a05-tile-hint {
-    font-size: .66rem
+    font-size: .66rem;
   }
 }
 
+/* ===== Shared chapter-2 components ===== */
 
-/* Quiz-3-100: responsive display variants for formulas previously split for narrow screens. */
 .a2-responsive-formula {
   max-width: 100%;
-  min-width: 0
+  min-width: 0;
 }
 
 .a2-responsive-formula .a2-formula-mobile {
-  display: none
+  display: none;
 }
 
 .a2-responsive-formula .a2-formula-desktop {
   display: block;
   max-width: 100%;
   min-width: 0;
-  text-align: center
+  text-align: center;
 }
 
 .a2-responsive-formula .a2-formula-desktop .dm {
@@ -3346,23 +2500,22 @@
   overflow: visible;
   padding-block: 10px 12px;
   line-height: 1.6;
-  box-sizing: content-box
+  box-sizing: content-box;
 }
 
-/* Keep desktop formulas at the standard lesson math size; the previous .94em override made them visibly smaller. */
 .a2-responsive-formula .a2-formula-desktop .katex {
-  font-size: 1.3rem !important
+  font-size: 1.3rem !important;
 }
 
-@media(max-width:767px) {
+@media (max-width:767px) {
   .a2-responsive-formula .a2-formula-desktop {
-    display: none
+    display: none;
   }
 
   .a2-responsive-formula .a2-formula-mobile {
     display: block;
     max-width: 100%;
-    min-width: 0
+    min-width: 0;
   }
 
   .a2-responsive-formula .a2-formula-mobile .dm {
@@ -3372,34 +2525,30 @@
     padding-block: 8px 10px;
     line-height: 1.6;
     overflow: visible;
-    box-sizing: content-box
+    box-sizing: content-box;
   }
-
-  /*.a2-responsive-formula .a2-formula-mobile .katex{font-size:1rem!important}*/
 }
 
-/* Quiz-3-102: align the two simplification equalities in A04 and prevent superscript clipping. */
 .a04-eq-aligned {
   direction: ltr;
   display: flex;
   justify-content: center;
   overflow: visible;
-  padding-block: 6px 8px
+  padding-block: 6px 8px;
 }
 
 .a04-eq-aligned .dm {
   overflow: visible;
   line-height: 1.6;
-  padding-block: 4px
+  padding-block: 4px;
 }
 
 .a07-check-formula .a2-formula-desktop .dm {
   padding-block: 12px 14px;
   line-height: 1.7;
-  overflow: visible
+  overflow: visible;
 }
 
-/* Quiz-3-103: responsive formula wrapping for A04/A07/A08. */
 .a04-power-product .a2-formula-mobile .dm,
 .a04-signed-product .a2-formula-mobile .dm,
 .a07-multistep-factor .a2-formula-mobile .dm,
@@ -3407,38 +2556,37 @@
   white-space: normal;
   max-width: 100%;
   overflow: visible;
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
-/* Quiz-3-105: keep each of the three signed-product equality stages intact on its own mobile line. */
 .a04-signed-product .a2-formula-mobile .dm {
   white-space: nowrap;
 }
 
+/* ===== A01 ===== */
 
-/* Quiz-3-106: responsive wrapping for requested algebra examples; font sizes unchanged. */
 .a01-two-var-work .a2-formula-desktop,
 .a01-power-substitution .a2-formula-desktop {
-  display: block
+  display: block;
 }
 
 .a01-two-var-work .a2-formula-mobile,
 .a01-power-substitution .a2-formula-mobile {
-  display: none
+  display: none;
 }
 
-@media(max-width:767px) {
+@media (max-width:767px) {
 
   .a01-two-var-work .a2-formula-desktop,
   .a01-power-substitution .a2-formula-desktop {
-    display: none
+    display: none;
   }
 
   .a01-two-var-work .a2-formula-mobile,
   .a01-power-substitution .a2-formula-mobile {
     display: block;
     max-width: 100%;
-    min-width: 0
+    min-width: 0;
   }
 
   .a01-two-var-work .a2-formula-mobile .dm,
@@ -3450,10 +2598,8 @@
     margin: 6px auto;
     text-align: center;
     padding-block: 8px 10px;
-    line-height: 1.6
+    line-height: 1.6;
   }
-
-  /*.a01-two-var-work .a2-formula-mobile .katex,.a01-power-substitution .a2-formula-mobile .katex{font-size:1rem!important}*/
 }
 
 .a2-responsive-formula .a2-formula-mobile .dm {
@@ -3461,10 +2607,9 @@
   overflow: visible;
   max-width: 100%;
   min-width: 0;
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
-/* A08 — on mobile, keep the first two cancellation-comparison lines side by side. */
 @media (max-width: 600px) {
   .a08-no-cancel-example .a08-mobile-first-two {
     display: flex;
@@ -3482,30 +2627,31 @@
   }
 }
 
-/* Quiz-3-115: prevent horizontal scrolling in two long equations on phones only; preserve the desktop formula and default font size. */
+/* ===== A05 - area-model lab ===== */
+
 .a05-square-trinomial,
 .a08-numeric-sum {
   max-width: 100%;
-  min-width: 0
+  min-width: 0;
 }
 
 .a05-square-trinomial .a05-trinomial-mobile,
 .a08-numeric-sum .a08-numeric-sum-mobile {
-  display: none
+  display: none;
 }
 
-@media(max-width:767px) {
+@media (max-width:767px) {
 
   .a05-square-trinomial .a05-trinomial-desktop,
   .a08-numeric-sum .a08-numeric-sum-desktop {
-    display: none
+    display: none;
   }
 
   .a05-square-trinomial .a05-trinomial-mobile,
   .a08-numeric-sum .a08-numeric-sum-mobile {
     display: block;
     max-width: 100%;
-    min-width: 0
+    min-width: 0;
   }
 
   .a05-square-trinomial .a05-trinomial-mobile .dm,
@@ -3515,144 +2661,333 @@
     white-space: normal;
     overflow: visible;
     box-sizing: border-box;
-    margin: 6px auto
+    margin: 6px auto;
   }
 }
 
+.a78-predict {
+  direction: rtl;
+}
 
-/* ===== منتقل‌شده از course-shared-overrides.css (فقط فصل 2) ===== */
-/* Group-local direction: Persian choice labels start at the right. */
-.a78-predict { direction: rtl; }
 .a05-switch,
 .a06-controls .btn:not(.primary) {
-  box-shadow:2px 2px 0 var(--ink);
-  transition:transform .10s ease, box-shadow .10s ease;
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: transform .10s ease, box-shadow .10s ease;
 }
+
 .a05-switch:active:not(:disabled),
 .a06-controls .btn:not(.primary):active:not(:disabled) {
-  transform:translate(1px,1px);
-  box-shadow:1px 1px 0 var(--ink);
-}
-/* N01 response alternatives: equal shadow, but NO moving pressed effect. */
-/* A07/A08 prediction/reason choice cards are answers, not toggles. */
-.a78-predict > .btn{transform:none!important;}
-.a78-predict > .btn:active{transform:none!important;}
-@media (prefers-reduced-motion:reduce){
-.a05-switch:active:not(:disabled),
-.a06-controls .btn:not(.primary):active:not(:disabled) {transform:none}
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink);
 }
 
-/* A01 lab: remove only the outer wrapper; final quiz retains its standard frame. */
-#A01-lab.a01-interaction{border:0;border-radius:0;background:transparent;padding:0;margin:12px 0 23px}
-.a2-final .alg2-options {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;direction:rtl;margin:12px 0;}
+.a78-predict>.btn {
+  transform: none !important;
+}
+
+.a78-predict>.btn:active {
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+  .a05-switch:active:not(:disabled),
+  .a06-controls .btn:not(.primary):active:not(:disabled) {
+    transform: none;
+  }
+}
+
+#A01-lab.a01-interaction {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  margin: 12px 0 23px;
+}
+
+.a2-final .alg2-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  direction: rtl;
+  margin: 12px 0;
+}
+
 .a2-final .alg2-options .btn,
-.a2-final .a78-options .opt {box-sizing:border-box;min-width:0;width:100%;min-height:44px;height:auto;padding:5px 10px;font-size:1rem;font-weight:400;white-space:normal;overflow-wrap:anywhere;text-align:center;}
-@media(max-width:520px){
-.a2-final .alg2-options {gap:7px}
+.a2-final .a78-options .opt {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  min-height: 44px;
+  height: auto;
+  padding: 5px 10px;
+  font-size: 1rem;
+  font-weight: 400;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
-#A01-quiz.a01-interaction.cover{border:2px solid var(--ink);border-radius:14px;background:#fff;box-shadow:4px 4px 0 var(--ink);padding:12px 16px 18px;}
+@media (max-width:520px) {
+  .a2-final .alg2-options {
+    gap: 7px;
+  }
+}
 
-.a2-final .a2-question{font-size:1rem;font-weight:700;text-align:right;margin:10px 0;}
-.a2-final:has(.stg) .a2-question {font-size:1rem;font-weight:700;line-height:1.85}
+#A01-quiz.a01-interaction.cover {
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 12px 16px 18px;
+}
+
+.a2-final .a2-question {
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: right;
+  margin: 10px 0;
+}
+
+.a2-final:has(.stg) .a2-question {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.85;
+}
+
 .a2-final:has(.stg) .alg2-options .btn,
-.a2-final:has(.stg) .a78-options .opt {font-size:1rem;line-height:1.7;font-weight:400}
+.a2-final:has(.stg) .a78-options .opt {
+  font-size: 1rem;
+  line-height: 1.7;
+  font-weight: 400;
+}
 
-/* Chapter 2 selected interactive shells: identical outer framing to chapter 1 .cover. */
 .chapter-one-frame.alg2-slot,
 .chapter-one-frame.a05-slot,
 .chapter-one-frame.a06-lab,
 #A06-practice.a06-lab.a2-final.cover {
-  box-sizing:border-box;width:100%;max-width:none;margin:12px 0 22px;
-  padding:12px 16px 18px;border:2px solid var(--ink);
-  border-radius:14px;background:#fff;box-shadow:4px 4px 0 var(--ink);
-}
-/* A05 and A08 generate their own inner wrappers: retain the actual tools,
-   not a second background/card around the outer frame. */
-#A05-explore.chapter-one-frame > .a05-lab {
-  box-sizing:border-box;width:100%;max-width:none;margin:0;padding:0;
-  border:0;border-radius:0;background:transparent;
-}
-#A08-factor-check.chapter-one-frame > .a78-panel,
-#A08-domain-check.chapter-one-frame > .a78-panel,
-#A08-explore.chapter-one-frame > .a78-panel,
-#A07-explore.chapter-one-frame > .a78-panel {
-  max-width:none;width:100%;margin:0;padding:0;
-  border:0;border-radius:0;background:transparent;
-}
-@media(max-width:520px){
-  .chapter-one-frame.alg2-slot,.chapter-one-frame.a05-slot,
-  .chapter-one-frame.a06-lab,#A06-practice.a06-lab.a2-final.cover {padding:12px 12px 16px}
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 12px 0 22px;
+  padding: 12px 16px 18px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 4px 4px 0 var(--ink);
 }
 
-/* A07/A08 final: full-width two-column choice grid, matching other finals. */
+#A05-explore.chapter-one-frame>.a05-lab {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+#A08-factor-check.chapter-one-frame>.a78-panel,
+#A08-domain-check.chapter-one-frame>.a78-panel,
+#A08-explore.chapter-one-frame>.a78-panel,
+#A07-explore.chapter-one-frame>.a78-panel {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+@media (max-width:520px) {
+
+  .chapter-one-frame.alg2-slot,
+  .chapter-one-frame.a05-slot,
+  .chapter-one-frame.a06-lab,
+  #A06-practice.a06-lab.a2-final.cover {
+    padding: 12px 12px 16px;
+  }
+}
+
+/* ===== A07-A08 - learning laboratories ===== */
+
 #A07-practice.a2-final .mc.a78-options,
 #A08-practice.a2-final .mc.a78-options {
-  display:grid;
-  width:100%;
-  max-width:100%;
-  min-width:0;
-  box-sizing:border-box;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  justify-content:stretch;
-  margin-inline:0;
-}
-#A07-practice.a2-final .mc.a78-options > .opt,
-#A08-practice.a2-final .mc.a78-options > .opt {
-  width:100%;
-  min-width:0;
-  max-width:none;
-  box-sizing:border-box;
-}
-@media (max-width:520px) {
-  #A07-practice.a2-final .mc.a78-options,
-  #A08-practice.a2-final .mc.a78-options {grid-template-columns:1fr;}
+  display: grid;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-content: stretch;
+  margin-inline: 0;
 }
 
-/* Quiz_143: A07/A08 role-specific controls and uniform chapter-two quiz options. */
-#A07-explore .a78-predict .btn, #A08-factor-check .a78-predict .btn,
-#A08-explore .a78-predict .btn {
-  min-height:52px; min-width:132px; padding:8px 13px; font-size:1rem; font-weight:700;
-  box-shadow:2px 2px 0 var(--ink);
+#A07-practice.a2-final .mc.a78-options>.opt,
+#A08-practice.a2-final .mc.a78-options>.opt {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  box-sizing: border-box;
 }
+
+@media (max-width:520px) {
+
+  #A07-practice.a2-final .mc.a78-options,
+  #A08-practice.a2-final .mc.a78-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+#A07-explore .a78-predict .btn,
+#A08-factor-check .a78-predict .btn,
+#A08-explore .a78-predict .btn {
+  min-height: 52px;
+  min-width: 132px;
+  padding: 8px 13px;
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
 #A07-explore .a78-predict .btn:active:not(:disabled),
 #A08-factor-check .a78-predict .btn:active:not(:disabled),
 #A08-explore .a78-predict .btn:active:not(:disabled) {
-  transform:translate(1px,1px)!important; box-shadow:1px 1px 0 var(--ink);
-}
-#A07-practice .a78-options .opt, #A08-practice .a78-options .opt {
-  font-size:1rem; font-weight:400; min-height:44px; height:auto; padding:5px 10px; width:100%; min-width:0; box-sizing:border-box;
-}
-#A07-practice .a78-ask, #A08-practice .a78-ask {
-  font-size:1rem; font-weight:700; line-height:1.85;
-}
-#A07-practice .a78-actions .btn, #A08-practice .a78-actions .btn {
-  font-size:.9rem; font-weight:700; min-height:36px; height:auto; padding:5px 12px;
-  min-width:120px; box-sizing:border-box;
+  transform: translate(1px, 1px) !important;
+  box-shadow: 1px 1px 0 var(--ink);
 }
 
-/* پاسخ قطعیِ پرسش‌های چندگزینه‌ای: گزینهٔ درست و انتخاب نادرست */
-.alg2-options .btn.choice-correct, .alg2-options .btn.choice-correct:disabled {background:#d2f0e9;border-color:#438b6c;color:#173d2e;opacity:1;}
-.alg2-options .btn.choice-wrong, .alg2-options .btn.choice-wrong:disabled {background:#fbd5d5;border-color:#b23a3a;color:#632323;opacity:1;}
-#A08-factor-check .a78-predict .btn:disabled {opacity:1;filter:none;cursor:default;}
-#A08-factor-check .a78-predict .btn.a78-right:disabled {background:#e4f6e9;border-color:#30834c;color:#165d30;}
-#A08-factor-check .a78-predict .btn.a78-wrong-sign:disabled {background:#fff0f0;border-color:#be3f45;color:#972b30;}
+#A07-practice .a78-options .opt,
+#A08-practice .a78-options .opt {
+  font-size: 1rem;
+  font-weight: 400;
+  min-height: 44px;
+  height: auto;
+  padding: 5px 10px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
 
-/* A06 workshop navigation: previous on right, next on left; navigation has no shadow or press motion. */
-.a06-lab .a06-controls { display:flex; flex-direction:row; direction:rtl; justify-content:space-between; width:100%; gap:12px; }
-.a06-lab .a06-controls > .btn { box-shadow:none; transform:none; transition:none; min-width:120px; }
-.a06-lab .a06-controls > .btn:active:not(:disabled) { box-shadow:none; transform:none; }
+#A07-practice .a78-ask,
+#A08-practice .a78-ask {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.85;
+}
 
-/* هماهنگی حاشیهٔ گزینه‌های آزمون‌ها با استاندارد: فاصله ۸px و حاشیهٔ بالا و پایین ۱۰px */
+#A07-practice .a78-actions .btn,
+#A08-practice .a78-actions .btn {
+  font-size: .9rem;
+  font-weight: 700;
+  min-height: 36px;
+  height: auto;
+  padding: 5px 12px;
+  min-width: 120px;
+  box-sizing: border-box;
+}
+
+.alg2-options .btn.choice-correct,
+.alg2-options .btn.choice-correct:disabled {
+  background: #d2f0e9;
+  border-color: #438b6c;
+  color: #173d2e;
+  opacity: 1;
+}
+
+.alg2-options .btn.choice-wrong,
+.alg2-options .btn.choice-wrong:disabled {
+  background: #fbd5d5;
+  border-color: #b23a3a;
+  color: #632323;
+  opacity: 1;
+}
+
+#A08-factor-check .a78-predict .btn:disabled {
+  opacity: 1;
+  filter: none;
+  cursor: default;
+}
+
+#A08-factor-check .a78-predict .btn.a78-right:disabled {
+  background: #e4f6e9;
+  border-color: #30834c;
+  color: #165d30;
+}
+
+#A08-factor-check .a78-predict .btn.a78-wrong-sign:disabled {
+  background: #fff0f0;
+  border-color: #be3f45;
+  color: #972b30;
+}
+
+.a06-lab .a06-controls {
+  display: flex;
+  flex-direction: row;
+  direction: rtl;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.a06-lab .a06-controls>.btn {
+  box-shadow: none;
+  transform: none;
+  transition: none;
+  min-width: 120px;
+}
+
+.a06-lab .a06-controls>.btn:active:not(:disabled) {
+  box-shadow: none;
+  transform: none;
+}
+
 .a2-final .alg2-options,
 #A01-quiz .mc.a01-constant-choices,
 #A07-practice.a2-final .mc.a78-options,
-#A08-practice.a2-final .mc.a78-options {gap:8px;margin-top:10px;margin-bottom:10px}
+#A08-practice.a2-final .mc.a78-options {
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
-/* دکمه‌های کشف جملهٔ میانی هم‌اندازهٔ دکمه‌های استاندارد پروژه */
-.a05-check-row .btn,.a05-lab .opts .btn {min-height:36px;height:auto;font-size:.88rem;padding:5px 12px}
+.a05-check-row .btn,
+.a05-lab .opts .btn {
+  min-height: 36px;
+  height: auto;
+  font-size: .88rem;
+  padding: 5px 12px;
+}
 
-/* دکمه‌های کارگاه A07/A08 هم‌اندازهٔ دکمه‌های استاندارد پروژه */
 #A07-explore .a78-actions .btn,
 #A08-explore .a78-actions .btn,
-#A08-factor-check .a78-actions .btn {min-width:120px;min-height:36px;height:auto;font-size:.88rem;padding:5px 12px}
+#A08-factor-check .a78-actions .btn {
+  min-width: 120px;
+  min-height: 36px;
+  height: auto;
+  font-size: .88rem;
+  padding: 5px 12px;
+}
+
+#A07-practice .a78-options .opt .katex,
+#A08-practice .a78-options .opt .katex,
+#A08-explore .a78-options .opt .katex {
+  font-size: 1.1em;
+}
+
+.a04-left-total .a04-dim-label {
+  min-width: unset !important;
+  transform-origin: center center;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed;
+  position: absolute !important;
+  top: 50%;
+  right: 30px;
+  transform: translate(50%, -50%) rotate(-90deg) !important;
+}
+
+.alg2-options .btn:disabled:not(.choice-correct):not(.choice-wrong) {
+  opacity: .55;
+}

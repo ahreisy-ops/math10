@@ -332,3 +332,8 @@
 .a78-options .opt:disabled:not(.a78-correct):not(.a78-wrong):hover {
   border-color: var(--line)
 }
+
+.mc .opt:disabled:not(.right):not(.wrong):not(.a78-correct):not(.a78-wrong),
+.sgnrow>.btn:disabled:not(.right):not(.wrong) {
+  opacity: .55;
+}

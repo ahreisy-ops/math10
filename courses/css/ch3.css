@@ -871,13 +871,16 @@
 .e01-lesson .e01-answer-grid>.e01-answer.e01-wrong {
   border-color: #b23a3a;
 }
+
 .e01-lesson .e01-pair>strong,
 .e01-lesson .e01-chip {
   overflow-x: visible;
 }
+
 .e01-lesson .e01-formula {
   scrollbar-width: none;
 }
+
 .e01-lesson .e01-formula::-webkit-scrollbar {
   display: none;
 }
@@ -1279,11 +1282,13 @@
     min-height: 0;
   }
 }
+
 /* The original E01 and A08 custom thumbs are 18px wide; their scale ends
    must sit below the 9px-inset centers, without changing either slider. */
 .e01-compare-control.graduated-range {
   --gr-half: 9px;
 }
+
 .e01-compare-control.graduated-range input[type=range] {
   accent-color: #078b80 !important;
 }
@@ -5732,11 +5737,25 @@
 #e01-final .e01-answer-grid,
 #e02-final .e01-answer-grid,
 #e03-solve .e01-answer-grid,
-#e03-final .e01-answer-grid {gap:8px;margin-top:10px;margin-bottom:10px}
+#e03-final .e01-answer-grid {
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px
+}
 
 /* دکمه‌های عمل کارگاه‌های فصل ۳ هم‌اندازهٔ دکمه‌های استاندارد پروژه */
 .e02-foot-actions .btn,
 .e02-fr-action,
 .e02-fr-next .btn,
 .e02-detect-repair .btn,
-.e01-speed-start-button {min-width:120px;min-height:36px;height:auto;padding:5px 12px;font-size:.9rem}
+.e01-speed-start-button {
+  min-width: 120px;
+  min-height: 36px;
+  height: auto;
+  padding: 5px 12px;
+  font-size: .9rem
+}
+
+.e01-lesson .e01-answer:disabled:not(.e01-right):not(.e01-wrong) {
+  opacity: .55;
+}
