@@ -15,7 +15,8 @@ window.LESSONS.N06 = {
     if (!document.getElementById('n6css')) {
       var st = document.createElement('style'); st.id = 'n6css';
       st.textContent = [
-        '.n6-w{font-size:.95em}.n6-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n6-w .ask{font-size:.95rem}.n6-w .opts{gap:6px}.n6-w .fb,.n6-w .ex{font-size:1em}',
+        // '.n6-w{font-size:.95em}.n6-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n6-w .ask{font-size:.95rem}.n6-w .opts{gap:6px}.n6-w .fb,.n6-w .ex{font-size:1em}',
+        '.n6-w{font-size:.95em}.n6-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n6-w .ask{font-size:.95rem}.n6-w .opts{gap:6px}',
         '.n6-w .mc .opt{min-height:44px;font-size:1rem}',
         '#n6d,#n6e{font-size:1em}.n6-w .end-actions>.btn{min-width:120px;min-height:36px;padding:6px 14px;font-size:.9rem}',
         '.n6-chip{padding:2px 12px;border:2px solid var(--ink);border-radius:99px;background:#fff;font:inherit;font-size:.95rem;cursor:pointer;direction:ltr}',
@@ -46,9 +47,9 @@ window.LESSONS.N06 = {
         '#n6d .mc{grid-template-columns:1fr;justify-items:center;gap:8px}#n6d .mc .opt{width:min(100%,300px);max-width:300px;min-height:44px;padding:5px 10px;text-align:initial}',
         '#n6d .n6-inspect-option{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%}#n6d .n6-sl{flex:0 0 auto;font-size:.82rem;color:#5b6675;margin:0;white-space:nowrap}#n6d .n6-inspect-math{flex:1;min-width:0;text-align:center}',
         '#n6d .n01-final-nav .btn,#n6e .n01-final-nav .btn{min-width:120px;min-height:36px;height:auto;font-size:.88rem;padding:5px 12px}',
-
         '#n6a{overflow-anchor:none}',
-        '.n6-mk{min-width:1.2em;font-weight:bold}.n6-msg{text-align:center;font-size:1rem;color:#9b2c2c;min-height:1em}'
+        '.n6-mk{min-width:1.2em;font-weight:bold}.n6-msg{text-align:center;font-size:1rem;color:#9b2c2c;min-height:1em}',
+        '.n06-division-examples .n06-division-examples-desktop .dm{padding-top: 5px;}'
       ].join('\n');
       document.head.appendChild(st);
     }

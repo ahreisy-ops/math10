@@ -16,7 +16,8 @@ window.LESSONS.N09 = {
     if (!document.getElementById('n9css')) {
       var st = document.createElement('style'); st.id = 'n9css';
       st.textContent = [
-        '.n9-w{font-size:.95em}.n9-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n9-w .ask{font-size:.95rem}.n9-w .opts{gap:6px}.n9-w .fb,.n9-w .ex{font-size:1em}',
+        // '.n9-w{font-size:.95em}.n9-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n9-w .ask{font-size:.95rem}.n9-w .opts{gap:6px}.n9-w .fb,.n9-w .ex{font-size:1em}',
+        '.n9-w{font-size:.95em}.n9-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n9-w .ask{font-size:.95rem}.n9-w .opts{gap:6px}',
         '.n9-responsive-proof .n9-proof-mobile{display:none}.n9-responsive-proof .n9-proof-desktop .dm{white-space:nowrap;overflow:visible;padding:10px 0 12px;line-height:1.6}.n9-responsive-proof .n9-proof-mobile .dm{overflow:visible;padding:12px 0 10px;box-sizing:content-box;line-height:1.6;white-space:nowrap}.n9-responsive-proof .n9-proof-mobile .katex{font-size:1.22em}.n9-proof-intro{white-space:nowrap}',
         '@media(max-width:767px){.n9-proof-intro{white-space:normal}.n9-responsive-proof .n9-proof-desktop{display:none}.n9-responsive-proof .n9-proof-mobile{display:block}.n9-responsive-proof .n9-proof-mobile .dm{margin:6px auto}}',
         '.n9-w .mc .opt{min-height:44px;font-size:1rem}',

@@ -1039,7 +1039,9 @@
     padding: 8px 14px;
     margin: 10px 0;
     text-align: justify;
-    line-height: 1.9
+    line-height: 1.9;
+    min-height: 44px;
+    font-size: 1rem
 }
 
 .fb.ok {
@@ -1058,7 +1060,9 @@
     border-radius: 10px;
     padding: 6px 14px;
     text-align: justify;
-    margin: 6px 0
+    margin: 6px 0;
+    min-height: 44px;
+    font-size: 1rem
 }
 
 .stg {

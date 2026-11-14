@@ -47,7 +47,7 @@ window.LESSONS.N10 = {
         '.n10-fact-actions,.n10-ladder-actions{display:flex;flex-direction:row;direction:rtl;justify-content:center;width:100%;gap:12px}.n10-fact-actions:has(> :nth-child(2)),.n10-ladder-actions:has(> :nth-child(2)){justify-content:space-between}.n10-fact-actions .btn,.n10-ladder-actions .btn{min-width:120px;min-height:36px;font-size:.88rem}',
         '.n10-ladder-work{text-align:center;margin:8px auto 12px;max-width:420px}.n10-ladder-work .dm{margin:4px auto}',
         '.pk{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;direction:ltr;margin:8px 0}.pk .chip{min-width:52px;height:52px;font-weight:bold}',
-        '#ft .fb.ok, #ft .ex, #td .fb.bad, #td .fb.ok, #lt .fb.ok, #dl .fb.ok, #dl .ex{min-height:44px;font-size:1rem}',
+        // '#ft .fb.ok, #ft .ex, #td .fb.bad, #td .fb.ok, #lt .fb.ok, #dl .fb.ok, #dl .ex{min-height:44px;font-size:1rem}',
         /* نردبان تقسیم */
         '.dv{direction:ltr;margin:8px auto;display:grid;grid-template-columns:48px 1px auto;max-width:260px;justify-content:center;align-items:center}',
         '.dv .p{grid-column:1;text-align:right;padding:2px 8px 2px 0;font-weight:bold;color:var(--pink)}',

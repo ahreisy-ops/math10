@@ -98,7 +98,7 @@ window.LESSONS.N04 = {
         '.lad4 .sl.fill{touch-action:none;cursor:grab}.lad4 .sl.fill:active{cursor:grabbing}',
         '.lad4 .sl[draggable=true]{user-select:none}',
         '.chips .chip[draggable=true]{touch-action:none;cursor:grab}.chips .chip[draggable=true]:active{cursor:grabbing}',
-        '#ll .fb.bad, #ll .fb.ok, #ip .fb.bad, #ip .ex, #ip .fb.ok, #pk .fb.bad, #pk .ex, #pk .fb.ok{min-height:44px;font-size:1rem}',
+        // '#ll .fb.bad, #ll .fb.ok, #ip .fb.bad, #ip .ex, #ip .fb.ok, #pk .fb.bad, #pk .ex, #pk .fb.ok{min-height:44px;font-size:1rem}',
         /* اسلایدر */
         '.rng{display:flex;align-items:center;gap:10px;direction:ltr;margin:6px 8px;font-size:.85rem;color:var(--ink-soft)}',
         '.quiz44-zoom .nl{transition:opacity .24s ease,transform .24s ease}.quiz44-zoom.changing .nl{opacity:.4;transform:scale(.97)}',
