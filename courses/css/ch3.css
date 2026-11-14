@@ -74,7 +74,8 @@
   border: 2px solid var(--ink);
   border-radius: 12px;
   background: #f7f9fc;
-  padding: 12px 10px
+  padding: 12px 10px;
+  box-shadow: 2px 2px 0 var(--ink);
 }
 
 .e01-pair>span {
@@ -1252,9 +1253,9 @@
   min-height: 2.8em;
 }
 
-.e01-lesson .e01-compare .e01-compare-match {
+/* .e01-lesson .e01-compare .e01-compare-match {
   border-color: #438b6c;
-}
+} */
 
 .e01-lesson .e01-compare .e01-compare-match>small {
   color: #20704d;
@@ -1317,6 +1318,8 @@
 
 .e01-lesson .e01-compare .e01-pair.e01-compare-match {
   background: #e6f6f3;
+  box-shadow: 4px 4px 0 #438b6c;
+  border-color: #438b6c;
 }
 
 .e01-lesson .e01-compare-ticks .e01-target-tick {
@@ -1507,9 +1510,9 @@
   }
 }
 
-.e01-lesson .e01-compare .e01-pair.e01-compare-match {
+/* .e01-lesson .e01-compare .e01-pair.e01-compare-match {
   border-color: var(--ink);
-}
+} */
 
 /* E01 — compact answer laboratory: preserve chapter typography and spacing. */
 .e01-lesson #e01-values .e01-values-question {
@@ -5757,5 +5760,9 @@
 }
 
 .e01-lesson .e01-answer:disabled:not(.e01-right):not(.e01-wrong) {
+  opacity: .55;
+}
+
+#e01-types .e01-speed-quiz .e01-choices.e01-four .btn:disabled:not(.e01-right):not(.e01-wrong) {
   opacity: .55;
 }

@@ -53,27 +53,51 @@
         root.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'a05-answer') { e.preventDefault(); root.querySelector('[data-check]')?.click(); } }); draw();
     }
     function practice(root) {
+        const pick = (lo, hi, ...no) => { let v; do { v = rand(lo, hi); } while (no.includes(v)); return v; };
+        const hash = s => { let h = 0; for (const ch of String(s)) h = (h * 31 + ch.charCodeAt(0)) % 9973; return h; };
         function fresh() {
-            let q = []; let a = rand(2, 7), b = rand(2, 7), c = rand(2, 6), d = rand(2, 6); const push = (tex, prompt, ans, why, choices) => q.push({ tex, prompt, ans: String(ans), why, choices });
-            push('(x+' + a + ')^2', 'ضریب $x$ در حاصل بسط کدام است؟', 2 * a, 'دو ضرب متقاطع هر کدام $' + a + 'x$ می‌سازند.', [a, a * a, -2 * a]);
-            push('(x-' + b + ')^2', 'ضریب $x$ در حاصل بسط کدام است؟', -2 * b, 'دو جملهٔ میانی هر دو منفی‌اند، پس مجموعشان $-' + 2 * b + 'x$ است.', [2 * b, -b, b * b]);
-            push('(x+' + a + ')(x+' + b + ')', 'ضریب $x$ در حاصل ضرب چقدر می‌شود؟', a + b, 'دو حاصل‌ضرب دارای $x$، ضرایب $' + a + '$ و $' + b + '$ دارند.', [a * b, a - b, 2 * a]);
-            push('(x+' + a + ')(x-' + b + ')', 'جملهٔ ثابت در حاصل ضرب چند است؟', -a * b, 'جملهٔ ثابت از ضرب $' + a + '$ در $-' + b + '$ به دست می‌آید.', [a * b, a - b, -a - b]);
-            push('(x+' + a + ')(x-' + a + ')', 'جملهٔ ثابت در اتحاد مزدوج چیست؟', -a * a, 'جمله‌های میانی خنثی می‌شوند و مربع عدد دوم با علامت منفی می‌آید.', [a * a, -2 * a, 0]);
-            push('x^2-' + c * c, 'در تجزیهٔ عبارت داده‌شده به دو عامل مزدوج، عدد جای خالیِ $\\left(x-\\square\\right)\\left(x+\\square\\right)$ چیست؟', c, 'تفاضل دو مربع به دو عامل مزدوج تجزیه می‌شود.', [c * c, 2 * c, c + 1]);
+            let q = [];
+            const push = (tex, prompt, ans, why, choices, extra) => q.push(Object.assign({ tex, prompt, ans: String(ans), why, choices }, extra));
+            // تشخیص خطا: سؤال متنی با ریاضی درون‌خطی
+            const L = t => 'دانش‌آموزی نوشته است: $' + t + '$. خطای او کدام است؟';
+            const pushErr = (t, ans, why, choices) => push('', '', ans, why, choices, { rich: true, lead: L(t) });
+            const errs = [
+                () => { const a = rand(2, 9); pushErr('(x+' + a + ')^2=x^2+' + a * a, 'جملهٔ میانی $' + 2 * a + 'x$ نوشته نشده است.', 'مربع مجموع سه جمله دارد: $(x+' + a + ')^2=x^2+' + 2 * a + 'x+' + a * a + '$.', ['علامت جملهٔ آخر باید منفی باشد.', 'جملهٔ آخر باید $' + 2 * a + '$ باشد، نه $' + a * a + '$.', 'ضریب $x^2$ باید $2$ باشد.']); },
+                () => { const b = rand(2, 9); pushErr('(x-' + b + ')^2=x^2-' + 2 * b + 'x-' + b * b, 'علامت جملهٔ آخر باید مثبت باشد: $+' + b * b + '$.', 'مربع هر عدد مثبت است: $(x-' + b + ')^2=x^2-' + 2 * b + 'x+' + b * b + '$.', ['جملهٔ میانی باید $+' + 2 * b + 'x$ باشد.', 'جملهٔ میانی نباید نوشته شود.', 'ضریب $x^2$ باید $-1$ باشد.']); },
+                () => { const c = rand(2, 9); pushErr('x^2-' + c * c + '=(x-' + c + ')^2', 'تفاضل دو مربع به دو عامل مزدوج $(x-' + c + ')(x+' + c + ')$ تجزیه می‌شود.', 'بسط $(x-' + c + ')^2$ جملهٔ میانی دارد، ولی $x^2-' + c * c + '$ ندارد؛ تجزیهٔ درست مزدوج است.', ['باید به صورت $(x+' + c + ')^2$ نوشته می‌شد.', 'این عبارت به عامل‌های ساده‌تر تجزیه نمی‌شود.', 'تجزیهٔ درست $x^2-' + 2 * c + 'x-' + c * c + '$ است.']); },
+                () => { const d = rand(2, 6); pushErr('x^3+' + d * d * d + '=(x+' + d + ')(x^2+' + d + 'x+' + d * d + ')', 'علامت جملهٔ میانی در عامل دوم باید منفی باشد: $x^2-' + d + 'x+' + d * d + '$.', 'در تجزیهٔ مجموع مکعب‌ها عامل دوم $x^2-' + d + 'x+' + d * d + '$ است.', ['عامل اول باید $(x-' + d + ')$ باشد.', 'جملهٔ آخر عامل دوم باید منفی باشد.', 'ضریب جملهٔ میانی عامل دوم باید $' + 2 * d + '$ باشد.']); },
+                () => { const c = rand(2, 6); pushErr('(x+' + c + ')^3=x^3+' + c * c * c, 'دو جملهٔ میانی $' + 3 * c + 'x^2$ و $' + 3 * c * c + 'x$ جا افتاده‌اند.', 'بسط مکعب دوجمله‌ای چهار جمله دارد: $x^3+' + 3 * c + 'x^2+' + 3 * c * c + 'x+' + c * c * c + '$.', ['علامت جملهٔ $' + c * c * c + '$ باید منفی باشد.', 'فقط جملهٔ میانی $' + 2 * c + 'x$ جا افتاده است.', 'ضریب $x^3$ باید $3$ باشد.']); }
+            ];
+            // ۱) اتحاد مربع: یکی از دو سؤال
+            if (Math.random() < .5) { const a = pick(3, 7); push('(x+' + a + ')^2', 'ضریب $x$ در حاصل بسط کدام است؟', 2 * a, 'دو ضرب متقاطع هر کدام $' + a + 'x$ می‌سازند.', [a, a * a, -2 * a]); }
+            else { const b = pick(3, 7); push('(x-' + b + ')^2', 'ضریب $x$ در حاصل بسط کدام است؟', -2 * b, 'دو جملهٔ میانی هر دو منفی‌اند، پس مجموعشان $-' + 2 * b + 'x$ است.', [2 * b, -b, b * b]); }
+            // ۲) جملهٔ مشترک: یکی از دو سؤال
+            if (Math.random() < .5) { const a = pick(3, 7), b = pick(3, 7, a); push('(x+' + a + ')(x+' + b + ')', 'ضریب $x$ در حاصل ضرب چقدر می‌شود؟', a + b, 'دو حاصل‌ضرب دارای $x$، ضرایب $' + a + '$ و $' + b + '$ دارند.', [a * b, a - b, 2 * a]); }
+            else { const a = pick(2, 7), b = pick(2, 7, a); push('(x+' + a + ')(x-' + b + ')', 'جملهٔ ثابت در حاصل ضرب چند است؟', -a * b, 'جملهٔ ثابت از ضرب $' + a + '$ در $-' + b + '$ به دست می‌آید.', [a * b, a - b, -a - b]); }
+            // ۳) مزدوج: یکی از دو سؤال
+            if (Math.random() < .5) { const a = pick(3, 7); push('(x+' + a + ')(x-' + a + ')', 'جملهٔ ثابت در اتحاد مزدوج چیست؟', -a * a, 'جمله‌های میانی خنثی می‌شوند و مربع عدد دوم با علامت منفی می‌آید.', [a * a, -2 * a, 0]); }
+            else { const c = pick(3, 7); push('x^2-' + c * c, 'در تجزیهٔ عبارت داده‌شده به دو عامل مزدوج، عدد جای خالیِ $\\left(x-\\square\\right)\\left(x+\\square\\right)$ چیست؟', c, 'تفاضل دو مربع به دو عامل مزدوج تجزیه می‌شود.', [c * c, 2 * c, c + 1]); }
+            // ۴) تفاضل و مجموع مکعب‌ها
+            const d = pick(3, 7), e = pick(3, 7, d);
             push('x^3-' + d * d * d, 'در تجزیهٔ عبارت داده‌شده، عدد جای خالیِ عامل $\\left(x-\\square\\right)$ چیست؟', d, 'تفاضل مکعب‌ها شامل عامل تفاضل پایه‌های مکعب است.', [d * d, d * d * d, 2 * d]);
+            push('x^3+' + e * e * e, 'در تجزیهٔ عبارت داده‌شده، عدد جای خالیِ عامل $\\left(x+\\square\\right)$ چیست؟', e, 'مجموع مکعب‌ها شامل عامل مجموع پایه‌های مکعب است.', [e * e, e * e * e, 2 * e]);
+            // ۵) بدون تغییر
+            const c = pick(4, 7), f = pick(2, 7, 3), g = pick(4, 7);
             push('(x+' + c + ')^3', 'ضریب $x^2$ در بسط مکعب دوجمله‌ای چیست؟', 3 * c, 'جملهٔ دومِ مکعب مجموع $3$ برابر حاصل ضرب $x^2$ در عدد دوم است.', [c, 2 * c, c * c]);
-            push('(x-' + d + ')^3', 'ضریب x در بسط مکعب تفاضل چیست؟', 3 * d * d, 'جملهٔ سومِ مکعب تفاضل مثبت و برابر $3$ برابر $x$ در مربع عدد دوم است.', [-3 * d * d, 3 * d, d * d]);
-            push('(x+' + c + '+y)^2', 'ضریب $xy$ در مربع سه‌جمله‌ای چقدر است؟', 2, 'حاصل ضرب $x$ و $y$، دو بار در ضرب سه‌جمله‌ای در خودش رخ می‌دهد.', [1, 3, c]);
+            push('(x-' + f + ')^3', 'ضریب x در بسط مکعب تفاضل چیست؟', 3 * f * f, 'جملهٔ سومِ مکعب تفاضل مثبت و برابر $3$ برابر $x$ در مربع عدد دوم است.', [-3 * f * f, 3 * f, f * f]);
+            push('(x+' + g + '+y)^2', 'ضریب $xy$ در مربع سه‌جمله‌ای چقدر است؟', 2, 'حاصل ضرب $x$ و $y$، دو بار در ضرب سه‌جمله‌ای در خودش رخ می‌دهد.', [1, 3, g]);
+            // ۶) دو سؤال تشخیص خطا با الگوهای متفاوت
+            errs.sort(() => Math.random() - .5).slice(0, 2).forEach(fn => fn());
             return q.sort(() => Math.random() - .5);
         }
         let questions = fresh(), index = 0, answers = Array(10).fill(null);
         function show() {
             if (index === questions.length) { let score = answers.filter((v, i) => v === questions[i].ans).length; root.innerHTML = window.CourseKit.res(score, 10) + '<div class="opts end-actions"><button class="btn" data-review data-scroll>مرور سؤال‌ها</button><button class="btn primary" data-restart data-scroll>سؤال‌های جدید</button></div>'; return; }
-            let q = questions[index], sel = answers[index], done = sel !== null, ok = done && sel === q.ans; let opts = [q.ans, ...q.choices.map(String).filter((v, i, ar) => v !== q.ans && ar.indexOf(v) === i)].slice(0, 4); for (let z of ['0', '1', '-1', '4', '9', '12']) if (opts.length < 4 && !opts.includes(z)) opts.push(z);
+            let q = questions[index], sel = answers[index], done = sel !== null, ok = done && sel === q.ans; let opts = [q.ans, ...q.choices.map(String).filter((v, i, ar) => v !== q.ans && ar.indexOf(v) === i)].slice(0, 4);
+            if (!q.rich) for (let z of ['0', '1', '-1', '4', '9', '12']) if (opts.length < 4 && !opts.includes(z)) opts.push(z);
             // Stable, per-question permutation across navigation.
-            let salt = (index * 7 + Number(q.ans.replace('-', ''))) % 4; opts = [...opts.slice(salt), ...opts.slice(0, salt)];
-            root.innerHTML = '<div class="stg">' + answers.map((v, i) => '<span class="' + (v !== null ? (v === questions[i].ans ? 'dn' : 'wr') : i === index ? 'cu' : '') + '">' + fa(i + 1) + '</span>').join('') + '</div><p class="ask">در عبارت ' + M(q.tex) + '، ' + window.MathLite.renderRich(q.prompt) + '</p><div class="alg2-options">' + opts.map(v => '<button class="btn' + (done ? (v === q.ans ? ' choice-correct' : v === sel ? ' choice-wrong' : '') : '') + '" type="button" data-choice="' + esc(v) + '" ' + (done ? 'disabled' : '') + '>' + M(v) + '</button>').join('') + '</div>' + (done ? '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? 'درست است.' : 'این گزینه درست نیست.') + '</div><div class="ex">' + window.MathLite.renderRich(q.why) + '</div>' : '') + '<div class="opts"><button class="btn" data-prev ' + (index === 0 ? 'disabled' : '') + ' data-scroll>سؤال قبلی</button><button class="btn primary" data-next ' + (!done ? 'disabled' : '') + ' data-scroll>' + (index === 9 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
+            let salt = (index * 7 + (q.rich ? hash(q.ans) : Number(q.ans.replace('-', '')))) % 4; opts = [...opts.slice(salt), ...opts.slice(0, salt)];
+            root.innerHTML = '<div class="stg">' + answers.map((v, i) => '<span class="' + (v !== null ? (v === questions[i].ans ? 'dn' : 'wr') : i === index ? 'cu' : '') + '">' + fa(i + 1) + '</span>').join('') + '</div><p class="ask">' + (q.lead ? window.MathLite.renderRich(q.lead) : 'در عبارت ' + M(q.tex) + '، ' + window.MathLite.renderRich(q.prompt)) + '</p><div class="alg2-options">' + opts.map(v => '<button class="btn' + (done ? (v === q.ans ? ' choice-correct' : v === sel ? ' choice-wrong' : '') : '') + '" type="button" data-choice="' + esc(v) + '" ' + (done ? 'disabled' : '') + '>' + (q.rich ? window.MathLite.renderRich(v) : M(v)) + '</button>').join('') + '</div>' + (done ? '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? 'درست است.' : 'این گزینه درست نیست.') + '</div><div class="ex">' + window.MathLite.renderRich(q.why) + '</div>' : '') + '<div class="opts"><button class="btn" data-prev ' + (index === 0 ? 'disabled' : '') + ' data-scroll>سؤال قبلی</button><button class="btn primary" data-next ' + (!done ? 'disabled' : '') + ' data-scroll>' + (index === 9 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
         }
         root.addEventListener('click', e => { let bt = e.target.closest('button'); if (!bt || bt.disabled) return; if (bt.dataset.choice !== undefined && answers[index] === null) { answers[index] = bt.dataset.choice; show(); } else if (bt.hasAttribute('data-next')) { index++; show(); } else if (bt.hasAttribute('data-prev')) { index--; show(); } else if (bt.hasAttribute('data-review')) { index = 0; show(); } else if (bt.hasAttribute('data-restart')) { questions = fresh(); index = 0; answers = Array(10).fill(null); show(); } }); show();
     }

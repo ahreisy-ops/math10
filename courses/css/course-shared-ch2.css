@@ -73,3 +73,42 @@
   margin: 10px 0;
   font-size: 1.1rem
 }
+
+/* A07: عبارت دور با کادر و سایهٔ هم‌شکل E01 و آیکن تغییر کنار آن */
+.a78-eq-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px
+}
+
+.a78-eq-chip {
+  direction: ltr;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 43px;
+  padding: 0 14px;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  box-shadow: 0 2px 5px #00153313;
+  border-radius: 12px;
+  white-space: nowrap;
+  max-width: 100%
+}
+
+.a78-eq-change {
+  width: 43px;
+  min-width: 43px;
+  height: 43px;
+  min-height: 43px;
+  padding: 0;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0
+}
+
+.a78-eq-change svg {
+  display: block;
+  margin: auto
+}
