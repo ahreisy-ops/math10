@@ -324,7 +324,7 @@
   transition: none !important
 }
 
-.e01-inline-result {
+/* .e01-inline-result {
   margin: 11px 0;
   padding: 8px 12px;
   background: #e6f6f3;
@@ -332,7 +332,7 @@
   border-radius: 10px;
   font-size: .9rem;
   text-align: center
-}
+} */
 
 .e01-spinner {
   display: flex;
@@ -4094,9 +4094,9 @@
   margin: 15px auto 2px
 }
 
-.e02-lesson .e02-fr-next .btn {
+/* .e02-lesson .e02-fr-next .btn {
   box-shadow: 2px 2px 0 var(--ink)
-}
+} */
 
 .e02-lesson .e02-fr-workshop .fb {
   margin: 8px 0

@@ -120,7 +120,7 @@ window.LESSONS.N02 = {
     /* ---- شکل‌های ثابت ---- */
     K.figUnequal = function () {
       var bar = function (ws, shaded) { var x = 2, s = ''; ws.forEach(function (w, k) { s += '<rect x="' + x + '" y="2" width="' + w + '" height="40" fill="' + (k < shaded ? '#0e8f7e' : '#fff') + '" stroke="#14213d" stroke-width="2.5"/>'; x += w; }); return '<svg viewBox="0 0 304 44" aria-hidden="true">' + s + '</svg>'; };
-      return '<div class="figs"><figure class="good">' + bar([75, 75, 75, 75], 3) + '<figcaption>✓ چهار قسمت مساوی؛ سه قسمت رنگی: ' + M('\\frac{3}{4}') + '</figcaption></figure><figure class="bad">' + bar([30, 120, 60, 90], 3) + '<figcaption>✗ قسمت‌ها مساوی نیستند؛ شمردنِ رنگی‌ها کسر را نشان نمی‌دهد</figcaption></figure></div>';
+      return '<div class="figs"><figure class="good">' + bar([75, 75, 75, 75], 3) + '<figcaption><span style="color:var(--accent-dark)">✓</span> چهار قسمت مساوی؛ سه قسمت رنگی: ' + M('\\frac{3}{4}') + '</figcaption></figure><figure class="bad">' + bar([30, 120, 60, 90], 3) + '<figcaption><span style="color:crimson">✗</span> قسمت‌ها مساوی نیستند؛ شمردنِ رنگی‌ها کسر را نشان نمی‌دهد</figcaption></figure></div>';
     };
     K.figArea = function () {
       var s = '<defs><pattern id="ht" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="9" stroke="#d6457a" stroke-width="3"/></pattern></defs>';

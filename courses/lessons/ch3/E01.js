@@ -453,6 +453,7 @@
           };
         }
         function paint() {
+          var isInitial = !run;
           var display = run || { l: q.c, r: q.c, lt: term(q), rt: String(q.c), equal: true, display: equationTex(q) };
           var answer = maths('x=' + q.solution);
           root.innerHTML =
@@ -470,7 +471,7 @@
             '</div>' +
             '<div class="e01-lab-readout">' +
             gauge('طرف چپ برای ' + maths('x=' + q.solution), display.l, '{' + display.lt + '}_{|x=' + q.solution + '}=' + display.l, 'is-left') +
-            gauge('طرف راست برای ' + maths('x=' + q.solution), display.r, display.rt + '=' + display.r, 'is-right') +
+            gauge('طرف راست برای ' + maths('x=' + q.solution), display.r, (isInitial || mode === 'left') ? display.rt : (display.rt + '=' + display.r), 'is-right') +
             '</div>' +
             renderEquationLine(display.equal, '{' + display.lt + '}_{|x=' + q.solution + '}=' + display.l + (display.equal ? '' : '\\ne ' + display.r)) +
             '<div class="e01-lab-status ' + (run ? (display.equal ? 'e01-balance-ok' : 'e01-balance-no') : '') + '">' +
@@ -584,7 +585,7 @@
             '<p class="ask e01-question">' + rich(item.q) + '</p>' +
             '<div class="e01-answer-grid">' + item.o.map(function (t, i) { return '<button type="button" class="btn e01-answer' + (choice !== null ? (i === item.a ? ' e01-right' : i === choice ? ' e01-wrong' : '') : '') + '" data-answer="' + i + '" ' + (choice !== null ? 'disabled' : '') + '>' + rich(t) + '</button>'; }).join('') + '</div>' +
             (choice === null ? '' : feedback(choice === item.a, 'پاسخ ' + (choice === item.a ? 'درست است.' : 'درست نیست.'), item.why)) +
-            (reviewing ? '<div class="e01-inline-result">در حالت مرور، پاسخ‌های این دور تغییر نمی‌کنند.</div>' : '') +
+            // (reviewing ? '<div class="e01-inline-result">در حالت مرور، پاسخ‌های این دور تغییر نمی‌کنند.</div>' : '') +
             '<div class="e01-navigation"><button type="button" class="btn" data-final-prev ' + (pos === 0 ? 'disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-final-next ' + (choice === null ? 'disabled' : '') + ' data-scroll>' + (pos === q.length - 1 ? (reviewing ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی') + '</button></div>';
         }
         root.addEventListener('click', function (e) {
