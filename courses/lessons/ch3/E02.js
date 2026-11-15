@@ -31,6 +31,7 @@
       function equation(a, b, c, d) { return lin(a, b) + '=' + lin(c, d); }
       function mathpanel(s) { return '<div class="e02-formula" dir="ltr">' + M(s) + '</div>'; }
       function mark(ok, s) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + s + '</div>'; }
+      function fbx(ok, wrong, why) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + (ok ? '✓ پاسخ درست است.' : 'پاسخ درست نیست.') + '</div><div class="ex">' + (wrong ? wrong + ' ' : '') + why + '</div>'; }
       var refreshSvg = '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.4-4.8L3 9"/><path d="M3 4v5h5"/><path d="M4 13a8 8 0 0 0 14.4 4.8L21 15"/><path d="M21 20v-5h-5"/></svg>';
       function activity(title, id, lead) { return '<h4 class="e02-activity-title">' + title + '</h4><p class="e02-activity-lead">' + lead + '</p><div class="e01-interaction e02-activity" id="' + id + '"><div data-stage></div></div>'; }
       function problemHead(tex) { return '<div class="e02-problem-head"><span class="e02-problem-chip">' + M(tex) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="مسئلهٔ جدید" aria-label="تغییر مسئله">' + refreshSvg + '</button></div>'; }
@@ -331,7 +332,7 @@
         }).join('') + '</div>';
         return '<div class="e01-progress stg" aria-label="پیشرفت تمرین">' + s.q.map(function (q, i) { return '<span class="' + (i === s.pos ? 'cu' : s.answers[i] === null ? '' : s.answers[i] === s.q[i].x ? 'dn' : 'wr') + '" aria-label="سؤال ' + F(i + 1) + '">' + F(i + 1) + '</span>'; }).join('') + '</div>' +
           '<p class="ask e01-question">' + instruction + '</p>' + tracePanel + body +
-          (frozen ? mark(given === item.x, (given === item.x ? 'پاسخ درست است.' : (item.kind === 5 ? 'نخستین مرحلهٔ نادرست، مرحلهٔ ' + F(item.x + 1) + ' است.' : 'گزینهٔ درست ' + M(item.options[item.x].tex) + ' است.')) + ' ' + item.why) : '') +
+          (frozen ? fbx(given === item.x, '', item.why) : '') +
           '<div class="e01-navigation"><button type="button" class="btn" data-prev ' + (s.pos === 0 ? 'disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-next ' + (!frozen ? 'disabled' : '') + ' data-scroll>' + (s.pos === 5 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی') + '</button></div>';
       }
       function finalBind() {

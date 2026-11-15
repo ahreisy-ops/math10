@@ -12,7 +12,6 @@ window.LESSONS.E03 = {
       for (i = 0; i < parts.length; i++) { out += i % 2 ? ' ' + parts[i] + ' ' : M0(parts[i]); }
       return '<bdi style="direction:ltr;unicode-bidi:isolate">' + out + '</bdi>';
     };
-    function css(id, txt) { if (document.getElementById(id)) { return; } var s = document.createElement('style'); s.id = id; s.textContent = txt; document.head.appendChild(s); }
     var ltr = function (h) { return '<bdi style="direction:ltr;unicode-bidi:isolate">' + h + '</bdi>'; };
     var choose = function (a) { return a[R(0, a.length - 1)]; };
     var nz = function (a, b) { var v = 0; while (v === 0) { v = R(a, b); } return v; };
@@ -32,61 +31,17 @@ window.LESSONS.E03 = {
       return shuffle([list[0]].concat(w).map(function (z) { return { h: raw ? z.t : M(z.t), ok: !!z.ok, m: z.m || 'این گزینه درست نیست.' }; }));
     }
     function mark(ok, text) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + text + '</div>'; }
+    function fbx(ok, wrong, why) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + (ok ? '✓ پاسخ درست است.' : 'پاسخ درست نیست.') + '</div><div class="ex">' + (wrong ? wrong + ' ' : '') + why + '</div>'; }
     function activity(title, id, lead) { return '<h4 class="e02-activity-title">' + title + '</h4><p class="e02-activity-lead">' + lead + '</p><div class="e01-interaction e02-activity" id="' + id + '" data-activity><div data-stage></div></div>'; }
     function intro(kicker, p, route) { return '<div class="e01-intro"><span class="e01-kicker">' + kicker + '</span><p>' + p + '</p><div class="e01-route" aria-label="مسیر این درس">' + route.map(function (r) { return '<span>' + r + '</span>'; }).join('<i aria-hidden="true">←</i>') + '</div></div>'; }
     var REFRESH = '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.4-4.8L3 9"/><path d="M3 4v5h5"/><path d="M4 13a8 8 0 0 0 14.4 4.8L21 15"/><path d="M21 20v-5h-5"/></svg>';
     function head(tex) { return '<div class="e02-problem-head"><span class="e02-problem-chip">' + M(tex) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="مسئلهٔ جدید" aria-label="تغییر مسئله">' + REFRESH + '</button></div>'; }
 
-    css('css-E3shared', [
-      '.e3x .katex{unicode-bidi:isolate;direction:ltr}',
-      '.e3-eq{direction:ltr;text-align:center;display:grid;place-items:center;min-height:46px;padding:6px 10px;margin:4px 0 6px;border:1.5px solid var(--line);border-radius:11px;background:#f3f6fa;font-size:1.15rem;max-width:100%;overflow-x:auto;scrollbar-width:none}',
-      '.e3-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0;direction:rtl}',
-      '.e3-op{min-width:54px;min-height:42px;padding:4px 12px;border:2px solid var(--ink);border-radius:12px;background:#fff;font:inherit;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:2px 2px 0 var(--ink);color:var(--ink)}',
-      '.e3-op .katex{font-size:1.05em}.e3-op:active:not(:disabled){transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}',
-      '.e3-op.is-on{background:var(--mark)}.e3-op:disabled{opacity:.45;cursor:default;box-shadow:none}',
-      '.e3-pill{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:34px;padding:3px 12px;border:1.5px solid var(--line);border-radius:16px;background:#fff;font-size:.92rem;text-align:center}',
-      '.e3-pill.ok{background:#d2f0e9;border-color:#438b6c;color:#173d2e}.e3-pill.bad{background:#fbd5d5;border-color:#b23a3a;color:#632323}.e3-pill.y{background:var(--mark);border-color:var(--ink)}',
-      '.e3-exline{direction:rtl;text-align:center;font-size:1rem;line-height:1.9}',
-      '.e3-note{text-align:center;font-size:.92rem;line-height:1.8;color:var(--ink-soft);margin:4px 4px;min-height:3.6em;display:flex;align-items:center;justify-content:center}',
-      '.e3-log{margin:8px 0;padding:8px 10px;border:1.5px dashed var(--line);border-radius:11px;background:#fff}',
-      '.e3-log b{display:block;font-size:.9rem;margin-bottom:4px}.e3-log ol{list-style:none;margin:0;padding:0;display:grid;gap:5px}',
-      '.e3-log li{display:flex;direction:rtl;align-items:center;gap:8px;justify-content:space-between;border:1.5px solid var(--line);border-radius:9px;background:#f3f6fa;padding:3px 10px;min-height:38px}',
-      '.e3-log li span.n{font-size:.78rem;color:var(--ink-soft);min-width:22px;text-align:center}.e3-log li .tx{direction:ltr;flex:1;text-align:center}',
-      '.e3-ask{font-size:1rem;line-height:1.85;margin:8px 0;font-weight:700;text-align:right}',
-      '.e3-svg{display:block;margin:6px auto;max-width:33%;height:auto;direction:ltr}',
-      '.e3-match-row{display:flex;direction:rtl;align-items:center;justify-content:space-between;gap:10px;margin:7px 0;padding:6px 10px;border:1.5px solid var(--line);border-radius:10px;background:#fff}',
-      '.e3-match-row .l{direction:ltr;font-size:1.1rem}.e3-match-row select{min-height:38px;border:2px solid var(--line);border-radius:9px;padding:2px 8px;font:inherit;direction:ltr;background:#fff;color:var(--ink);max-width:62%}',
-      '.e3-match-row.right{background:#d2f0e9;border-color:#438b6c}.e3-match-row.wrong{background:#fbd5d5;border-color:#b23a3a}',
-      '.e3-numrow{display:flex;justify-content:center;align-items:center;gap:10px;margin:8px 0;direction:ltr}.e3-numrow .lbl{direction:ltr;font-size:1.15rem}',
-      '.e01-lesson .e01-answer.is-sel{background:var(--mark);border-color:var(--ink)}',
-      '.e3-slider{max-width:560px;margin:8px auto 4px}.e3-slider input[type=range]{width:100%;display:block;direction:ltr;accent-color:#078b80;cursor:pointer}',
-      '.e3-slider{position:relative}@media(max-width:560px){.e3-slider .mn .katex{display:none}}.e3-slider .lab{display:flex;justify-content:space-between;font-size:.85rem;color:var(--ink-soft);margin-bottom:2px}',
-      '.e3-svg.mir{max-width:340px}.e3-svg.axs{max-width:400px}',
-      '.e3-disp{direction:ltr;text-align:center;font-size:1.15rem;margin:4px 0 10px;overflow-x:auto;scrollbar-width:none}',
-      '.e3-syms{margin:6px 0 10px}.e3-syms .e3-pill{gap:8px}',
-      '.e3-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 8px;margin:14px 0 8px;direction:rtl}',
-      '.e3-grp{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;border:1.5px solid var(--line);border-radius:12px;background:#f8fafc;padding:15px 8px 8px;direction:ltr;align-content:center}',
-      '.e3-grp .cap{position:absolute;top:-10px;right:10px;padding:0 7px;background:#fff;border-radius:6px;font-size:.78rem;font-weight:700;color:var(--accent-dark);direction:rtl;white-space:nowrap}',
-      '.e3-grp .e3-op{min-width:0;width:100%;padding:4px 6px}',
-      '.e3-klab{text-align:center;font-size:.88rem;color:var(--ink-soft);margin:4px 0 2px}',
-      '.e3-eqm{display:flex;flex-wrap:wrap;gap:2px 14px;justify-content:center;align-items:center}.e3-eqm>span{direction:ltr}.e3-krow{display:flex;justify-content:center;align-items:center;gap:6px;direction:ltr;margin:4px 0 8px}',
-      '.e3-op.e3-kb{min-width:0;min-height:0;width:clamp(34px,11vw,44px);height:clamp(34px,11vw,44px);padding:0;border-radius:50%;display:grid;place-items:center;flex:none}',
-      '@media(max-width:560px){.e3-groups{grid-template-columns:1fr;gap:16px 0}.e3-grp{display:flex;gap:6px}.e3-grp .e3-op{flex:1 1 0;min-height:38px;padding:3px 4px}}',
-      '.e02-lesson.e3x .e02-detect-folder .e02-detect-row{border:1.5px solid var(--line);border-radius:11px;background:#fff;margin:8px 0 0;min-height:52px;width:100%;box-shadow:none}',
-      '.e02-lesson.e3x .e02-detect-folder .e02-detect-row:hover:not(.is-selected):not(.is-bad):not(.locked){background:#f0f5fb}',
-      '.e02-lesson.e3x .e02-detect-folder .e02-detect-row.is-selected{background:#e7f0fb;border-color:#527cb4;box-shadow:inset -3px 0 #527cb4}',
-      '.e02-lesson.e3x .e02-detect-folder .e02-detect-row.is-bad{background:#fbd5d5;border-color:#b23a3a;box-shadow:inset -3px 0 #b23a3a}',
-      '.e02-lesson.e3x .e02-detect-folder .e02-detect-row.locked{cursor:default}',
-      '.e3x ol.e03-steps{list-style:none;counter-reset:st;margin:14px 0;padding:0;display:grid;gap:10px;direction:rtl}',
-      '.e3x ol.e03-steps li{counter-increment:st;display:flex;align-items:center;gap:10px;line-height:1.9;min-height:30px;margin:0;padding:0;text-align:right}',
-      '.e3x ol.e03-steps li::before{content:counter(st,persian);flex:none;width:28px;height:28px;border-radius:50%;background:#14213d;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:bold;box-shadow:2px 2px 0 #0e8f7e}',
-      '.e3x ol.e03-steps li .katex{direction:ltr}'
-    ].join('\n'));
 
     /* ---------- مثال حل‌شده (همان ساختار E02) ---------- */
     function exampleBlock(id, dlgTitle, count) {
       var dots = ''; for (var i = 0; i < count; i++) { dots += '<i' + (i === 0 ? ' class="current"' : '') + '></i>'; }
-      return '<div class="ex e02-example-steps" id="' + id + '" aria-label="حل گام‌به‌گام مثال"><div class="e02-example-top"><strong>مثال حل‌شده</strong><span data-ex-count>گام ۱ از ' + F(count) + '</span></div><div class="e02-example-progress" aria-hidden="true">' + dots + '</div><div class="e02-example-body" data-ex-body aria-live="polite"></div><div class="e02-example-actions end-actions"><button type="button" class="btn" data-ex-prev disabled>مرحلهٔ قبلی</button><button type="button" class="btn primary" data-ex-next>مرحلهٔ بعدی</button><button type="button" class="btn primary" data-ex-all hidden>مشاهدهٔ حل کامل</button></div></div>' +
+      return '<div class="ex e02-example-steps" id="' + id + '" aria-label="حل گام‌به‌گام مثال"><div class="e02-example-top"><strong>مثال حل‌شده</strong><span data-ex-count>گام ۱ از ' + F(count) + '</span></div><div class="e02-example-progress" aria-hidden="true">' + dots + '</div><div class="e02-example-body" data-ex-body aria-live="polite"></div><div class="e02-example-actions end-actions"><button type="button" class="btn" data-ex-prev data-scroll disabled>مرحلهٔ قبلی</button><button type="button" class="btn primary" data-ex-next data-scroll>مرحلهٔ بعدی</button><button type="button" class="btn primary" data-ex-all hidden>مشاهدهٔ حل کامل</button></div></div>' +
         '<dialog class="e02-example-dialog" id="' + id + '-dialog" aria-labelledby="' + id + '-dt"><div class="e02-example-dialog-header"><strong id="' + id + '-dt">' + dlgTitle + '</strong><button type="button" class="btn primary" data-ex-close aria-label="بستن پنجره">بستن</button></div><div class="e02-example-dialog-content" data-ex-full></div></dialog>';
     }
     function exampleBind(id, steps) {
@@ -110,18 +65,18 @@ window.LESSONS.E03 = {
       function nw() { p = gen(); si = 0; tries = []; okIdx = undefined; last = undefined; wrong = 0; log = []; done = false; }
       function paint() {
         var h = head(p.tex), s;
-        h += '<div class="e3-log"><b>مسیر ساخته‌شده</b><ol>' + (log.length ? log.map(function (l, i) { return '<li><span class="n">' + F(i + 1) + '</span><span class="tx">' + M(l) + '</span></li>'; }).join('') : '<li><span class="tx" style="color:var(--ink-soft);font-size:.88rem;direction:rtl">هنوز گامی انجام نشده است.</span></li>') + '</ol></div>';
-        if (done) { st.innerHTML = rr(h + mark(true, '<b>حل کامل شد' + (wrong ? '' : ' (بدون خطا)') + '.</b> ' + (p.end || '')) + '<div class="opts g-ops"><button type="button" class="btn primary" data-fresh data-scroll=".e02-problem-head" data-scroll-offset="100">مسئلهٔ دیگر</button></div>'); return; }
+        h += '<div class="e3-log"><b>مسیر ساخته‌شده</b><ol>' + (log.length ? log.map(function (l, i) { return '<li><span class="n">' + F(i + 1) + '</span><span class="tx">' + M(l) + '</span></li>'; }).join('') : '<li style="justify-content:center"><svg viewBox="0 0 48 48" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 5h17l8 8v29H12z"/><path d="M29 5v9h8M17 21h15M17 27h11M17 33h11"/></svg><span style="color:var(--ink-soft);font-size:.88rem">هنوز گامی انجام نشده است.</span></li>') + '</ol></div>';
+        if (done) { st.innerHTML = rr(h + mark(true, '✓ درست است. ' + p.steps[si].why + '<br><b>حل کامل شد' + (wrong ? '' : ' (بدون خطا)') + '.</b> ' + (p.end || ''))); return; }
         s = p.steps[si];
         h += '<p class="ask e3-ask">' + F(si + 1) + '. ' + s.ask + '</p><div class="e01-answer-grid">' + s.opts.map(function (op, i) { var cl = okIdx !== undefined ? (op.ok ? ' e01-right' : (tries.indexOf(i) > -1 ? ' e01-wrong' : '')) : (tries.indexOf(i) > -1 ? ' e01-wrong' : ''); return '<button type="button" class="btn e01-answer' + cl + '" data-pick="' + i + '"' + (okIdx !== undefined || tries.indexOf(i) > -1 ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>';
         if (last !== undefined) { var lo = s.opts[last]; h += mark(lo.ok, lo.ok ? '✓ درست است. ' + s.why : lo.m); }
-        if (okIdx !== undefined) { h += '<div class="e01-navigation"><span></span><button type="button" class="btn primary" data-go data-scroll=".e02-problem-head" data-scroll-offset="100">' + (si === p.steps.length - 1 ? 'پایان' : 'گام بعدی') + '</button></div>'; }
+        if (okIdx !== undefined && !done) { h += '<div class="e01-navigation" style="justify-content:center"><button type="button" class="btn primary" data-go data-scroll=".e02-problem-head" data-scroll-offset="100">گام بعدی</button></div>'; }
         st.innerHTML = rr(h);
       }
       root.addEventListener('click', function (e) {
         var b = e.target.closest('button'), i; if (!b || b.disabled) { return; }
         if (b.hasAttribute('data-fresh')) { nw(); paint(); return; }
-        if (b.hasAttribute('data-pick')) { i = +b.dataset.pick; last = i; if (p.steps[si].opts[i].ok) { okIdx = i; } else { tries.push(i); wrong++; } paint(); return; }
+        if (b.hasAttribute('data-pick')) { i = +b.dataset.pick; last = i; if (p.steps[si].opts[i].ok) { okIdx = i; if (si === p.steps.length - 1) { log.push(p.steps[si].line); done = true; } } else { tries.push(i); wrong++; } paint(); return; }
         if (b.hasAttribute('data-go')) { log.push(p.steps[si].line); tries = []; okIdx = undefined; last = undefined; if (si === p.steps.length - 1) { done = true; } else { si++; } paint(); }
       });
       nw(); paint();
@@ -142,7 +97,7 @@ window.LESSONS.E03 = {
         it = s.q[s.pos]; a = s.ans[s.pos]; frozen = a !== null;
         body = '<div class="e01-answer-grid">' + it.opts.map(function (op, k) { return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (a === k ? ' e01-wrong' : '')) : '') + '" data-choice="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>';
         h = '<div class="e01-progress stg" aria-label="پیشرفت آزمون">' + s.q.map(function (q, k) { return '<span class="' + (k === s.pos ? 'cu' : s.res[k] === null ? '' : s.res[k] ? 'dn' : 'wr') + '" aria-label="سؤال ' + F(k + 1) + '">' + F(k + 1) + '</span>'; }).join('') + '</div><div class="ask e01-question">' + it.ask + '</div>' + (it.fig || '') + body;
-        if (frozen) { h += mark(s.res[s.pos], (s.res[s.pos] ? 'پاسخ درست است. ' : 'پاسخ درست: ' + it.opts.filter(function (op) { return op.ok; }).map(function (op) { return op.h; }).join('، ') + '. ') + it.why); }
+        if (frozen) { h += fbx(s.res[s.pos], '', it.why); }
         h += '<div class="e01-navigation"><button type="button" class="btn" data-prev' + (s.pos === 0 ? ' disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-next' + (!frozen ? ' disabled' : '') + ' data-scroll>' + (s.pos === N - 1 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی') + '</button></div>';
         root.innerHTML = rr(h);
       }
@@ -284,9 +239,9 @@ window.LESSONS.E03 = {
       function paint() {
         var locked = reason !== null, ok = picked === p.bad, h = head(p.lines[0]);
         h += '<div class="e02-detect-folder"><div class="e02-detect-spine">مراحل نوشته‌شدهٔ حل</div>' + p.lines.slice(1).map(function (l, j) { var i = j + 1; return '<button type="button" class="e02-detect-row' + (picked === i ? ' is-selected' : '') + (locked ? ' locked' : '') + '" data-line="' + i + '"' + (locked ? ' aria-disabled="true"' : '') + '><span class="e02-detect-num">' + F(i + 1) + '</span><span dir="ltr">' + M(l) + '</span></button>'; }).join('') + '</div>';
-        if (locked) { h += mark(reason === p.why, reason === p.why ? '✓ درست است: ' + REASONS[p.why] : (reason === 'n' ? 'اشکالی ندارد. خطا این بود: ' : 'خطا این بود: ') + REASONS[p.why]) + '<div class="opts g-ops"><button type="button" class="btn primary" data-fresh data-scroll=".e02-problem-head" data-scroll-offset="100">مسئلهٔ دیگر</button></div>'; }
-        else if (picked !== null && !ok) { h += mark(false, 'سطر ' + M(String(picked + 1)) + ' از سطر قبلی‌اش درست به دست آمده است. محاسبه‌ها را از اول دنبال کن و سطر دیگری را انتخاب کن.'); }
-        else if (picked !== null) { h += mark(true, '✓ درست است؛ سطر ' + M(String(picked + 1)) + ' نخستین خطاست. خطا چه بود؟') + '<div class="e01-answer-grid">' + ['f', 'c', 'o', 'n'].map(function (k) { return '<button type="button" class="btn e01-answer" data-reason="' + k + '">' + REASONS[k].replace('است.', 'است') + '</button>'; }).join('') + '</div>'; }
+        if (picked !== null && !ok) { h += mark(false, 'سطر ' + M(String(picked + 1)) + ' از سطر قبلی‌اش درست به دست آمده است. محاسبه‌ها را از اول دنبال کن و سطر دیگری را انتخاب کن.'); }
+        else if (picked !== null) { h += mark(true, '✓ درست است؛ سطر ' + M(String(picked + 1)) + ' نخستین خطاست.') + '<p class="ask e3-ask e3-sep">خطا چه بود؟</p><div class="e01-answer-grid">' + ['f', 'c', 'o', 'n'].map(function (k) { return '<button type="button" class="btn e01-answer' + (locked ? (k === p.why ? ' e01-right' : k === reason ? ' e01-wrong' : '') : '') + '" data-reason="' + k + '"' + (locked ? ' disabled' : '') + '>' + REASONS[k].replace('است.', 'است') + '</button>'; }).join('') + '</div>'; }
+        if (locked) { h += mark(reason === p.why, reason === p.why ? '✓ درست است: ' + REASONS[p.why] : (reason === 'n' ? 'اشکالی ندارد. خطا این بود: ' : 'خطا این بود: ') + REASONS[p.why]); }
         st.innerHTML = rr(h);
       }
       root.addEventListener('click', function (e) {
@@ -322,7 +277,7 @@ window.LESSONS.E03 = {
 
     return {
       html: function () {
-        var h = '<div class="e01-lesson e02-lesson e3x">';
+        var h = '<div class="e01-lesson e02-lesson e3x e3-v3">';
         h += intro('وقتی دو طرف دیگر مساوی نیستند', 'در معادله دو طرف برابرند و اگر روی هر دو طرف یک عملیات یکسان انجام دهیم، برابری حفظ می‌شود. در <b>نامعادله</b> یک طرف از دیگری بزرگ‌تر یا کوچک‌تر است. پرسش اصلی این درس: کدام عملیات این «بزرگ‌تر یا کوچک‌تر بودن» را نگه می‌دارد و کدام آن را برعکس می‌کند؟', ['ترازوی کج', 'آیینهٔ صفر', 'حل گام‌به‌گام', 'آزمایش جواب']);
 
         h += K.sn('۱', 'ترازوی کج: چه چیزی را نگه می‌دارد؟');

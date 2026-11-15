@@ -2081,12 +2081,20 @@
   text-align: center
 }
 
-.e02-lesson .e02-route-empty svg {
+.e02-lesson .e02-route-empty svg,
+.e02-tile-log .e02-tile-empty svg,
+#e04-full li svg,
+#e03-solve li svg {
   color: #6986a7;
   background: #e6eef9;
   border-radius: 50%;
   box-sizing: content-box;
   padding: 13px
+}
+
+#e04-full li svg,
+#e03-solve li svg {
+  padding: 5px
 }
 
 .e02-lesson .e02-route-empty p {
@@ -5265,4 +5273,584 @@
 
 #e01-types .e01-speed-quiz .e01-choices.e01-four .btn:disabled:not(.e01-right):not(.e01-wrong) {
   opacity: .55;
+}
+
+/* ==========================================================================
+   درس‌های فصل ۳ (E03 تا E06): ابزارهای مشترک e3-*
+   پیش‌تر در هر فایل درس با JavaScript تزریق می‌شد (با شناسهٔ یکسان، که باعث می‌شد
+   فقط نسخهٔ نخستین درسِ بازشده اعمال شود)؛ حالا یک‌جا و بدون تکرار است.
+   ========================================================================== */
+
+.e3x .katex {
+  unicode-bidi: isolate;
+  direction: ltr
+}
+
+.e3-eq {
+  direction: ltr;
+  text-align: center;
+  display: grid;
+  place-items: center;
+  min-height: 64px;
+  padding: 10px;
+  margin: 6px 0 10px;
+  border: 1.5px solid var(--line);
+  border-radius: 11px;
+  background: #f3f6fa;
+  font-size: 1.25rem;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none
+}
+
+.e3-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 8px 0;
+  direction: rtl
+}
+
+.e3-op {
+  min-width: 54px;
+  min-height: 42px;
+  padding: 4px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: #fff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--ink);
+  color: var(--ink)
+}
+
+.e3-op .katex {
+  font-size: 1.05em
+}
+
+.e3-op:active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink)
+}
+
+.e3-op.is-on {
+  background: var(--mark)
+}
+
+.e3-op:disabled {
+  opacity: .45;
+  cursor: default;
+  box-shadow: none
+}
+
+.e3-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 3px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  font-size: .92rem
+}
+
+.e3-pill.ok {
+  background: #d2f0e9;
+  border-color: #438b6c;
+  color: #173d2e
+}
+
+.e3-pill.bad {
+  background: #fbd5d5;
+  border-color: #b23a3a;
+  color: #632323
+}
+
+.e3-pill.y {
+  background: var(--mark);
+  border-color: var(--ink)
+}
+
+.e3-exline {
+  direction: rtl;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.9
+}
+
+.e3-note {
+  text-align: center;
+  font-size: .92rem;
+  line-height: 1.9;
+  color: var(--ink-soft);
+  margin: 6px 4px
+}
+
+.e3-log {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1.5px dashed var(--line);
+  border-radius: 11px;
+  background: #fff
+}
+
+.e3-log b {
+  display: block;
+  font-size: .9rem;
+  margin-bottom: 4px
+}
+
+.e3-log ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 5px
+}
+
+.e3-log li {
+  display: flex;
+  direction: rtl;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+  border: 1.5px solid var(--line);
+  border-radius: 9px;
+  background: #f3f6fa;
+  padding: 3px 10px;
+  min-height: 38px
+}
+
+.e3-log li span.n {
+  font-size: .78rem;
+  color: var(--ink-soft);
+  min-width: 22px;
+  text-align: center
+}
+
+.e3-log li .tx {
+  direction: ltr;
+  flex: 1;
+  text-align: center
+}
+
+.e3-ask {
+  font-size: 1rem;
+  line-height: 1.85;
+  margin: 8px 0;
+  font-weight: 700;
+  text-align: right
+}
+
+.e3-sep {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1.5px dashed var(--line)
+}
+
+.e3-svg {
+  display: block;
+  margin: 6px auto;
+  max-width: 50%;
+  height: auto;
+  direction: ltr
+}
+
+.e3-match-row {
+  display: flex;
+  direction: rtl;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 7px 0;
+  padding: 6px 10px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: #fff
+}
+
+.e3-match-row .l {
+  direction: ltr;
+  font-size: 1.1rem
+}
+
+.e3-match-row select {
+  min-height: 38px;
+  border: 2px solid var(--line);
+  border-radius: 9px;
+  padding: 2px 8px;
+  font: inherit;
+  direction: ltr;
+  background: #fff;
+  color: var(--ink);
+  max-width: 62%
+}
+
+.e3-match-row.right {
+  background: #d2f0e9;
+  border-color: #438b6c
+}
+
+.e3-match-row.wrong {
+  background: #fbd5d5;
+  border-color: #b23a3a
+}
+
+.e3-numrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  direction: ltr
+}
+
+.e3-numrow .lbl {
+  direction: ltr;
+  font-size: 1.15rem
+}
+
+.e01-lesson .e01-answer.is-sel {
+  background: var(--mark);
+  border-color: var(--ink)
+}
+
+.e3-slider {
+  max-width: 560px;
+  margin: 8px auto 4px;
+  position: relative
+}
+
+.e3-slider input[type=range] {
+  width: 100%;
+  display: block;
+  direction: ltr;
+  accent-color: #078b80;
+  cursor: pointer
+}
+
+.e3-slider .lab {
+  display: flex;
+  justify-content: space-between;
+  font-size: .85rem;
+  color: var(--ink-soft);
+  margin-bottom: 2px
+}
+
+.e3-tri {
+  margin: 10px 0;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #f3f6fa;
+  overflow: hidden
+}
+
+.e3-tri-row {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  direction: rtl;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  min-height: 62px
+}
+
+.e3-tri-row+.e3-tri-row {
+  border-top: 1.5px dashed var(--line)
+}
+
+.e3-tri-lab {
+  justify-self: center;
+  white-space: nowrap;
+  font-size: .82rem;
+  font-weight: 700;
+  padding: 3px 11px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--mark);
+  color: var(--ink)
+}
+
+.e3-tri-val {
+  direction: ltr;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  font-size: 1.2rem;
+  line-height: 1.4
+}
+
+.e3-tri-val .e3-svg {
+  margin: 0
+}
+
+.e3x .e3-svgopts {
+  grid-template-columns: minmax(0, 1fr)
+}
+
+.e02-lesson .e3-numrow .numin {
+  width: 88px;
+  max-width: 105px;
+  min-height: 42px
+}
+
+@media (min-width:640px) {
+  .e3x .e3-svgopts {
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+  }
+}
+
+@media (max-width:480px) {
+  .e3-tri-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+    padding: 8px
+  }
+}
+
+/* تفاوت‌های عمدی ظاهر در درس E03 (کلاس e3-v3 روی ریشهٔ درس E03 است) */
+
+.e3-v3 .e3-eq {
+  min-height: 46px;
+  padding: 6px 10px;
+  margin: 4px 0 6px;
+  font-size: 1.15rem
+}
+
+.e3-v3 .e3-pill {
+  border-radius: 16px;
+  text-align: center
+}
+
+.e3-v3 .e3-note {
+  line-height: 1.8;
+  margin: 4px 4px;
+  min-height: 3.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.e3-v3 .e3-svg {
+  max-width: 33%
+}
+
+/* فقط E03: گروه‌های کلید، نمایش‌گرها، کارآگاه و گام‌های شمارهٔ‌دار */
+
+.e3-svg.mir {
+  max-width: 340px
+}
+
+.e3-svg.axs {
+  max-width: 400px
+}
+
+.e3-disp {
+  direction: ltr;
+  text-align: center;
+  font-size: 1.15rem;
+  margin: 4px 0 10px;
+  overflow-x: auto;
+  scrollbar-width: none
+}
+
+.e3-syms {
+  margin: 6px 0 10px
+}
+
+.e3-syms .e3-pill {
+  gap: 8px
+}
+
+.e3-groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px 8px;
+  margin: 14px 0 8px;
+  direction: rtl
+}
+
+.e3-grp {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #f8fafc;
+  padding: 15px 8px 8px;
+  direction: ltr;
+  align-content: center
+}
+
+.e3-grp .cap {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  padding: 0 7px;
+  background: #fff;
+  border-radius: 6px;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  direction: rtl;
+  white-space: nowrap
+}
+
+.e3-grp .e3-op {
+  min-width: 0;
+  width: 100%;
+  padding: 4px 6px
+}
+
+.e3-klab {
+  text-align: center;
+  font-size: .88rem;
+  color: var(--ink-soft);
+  margin: 4px 0 2px
+}
+
+.e3-eqm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 14px;
+  justify-content: center;
+  align-items: center
+}
+
+.e3-eqm>span {
+  direction: ltr
+}
+
+.e3-krow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  direction: ltr;
+  margin: 4px 0 8px
+}
+
+.e3-op.e3-kb {
+  min-width: 0;
+  min-height: 0;
+  width: clamp(34px, 11vw, 44px);
+  height: clamp(34px, 11vw, 44px);
+  padding: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: none
+}
+
+.e02-lesson.e3x .e02-detect-folder .e02-detect-row {
+  border: 1.5px solid var(--line);
+  border-radius: 11px;
+  background: #fff;
+  margin: 8px 0 0;
+  min-height: 52px;
+  width: 100%;
+  box-shadow: none
+}
+
+.e02-lesson.e3x .e02-detect-folder .e02-detect-row:hover:not(.is-selected):not(.is-bad):not(.locked) {
+  background: #f0f5fb
+}
+
+.e02-lesson.e3x .e02-detect-folder .e02-detect-row.is-selected {
+  background: #e7f0fb;
+  border-color: #527cb4;
+  box-shadow: inset -3px 0 #527cb4
+}
+
+.e02-lesson.e3x .e02-detect-folder .e02-detect-row.is-bad {
+  background: #fbd5d5;
+  border-color: #b23a3a;
+  box-shadow: inset -3px 0 #b23a3a
+}
+
+.e02-lesson.e3x .e02-detect-folder .e02-detect-row.locked {
+  cursor: default
+}
+
+.e3x ol.e03-steps {
+  list-style: none;
+  counter-reset: st;
+  margin: 14px 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  direction: rtl
+}
+
+.e3x ol.e03-steps li {
+  counter-increment: st;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.9;
+  min-height: 30px;
+  margin: 0;
+  padding: 0;
+  text-align: right
+}
+
+.e3x ol.e03-steps li::before {
+  content: counter(st, persian);
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #14213d;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .85rem;
+  font-weight: bold;
+  box-shadow: 2px 2px 0 #0e8f7e
+}
+
+.e3x ol.e03-steps li .katex {
+  direction: ltr
+}
+
+#e04-draw svg,
+#e04-final svg {
+  max-width: 90%;
+  margin-top: -10px;
+}
+
+#e04-final .fb.bad svg {
+  max-width: 45%;
+}
+
+@media (max-width:560px) {
+  .e3-slider .mn .katex {
+    display: none
+  }
+
+  .e3-groups {
+    grid-template-columns: 1fr;
+    gap: 16px 0
+  }
+
+  .e3-grp {
+    display: flex;
+    gap: 6px
+  }
+
+  .e3-grp .e3-op {
+    flex: 1 1 0;
+    min-height: 38px;
+    padding: 3px 4px
+  }
 }
