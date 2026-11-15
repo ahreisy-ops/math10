@@ -40,7 +40,7 @@
           h += '<div id="e01-compare" class="e01-compare" data-activity="compare">' +
             '<div class="e01-compare-control graduated-range">' +
             '<div class="e01-compare-head"><span>مقدار متغیر</span><strong data-compare-x></strong></div>' +
-            '<input type="range" min="-4" max="8" step="1" value="2" aria-label="مقدار متغیر x" data-compare-range>' +
+            '<input id="slider1" type="range" min="-4" max="8" step="1" value="2" aria-label="مقدار متغیر x" data-compare-range>' +
             '<div class="e01-compare-ticks graduated-ticks" aria-hidden="true">' +
             Array.from({ length: 13 }, function (_, i) { var n = i - 4; return '<span class="' + (n === 5 ? 'e01-target-tick' : '') + '" style="--gr-step:' + i + ';--gr-total:12"><i></i>' + maths(n === 5 ? '\\mathbf{5}' : String(n)) + '</span>'; }).join('') +
             '</div>' +
@@ -64,7 +64,7 @@
           h += '<div id="e01-identity-compare" class="e01-compare e01-identity-compare" data-activity="identity-compare">' +
             '<div class="e01-compare-control graduated-range">' +
             '<div class="e01-compare-head"><span>مقدار متغیر</span><strong data-identity-x></strong></div>' +
-            '<input type="range" min="-4" max="8" step="1" value="1" aria-label="مقدار متغیر x برای مقایسهٔ اتحاد و معادله" data-identity-range>' +
+            '<input id="slider2" type="range" min="-4" max="8" step="1" value="1" aria-label="مقدار متغیر x برای مقایسهٔ اتحاد و معادله" data-identity-range>' +
             '<div class="e01-compare-ticks graduated-ticks" aria-hidden="true">' +
             Array.from({ length: 13 }, function (_, i) { var n = i - 4; return '<span class="' + (n === 6 ? 'e01-target-tick' : '') + '" style="--gr-step:' + i + ';--gr-total:12"><i></i>' + maths(n === 6 ? '\\mathbf{6}' : String(n)) + '</span>'; }).join('') +
             '</div></div>' +

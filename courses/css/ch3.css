@@ -78,6 +78,13 @@
   background: #f7f9fc;
   padding: 12px 10px;
   box-shadow: 2px 2px 0 var(--ink);
+  /* transition: border-color 0.75s ease, box-shadow 0.75s ease; */
+  transform: translateY(0) scale(1);
+
+  transition:
+    transform 0.75s ease,
+    box-shadow 0.75s ease,
+    border-color 0.75s ease;
 }
 
 .e01-pair>span {
@@ -1302,6 +1309,15 @@
   background: #e6f6f3;
   box-shadow: 4px 4px 0 #438b6c;
   border-color: #438b6c;
+  /* transition: border-color 0.75s ease, box-shadow 0.75s ease; */
+  transform: translateY(0) scale(1);
+
+  transition:
+    transform 0.75s ease,
+    box-shadow 0.75s ease,
+    border-color 0.75s ease;
+
+  transform: translateY(-3px) scale(1.015);
 }
 
 .e01-lesson .e01-compare-ticks .e01-target-tick {
