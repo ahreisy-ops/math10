@@ -489,14 +489,15 @@ a.btn {
 .numin {
   font: inherit;
   font-size: 1.25rem;
+  direction: ltr;
+  text-align: left;
   width: 100%;
   max-width: 320px;
   min-height: 52px;
   padding: 6px 14px;
-  text-align: left;
   color: var(--ink);
   background: #fff;
-  border: 2px solid var(--ink);
+  border: 1.5px solid var(--line);
   border-radius: 10px;
 }
 

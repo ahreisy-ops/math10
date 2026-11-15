@@ -441,13 +441,9 @@
 .a01-number-input {
   width: 215px;
   max-width: 100%;
-  box-sizing: border-box;
-  border: 2px solid var(--line);
-  background: #fff;
-  border-radius: 9px;
+  min-height: 0;
   padding: 9px 12px;
   font: inherit;
-  direction: ltr;
   text-align: left;
 }
 

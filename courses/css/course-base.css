@@ -705,7 +705,7 @@
 
 .nlinfo>div {
     /* border: 2px solid var(--ink); */
-    border: 1.75px dashed var(--ink);
+    outline: 1.75px dashed var(--ink);
     border-radius: 10px;
     padding: 4px 6px;
     text-align: center;
@@ -748,7 +748,7 @@
     /* border-radius: 8px; */
     border-radius: 6px;
     /* border: 2px solid var(--ink) */
-    border: 1.75px dashed var(--ink)
+    outline: 1.75px dashed var(--ink)
 }
 
 .nleq .a {
@@ -1014,18 +1014,13 @@
     direction: ltr
 }
 
-.numin {
+/* درسنامه: وسط‌چین و کوچک‌تر؛ ظاهر پایه از .numin در style.css */
+:where(.page.wide) .numin {
     width: min(220px, 60%);
     min-height: 44px;
-    border: 2px solid var(--ink);
-    border-radius: 12px;
     padding: 4px 12px;
     font: bold 1.2rem Tahoma, sans-serif;
     text-align: center
-}
-
-.numin:focus {
-    outline: 3px solid var(--mark)
 }
 
 .pm {
@@ -1417,14 +1412,10 @@
 .fr2 input {
     width: 110px;
     min-height: 40px;
-    border: 2px solid var(--ink);
+    border: 1.5px solid var(--line);
     border-radius: 10px;
     text-align: center;
     font: bold 1.1rem Tahoma, sans-serif
-}
-
-.fr2 input:focus {
-    outline: 3px solid var(--mark)
 }
 
 .fr2 .bar {

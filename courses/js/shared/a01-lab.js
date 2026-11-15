@@ -5,7 +5,7 @@
   const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1)), nz = (a, b) => { let x; do { x = rnd(a, b) } while (!x); return x };
   const sign = n => n < 0 ? String(n) : '+' + n, term = (n, x) => n === 1 ? x : n === -1 ? '-' + x : n + x, paren = n => '(' + n + ')';
   const norm = s => String(s).trim().replace(/[۰-۹]/g, d => d.charCodeAt(0) - 1776).replace(/[٠-٩]/g, d => d.charCodeAt(0) - 1632).replace(/[−–]/g, '-').replace(/\s/g, '');
-  const input = (id, placeholder = 'پاسخ عددی') => '<input class="a01-number-input" id="' + id + '" type="text" inputmode="decimal" autocomplete="off" placeholder="' + placeholder + '">';
+  const input = (id, placeholder = 'پاسخ عددی') => '<input class="numin a01-number-input" id="' + id + '" type="text" inputmode="decimal" autocomplete="off" placeholder="' + placeholder + '">';
   const notation = q => '{' + q.expr + '}_{' + (q.vars.length === 1 ? '|' + q.vars[0][0] + '=' + q.vars[0][1] : '\\Big|\\,\\substack{' + q.vars.map(v => v[0] + '=' + v[1]).join('\\\\') + '}') + '}';
   function make(kind) {
     let seed = kind === 0 ? window.LinearValues.sample({ a: [-6, 6], b: [-8, 8], x: [-5, 5], nonzeroA: true, nonzeroX: true }) : null;

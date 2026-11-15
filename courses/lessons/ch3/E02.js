@@ -108,14 +108,14 @@
       function rangeState() { var a = choose([-4, -3, -2, 2, 3, 4]), x = rand(-6, 6), b = nz(-8, 8); return { a: a, b: b, c: a * x + b, x: x, op: null, amount: 1, history: [], note: null }; }
       function routeText(s) { return lin(s.a, s.b) + '=' + s.c; }
       function routeRender(s) {
-        var solved = s.a === 1 && s.b === 0, collapsed = s.a === 0 && s.b === 0 && s.c === 0, locked = solved || collapsed, nonnegative = s.op === 'add' || s.op === 'sub', kind = [['add', '+'], ['sub', '-'], ['mul', '\\times'], ['div', '\\div']];
+        var solved = s.a === 1 && s.b === 0, locked = solved, nonnegative = s.op === 'add' || s.op === 'sub', kind = [['add', '+'], ['sub', '-'], ['div', '\\div']];
         // All controls act on the CURRENT equation; the ledger preserves the original.
         var equation = '<div class="e02-route-control-row e02-route-equation-row">' +
           '<span class="e02-route-field-label">معادله</span><div class="e02-route-value-pair">' +
           '<div class="e02-route-group e02-route-equation-group"><div class="e02-live-bars" aria-label="معادلهٔ فعلی"><span class="e02-bar-x">' + M(ax(s.a)) + '</span>' +
           (s.b ? '<span class="e02-bar-c">' + M(signed(s.b)) + '</span>' : '') +
           '<span class="e02-bar-eq">=</span><span class="e02-bar-num">' + M(String(s.c)) + '</span></div></div>' +
-          '<button type="button" class="btn primary e01-station-refresh" data-fresh data-scroll title="معادلهٔ تازه" aria-label="تغییر معادله"' + (collapsed ? ' disabled' : '') + '>' + refreshSvg + '</button></div></div>';
+          '<button type="button" class="btn primary e01-station-refresh" data-fresh title="معادلهٔ تازه" aria-label="تغییر معادله">' + refreshSvg + '</button></div></div>';
         // Dotted connector is aligned with the operation-and-arrow badge between equations.
         var pathContent = s.history.length ?
           '<div class="e02-route-sequence" role="list">' +
@@ -131,9 +131,9 @@
         var disabled = locked ? ' disabled' : '';
         return '<div class="e02-route-layout"><div class="e02-workspace">' + equation +
           '<div class="e02-route-control-row"><span class="e02-route-field-label">عملیات</span><div class="e02-operation-picker e02-route-group" role="group" aria-label="نوع عملیات">' + kind.map(function (k) { return '<button type="button" class="btn e02-op ' + (s.op === k[0] ? 'is-current' : '') + '" data-op="' + k[0] + '" aria-pressed="' + (s.op === k[0]) + '"' + disabled + '>' + M(k[1]) + '</button>'; }).join('') + '</div></div>' +
-          '<div class="e02-route-control-row"><label class="e02-route-field-label" for="e02-move-number">مقدار عملیات</label><div class="e02-number-control e02-route-group"><button type="button" class="btn" data-delta="1" aria-label="افزایش مقدار"' + (locked || s.amount >= 12 ? ' disabled' : '') + '>' + M('+') + '</button><input id="e02-move-number" type="number" step="1" min="' + (nonnegative ? '0' : '-12') + '" max="12" value="' + s.amount + '" inputmode="numeric"' + disabled + '><button type="button" class="btn" data-delta="-1" aria-label="کاهش مقدار"' + (locked || s.amount <= (nonnegative ? 0 : -12) ? ' disabled' : '') + '>' + M('-') + '</button></div></div>' +
+          '<div class="e02-route-control-row"><label class="e02-route-field-label" for="e02-move-number">مقدار عملیات</label><div class="e02-number-control e02-route-group"><button type="button" class="btn" data-delta="1" aria-label="افزایش مقدار"' + (locked || s.amount >= 12 ? ' disabled' : '') + '>' + M('+') + '</button><input class="numin" id="e02-move-number" type="number" step="1" min="' + (nonnegative ? '0' : '-12') + '" max="12" value="' + s.amount + '" inputmode="numeric"' + disabled + '><button type="button" class="btn" data-delta="-1" aria-label="کاهش مقدار"' + (locked || s.amount <= (nonnegative ? 0 : -12) ? ' disabled' : '') + '>' + M('-') + '</button></div></div>' +
           '<div class="e02-route-actions"><button type="button" class="btn e02-route-action" data-apply ' + (locked ? 'disabled' : '') + '>اجرای عملیات</button><button type="button" class="btn e02-route-action" data-undo ' + (!s.history.length ? 'disabled' : '') + '>بازگشت یک گام</button></div>' +
-          '<div class="e02-route-message" aria-live="polite">' + (collapsed ? '<div class="e02-zero-caution" role="status">ضرب در صفر، معادله را به ' + M('0=0') + ' تبدیل کرد؛ جواب دیگر قابل یافتن نیست. «بازگشت یک گام» را بزن.</div>' : (solved ? mark(true, 'مجهول تنها شد؛ مسیر کامل در سمت چپ ثبت شده است.') : (s.note ? (s.note.ok ? '<div class="e02-info">' + s.note.text + '</div>' : mark(false, s.note.text)) : ''))) + '</div></div>' + path + '</div>';
+          '<div class="e02-route-message" aria-live="polite">' + (solved ? mark(true, 'مجهول تنها شد؛ مسیر کامل در سمت چپ ثبت شده است.') : (s.note ? (s.note.ok ? '<div class="e02-info">' + s.note.text + '</div>' : mark(false, s.note.text)) : '')) + '</div></div>' + path + '</div>';
       }
       function routeHandle(s, b, paint, root) {
         if (b.hasAttribute('data-op')) { s.op = b.dataset.op; s.amount = 1; s.note = null; paint(); return; }
@@ -148,15 +148,13 @@
         s.amount = n; var v = { a: s.a, b: s.b, c: s.c, eq: routeText(s) }, symbol = '';
         if (s.op === 'add') { s.b += n; s.c += n; symbol = '+' + n; }
         if (s.op === 'sub') { s.b -= n; s.c -= n; symbol = '-' + n; }
-        if (s.op === 'mul') { s.a *= n; s.b *= n; s.c *= n; symbol = '\\times ' + n; }
         if (s.op === 'div') {
           if (s.a % n || s.b % n || s.c % n) { s.note = { ok: false, text: 'این تقسیم به کسر می‌رسد؛ فعلاً عددی انتخاب کن که حاصل صحیح باشد.' }; paint(); return; }
           s.a /= n; s.b /= n; s.c /= n; symbol = '\\div ' + n;
         }
         if (Math.max(Math.abs(s.a), Math.abs(s.b), Math.abs(s.c)) > 180 || s.history.length >= 8) { s.a = v.a; s.b = v.b; s.c = v.c; s.note = { ok: false, text: 'مسیر به حد مجاز رسید؛ یک گام به عقب برگرد.' }; paint(); return; }
         v.operation = symbol; s.history.push(v);
-        var note = (s.a === 0 && s.b === 0 && s.c === 0) ? 'ضرب در صفر، برابری را به ۰=۰ تبدیل کرد؛ دیگر نمی‌توان جواب معادله را از آن به دست آورد.' : (s.a === 1 && s.b === 0) ? 'جواب به دست آمد.' :
-          (s.op === 'mul' ? 'برابری حفظ شد. آیا مسیر کوتاه‌تر شد؟' : 'برابری حفظ شد. گام بعدی را انتخاب کن.');
+        var note = (s.a === 1 && s.b === 0) ? 'جواب به دست آمد.' : 'برابری حفظ شد. گام بعدی را انتخاب کن.';
         s.note = { ok: true, text: note }; paint();
       }
       function machineValue(s, ops) { var v = s.end; ops.forEach(function (op) { if (op === 'recoverD') v /= s.d; else if (op === 'recoverB') v -= s.b; else v /= s.a; }); return v; }
@@ -224,7 +222,7 @@
         return problemHead(equation(s.a, s.b, s.c, s.d)) + '<div class="e02-tile-board">' + column('L') + '<span class="e02-tile-equals">' + M('=') + '</span>' + column('R') + '</div>' +
           '<div class="e02-tile-log"><strong>تغییرهای انجام‌شده</strong>' + (s.history.length ? '<div class="e02-tile-step"><span class="e02-tile-step-num">' + F(1) + '</span><div class="e02-tile-step-detail"><span dir="ltr">' + M(s.history[0].eq) + '</span></div></div>' + s.history.map(function (h, i) { return '<div class="e02-tile-connector"><span class="e02-tile-operation"><span class="e02-tile-operation-arrow" aria-hidden="true">⇓</span>' + M(h.action) + '</span></div><div class="e02-tile-step"><span class="e02-tile-step-num">' + F(i + 2) + '</span><div class="e02-tile-step-detail"><span dir="ltr">' + M(h.result) + '</span></div></div>'; }).join('') : '<div class="e02-tile-empty"><svg viewBox="0 0 48 48" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 5h17l8 8v29H12z"/><path d="M29 5v9h8M17 21h15M17 27h11M17 33h11"/></svg><span>هنوز تغییری انجام نشده است.</span></div>') + '</div>' +
           (s.last ? mark(s.last.ok, s.last.text) : '') +
-          (alreadySolved ? '<div class="fb ok e02-tile-complete">به جواب نهایی رسیدیم: ' + M('x=' + s.x) + '</div>' : ready ? '<div class="e02-tile-solve"><label for="e02-tile-answer">اکنون مقدار مجهول را حساب کن:</label><div class="e02-tile-final-line" dir="ltr"><span class="e02-tile-final-equation">' + M(equation(s.a, s.b, s.c, s.d)) + '</span><span class="e02-tile-implies" aria-hidden="true">' + M('\\Longrightarrow') + '</span><span class="e02-tile-value-label">' + M('x=') + '</span><input id="e02-tile-answer" type="number" step="1" inputmode="numeric" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + ' ' + (s.finished ? 'disabled' : '') + ' aria-label="جواب معادله"></div>' + '</div>' : '') +
+          (alreadySolved ? '<div class="fb ok e02-tile-complete">به جواب نهایی رسیدیم: ' + M('x=' + s.x) + '</div>' : ready ? '<div class="e02-tile-solve"><label for="e02-tile-answer">اکنون مقدار مجهول را حساب کن:</label><div class="e02-tile-final-line" dir="ltr"><span class="e02-tile-final-equation">' + M(equation(s.a, s.b, s.c, s.d)) + '</span><span class="e02-tile-implies" aria-hidden="true">' + M('\\Longrightarrow') + '</span><span class="e02-tile-value-label">' + M('x=') + '</span><input class="numin" id="e02-tile-answer" type="number" step="1" inputmode="numeric" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + ' ' + (s.finished ? 'disabled' : '') + ' aria-label="جواب معادله" placeholder="؟"></div>' + '</div>' : '') +
           '<div class="e02-foot-actions"><button type="button" class="btn" data-tile-undo ' + (!s.history.length ? 'disabled' : '') + '>بازگشت یک گام</button>' + (ready && !alreadySolved && !s.finished ? '<button type="button" class="btn primary" data-tile-solve>بررسی جواب</button>' : '') + '</div>';
       }
       function tileHandle(s, b, paint, root) {
@@ -269,7 +267,7 @@
         var before = s.bad === 1 ? M(ax(s.a) + '+') : (s.bad === 2 ? M(ax(s.a) + '=') : M('x='));
         var after = s.bad === 1 ? M('=' + s.rhs) : '';
         var repair = s.selected === s.bad ? '<div class="e02-correction"><p><b>اولین خطا پیدا شد.</b> اکنون همان سطر را اصلاح کن؛ عدد درستِ جای خالی را حساب کن.</p>' +
-          (s.done ? mathpanel(s.correct[s.bad]) + mark(true, note) : '<div class="e02-repair-math" dir="ltr">' + before + '<input id="e02-repair-number" type="number" step="1" inputmode="numeric" aria-label="عدد اصلاح‌شده" placeholder="؟" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + '>' + after + '</div><div class="e02-detect-repair"><button type="button" class="btn primary" data-repair-check>بررسی اصلاح</button></div>' + (s.note ? mark(false, s.note) : '')) + '</div>' : '';
+          (s.done ? mathpanel(s.correct[s.bad]) + mark(true, note) : '<div class="e02-repair-math" dir="ltr">' + before + '<input class="numin" id="e02-repair-number" type="number" step="1" inputmode="numeric" aria-label="عدد اصلاح‌شده" placeholder="؟" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + '>' + after + '</div><div class="e02-detect-repair"><button type="button" class="btn primary" data-repair-check>بررسی اصلاح</button></div>' + (s.note ? mark(false, s.note) : '')) + '</div>' : '';
         return problemHead(s.lines[0]) + '<div class="e02-detect-folder"><div class="e02-detect-spine">مراحل نوشته‌شدهٔ حل</div>' + s.lines.slice(1).map(function (v, i) { i += 1; var on = s.selected === i; return '<button type="button" class="e02-detect-row' + (on ? ' is-selected' : '') + '" data-row="' + i + '" aria-pressed="' + (on ? 'true' : 'false') + '"' + (s.done ? ' disabled aria-disabled="true"' : '') + '><span class="e02-detect-num">' + F(i + 1) + '</span><span dir="ltr">' + M(v) + '</span></button>'; }).join('') + '</div>' +
           (outcome ? (s.selected === s.bad ? repair : mark(false, 'این سطر نخستین خطای راه‌حل نیست. محاسبه‌ها را از نخستین سطر به ترتیب دنبال کن.')) : '');
       }
@@ -350,14 +348,20 @@
         }); paint();
       }
       /* Fraction Workshop — independent, three-stage exploration; all problems generated. */
-      var fractionLevelNames = ['کسر ساده', 'مخرج منفی', 'صورتِ چندجمله‌ای'];
+      var fractionLevelNames = ['کسر ساده', 'ضریب کسری', 'صورتِ چندجمله‌ای'];
+      var frFlip = 0; // در سطح نخست، علامت مخرج یکی‌درمیان مثبت و منفی می‌شود
+      function gcd(p, q) { p = Math.abs(p); q = Math.abs(q); while (q) { var r = p % q; p = q; q = r; } return p || 1; }
+      var frLastLevel = 1;
       function fractionState(level) {
+        level = frLastLevel = level || frLastLevel;
         level = level || 1;
         var n, a, b, x, q, t = 0;
         if (level === 1) {
-          n = choose([2, 3, 4, 5, 6, 7]); a = 1; b = 0; q = rand(-7, 7); x = n * q;
+          n = (frFlip++ % 2 ? -1 : 1) * choose([2, 3, 4, 5, 6, 7]); a = 1; b = 0; q = rand(-7, 7); x = n * q;
         } else if (level === 2) {
-          n = choose([-2, -3, -4, -5, -6]); a = 1; b = 0; q = rand(-7, 7); x = n * q;
+          // (a/n)x + b0 = q با ثابت صحیح؛ پس از ضرب در n: ax + n·b0 = n·q
+          do { n = choose([2, 3, 4, 5, 6]); a = choose([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5]); } while (gcd(a, n) !== 1);
+          var k2 = nz(-5, 5), b0 = nz(-6, 6); x = n * k2; q = a * k2 + b0; b = n * b0;
         } else {
           var ok = false;
           for (var k = 0; k < 2000 && !ok; k++) {
@@ -369,7 +373,8 @@
         }
         return { level: level, n: n, a: a, b: b, q: q, x: x, stage: 0, attempt: null, preview: null, note: null };
       }
-      function fractionTex(s) { return '\\frac{' + lin(s.a, s.b) + '}{' + (s.n < 0 ? '(' + s.n + ')' : s.n) + '}=' + s.q; }
+      function fractionLeft(s) { return s.level === 2 ? '\\dfrac{' + ax(s.a) + '}{' + s.n + '}' + signed(s.b / s.n) : '\\frac{' + lin(s.a, s.b) + '}{' + (s.n < 0 ? '(' + s.n + ')' : s.n) + '}'; }
+      function fractionTex(s) { return fractionLeft(s) + '=' + s.q; }
       function fractionResult(s) { return lin(s.a, s.b) + '=' + (s.n * s.q); }
       function fractionStep(s) {
         var rhs = s.n * s.q;
@@ -379,13 +384,13 @@
       function fractionRender(s) {
         var levels = '<div class="e02-fr-levels" role="group" aria-label="انتخاب سطح دشواری">' + fractionLevelNames.map(function (label, i) { return '<button type="button" class="btn e02-fr-level ' + (s.level === i + 1 ? 'is-current' : '') + '" data-fr-level="' + (i + 1) + '" aria-pressed="' + (s.level === i + 1) + '">' + label + '</button>'; }).join('') + '</div>';
         var head = '<div class="e02-fr-main-equation">' + problemHead(fractionTex(s)) + '</div>';
-        var leftM = s.stage === 0 ? '\\frac{' + lin(s.a, s.b) + '}{' + (s.n < 0 ? '(' + s.n + ')' : s.n) + '}' : (s.stage === 1 ? lin(s.a, s.b) : ax(s.a));
+        var leftM = s.stage === 0 ? fractionLeft(s) : (s.stage === 1 ? lin(s.a, s.b) : ax(s.a));
         var rightM = s.stage === 0 ? String(s.q) : String(s.stage === 1 ? s.n * s.q : s.n * s.q - s.b);
         var face = '<div class="e02-fr-equation-row"><div class="e02-fr-side e02-fr-right"><span>طرف راست</span><strong>' + M(rightM) + '</strong></div><span class="e02-fr-equal">=</span><div class="e02-fr-side e02-fr-left"><span>طرف چپ</span><strong>' + M(leftM) + '</strong></div></div>';
-        var phaseNames = s.level === 3 ? ['برداشتن مخرج', 'حذف جملهٔ ثابت', 'یافتن مجهول'] : ['برداشتن مخرج'];
-        var effectiveStage = s.level === 3 ? Math.min(s.stage, 3) : (s.stage === 0 ? 0 : 1);
+        var phaseNames = s.level >= 2 ? ['برداشتن مخرج', 'حذف جملهٔ ثابت', 'یافتن مجهول'] : ['برداشتن مخرج'];
+        var effectiveStage = s.level >= 2 ? Math.min(s.stage, 3) : (s.stage === 0 ? 0 : 1);
         var progress = '<div class="e02-fr-progress" role="group" aria-label="مراحل حل">' + phaseNames.map(function (name, i) {
-          var at = i, completed = s.level === 3 ? (effectiveStage > i) : (effectiveStage > i), active = s.level === 3 ? (effectiveStage === i) : (effectiveStage === i);
+          var at = i, completed = effectiveStage > i, active = effectiveStage === i;
           return '<div class="e02-fr-phase ' +
             (completed ? 'is-done' : active ? 'is-current' : '') +
             '"><span class="e02-fr-phase-dot">' +
@@ -395,26 +400,29 @@
         var activity = '', nextAction = '';
         if (s.stage === 0) {
           activity = '<p class="e02-fr-instruction">برای از میان بردن مخرج، دو طرف معادله باید در چه عددی ضرب شوند؟ عدد را وارد و اثر آن را مشاهده کن.</p>' +
-            '<div class="e02-fr-entry"><div class="e02-fr-entry-fields"><label for="e02-fr-multiplier">ضرب هر دو طرف در</label><input id="e02-fr-multiplier" type="number" inputmode="numeric" step="1" placeholder="؟" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + '/></div><button type="button" class="btn e02-fr-action" data-fr-multiply>اجرای ضرب</button></div>';
+            '<div class="e02-fr-entry"><div class="e02-fr-entry-fields"><label for="e02-fr-multiplier">ضرب هر دو طرف در</label><input class="numin" id="e02-fr-multiplier" type="number" inputmode="numeric" step="1" placeholder="؟" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + '/></div><button type="button" class="btn e02-fr-action" data-fr-multiply>اجرای ضرب</button></div>';
           if (s.preview) { activity += '<div class="e02-fr-preview"><span>اثر این انتخاب:</span>' + M(s.preview) + '</div>'; }
         } else {
           var cancelN = s.n < 0 ? '(' + s.n + ')' : String(s.n);
-          var cancelView = '<div class="e02-fr-cancellation" aria-label="اثر ضرب در دو طرف"><div class="e02-fr-cancel-side"><span>طرف راست: همان ضرب انجام می‌شود</span><div class="e02-fr-cancel-math"><span>' + M(s.q + '\\times (' + s.n + ')') + '</span><span>' + M('=' + s.q * s.n) + '</span></div></div><div class="e02-fr-cancel-side"><span>طرف چپ: مخرج خنثی می‌شود</span><div class="e02-fr-cancel-math"><span>' + M('\\dfrac{' + lin(s.a, s.b) + '}{\\cancel{' + cancelN + '}}') + '</span><span>' + M('\\times\\cancel{' + cancelN + '}') + '</span></div></div></div>';
+          var leftCancel = s.level === 2 ?
+            '<span>طرف چپ: مخرج خنثی می‌شود و جملهٔ ثابت هم ضرب می‌شود</span><div class=\"e02-fr-cancel-math\"><span>' + M('\\dfrac{' + ax(s.a) + '}{\\cancel{' + s.n + '}}\\times\\cancel{' + s.n + '}' + signed(s.b / s.n) + '\\times ' + s.n) + '</span><span>' + M('=' + lin(s.a, s.b)) + '</span>' :
+            '<span>طرف چپ: مخرج خنثی می‌شود</span><div class=\"e02-fr-cancel-math\"><span>' + M('\\dfrac{' + lin(s.a, s.b) + '}{\\cancel{' + cancelN + '}}') + '</span><span>' + M('\\times\\cancel{' + cancelN + '}') + '</span>';
+          var cancelView = '<div class="e02-fr-cancellation" aria-label="اثر ضرب در دو طرف"><div class="e02-fr-cancel-side"><span>طرف راست: همان ضرب انجام می‌شود</span><div class="e02-fr-cancel-math"><span>' + M(s.q + '\\times (' + s.n + ')') + '</span><span>' + M('=' + s.q * s.n) + '</span></div></div><div class="e02-fr-cancel-side">' + leftCancel + '</div></div></div>';
           var transformed = cancelView + '<div class="e02-fr-transformed"><span>معادلهٔ حاصل از ضرب دو طرف در ' + M(String(s.n)) + '</span><div>' + M(fractionResult(s)) + '</div></div>';
-          if (s.level === 3 && s.stage === 1) {
-            activity = transformed + '<p class="e02-fr-instruction">برای حذف جملهٔ ثابتِ صورت، چه عددی باید به هر دو طرف اضافه شود؟</p>' +
-              '<div class="e02-fr-entry"><div class="e02-fr-entry-fields"><label for="e02-fr-shift">افزودن به دو طرف</label><input id="e02-fr-shift" type="number" inputmode="numeric" step="1" placeholder="؟" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + '/></div><button type="button" class="btn e02-fr-action" data-fr-shift>اجرای تغییر</button></div>' +
+          if (s.level >= 2 && s.stage === 1) {
+            activity = transformed + '<p class="e02-fr-instruction">' + (s.level === 2 ? 'برای حذف جملهٔ ثابت' : 'برای حذف جملهٔ ثابتِ صورت') + '، چه عددی باید به هر دو طرف اضافه شود؟</p>' +
+              '<div class="e02-fr-entry"><div class="e02-fr-entry-fields"><label for="e02-fr-shift">افزودن به دو طرف</label><input class="numin" id="e02-fr-shift" type="number" inputmode="numeric" step="1" placeholder="؟" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + '/></div><button type="button" class="btn e02-fr-action" data-fr-shift>اجرای تغییر</button></div>' +
               (s.preview ? '<div class="e02-fr-preview"><span>اگر این عدد اضافه شود:</span>' + M(s.preview) + '</div>' : '');
           } else {
-            activity = transformed + (s.level === 3 ? '<div class="e02-fr-transformed"><span>پس از حذف جملهٔ ثابت</span><div>' + M(fractionStep(s)) + '</div></div>' : '');
-            if (s.level === 3) {
+            activity = transformed + (s.level >= 2 ? '<div class="e02-fr-transformed"><span>پس از حذف جملهٔ ثابت</span><div>' + M(fractionStep(s)) + '</div></div>' : '');
+            if (s.level >= 2 && !(s.stage === 3 && s.a === 1)) {
               activity += '<p class="e02-fr-instruction">با معادلهٔ به‌دست‌آمده، مقدار مجهول را محاسبه کن.</p>' +
-                '<div class="e02-fr-entry e02-fr-answer"><div class="e02-fr-entry-fields" dir="ltr"><label for="e02-fr-answer" class="e02-math-xeq" dir="ltr">' + M('x=') + '</label><input id="e02-fr-answer" type="number" inputmode="numeric" step="1" placeholder="؟" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + ' ' + (s.stage === 3 ? 'disabled' : '') + '/></div>' +
+                '<div class="e02-fr-entry e02-fr-answer"><div class="e02-fr-entry-fields" dir="ltr"><label for="e02-fr-answer" class="e02-math-xeq" dir="ltr">' + M('x=') + '</label><input class="numin" id="e02-fr-answer" type="number" inputmode="numeric" step="1" placeholder="؟" ' + (s.attempt === null ? '' : 'value="' + s.attempt + '"') + ' ' + (s.stage === 3 ? 'disabled' : '') + '/></div>' +
                 (s.stage === 3 ? '' : '<button type="button" class="btn primary e02-fr-action" data-fr-answer>بررسی پاسخ</button>') + '</div>';
             }
             if (s.stage === 3) {
               var numerator = s.a * s.x + s.b;
-              activity += '<div class="e02-fr-proof"><span>بررسی در معادلهٔ اولیه</span>' + M('\\frac{' + numerator + '}{' + (s.n < 0 ? '(' + s.n + ')' : s.n) + '}=' + s.q) + '</div>';
+              activity += '<div class="e02-fr-proof"><span>بررسی در معادلهٔ اولیه</span>' + M(s.level === 2 ? '\\dfrac{' + (s.a * s.x) + '}{' + s.n + '}' + signed(s.b / s.n) + '=' + s.q : '\\frac{' + numerator + '}{' + (s.n < 0 ? '(' + s.n + ')' : s.n) + '}=' + s.q) + '</div>';
               nextAction = '<div class="e02-fr-next"><button type="button" class="btn primary" data-fr-next data-scroll=".e02-problem-head" data-scroll-offset="100">' + (s.level === 3 ? 'مسئلهٔ تازه در همین سطح' : 'رفتن به سطح بعد') + '</button></div>';
             }
           }
@@ -441,8 +449,8 @@
           if (val === 0) { s.note = { ok: false, text: 'ضرب دو طرف در صفر به ۰ = ۰ می‌رسد و اطلاعات مجهول را از بین می‌برد. برای حذف مخرج، عدد دیگری لازم است.' }; s.preview = '0=0'; }
           else if (val !== s.n) {
             s.note = { ok: false, text: 'این ضرب برابری را حفظ می‌کند، اما هنوز مخرج را حذف نمی‌کند. به عدد مخرج توجه کن.' };
-            s.preview = '\\frac{(' + lin(s.a, s.b) + ')\\times (' + val + ')}{' + (s.n < 0 ? '(' + s.n + ')' : s.n) + '}=' + (s.q * val);
-          } else { s.stage = s.level === 3 ? 1 : 3; s.note = s.level === 3 ? null : { ok: true, text: 'به جواب نهایی رسیدیم: ' + M('x=' + s.x) }; s.preview = null; s.attempt = null; }
+            s.preview = s.level === 2 ? '\\dfrac{' + ax(s.a * val) + '}{' + s.n + '}' + signed(s.b / s.n * val) + '=' + (s.q * val) : '\\frac{(' + lin(s.a, s.b) + ')\\times (' + val + ')}{' + (s.n < 0 ? '(' + s.n + ')' : s.n) + '}=' + (s.q * val);
+          } else { s.stage = s.level >= 2 ? 1 : 3; s.note = s.level >= 2 ? null : { ok: true, text: 'به جواب نهایی رسیدیم: ' + M('x=' + s.x) }; s.preview = null; s.attempt = null; }
           paint(); return;
         }
         if (b.hasAttribute('data-fr-shift')) {
@@ -450,6 +458,7 @@
           val = Number(raw); if (!Number.isInteger(val) || Math.abs(val) > 50) return;
           s.attempt = val;
           if (val !== -s.b) { s.note = { ok: false, text: 'این تغییر برابری را حفظ می‌کند، اما جملهٔ ثابت هنوز باقی می‌ماند.' }; s.preview = lin(s.a, s.b + val) + '=' + (s.n * s.q + val); }
+          else if (s.a === 1) { s.stage = 3; s.note = { ok: true, text: 'ضریب ' + M('x') + ' برابر ۱ شد؛ به جواب نهایی رسیدیم: ' + M('x=' + s.x) }; s.preview = null; s.attempt = null; }
           else { s.stage = 2; s.note = null; s.preview = null; s.attempt = null; }
           paint(); return;
         }
@@ -496,7 +505,7 @@
           h += K.sn('۳', 'حل معادله‌هایی با مخرج عددی');
           h += '<p>در بعضی معادله‌ها، مجهول در صورت یک کسر دیده می‌شود؛ گاهی به‌تنهایی و گاهی در عبارتی مانند ' + M('x-2') + '. در این حالت باید با حفظ برابری، اثر تقسیم را از میان برد. مخرج ممکن است منفی باشد، اما هرگز نمی‌تواند صفر باشد.</p>';
           h += '<p>در کارگاه بعد، اثر ضرب بر <b>هر دو طرف</b> نمایش داده می‌شود. هدف فقط پیداکردن جواب نیست: باید روشن شود چرا یک عدد مخرج را حذف می‌کند و عدد دیگر، با وجود حفظ تساوی، این کار را انجام نمی‌دهد.</p>';
-          h += activity('کارگاه کسرگشا', 'e02-fraction', 'کار را از کسر ساده آغاز کن، سپس سراغ مخرج منفی و صورتِ چندجمله‌ای برو. در هر مسئله، عددی را برای ضرب در دو طرف انتخاب کن؛ در دو سطح نخست، حذف مخرج مستقیماً مقدار مجهول را مشخص می‌کند؛ در سطح سوم، گام‌های باقی‌مانده را خودت کامل کن. با دکمهٔ تغییر مسئله می‌توانی نمونهٔ تازه‌ای از همان سطح بسازی.');
+          h += activity('کارگاه کسرگشا', 'e02-fraction', 'کار را از کسر ساده آغاز کن (مخرج گاهی مثبت است و گاهی منفی)، سپس سراغ ضریب کسری و صورتِ چندجمله‌ای برو. در هر مسئله، عددی را برای ضرب در دو طرف انتخاب کن؛ در سطح نخست، حذف مخرج مستقیماً مقدار مجهول را مشخص می‌کند؛ در دو سطح بعد، گام‌های باقی‌مانده را خودت کامل کن. با دکمهٔ تغییر مسئله می‌توانی نمونهٔ تازه‌ای از همان سطح بسازی.');
           h += '<p>حذف مخرج پایان حل همهٔ معادله‌های کسری نیست. اگر پس از آن، جملهٔ ثابت یا ضریب مجهول باقی بماند، همان عملیات وارونِ آموخته‌شده به کار می‌آید. اینجا مخرج عددی و غیرصفر است؛ معادله‌هایی با مجهول در مخرج، موضوع این درس نیستند.</p>';
           h += K.sn('۴', 'وقتی مجهول در هر دو طرف است');
           h += '<p>گاهی مجهول فقط در یک طرف دیده نمی‌شود؛ مانند ' + M('4x+3=2x+11') + '. در این حالت، جمله‌های مجهول‌دار می‌توانند در یک طرف جمع شوند. این انتخاب، مانند انتقال یک شیء از یک کفهٔ ترازو به کفهٔ دیگر نیست: برای حذف هر جمله، <b>عمل یکسانی روی دو طرف معادله</b> انجام می‌شود.</p>';

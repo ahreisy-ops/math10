@@ -31,7 +31,7 @@ window.LESSONS.N04 = {
         '.scan{display:inline-grid;direction:ltr;gap:6px;align-items:center;justify-items:center;padding:4px 2px}',
         '.scan .ph{font:.8rem/1.3 Tahoma,sans-serif;color:var(--ink-soft);padding:2px 4px;border-radius:6px;text-align:center}',
         '.scan .ph.dc{background:var(--mark);color:var(--ink);font-weight:bold}',
-        '.scan .rl i{display:inline-block;border:1.75px dashed var(--ink);border-radius:8px;padding:0 8px;line-height:1.55;color:#fff;font-weight:bold;white-space:nowrap;background:var(--accent)}',
+        '.scan .rl i{display:inline-block;outline:1.75px dashed var(--ink);border-radius:8px;padding:0 8px;line-height:1.55;color:#fff;font-weight:bold;white-space:nowrap;background:var(--accent)}',
         '.scan .rl i.k1{background:var(--pink)}.scan .rl i.k2{background:#4c5fd5}.scan .rl i.k3{background:#e08a00}',
         '.scan .t{width:44px;height:48px;border-radius:10px;border:2px solid var(--line);background:#f3f6fa;display:grid;place-items:center;font:bold 1.4rem Tahoma,sans-serif;color:var(--ink-soft)}',
         '.scan .t.pd{border-style:dashed}',

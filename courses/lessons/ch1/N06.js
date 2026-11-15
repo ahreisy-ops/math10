@@ -25,7 +25,7 @@ window.LESSONS.N06 = {
         '#n6a .n6-sign-step{width:38px;height:38px;min-width:38px;min-height:38px;padding:0;border-radius:50%;display:inline-flex;justify-content:center;align-items:center;font-size:1.12rem;line-height:1}',
         '#n6a .n6-mode-btn{direction:rtl;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:39px}',
         '.n6-line{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;margin:8px 0}',
-        '.n6-in{width:6.5em;padding:4px 8px;border:2px solid var(--ink);border-radius:10px;font:inherit;font-size:.95rem;text-align:center;direction:ltr}',
+        '.n6-in{width:6.5em;min-height:0;padding:4px 8px;font:inherit;font-size:.95rem}.n6-in::placeholder{text-align:center}',
         '.n6-tk{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;width:26px;height:26px;line-height:1;margin:2px;border-radius:50%;text-align:center;color:#fff;font-weight:bold;font-size:.78rem}',
         '.n6-tk.g1{background:blue}.n6-tk.g2{background:green}.n6-tk.cx{background:#c9d1da;text-decoration:line-through;color:#6b7686}',
         '.n6-bar{border-top:3px solid var(--ink);margin:4px auto;width:60%;min-width:110px;height:0}',
@@ -122,7 +122,7 @@ window.LESSONS.N06 = {
         h += K.dm((q.prod ? q.a + '^{' + q.m + '}\\times ' + q.a + '^{' + q.n + '}' : '\\frac{' + q.a + '^{' + q.m + '}}{' + q.a + '^{' + q.n + '}}') + (solved ? '' : '=' + q.a + '^{\\boxed{?}}'));
         if (q.prod) { h += '<div class="n6-tks">' + tks('g1', q.a, q.m) + '<span style="display:inline-block;width:14px"></span>' + tks('g2', q.a, q.n) + '</div>'; }
         else { h += '<div class="n6-tks">' + tks(function (i) { return solved && i < q.n ? 'cx' : 'g1'; }, q.a, q.m) + '</div><div class="n6-bar"></div><div class="n6-tks">' + tks(solved ? 'cx' : 'g2', q.a, q.n) + '</div>'; }
-        if (!solved) { h += '<div class="n6-line"><span>توانِ جواب را بنویس:</span><input class="n6-in" type="text" dir="ltr" autocomplete="off" placeholder="؟"></div>'; }
+        if (!solved) { h += '<div class="n6-line"><span>توانِ جواب را بنویس:</span><input class="numin n6-in" type="text" dir="ltr" autocomplete="off" placeholder="؟"></div>'; }
         else { h += K.dm(q.prod ? q.a + '^{' + q.m + '}\\times ' + q.a + '^{' + q.n + '}=' + q.a + '^{' + q.m + '+' + q.n + '}=' + q.a + '^{' + q.ans + '}' : q.a + '^{' + q.m + '}\\div ' + q.a + '^{' + q.n + '}=' + q.a + '^{' + q.m + '-' + q.n + '}=' + q.a + '^{' + q.ans + '}'); }
         h += '<div class="n6f">' + (msg || '') + '</div><div class="opts">' + (solved ? '' : '<button type="button" class="btn" data-ck="1">بررسی</button>') + '<button type="button" class="btn primary" data-nx="1" data-scroll=".n6-count-modes" data-scroll-offset="88">' + (solved ? 'مثال بعدی' : 'مثال دیگر') + '</button></div>';
         host.innerHTML = rr(h);
@@ -163,7 +163,7 @@ window.LESSONS.N06 = {
         var h = '<p class="ask">هر ردیف را که پایین می‌آییم، مقدار بر ' + fa(b) + ' تقسیم می‌شود. ردیف‌های خالی را کامل کن (عدد صحیح، کسر مثل ' + '<bdi dir="ltr" style="white-space:nowrap">' + M('1') + '/' + M('8') + '</bdi>' + ' یا اعشار):</p>';
         rows.forEach(function (r, i) {
           if (i) { h += '<div class="n6-div-step"><span class="n6-div-pill" dir="ltr"><span class="n6-down">↓</span><span>÷</span><span>' + fa(b) + '</span></span></div>'; }
-          h += '<div class="n6-pr"><span class="e">' + M(b + '^{' + r.e + '}') + '</span><span class="eq">' + M('=') + '</span><span class="v">' + (r.blank ? '<input class="n6-in" data-e="' + r.e + '" type="text" dir="ltr" autocomplete="off" placeholder="؟"' + (solved ? ' value="' + ML.esc(r.val || '') + '" disabled' : '') + '><span class="n6-mk" data-e="' + r.e + '"' + (solved ? ' style="color:#0a6f61"' : '') + '>' + (solved ? '✓' : '') + '</span>' : M(rt(r.v))) + '</span></div>';
+          h += '<div class="n6-pr"><span class="e">' + M(b + '^{' + r.e + '}') + '</span><span class="eq">' + M('=') + '</span><span class="v">' + (r.blank ? '<input class="numin n6-in" data-e="' + r.e + '" type="text" dir="ltr" autocomplete="off" placeholder="؟"' + (solved ? ' value="' + ML.esc(r.val || '') + '" disabled' : '') + '><span class="n6-mk" data-e="' + r.e + '"' + (solved ? ' style="color:#0a6f61"' : '') + '>' + (solved ? '✓' : '') + '</span>' : M(rt(r.v))) + '</span></div>';
         });
         h += '<div class="n6-msg"></div><div class="opts">' + (solved ? '' : '<button type="button" class="btn" data-ck="1">بررسی</button>') + (solved ? '' : '<button type="button" class="btn primary" data-nx="1" data-scroll>پایهٔ دیگر</button>') + '</div><div class="n6f"></div>';
         host.innerHTML = rr(h);

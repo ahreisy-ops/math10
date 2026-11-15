@@ -1,6 +1,7 @@
 /* E01 — visual language aligned with N01–N10 and A01–A08.
    Only E01 presentation is scoped here; original lesson data and behavior remain intact.
    Outer activity frames follow the chapter-one .cover convention. */
+
 .e01-lesson {
   line-height: inherit;
   min-width: 0
@@ -56,6 +57,7 @@
 }
 
 /* Side-by-side examples reuse the A01 comparison-card language. */
+
 .e01-lesson .e01-pairs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -98,6 +100,7 @@
 }
 
 /* Cautionary question: project error/tip style, not a second bespoke palette. */
+
 .e01-thought {
   display: flex;
   gap: 11px;
@@ -147,7 +150,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .e01-station-refresh {
@@ -166,16 +169,10 @@
 }
 
 .e01-chip {
-  display: inline-flex;
-  align-items: center;
   gap: 8px;
   white-space: nowrap;
   min-height: 43px;
-  padding: 0 14px;
-  background: #fff;
-  border: 1.5px solid var(--line);
   box-shadow: 0 2px 5px #00153313;
-  border-radius: 12px
 }
 
 .e01-chip-answer {
@@ -199,7 +196,7 @@
   border-radius: 10px;
   padding: 5px 12px;
   max-width: 100%;
-  overflow-x: auto
+  overflow-x: auto;
 }
 
 .e01-choices {
@@ -219,6 +216,7 @@
 }
 
 /* Answer choices have no push animation, matching chapter-two assessment options. */
+
 .e01-lesson .e01-option,
 .e01-lesson .e01-choice {
   height: auto;
@@ -274,7 +272,29 @@
   opacity: 1
 }
 
+/* ===== دکمه‌های عمل (استاندارد README): ۰٫۹rem، وزن ۷۰۰، حداقل ۱۲۰×۳۶ =====
+   رنگ و حاشیه و hover از chapters/css/style.css می‌آید؛ اینجا فقط اندازه تعریف می‌شود.
+   استثناهای هر بخش (موبایل، دکمهٔ شروع، کنترل‌های عددی) در قاعده‌های خودشان‌اند. */
+
+.e01-navigation>.btn,
+.e01-main-action>.btn,
+.e01-lesson .e01-speed-end-actions .btn,
+.e02-lesson .e02-foot-actions .btn,
+.e02-lesson .e02-route-actions .btn,
+.e02-lesson .e02-detect-repair .btn,
+.e02-lesson .e02-fr-next .btn,
+.e02-lesson .e02-fr-action,
+.e02-lesson .e02-example-actions>.btn,
+.e02-example-dialog-header>.btn {
+  min-width: 120px;
+  min-height: 36px;
+  padding: 5px 12px;
+  font-size: .9rem;
+  font-weight: 700;
+}
+
 /* True operational mode controls alone get the chapter-one white-button press effect. */
+
 .e01-lesson .e01-choice[data-op],
 .e01-lesson .e01-choice[data-mode],
 .e01-lesson .e01-spinner>.btn {
@@ -291,6 +311,7 @@
 }
 
 /* No feedback before an answer; these are restrained status descriptions. */
+
 .e01-placeholder {
   margin: 10px 0 7px;
   padding: 6px 9px;
@@ -311,17 +332,6 @@
   gap: 12px;
   flex-wrap: wrap;
   margin: 15px 0 0
-}
-
-.e01-navigation>.btn {
-  min-width: 120px;
-  min-height: 36px;
-  padding: 5px 12px;
-  font-size: .9rem;
-  font-weight: 700;
-  box-shadow: none !important;
-  transform: none !important;
-  transition: none !important
 }
 
 /* .e01-inline-result {
@@ -379,30 +389,19 @@
   margin: 14px 0 7px
 }
 
-.e01-main-action>.btn {
-  min-width: 160px;
-  min-height: 40px;
-  padding: 6px 15px;
-  font-size: .9rem;
-  font-weight: 700;
-  box-shadow: none !important;
-  transform: none !important;
-  transition: none !important
-}
-
 .e01-visited {
   border-top: 1.5px dashed var(--line);
   padding-top: 10px;
   margin-top: 13px;
   font-size: .86rem;
-  color: var(--ink-soft)
+  color: var(--ink-soft);
 }
 
 .e01-visited {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 7px
+  gap: 7px;
 }
 
 .e01-visited>span {
@@ -477,9 +476,8 @@
 .e01-lab-readout {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  direction: rtl;
   gap: 12px;
-  margin: 15px 0 12px
+  margin: 15px 0 12px;
 }
 
 .e01-gauge {
@@ -487,7 +485,7 @@
   padding: 12px 12px 10px;
   background: #fff;
   border: 2px solid var(--ink);
-  border-radius: 12px
+  border-radius: 12px;
 }
 
 .e01-gauge-title {
@@ -496,7 +494,6 @@
   align-items: center;
   gap: 7px;
   flex-wrap: wrap;
-  margin-bottom: 8px
 }
 
 .e01-gauge-title span {
@@ -512,7 +509,7 @@
   background: #eef2f8;
   border: 1.5px solid var(--line);
   border-radius: 999px;
-  overflow: visible
+  overflow: visible;
 }
 
 .e01-gauge-fill {
@@ -529,7 +526,6 @@
 
 .e01-gauge-bubble {
   position: absolute;
-  top: -33px;
   transform: translateX(-50%);
   min-width: 30px;
   height: 30px;
@@ -542,7 +538,7 @@
   border-radius: 50px;
   font-size: .88rem;
   font-weight: 700;
-  color: var(--ink)
+  color: var(--ink);
 }
 
 .e01-gauge-knob {
@@ -644,8 +640,7 @@
 }
 
 .e01-lab-equation-text {
-  max-width: 100%;
-  overflow-x: auto
+  overflow-x: auto;
 }
 
 .e01-lab-status {
@@ -887,6 +882,7 @@
 }
 
 /* E01: classification questions share the chapter-two quiz hierarchy. */
+
 .e01-lesson .e01-type-progress {
   direction: rtl;
   justify-content: center;
@@ -920,6 +916,7 @@
 }
 
 /* E01 — ten-second classification challenge; same palette, frame and button roles as earlier chapters. */
+
 .e01-lesson .e01-speed-start {
   max-width: 640px;
   margin: 2px auto 0;
@@ -965,17 +962,10 @@
 }
 
 .e01-lesson .e01-speed-start-button {
-  padding: 7px 24px;
+  min-width: 120px;
   min-height: 44px;
+  padding: 7px 24px;
   font-size: 1rem;
-  font-weight: 700;
-  box-shadow: none;
-  transform: none;
-}
-
-.e01-lesson .e01-speed-start-button:active {
-  box-shadow: none;
-  transform: none;
 }
 
 .e01-lesson .e01-speed-quiz {
@@ -1103,16 +1093,6 @@
   margin-top: 15px;
 }
 
-.e01-lesson .e01-speed-end-actions .btn {
-  box-shadow: none !important;
-  transform: none !important;
-  transition: none !important;
-  min-height: 38px;
-  min-width: 135px;
-  font-size: .9rem;
-  font-weight: 700;
-}
-
 @media(max-width:480px) {
   .e01-lesson .e01-speed-start {
     padding: 10px 0;
@@ -1135,9 +1115,6 @@
     padding-inline: 10px;
   }
 
-  .e01-lesson .e01-speed-end-actions .btn {
-    min-width: 120px;
-  }
 }
 
 @media(prefers-reduced-motion:reduce) {
@@ -1147,6 +1124,7 @@
 }
 
 /* E01 — a compact graduated substitution slider, retaining the original A01-style comparison cards. */
+
 .e01-lesson .e01-compare {
   margin: 14px 0 20px;
   padding: 14px 14px 12px;
@@ -1262,6 +1240,7 @@
 }
 
 /* The two pre-start instruction lines belong together and are centered. */
+
 .e01-lesson .e01-speed-start>p {
   text-align: center !important;
 }
@@ -1286,6 +1265,7 @@
 
 /* The original E01 and A08 custom thumbs are 18px wide; their scale ends
    must sit below the 9px-inset centers, without changing either slider. */
+
 .e01-compare-control.graduated-range {
   --gr-half: 9px;
 }
@@ -1295,6 +1275,7 @@
 }
 
 /* E01 fine tuning: formula labels and final contest feedback. */
+
 .e01-lesson .e01-formula-tag {
   display: inline-flex;
   align-items: center;
@@ -1312,6 +1293,7 @@
 }
 
 /* E01 — equal neutral comparison cards; mint only when the equation is true. */
+
 .e01-lesson .e01-compare .e01-pair {
   background: #f7f9fc;
 }
@@ -1332,22 +1314,16 @@
 }
 
 /* E01 — prediction laboratory, using existing project colours. */
+
 .e01-lesson #e01-values .e01-values-question {
-  text-align: center;
-  font-size: 1.3rem;
-  font-weight: 800;
   color: var(--ink);
-  margin: 8px 0 22px;
-  line-height: 1.9;
 }
 
 .e01-lesson #e01-values .e01-values-top {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(20px, 8vw, 95px);
   flex-wrap: wrap;
-  padding: 6px 12px 20px;
   border-bottom: 1.5px dashed var(--line);
 }
 
@@ -1374,10 +1350,8 @@
 }
 
 .e01-lesson #e01-values .e01-spinner {
-  gap: 4px;
   border: 1.5px solid var(--line);
   border-radius: 14px;
-  padding: 4px;
   background: white;
   box-shadow: 0 2px 5px #00153313;
 }
@@ -1388,37 +1362,16 @@
   min-width: 98px;
 }
 
-.e01-lesson #e01-values .e01-spinner .btn {
-  box-shadow: none;
-  transform: none;
-  border: 0;
-  background: #f3f6fa;
-  color: var(--ink);
-  border-radius: 10px;
-  min-width: 43px;
-}
-
-.e01-lesson #e01-values .e01-spinner .btn:active:not(:disabled) {
-  box-shadow: none;
-  transform: none;
-  background: var(--line);
-}
-
 .e01-lesson #e01-values .e01-values-sides {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr);
-  gap: 14px;
   align-items: center;
-  direction: rtl;
-  margin: 20px 0;
 }
 
 .e01-lesson #e01-values .e01-values-side {
   min-width: 0;
   border: 1.5px solid var(--line);
   background: #f7f9fc;
-  border-radius: 16px;
-  padding: 14px;
 }
 
 .e01-lesson #e01-values .e01-values-left {
@@ -1434,12 +1387,6 @@
 .e01-lesson #e01-values .e01-values-side h5 {
   text-align: center;
   margin: 0 0 10px;
-  font-size: 1.15rem;
-  color: var(--accent-dark);
-}
-
-.e01-lesson #e01-values .e01-values-right h5 {
-  color: #235a99;
 }
 
 .e01-lesson #e01-values .e01-values-side-line {
@@ -1447,8 +1394,6 @@
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  padding: 9px 2px;
-  min-height: 52px;
 }
 
 .e01-lesson #e01-values .e01-values-side-line+.e01-values-side-line {
@@ -1472,14 +1417,11 @@
 
 .e01-lesson #e01-values .e01-values-equal-sign {
   text-align: center;
-  font-size: 1.4rem;
   font-weight: 800;
 }
 
 .e01-lesson #e01-values .e01-values-predict {
   font-weight: 800;
-  text-align: center;
-  margin: 16px 0 9px;
 }
 
 @media(max-width:580px) {
@@ -1515,6 +1457,7 @@
 } */
 
 /* E01 — compact answer laboratory: preserve chapter typography and spacing. */
+
 .e01-lesson #e01-values .e01-values-question {
   text-align: right;
   font-size: 1rem;
@@ -1542,17 +1485,13 @@
 }
 
 .e01-lesson #e01-values .e01-values-equation-row>strong {
-  background: #f3f6fa;
   padding: 8px 14px;
   border-radius: 12px;
   white-space: nowrap;
 }
 
 .e01-lesson #e01-values .e01-equation-change {
-  min-width: 39px;
-  min-height: 39px;
   font-size: 1.25rem;
-  padding: 3px 7px;
 }
 
 .e01-lesson #e01-values .e01-values-sides {
@@ -1595,7 +1534,6 @@
 
 .e01-lesson #e01-values .e01-visited {
   margin-top: 10px;
-  padding-top: 8px;
 }
 
 .e01-lesson .e01-ten-math {
@@ -1633,6 +1571,7 @@
 }
 
 /* E01: stable bidi mathematical expression and emphasized target */
+
 .e01-lesson .e01-inline-equation {
   display: inline-flex;
   align-items: baseline;
@@ -1660,23 +1599,10 @@
 }
 
 /* E01 answer-check lab: controls follow the existing lesson button language. */
+
 .e01-lesson #e01-values .e01-spinner {
   padding: 7px 9px;
   gap: 8px;
-}
-
-.e01-lesson #e01-values .e01-spinner .btn {
-  border: 2px solid var(--ink);
-  box-shadow: 2px 2px 0 var(--ink);
-  background: transparent;
-  color: var(--ink);
-  min-width: 43px;
-}
-
-.e01-lesson #e01-values .e01-spinner .btn:active:not(:disabled) {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 var(--ink);
-  background: transparent;
 }
 
 .e01-lesson #e01-values .e01-values-equation-row>strong {
@@ -1708,6 +1634,7 @@
 }
 
 /* E01: colour denotes prediction accuracy; mark denotes whether the tested number is a solution. */
+
 .e01-lesson #e01-values .e01-visited .e01-record {
   font-size: 0.7rem;
   line-height: 1.6;
@@ -1729,12 +1656,12 @@
 }
 
 /* E01 — shared comparison layout for identity versus equation */
+
 .e01-lesson .e01-identity-compare .e01-pair {
   min-height: 180px;
 }
 
 .e01-lesson .e01-identity-compare .e01-pair-eval {
-  line-height: 1.8;
   max-width: 100%;
   overflow-x: auto;
 }
@@ -1759,6 +1686,7 @@
 
 /* E01: the identity comparison must wrap into two readable mathematical lines;
    never show browser scrollbars for these short, noninteractive calculations. */
+
 .e01-lesson .e01-identity-compare .e01-pair-eval {
   display: flex;
   flex-direction: column;
@@ -1789,6 +1717,7 @@
 }
 
 /* E01: unobtrusive labels before the two sides of the identity calculation. */
+
 .e01-lesson .e01-identity-compare .e01-identity-subvalue {
   display: flex;
   direction: rtl;
@@ -1833,20 +1762,18 @@
   }
 }
 
-
 .e01-station-head .e01-chip {
   direction: ltr;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  max-width: 100%;
   overflow-x: auto;
   background: #fff;
   border: 1.5px solid var(--line);
   box-shadow: 0 2px 5px #00153313;
   border-radius: 12px;
-  padding: 0 14px
+  padding: 0 14px;
 }
 
 .e01-station-head .e01-chip .katex {
@@ -1854,18 +1781,19 @@
 }
 
 .e01-lab-readout {
-  direction: ltr
+  direction: ltr;
 }
 
 .e01-gauge {
-  direction: rtl
+  direction: rtl;
 }
 
 .e01-gauge-title {
-  direction: rtl
+  direction: rtl;
 }
 
 /* E01 balance lab: compact non-interactive gauges; math is never scrollable for short expressions. */
+
 .e01-station-head .e01-chip {
   overflow: visible;
   white-space: nowrap;
@@ -1905,6 +1833,7 @@
 }
 
 /* E01: چهار دستهٔ مسابقهٔ تشخیص؛ دو ستون با ظاهر گزینه‌های مسابقهٔ پیشین */
+
 .e01-lesson .e01-speed-quiz .e01-four {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1939,13 +1868,13 @@
 
 /* E02 second design — adopts E01's established frames, buttons and math styles.
    Distinct learning mechanics each receive their own scoped layout. */
+
 .e02-lesson {
   min-width: 0
 }
 
 .e02-lesson .e02-activity {
   margin-block: 14px 23px;
-  padding: 13px 15px 17px
 }
 
 .e02-lesson .e02-activity .e01-station-head {
@@ -2003,58 +1932,16 @@
   margin-top: 14px
 }
 
-.e02-lesson .e02-foot-actions .btn {
-  min-height: 40px
-}
-
 .e02-lesson .e02-route-layout {
   display: grid;
   direction: rtl;
   grid-template-areas: "workspace history";
-  grid-template-columns: minmax(0, 1.45fr) minmax(220px, .85fr);
   gap: 14px;
-  align-items: stretch
+  align-items: stretch;
 }
 
 .e02-lesson .e02-workspace {
   grid-area: workspace;
-  min-width: 0
-}
-
-.e02-lesson .e02-live-bars {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  flex-wrap: wrap;
-  margin: 12px 0;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 11px 8px;
-  min-height: 69px;
-  direction: ltr
-}
-
-.e02-lesson .e02-live-bars>span {
-  padding: 6px 9px;
-  border-radius: 8px;
-  font-size: 1rem
-}
-
-.e02-lesson .e02-bar-x {
-  background: #e7f2fc;
-  border: 1px solid #b7d1e4
-}
-
-.e02-lesson .e02-bar-c {
-  background: #fff1d8;
-  border: 1px solid #e8ce90
-}
-
-.e02-lesson .e02-bar-num {
-  background: #e6f6f3;
-  border: 1px solid #9bccbc
 }
 
 .e02-lesson .e02-operation-picker {
@@ -2082,7 +1969,7 @@
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
-  justify-content: center
+  justify-content: center;
 }
 
 .e02-lesson .e02-number-control label {
@@ -2090,16 +1977,19 @@
   color: var(--ink-soft)
 }
 
-.e02-lesson .e02-number-control input {
-  width: 70px;
+.e02-lesson .numin {
   min-height: 42px;
-  text-align: center;
-  direction: ltr;
-  border: 1.5px solid var(--line);
-  border-radius: 9px;
+  padding: 4px 5px;
   font: inherit;
-  background: #fff;
-  color: var(--ink)
+  text-align: center
+}
+
+.e02-lesson .e02-number-control input {
+  width: 70px
+}
+
+.e02-fr-entry-fields .numin::placeholder {
+  text-align: center;
 }
 
 .e02-lesson input[type=number]::-webkit-inner-spin-button,
@@ -2127,9 +2017,8 @@
   background: #f3f6fa;
   padding: 12px;
   min-width: 0;
-  min-height: 0;
   align-self: stretch;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .e02-lesson .e02-route-index {
@@ -2143,15 +2032,9 @@
   font-size: .8rem
 }
 
-.e02-lesson .e02-route-line {
-  direction: ltr;
-  text-align: center;
-  min-width: 0;
-  overflow-x: auto
-}
-
 /* E02 route: a real two-column workspace. History tracks equation -> operation -> result.
    The independent scroll region keeps the controls in place as the path grows. */
+
 .e02-lesson .e02-route-caption {
   border-bottom: 1px dashed #c7d5e4;
   padding: 1px 4px 9px;
@@ -2230,7 +2113,7 @@
   overflow-y: hidden;
   white-space: nowrap;
   padding: 1px 0;
-  scrollbar-width: thin
+  scrollbar-width: thin;
 }
 
 .e02-lesson .e02-route-transition {
@@ -2282,16 +2165,6 @@
     height: 26px;
     padding: 7px
   }
-}
-
-.e02-lesson .e02-machine-flow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin: 12px 0 25px;
-  direction: ltr
 }
 
 .e02-lesson .e02-machine-node {
@@ -2353,17 +2226,10 @@
 }
 
 .e02-lesson .e02-return-line {
-  display: flex;
-  direction: rtl;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  padding: 13px 6px;
   background: #f3f6fa;
   border: 1px solid var(--line);
   border-radius: 11px;
-  margin-top: 9px
+  margin-top: 9px;
 }
 
 .e02-lesson .e02-return-slot {
@@ -2375,49 +2241,41 @@
   border-radius: 9px;
   background: #fff;
   color: var(--ink-soft);
-  padding: 7px 12px
+  padding: 7px 12px;
 }
 
 .e02-lesson button.e02-return-slot.filled {
   border: 2px solid var(--ink);
   background: var(--mark);
-  color: var(--ink)
+  color: var(--ink);
 }
 
 .e02-lesson .e02-return-value {
   font-size: 1.05rem;
   font-weight: 700;
-  padding: 7px 11px;
-  min-width: 45px;
-  text-align: center
+  text-align: center;
 }
 
 .e02-lesson .e02-machine-tray {
   display: flex;
   justify-content: center;
-  gap: 9px;
   flex-wrap: wrap;
-  margin: 12px 0 4px
 }
 
 .e02-lesson .e02-machine-piece {
   min-height: 46px;
   min-width: 83px;
-  box-shadow: 2px 2px 0 var(--ink)
+  box-shadow: 2px 2px 0 var(--ink);
 }
 
 .e02-lesson .e02-machine-piece:disabled {
-  opacity: .4
+  opacity: .4;
 }
 
 .e02-lesson .e02-return-calcs {
-  display: flex;
-  direction: ltr;
   justify-content: center;
-  gap: 8px;
   flex-wrap: wrap;
-  padding: 12px 0;
-  font-size: .95rem
+  font-size: .95rem;
 }
 
 .e02-lesson .e02-tile-board {
@@ -2449,7 +2307,7 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 11px
+  margin-top: 11px;
 }
 
 .e02-lesson .e02-term {
@@ -2482,11 +2340,9 @@
 }
 
 .e02-lesson .e02-tile-log {
-  background: #f3f6fa;
   border: 1px dashed #abbacb;
   border-radius: 10px;
-  padding: 12px;
-  margin: 12px 0
+  margin: 12px 0;
 }
 
 .e02-lesson .e02-tile-log>strong {
@@ -2494,24 +2350,8 @@
 }
 
 .e02-lesson .e02-tile-step {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 9px;
-  padding: 8px 0;
-  border-top: 1px solid var(--line);
-  direction: rtl
-}
-
-.e02-lesson .e02-tile-step>.e02-tile-step-num {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  height: 27px;
-  width: 27px;
-  display: grid;
-  place-items: center
+  direction: rtl;
 }
 
 .e02-lesson .e02-tile-step small {
@@ -2519,19 +2359,8 @@
   color: var(--ink-soft)
 }
 
-.e02-lesson .e02-detect-folder {
-  border: 2px solid var(--ink);
-  border-radius: 13px;
-  background: #f3f6fa;
-  overflow: hidden
-}
-
 .e02-lesson .e02-detect-spine {
   font-weight: 700;
-  color: var(--accent-dark);
-  background: #e6f6f3;
-  border-bottom: 1px solid var(--line);
-  padding: 9px 14px
 }
 
 .e02-lesson .e02-detect-row {
@@ -2540,30 +2369,18 @@
   grid-template-columns: 33px minmax(0, 1fr);
   align-items: center;
   gap: 7px;
-  background: #fff;
   color: var(--ink);
-  border: 0;
-  border-bottom: 1px dashed var(--line);
   text-align: center;
-  padding: 13px 9px;
   font: inherit;
-  min-height: 63px;
-  cursor: pointer
+  cursor: pointer;
 }
 
 .e02-lesson .e02-detect-row:last-child {
   border-bottom: 0
 }
 
-.e02-lesson .e02-detect-row:hover:not(.is-selected),
-.e02-lesson .e02-detect-row:focus-visible:not(.is-selected) {
-  background: #fff7e5
-}
-
 .e02-lesson .e02-detect-row.is-selected {
-  background: #e7f0fb;
   border-color: #527cb4;
-  box-shadow: inset -3px 0 #527cb4
 }
 
 .e02-lesson .e02-detect-num {
@@ -2577,24 +2394,11 @@
   font-size: .8rem
 }
 
-.e02-lesson .e02-correction {
-  border: 1.5px solid var(--line);
-  background: #f3f6fa;
-  border-radius: 10px;
-  padding: 12px;
-  margin-top: 13px
-}
-
 .e02-lesson .e02-correction p {
   margin: 5px 0 9px !important
 }
 
 .e02-lesson button:focus-visible,
-.e02-lesson input:focus-visible {
-  outline: 3px solid var(--accent-dark);
-  outline-offset: 2px
-}
-
 .e02-lesson .e02-final .e01-navigation {
   margin-top: 16px
 }
@@ -2709,7 +2513,6 @@
   justify-content: center;
   gap: 9px;
   flex-wrap: wrap;
-  margin: 12px 0
 }
 
 .e02-lesson .e02-detect-repair label {
@@ -2719,16 +2522,6 @@
 
 .e02-lesson .e02-detect-repair input {
   width: 95px;
-  min-height: 43px;
-  text-align: center;
-  direction: ltr;
-  border: 1.5px solid var(--line);
-  border-radius: 9px;
-  background: #fff;
-  font: inherit
-}
-
-.e02-lesson .e02-detect-repair .btn {
   min-height: 43px
 }
 
@@ -2765,6 +2558,7 @@
 }
 
 /* Machine results are narrated separately rather than strung into one equation chain. */
+
 .e02-lesson .e02-return-calcs {
   display: grid;
   grid-template-columns: 1fr;
@@ -2772,7 +2566,7 @@
   max-width: 520px;
   margin: 12px auto;
   padding: 0;
-  direction: rtl
+  direction: rtl;
 }
 
 .e02-lesson .e02-back-step {
@@ -2798,19 +2592,9 @@
   font-size: 1.1rem
 }
 
-/* E02 — refinement: lesson titles and instructions remain OUTSIDE interaction frames.
-   Invariant: shared E01 refresh icon/button, N07 three-toned comparison and E01 final navigation. */
-.e02-lesson .e02-activity-title {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  margin: 17px 0 3px;
-  color: var(--ink);
-  font-weight: 700
-}
-
 .e02-lesson .e02-activity {
   margin-top: 5px;
-  padding: 13px 14px 16px
+  padding: 13px 14px 16px;
 }
 
 .e02-lesson .e02-problem-head {
@@ -2856,73 +2640,18 @@
 
 /* Three gently colored expression pieces reuse N07's reference-card palette:
    turquoise, pink and lavender; no green-success/yellow-selection semantics. */
-.e02-lesson .e02-live-bars {
-  background: transparent;
-  border: 0;
-  padding: 2px 0;
-  margin: 13px 0;
-  gap: 8px;
-  min-height: 59px
-}
-
-.e02-lesson .e02-live-bars>span:not(.e02-bar-eq) {
-  border: 2px solid var(--ink);
-  border-radius: 12px;
-  min-width: 66px;
-  min-height: 50px;
-  display: grid;
-  place-items: center;
-  padding: 8px 11px;
-  font-size: 1.08rem;
-  box-shadow: none;
-  direction: ltr
-}
-
-.e02-lesson .e02-live-bars .e02-bar-x {
-  background: #e6f6f3
-}
-
-.e02-lesson .e02-live-bars .e02-bar-c {
-  background: #fde7ef
-}
-
-.e02-lesson .e02-live-bars .e02-bar-num {
-  background: #eceffd
-}
-
-.e02-lesson .e02-live-bars .e02-bar-eq {
-  font-size: 1.2rem;
-  padding: 2px;
-  color: var(--ink);
-  background: transparent
-}
 
 .e02-lesson .e02-route-actions {
   display: flex;
   direction: rtl;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
   flex-wrap: wrap;
-  margin: 16px auto 11px;
   padding-top: 11px;
-  border-top: 1px dashed var(--line)
-}
-
-.e02-lesson .e02-route-actions .btn {
-  min-width: 125px;
-  min-height: 40px;
-  box-shadow: none !important;
-  transform: none !important;
-  transition: background-color .1s, border-color .1s
-}
-
-.e02-lesson .e02-route-actions .btn:disabled {
-  opacity: .5
+  border-top: 1px dashed var(--line);
 }
 
 .e02-lesson .e02-number-control {
-  margin: 10px 0 0
+  margin: 10px 0 0;
 }
 
 .e02-lesson .e02-info {
@@ -2937,6 +2666,7 @@
 }
 
 /* Make movable pieces respond, but never mimic primary action buttons. */
+
 .e02-lesson .e02-machine-piece,
 .e02-lesson .e02-term {
   box-shadow: 2px 2px 0 var(--ink);
@@ -2955,12 +2685,12 @@
 }
 
 .e02-lesson .e02-machine-piece:disabled {
-  box-shadow: none
+  box-shadow: none;
 }
 
 .e02-lesson button.e02-return-slot.filled {
   cursor: pointer;
-  box-shadow: 2px 2px 0 var(--ink)
+  box-shadow: 2px 2px 0 var(--ink);
 }
 
 .e02-lesson button.e02-return-slot.filled:hover {
@@ -2968,14 +2698,10 @@
 }
 
 .e02-lesson .e02-tile-solve {
-  display: flex;
   flex-wrap: wrap;
-  gap: 9px;
   justify-content: center;
-  align-items: center;
   border-top: 1px dashed var(--line);
-  padding: 13px 8px 5px;
-  margin-top: 12px
+  margin-top: 12px;
 }
 
 .e02-lesson .e02-tile-solve label {
@@ -2989,33 +2715,14 @@
 .e02-lesson .e02-tile-solve input {
   width: 85px;
   max-width: 100%;
-  min-height: 41px;
-  border: 1.5px solid var(--line);
-  border-radius: 9px;
-  font: inherit;
-  text-align: center;
-  direction: ltr;
-  background: #fff
-}
-
-.e02-lesson .e02-foot-actions .btn {
-  box-shadow: none !important;
-  transform: none !important
-}
-
-.e02-lesson .e02-foot-actions .btn:disabled {
-  opacity: .45
+  min-height: 41px
 }
 
 /* Large selected rows: blue, without using N07's yellow for broad backgrounds. */
+
 .e02-lesson .e02-detect-row:hover:not(.is-selected),
 .e02-lesson .e02-detect-row:focus-visible:not(.is-selected) {
-  background: #f0f5fb
-}
-
-.e02-lesson .e02-detect-row.is-selected {
-  background: #e5eefb;
-  box-shadow: inset -4px 0 #527cb4
+  background: #f0f5fb;
 }
 
 .e02-lesson .e02-detect-row.is-selected .e02-detect-num {
@@ -3061,15 +2768,6 @@
 }
 
 @media(max-width:360px) {
-  .e02-lesson .e02-live-bars {
-    gap: 4px
-  }
-
-  .e02-lesson .e02-live-bars>span:not(.e02-bar-eq) {
-    min-width: 48px;
-    padding: 7px 5px
-  }
-
   .e02-lesson .e02-problem-chip {
     font-size: .91rem
   }
@@ -3127,11 +2825,11 @@
   }
 }
 
-
 /* E02 route: labeled rows for equation, operation, and amount.
    This is a visual redesign, not merely a history resize. */
+
 .e02-lesson .e02-route-layout {
-  grid-template-columns: minmax(0, 1.5fr) minmax(230px, .85fr)
+  grid-template-columns: minmax(0, 1.5fr) minmax(230px, .85fr);
 }
 
 .e02-lesson .e02-workspace {
@@ -3139,7 +2837,7 @@
   flex-direction: column;
   gap: 9px;
   min-width: 0;
-  justify-content: flex-start
+  justify-content: flex-start;
 }
 
 .e02-lesson .e02-route-control-row {
@@ -3170,24 +2868,6 @@
   min-width: 0
 }
 
-.e02-lesson .e02-route-value-pair .e02-live-bars {
-  margin: 0;
-  min-height: 50px;
-  padding: 2px 0;
-  flex: 0 1 auto;
-  min-width: 0;
-  gap: 4px
-}
-
-.e02-lesson .e02-route-value-pair .e02-live-bars>span:not(.e02-bar-eq) {
-  min-width: 0;
-  min-height: 43px;
-  padding: 5px 8px;
-  box-shadow: none;
-  font-size: 1.03rem;
-  white-space: nowrap
-}
-
 .e02-lesson .e02-route-value-pair .e01-station-refresh {
   width: 43px;
   height: 43px;
@@ -3214,11 +2894,11 @@
   margin: 8px 0 0;
   padding: 14px 0 2px;
   justify-content: center;
-  gap: 11px
+  gap: 11px;
 }
 
 .e02-lesson .e02-route-ledger {
-  min-height: 220px
+  min-height: 220px;
 }
 
 @media(max-width:660px) {
@@ -3258,11 +2938,6 @@
     padding-right: 3px
   }
 
-  .e02-lesson .e02-route-value-pair .e02-live-bars>span:not(.e02-bar-eq) {
-    min-height: 39px;
-    padding: 4px 7px
-  }
-
   .e02-lesson .e02-route-actions .btn {
     min-width: 100px
   }
@@ -3270,6 +2945,7 @@
 
 /* E02 / مسیر حل — workshop-specific layout: left history, left-aligned control groups,
    and a reserved bottom action/feedback area. Prior chapter button vocabulary is preserved. */
+
 .e02-lesson #e02-route .e02-route-layout {
   display: grid;
   direction: rtl;
@@ -3287,38 +2963,29 @@
   flex-direction: column;
   min-width: 0;
   min-height: 0;
-  gap: 11px;
   padding-top: 13px;
 }
 
 .e02-lesson #e02-route .e02-route-control-row {
-  display: grid;
-  direction: rtl;
   grid-template-columns: 100px minmax(0, 1fr);
   column-gap: 10px;
-  align-items: center;
-  min-height: 51px;
   min-width: 0;
 }
 
 .e02-lesson #e02-route .e02-route-field-label {
   font-size: .86rem;
   color: var(--ink-soft);
-  white-space: nowrap;
-  text-align: right;
   padding-right: 4px;
 }
 
 /* In an RTL grid, end is the LEFT edge, next to the history column. */
+
 .e02-lesson #e02-route .e02-route-group {
   display: inline-flex;
   align-items: center;
   direction: rtl;
   justify-content: flex-start;
-  justify-self: end;
   gap: 5px;
-  min-width: 0;
-  max-width: 100%;
   min-height: 47px;
   padding: 3px 6px;
   border: 2px dashed #c8d4e6;
@@ -3342,28 +3009,51 @@
   flex: 0 1 auto
 }
 
-.e02-lesson #e02-route .e02-route-value-pair .e02-live-bars {
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  min-height: 38px;
-  padding: 0;
-  margin: 0;
-  gap: 3px;
+/* E02 route: the live equation chips. Single source of truth; narrower screens only override size below. */
+
+.e02-lesson #e02-route .e02-live-bars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto;
   flex-wrap: nowrap;
+  direction: ltr;
+  gap: 5px;
+  min-width: 0;
+  min-height: 38px;
+  margin: 0;
+  padding: 0;
 }
 
-.e02-lesson #e02-route .e02-route-value-pair .e02-live-bars>span:not(.e02-bar-eq) {
-  min-height: 37px;
+.e02-lesson #e02-route .e02-live-bars>span:not(.e02-bar-eq) {
+  display: grid;
+  place-items: center;
   min-width: 0;
+  min-height: 37px;
   padding: 3px 7px;
-  font-size: .98rem;
+  outline: 1.75px dashed var(--ink);
   border-radius: 9px;
+  font-size: .98rem;
+  direction: ltr;
   white-space: nowrap;
 }
 
-.e02-lesson #e02-route .e02-route-value-pair .e02-live-bars .e02-bar-eq {
-  padding-inline: 2px
+.e02-lesson #e02-route .e02-live-bars .e02-bar-x {
+  background: #e6f6f3;
+}
+
+.e02-lesson #e02-route .e02-live-bars .e02-bar-c {
+  background: #fde7ef;
+}
+
+.e02-lesson #e02-route .e02-live-bars .e02-bar-num {
+  background: #eceffd;
+}
+
+.e02-lesson #e02-route .e02-live-bars .e02-bar-eq {
+  padding: 2px;
+  font-size: 1.2rem;
+  color: var(--ink);
 }
 
 .e02-lesson #e02-route .e02-route-value-pair .e01-station-refresh {
@@ -3401,10 +3091,10 @@
   min-height: 42px;
   padding: 2px 3px;
   font-size: 1rem;
-  border-radius: 8px;
 }
 
 /* Controls do not crowd the top; the lower actions stay against the reserved bottom area. */
+
 .e02-lesson #e02-route .e02-route-actions {
   display: flex;
   direction: rtl;
@@ -3417,34 +3107,11 @@
   flex-wrap: nowrap;
 }
 
-.e02-lesson #e02-route .e02-route-actions .btn {
-  min-width: 132px;
-  min-height: 42px;
-  padding: 6px 12px;
-  font-size: .93rem;
-  font-weight: 700;
-  border: 2px solid var(--ink);
-  border-radius: 10px;
-  background: #fff;
-  color: var(--ink);
-}
+/* دکمه‌های سفیدِ کارگاه مسیر: سایه و افکت فشردن ملایم. دکمهٔ سبز (.primary) افکت ندارد. */
 
-/* The chapter-one/E01 white-button hover: light background, dark ink, embossed outline.
-   Press reduces the shadow; all actual buttons in this workshop share the affordance. */
-.e02-lesson #e02-route button.btn {
-  box-shadow: 2px 2px 0 var(--ink) !important;
-  transform: none !important;
+.e02-lesson #e02-route button.btn:not(.primary) {
+  box-shadow: 2px 2px 0 var(--ink);
   transition: background-color .13s, color .13s, transform .1s, box-shadow .1s;
-}
-
-.e02-lesson #e02-route button.btn:not(.primary):hover:not(:disabled) {
-  background: #eef2f8;
-  color: var(--ink);
-}
-
-.e02-lesson #e02-route button.btn.primary:hover:not(:disabled) {
-  background: var(--accent-dark);
-  color: #fff;
 }
 
 .e02-lesson #e02-route button.btn.e02-op.is-current,
@@ -3453,17 +3120,13 @@
   color: var(--ink);
 }
 
-.e02-lesson #e02-route button.btn:active:not(:disabled) {
-  transform: translate(1px, 1px) !important;
-  box-shadow: 1px 1px 0 var(--ink) !important;
-}
-
-.e02-lesson #e02-route button.btn:disabled {
-  opacity: .46;
-  cursor: not-allowed
+.e02-lesson #e02-route button.btn:not(.primary):active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink);
 }
 
 /* Feedback keeps its own fixed place BELOW the two main actions. */
+
 .e02-lesson #e02-route .e02-route-message {
   height: 52px;
   min-height: 52px;
@@ -3487,6 +3150,7 @@
 }
 
 /* The entire outer workshop is fixed-height; only the ledger's content scrolls. */
+
 .e02-lesson #e02-route .e02-route-ledger {
   grid-area: history;
   display: flex;
@@ -3509,6 +3173,7 @@
 }
 
 /* Dense, connected mathematical history; operation badges sit ON the dotted connector. */
+
 .e02-lesson #e02-route .e02-route-sequence {
   gap: 0
 }
@@ -3627,7 +3292,7 @@
     font-size: .8rem
   }
 
-  .e02-lesson #e02-route .e02-route-value-pair .e02-live-bars>span:not(.e02-bar-eq) {
+  .e02-lesson #e02-route .e02-live-bars>span:not(.e02-bar-eq) {
     padding: 3px 5px;
     font-size: .9rem
   }
@@ -3653,8 +3318,9 @@
 
 /* E02 / کارگاه مسیر حل: distinguish arithmetic at zero from multiplying or dividing by zero.
    Spread the three control rows without moving the bottom action/feedback area. */
+
 .e02-lesson #e02-route .e02-workspace {
-  gap: 18px
+  gap: 18px;
 }
 
 .e02-lesson #e02-route .e02-zero-caution {
@@ -3695,28 +3361,11 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  gap: 0;
-  margin: 12px auto 22px;
   max-width: 100%;
-}
-
-.e02-lesson .e02-machine-flow>.e02-machine-node {
-  box-sizing: border-box;
-  flex: 1 1 100px;
-  width: 108px;
-  min-width: 0;
-  min-height: 88px;
-  padding: 9px 5px;
-  border-radius: 12px;
-  gap: 8px;
 }
 
 .e02-lesson .e02-machine-flow>.e02-machine-pass {
   box-sizing: border-box;
-  flex: 1 1 82px;
-  min-width: 0;
-  min-height: 55px;
-  padding: 8px 3px;
 }
 
 .e02-lesson .e02-machine-pass::before,
@@ -3725,55 +3374,38 @@
 }
 
 .e02-lesson .e02-machine-arrow {
-  flex: 0 0 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--accent-dark);
-  font-size: 1.22rem;
   line-height: 1;
   min-width: 0;
 }
 
 .e02-lesson .e02-return-line {
-  direction: ltr;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3px;
   flex-wrap: nowrap;
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: thin;
-  padding: 12px 9px;
 }
 
 .e02-lesson .e02-return-line .e02-return-slot {
   display: grid;
   place-items: center;
-  flex: 0 1 67px;
   min-width: 0;
-  min-height: 49px;
-  padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
   font: inherit;
 }
 
 .e02-lesson .e02-return-arrow {
-  flex: 0 0 20px;
   min-width: 0;
   color: var(--accent-dark);
-  font-size: 1.12rem;
-  line-height: 1;
   display: grid;
   place-items: center;
-}
-
-.e02-lesson .e02-return-value {
-  flex: 0 0 auto;
-  min-width: 31px;
-  padding: 5px 2px
 }
 
 .e02-lesson .e02-return-slot:not(.filled):hover {
@@ -3783,7 +3415,7 @@
 
 .e02-lesson .e02-machine-piece {
   cursor: grab;
-  touch-action: none
+  touch-action: none;
 }
 
 .e02-lesson .e02-machine-piece:active:not(:disabled) {
@@ -3803,11 +3435,6 @@
 
 .e02-lesson .e02-return-slot.filled:active {
   cursor: grabbing
-}
-
-.e02-lesson .e02-return-slot:focus-visible {
-  outline: 3px solid var(--accent-dark);
-  outline-offset: 2px
 }
 
 @media(max-width:650px) {
@@ -3878,6 +3505,7 @@
 }
 
 /* Equal-size machine endpoints even when the unknown-input caption wraps. */
+
 @media(max-width:650px) {
   .e02-lesson .e02-machine-flow>.e02-machine-node {
     height: 86px;
@@ -3887,6 +3515,7 @@
 }
 
 /* E02 fractional-equation workshop: three genuine, progressively harder stages. */
+
 .e02-lesson .e02-fr-workshop {
   width: 100%;
   max-width: 780px;
@@ -3895,29 +3524,8 @@
 }
 
 .e02-lesson .e02-fr-levels {
-  display: flex;
   flex-wrap: wrap;
-  gap: 8px;
   justify-content: center;
-  margin: 4px 0 17px
-}
-
-.e02-lesson .e02-fr-level {
-  min-height: 38px;
-  border: 1.5px solid var(--line);
-  border-radius: 24px;
-  background: #fff;
-  color: var(--ink-soft);
-  padding: 5px 12px;
-  font-size: .86rem;
-  box-shadow: none
-}
-
-.e02-lesson .e02-fr-level.is-current {
-  background: #e9f6f1;
-  border-color: #4c9a8d;
-  color: var(--accent-dark);
-  font-weight: 700
 }
 
 .e02-lesson .e02-fr-main-equation {
@@ -3926,15 +3534,6 @@
 
 .e02-lesson .e02-fr-main-equation .e02-problem-head {
   margin-bottom: 11px
-}
-
-.e02-lesson .e02-fr-progress {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 7px;
-  flex-wrap: wrap;
-  margin: 6px auto 13px
 }
 
 .e02-lesson .e02-fr-progress>span {
@@ -3963,45 +3562,27 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   direction: rtl;
-  align-items: stretch;
-  gap: 10px;
   margin: 0 auto 17px;
-  max-width: 660px
 }
 
 .e02-lesson .e02-fr-side {
   border: 1.5px solid var(--line);
-  border-radius: 11px;
   min-width: 0;
-  min-height: 100px;
-  padding: 12px 8px;
   background: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 9px
-}
-
-.e02-lesson .e02-fr-side>span {
-  color: var(--ink-soft);
-  font-size: .84rem
 }
 
 .e02-lesson .e02-fr-side>strong {
-  font-size: 1.18rem;
-  direction: ltr;
-  font-weight: 500;
-  max-width: 100%;
   overflow-x: auto;
-  overflow-y: hidden
+  overflow-y: hidden;
 }
 
 .e02-lesson .e02-fr-equal {
   display: grid;
   place-items: center;
-  font-size: 1.4rem;
-  color: var(--ink)
 }
 
 .e02-lesson .e02-fr-instruction {
@@ -4012,13 +3593,9 @@
 }
 
 .e02-lesson .e02-fr-entry {
-  display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin: 10px auto 16px;
-  direction: rtl
+  direction: rtl;
 }
 
 .e02-lesson .e02-fr-entry label {
@@ -4032,30 +3609,14 @@
   max-width: 96px;
   width: 86px;
   min-height: 42px;
-  border-radius: 9px;
-  background: #fff;
-  border: 1.5px solid var(--line);
-  text-align: center;
-  direction: ltr;
-  font: inherit;
-  color: var(--ink);
   padding: 4px 7px
 }
 
-.e02-lesson .e02-fr-entry .e02-fr-action {
-  min-height: 42px;
-  box-shadow: 2px 2px 0 var(--ink);
-  border: 2px solid var(--ink);
-  background: #fff;
-  color: var(--ink);
-  border-radius: 9px
+.e02-lesson .e02-fr-entry .e02-fr-action:not(.primary) {
+  box-shadow: 2px 2px 0 var(--ink)
 }
 
-.e02-lesson .e02-fr-entry .e02-fr-action:hover:not(:disabled) {
-  background: #e3f0f8
-}
-
-.e02-lesson .e02-fr-entry .e02-fr-action:active:not(:disabled) {
+.e02-lesson .e02-fr-entry .e02-fr-action:not(.primary):active:not(:disabled) {
   transform: translate(1px, 1px);
   box-shadow: 1px 1px 0 var(--ink)
 }
@@ -4093,10 +3654,6 @@
   text-align: center;
   margin: 15px auto 2px
 }
-
-/* .e02-lesson .e02-fr-next .btn {
-  box-shadow: 2px 2px 0 var(--ink)
-} */
 
 .e02-lesson .e02-fr-workshop .fb {
   margin: 8px 0
@@ -4142,15 +3699,20 @@
 }
 
 /* Use the same lesson heading and ordinary paragraph typography as earlier courses. */
+
+/* E02 — refinement: lesson titles and instructions remain OUTSIDE interaction frames.
+   Invariant: shared E01 refresh icon/button, N07 three-toned comparison and E01 final navigation. */
+
 .e02-lesson .e02-activity-title {
   font-size: 1.02rem;
   color: var(--accent-dark);
   line-height: 1.8;
   font-weight: 700;
-  margin: 18px 0 4px
+  margin: 18px 0 4px;
 }
 
 /* The denominator disappears on the LEFT, while the SAME factor changes the RIGHT. */
+
 .e02-lesson .e02-fr-cancellation {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -4161,31 +3723,26 @@
 }
 
 .e02-lesson .e02-fr-cancel-side {
-  min-width: 0;
   border: 1px dashed #86b4ad;
   background: #eef8f5;
   border-radius: 11px;
-  padding: 12px 8px;
   min-height: 88px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  text-align: center
+  text-align: center;
 }
 
 .e02-lesson .e02-fr-cancel-side>span {
   font-size: .83rem;
-  color: var(--ink-soft)
+  color: var(--ink-soft);
 }
 
 .e02-lesson .e02-fr-cancel-side>div {
-  direction: ltr;
-  font-size: 1.09rem;
-  max-width: 100%;
   overflow-x: auto;
-  overflow-y: hidden
+  overflow-y: hidden;
 }
 
 @media(max-width:440px) {
@@ -4201,24 +3758,23 @@
 
 /* E02: final contract reconciliation with E01 / chapter-one interactions.
    The activity lead is a normal lesson paragraph, not a separately scaled caption. */
+
 .e02-lesson .e02-activity-title+p.e02-activity-lead {
   margin: 0 0 11px !important;
   text-align: justify;
 }
 
 /* Compact forward machine: all five stations are proportional to their content. */
+
 .e02-lesson .e02-machine-flow {
   gap: 0;
-  margin: 10px auto 18px
+  margin: 10px auto 18px;
 }
 
 .e02-lesson .e02-machine-flow>.e02-machine-node {
   flex: 0 1 85px;
   width: 85px;
   min-width: 0;
-  min-height: 58px;
-  max-height: none;
-  height: auto;
   padding: 6px 3px;
   gap: 3px;
   font-size: .9rem;
@@ -4241,14 +3797,15 @@
 
 .e02-lesson .e02-machine-arrow {
   flex: 0 0 21px;
-  font-size: 1.08rem
+  font-size: 1.08rem;
 }
 
 /* Like N04's ordering ladder: movable cards ABOVE numbered dashed slots. */
+
 .e02-lesson .e02-machine-tray {
   margin: 14px auto 20px;
   gap: 8px;
-  direction: ltr
+  direction: ltr;
 }
 
 .e02-lesson .e02-machine-tray .e02-machine-piece {
@@ -4284,8 +3841,6 @@
   display: grid;
   place-items: center;
   position: absolute;
-  right: 3px;
-  top: -13px;
   height: 18px;
   min-width: 18px;
   background: #fff;
@@ -4306,13 +3861,13 @@
 .e02-lesson .e02-return-arrow {
   flex: 0 0 16px;
   line-height: 1;
-  font-size: .99rem
+  font-size: .99rem;
 }
 
 .e02-lesson .e02-return-value {
   min-width: 22px;
   padding: 4px 0;
-  flex: 0 0 auto
+  flex: 0 0 auto;
 }
 
 .e02-lesson .e02-machine-clear {
@@ -4346,6 +3901,7 @@
 }
 
 /* Small recording icon, same document/ledger motif as the route workshop. */
+
 .e02-lesson .e02-tile-empty {
   display: flex;
   flex-direction: column;
@@ -4362,6 +3918,7 @@
 }
 
 /* Final six questions: reuse E01's exact four-option grid and button contracts. */
+
 .e02-lesson .e02-final .e01-answer-grid {
   direction: rtl;
   max-width: 100%;
@@ -4457,6 +4014,7 @@
 }
 
 /* Preserve exactly matching endpoint dimensions at every responsive width. */
+
 .e02-lesson .e02-machine-flow>.e02-machine-node {
   box-sizing: border-box;
   height: 68px;
@@ -4472,45 +4030,45 @@
   }
 }
 
-
 /* E02 — integrated instructional refinements (version 68)
    Colors and interactive language follow existing chapters, while each exercise
    keeps its own meaningful mechanics. */
+
 /* Inverse-machine numbers are centered ABOVE the slots, including on mobiles. */
+
 .e02-lesson .e02-return-no {
   left: 50%;
   right: auto;
   transform: translateX(-50%);
   top: -13px;
-  z-index: 2
+  z-index: 2;
 }
 
 .e02-lesson .e02-return-slot {
-  overflow: visible
+  overflow: visible;
 }
 
 .e02-lesson .e02-return-slot:focus-visible {
   outline: 2px solid var(--accent-dark);
-  outline-offset: 2px
+  outline-offset: 2px;
 }
 
 /* Fraction levels: same compact, outlined / yellow-selected treatment as N04 ordering buttons. */
+
 .e02-lesson .e02-fr-levels {
-  gap: 8px;
-  margin: 3px auto 18px
+  margin: 3px auto 18px;
 }
 
 .e02-lesson .e02-fr-level {
   font: inherit;
   font-size: .86rem;
-  min-height: 40px;
   border: 2px solid var(--ink);
   border-radius: 10px;
   padding: 5px 12px;
   color: var(--ink);
   background: #fff;
   box-shadow: 2px 2px 0 var(--ink);
-  transition: background-color .12s, box-shadow .09s, transform .09s
+  transition: background-color .12s, box-shadow .09s, transform .09s;
 }
 
 .e02-lesson .e02-fr-level:hover:not(:disabled) {
@@ -4522,7 +4080,7 @@
   background: var(--mark);
   border-color: var(--ink);
   color: var(--ink);
-  font-weight: 700
+  font-weight: 700;
 }
 
 .e02-lesson .e02-fr-level:active:not(:disabled) {
@@ -4531,6 +4089,7 @@
 }
 
 /* Three gently connected phases show what has been done, what is current and what follows. */
+
 .e02-lesson .e02-fr-progress {
   display: flex;
   direction: rtl;
@@ -4539,7 +4098,7 @@
   justify-content: center;
   gap: 0;
   margin: 5px auto 17px;
-  max-width: 590px
+  max-width: 590px;
 }
 
 .e02-lesson .e02-fr-phase {
@@ -4603,11 +4162,12 @@
 }
 
 /* Two polished, paired equation-side panels: legible KaTeX, no embedded scrollbar. */
+
 .e02-lesson .e02-fr-equation-row {
   max-width: 680px;
   gap: 10px;
   margin-bottom: 18px;
-  align-items: stretch
+  align-items: stretch;
 }
 
 .e02-lesson .e02-fr-side {
@@ -4617,7 +4177,7 @@
   border-radius: 14px;
   padding: 14px 8px 12px;
   gap: 10px;
-  box-shadow: 0 2px 6px #15283d0b
+  box-shadow: 0 2px 6px #15283d0b;
 }
 
 .e02-lesson .e02-fr-left {
@@ -4646,7 +4206,7 @@
 
 .e02-lesson .e02-fr-side>span {
   color: var(--ink-soft);
-  font-size: .82rem
+  font-size: .82rem;
 }
 
 .e02-lesson .e02-fr-side>strong {
@@ -4661,7 +4221,7 @@
   direction: ltr;
   font-weight: 500;
   font-size: clamp(.79rem, 2vw, 1.13rem);
-  line-height: 1.6
+  line-height: 1.6;
 }
 
 .e02-lesson .e02-fr-side .katex {
@@ -4673,16 +4233,17 @@
   font-size: 1.35rem;
   font-weight: 700;
   color: var(--accent-dark);
-  align-self: center
+  align-self: center;
 }
 
 /* Calculating a multiplier is a two-line action, never a button wedged against a text box. */
+
 .e02-lesson .e02-fr-entry {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  margin: 12px auto 18px
+  margin: 12px auto 18px;
 }
 
 .e02-lesson .e02-fr-entry-fields {
@@ -4706,21 +4267,14 @@
   min-height: 42px
 }
 
-.e02-lesson .e02-fr-entry>.e02-fr-action {
-  min-width: 145px;
-  min-height: 40px
-}
-
 /* A number alone must never turn all KaTeX spans into circular badges. */
+
 .e02-lesson .e02-tile-step>.e02-tile-step-num {
-  background: #fff;
   border: 1px solid var(--line);
   border-radius: 50%;
-  height: 27px;
-  width: 27px;
   flex: 0 0 27px;
   display: grid;
-  place-items: center
+  place-items: center;
 }
 
 .e02-lesson .e02-tile-step .katex span {
@@ -4732,12 +4286,13 @@
 }
 
 /* A single lightweight rule-based case file for the detective, not a nested panel. */
+
 .e02-lesson .e02-detect-folder {
   border: 0;
   border-radius: 0;
   background: transparent;
   overflow: visible;
-  margin: 8px auto 0
+  margin: 8px auto 0;
 }
 
 .e02-lesson .e02-detect-spine {
@@ -4745,23 +4300,20 @@
   border: 0;
   border-bottom: 1.5px solid var(--line);
   padding: 8px 6px;
-  color: var(--accent-dark)
+  color: var(--accent-dark);
 }
 
 .e02-lesson .e02-detect-row {
   background: transparent;
   border: 0;
-  border-bottom: 1px dashed var(--line);
   border-radius: 0;
   box-shadow: none;
-  min-height: 54px;
-  padding: 9px 8px
 }
 
 .e02-lesson .e02-detect-row.is-selected {
   background: #e7f0fb;
   box-shadow: inset -3px 0 #628cbd;
-  border-radius: 9px
+  border-radius: 9px;
 }
 
 .e02-lesson .e02-detect-row:hover:not(.is-selected) {
@@ -4770,15 +4322,11 @@
 }
 
 .e02-lesson .e02-correction {
-  border: 0;
-  border-top: 1px dashed var(--line);
   border-radius: 0;
-  background: transparent;
-  padding: 13px 6px 0;
-  margin-top: 6px
 }
 
 /* A flying term signals algebraic transformation, without reusing success colors. */
+
 .e02-moving-term {
   box-shadow: 2px 2px 0 var(--ink);
   border-radius: 10px;
@@ -4821,12 +4369,13 @@
 }
 
 /* Keep all three difficulty choices aligned on narrow screens; long labels wrap inside their own buttons. */
+
 .e02-lesson .e02-fr-levels {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   width: min(100%, 420px);
   gap: 7px;
-  align-items: stretch
+  align-items: stretch;
 }
 
 .e02-lesson .e02-fr-level {
@@ -4836,7 +4385,7 @@
   min-height: 43px;
   text-align: center;
   line-height: 1.45;
-  white-space: normal
+  white-space: normal;
 }
 
 @media(max-width:450px) {
@@ -4847,11 +4396,13 @@
 }
 
 /* E02 v69 — scoped visual fixes; all existing chapter controls remain untouched. */
+
 /* Do not force a horizontal scrollbar in the short KaTeX fraction checks. */
+
 .e02-lesson .e02-fr-cancel-side {
   overflow: hidden;
   min-width: 0;
-  padding: 12px 9px
+  padding: 12px 9px;
 }
 
 .e02-lesson .e02-fr-cancel-side>div {
@@ -4875,16 +4426,15 @@
 }
 
 .e02-lesson .e02-fr-cancel-side>span {
-  line-height: 1.6
+  line-height: 1.6;
 }
 
 .e02-lesson .e02-fr-answer .e02-fr-entry-fields {
   display: flex;
   align-items: center;
   justify-content: center;
-  direction: rtl;
   flex-wrap: nowrap;
-  gap: 11px
+  gap: 11px;
 }
 
 .e02-lesson .e02-fr-answer .e02-math-xeq {
@@ -4899,29 +4449,10 @@
   width: 90px
 }
 
-.e02-lesson .e02-fr-answer .e02-fr-action.btn.primary {
-  background: var(--accent);
-  color: #fff;
-  border: 2px solid var(--ink);
-  box-shadow: 2px 2px 0 var(--ink);
-}
-
-.e02-lesson .e02-fr-answer .e02-fr-action.btn.primary:hover:not(:disabled) {
-  background: var(--accent-dark);
-  color: #fff
-}
-
-.e02-lesson .e02-fr-answer .e02-fr-action.btn.primary:active:not(:disabled) {
-  box-shadow: 1px 1px 0 var(--ink);
-  transform: translate(1px, 1px)
-}
-
 /* The relation being solved remains conspicuous, even when the unknown is on the right. */
+
 .e02-lesson .e02-tile-solve {
-  flex-direction: column;
-  gap: 12px;
-  align-items: center;
-  padding: 14px 9px
+  padding: 14px 9px;
 }
 
 .e02-lesson .e02-value-answer {
@@ -4943,7 +4474,7 @@
 
 .e02-lesson .e02-tile-log {
   background: #f7f9fc;
-  padding: 12px 14px
+  padding: 12px 14px;
 }
 
 .e02-lesson .e02-tile-step {
@@ -4956,7 +4487,6 @@
   border-top: 0;
   border-bottom: 1px dashed #c4d2e1;
   border-radius: 8px;
-  margin-top: 4px
 }
 
 .e02-lesson .e02-tile-step:nth-of-type(3n+2) {
@@ -4976,7 +4506,7 @@
   height: 27px;
   font-size: .84rem;
   background: #fff;
-  align-self: center
+  align-self: center;
 }
 
 .e02-lesson .e02-tile-step-detail {
@@ -5000,12 +4530,13 @@
 }
 
 /* A single correction line with the input IN the math, rather than a detached form. */
+
 .e02-lesson .e02-correction {
   background: transparent;
   border: 0;
   border-top: 1px dashed var(--line);
   padding: 13px 0 0;
-  margin-top: 13px
+  margin-top: 13px;
 }
 
 .e02-lesson .e02-repair-math {
@@ -5026,27 +4557,21 @@
   width: 72px;
   min-height: 39px;
   min-width: 0;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #fff;
-  text-align: center;
-  direction: ltr;
-  font: inherit;
   font-size: 1rem
 }
 
 .e02-lesson .e02-detect-repair {
-  margin: 10px 0 12px
+  margin: 10px 0 12px;
 }
 
 .e02-lesson .e02-detect-row {
   border-bottom: 1px dashed #c5d4e2;
   min-height: 49px;
-  padding: 8px 10px
+  padding: 8px 10px;
 }
 
 .e02-lesson .e02-detect-folder {
-  margin-top: 10px
+  margin-top: 10px;
 }
 
 @media(max-width:440px) {
@@ -5060,6 +4585,7 @@
 }
 
 /* Break cancellation into semantically adjacent math fragments, never clip or scroll. */
+
 .e02-lesson .e02-fr-cancel-side>div.e02-fr-cancel-math {
   display: flex;
   flex-wrap: wrap;
@@ -5089,11 +4615,12 @@
 }
 
 /* E02: final polish – preserve the reference chapter's question and result language. */
+
 .e02-lesson .e02-tile-solve {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px
+  gap: 12px;
 }
 
 .e02-lesson .e02-tile-solve>label {
@@ -5121,17 +4648,18 @@
   white-space: nowrap
 }
 
+#e02-tile-answer::placeholder {
+  text-align: center;
+}
+
+#e02-repair-number::placeholder {
+  text-align: center;
+}
+
 .e02-lesson .e02-tile-final-line>input {
   height: 43px;
   width: 74px;
-  min-width: 0;
-  border: 1.5px solid var(--line);
-  border-radius: 9px;
-  text-align: center;
-  direction: ltr;
-  font: inherit;
-  color: var(--ink);
-  background: #fff
+  min-width: 0
 }
 
 .e02-lesson .e02-tile-final-line>input:disabled {
@@ -5173,6 +4701,7 @@
 }
 
 /* E02 — Chapter 1 Q03 style: show all worked steps, then select a step label. */
+
 .e02-lesson .e02-final-worked-steps {
   margin: 9px 0 13px;
   padding: 0 35px 0 0;
@@ -5208,6 +4737,7 @@
 
 /* KaTeX renders the cancellation slash as an SVG sibling of .cancel-pad;
    color only the slash, not the number being cancelled. */
+
 .e02-lesson .e02-fr-cancel-math .katex svg line {
   stroke: #c13939 !important
 }
@@ -5236,10 +4766,11 @@
 }
 
 .e02-lesson .e02-fr-answer .e02-fr-entry-fields {
-  direction: ltr
+  direction: ltr;
 }
 
 /* E02 stage trace uses the exact N01/Q03 ordered-step badge scheme. */
+
 .e02-lesson .e02-final ol.e02-final-worked-steps.steps {
   list-style: none;
   counter-reset: st;
@@ -5279,7 +4810,9 @@
 }
 
 /* Quiz-3-74: E01 value stepper matches change-equation controls */
+
 .e01-lesson #e01-values .e01-spinner .btn {
+  background: transparent;
   width: 43px;
   min-width: 43px;
   height: 43px;
@@ -5291,6 +4824,7 @@
 }
 
 /* Quiz-3-75: separators belong between equations, not inside a history row. */
+
 .e02-lesson .e02-tile-connector {
   position: relative;
   display: flex;
@@ -5314,7 +4848,7 @@
 
 .e02-lesson .e02-tile-step {
   margin-top: 4px;
-  min-height: 65px
+  min-height: 65px;
 }
 
 .e02-lesson .e02-tile-step:not(:last-child) {
@@ -5322,10 +4856,11 @@
 }
 
 .e02-lesson .e02-tile-terms {
-  direction: ltr
+  direction: ltr;
 }
 
 /* E02 — fixed-size stepped worked example and scrollable complete-solution dialog */
+
 .e02-lesson .e02-example-steps {
   min-width: 0;
   scroll-margin-top: 16px;
@@ -5418,19 +4953,6 @@
   flex-wrap: wrap
 }
 
-.e02-lesson .e02-example-actions>.btn,
-.e02-example-dialog-header>.btn {
-  box-sizing: border-box;
-  min-width: 120px;
-  min-height: 36px;
-  padding: 6px 14px;
-  font-size: .9rem;
-  font-weight: 700;
-  box-shadow: none !important;
-  transform: none !important;
-  transition: none !important
-}
-
 .e02-example-dialog {
   position: fixed;
   inset: 0;
@@ -5506,8 +5028,8 @@
   }
 }
 
-
 /* Quiz-3-94: scoped responsive E01/E02 control layout. */
+
 @media(max-width:600px) {
   .e01-lab-groups .e01-mode-choice {
     white-space: normal;
@@ -5570,6 +5092,7 @@
 }
 
 /* E01 substitution check: RTL math semantics, but visually left side on the left. */
+
 @media(max-width:600px) {
   .e01-lesson #e01-values .e01-values-sides {
     direction: ltr
@@ -5603,69 +5126,38 @@
   }
 }
 
-/* Quiz-3-95: keep semantic left/right positions at all viewport widths. */
-.e01-lesson #e01-values .e01-values-left {
-  grid-column: 3;
-  grid-row: 1
-}
-
-.e01-lesson #e01-values .e01-values-right {
-  grid-column: 1;
-  grid-row: 1
-}
-
-.e01-lesson #e01-values .e01-values-equal-sign {
-  grid-column: 2;
-  grid-row: 1
-}
-
 /* Quiz-3-96: stable physical side positions across RTL and LTR breakpoints. */
+
 .e01-lesson #e01-values .e01-values-sides {
-  direction: ltr !important
+  direction: ltr !important;
 }
 
 .e01-lesson #e01-values .e01-values-side {
-  direction: rtl
+  direction: rtl;
 }
+
+/* Quiz-3-95: keep semantic left/right positions at all viewport widths. */
 
 .e01-lesson #e01-values .e01-values-left {
   grid-column: 1 !important;
-  grid-row: 1
+  grid-row: 1;
 }
 
 .e01-lesson #e01-values .e01-values-right {
   grid-column: 3 !important;
-  grid-row: 1
+  grid-row: 1;
 }
 
 .e01-lesson #e01-values .e01-values-equal-sign {
   grid-column: 2 !important;
-  grid-row: 1
-}
-
-/* Wrap each route field as a unit when there is insufficient horizontal room. */
-.e02-lesson #e02-route .e02-route-control-row {
-  display: flex;
-  direction: rtl;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 5px 10px;
-  min-height: 0;
-  margin-bottom: 5px
-}
-
-.e02-lesson #e02-route .e02-route-field-label {
-  flex: 0 0 auto;
-  white-space: nowrap;
-  padding: 0 3px
+  grid-row: 1;
 }
 
 .e02-lesson #e02-route .e02-route-group {
   justify-self: auto;
   flex: 0 1 auto;
   max-width: 100%;
-  min-width: 0
+  min-width: 0;
 }
 
 @media(max-width:380px) {
@@ -5679,6 +5171,9 @@
 /* Quiz-3-98 — E02 route: content-driven wrapping without a viewport breakpoint.
    The physical right edge of labels and physical left edge of controls align.
    Each label/control pair wraps only when the available workspace width runs out. */
+
+/* Wrap each route field as a unit when there is insufficient horizontal room. */
+
 .e02-lesson #e02-route .e02-route-control-row {
   display: flex;
   direction: rtl;
@@ -5711,6 +5206,7 @@
 }
 
 /* موبایل باریک (≤۴۰۰px): ماشین عملیات بدون هم‌پوشانی و با برچسب‌های خواناتر */
+
 @media(max-width:400px) {
   .e02-lesson .e02-machine-flow>.e02-machine-node {
     flex: .85 1 56px;
@@ -5737,6 +5233,7 @@
 }
 
 /* هماهنگی حاشیهٔ گزینه‌های آزمون‌ها با استاندارد: فاصله ۸px و حاشیهٔ بالا و پایین ۱۰px */
+
 #e01-final .e01-answer-grid,
 #e02-final .e01-answer-grid,
 #e03-solve .e01-answer-grid,
@@ -5744,19 +5241,6 @@
   gap: 8px;
   margin-top: 10px;
   margin-bottom: 10px
-}
-
-/* دکمه‌های عمل کارگاه‌های فصل ۳ هم‌اندازهٔ دکمه‌های استاندارد پروژه */
-.e02-foot-actions .btn,
-.e02-fr-action,
-.e02-fr-next .btn,
-.e02-detect-repair .btn,
-.e01-speed-start-button {
-  min-width: 120px;
-  min-height: 36px;
-  height: auto;
-  padding: 5px 12px;
-  font-size: .9rem
 }
 
 .e01-lesson .e01-answer:disabled:not(.e01-right):not(.e01-wrong) {

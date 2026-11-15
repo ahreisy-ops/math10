@@ -34,10 +34,10 @@ window.LESSONS.S03 = {
         var h = '<p class="ask">هفت واگنِ قطار یک الگو را نشان می‌دهند. واگن‌های خالی را پر کن و بگو هر جمله نسبت به جملهٔ قبل چقدر عوض می‌شود:</p><div class="s3-train">', i;
         for (i = 1; i <= 7; i++) {
           if (i > 1) { h += '<span class="s3-cn">' + (solved ? M('{\\color{crimson}' + (s.d.n >= 0 ? '+' : '') + rt(s.d) + '}') : '→') + '</span>'; }
-          h += blanks.indexOf(i) >= 0 && !solved ? '<div class="s3-wg q"><input class="lk-in" data-i="' + i + '" type="text" dir="ltr" autocomplete="off" placeholder="؟"><span class="s3-mk" data-i="' + i + '"></span></div>' : '<div class="s3-wg">' + M(rt(term(s, i))) + '</div>';
+          h += blanks.indexOf(i) >= 0 && !solved ? '<div class="s3-wg q"><input class="numin lk-in" data-i="' + i + '" type="text" dir="ltr" autocomplete="off" placeholder="؟"><span class="s3-mk" data-i="' + i + '"></span></div>' : '<div class="s3-wg">' + M(rt(term(s, i))) + '</div>';
         }
         h += '</div>';
-        if (!solved) { h += '<div class="lk-line"><span>تغییرِ هر جمله:</span><input class="lk-in" data-r="1" type="text" dir="ltr" autocomplete="off" placeholder="مثلاً ۳- یا ۱/۲"><span class="s3-mk" data-r="1"></span></div>'; }
+        if (!solved) { h += '<div class="lk-line"><span>تغییرِ هر جمله:</span><input class="numin lk-in" data-r="1" type="text" dir="ltr" autocomplete="off" placeholder="مثلاً ۳- یا ۱/۲"><span class="s3-mk" data-r="1"></span></div>'; }
         h += '<div class="lk-cap">' + (msg || '') + '</div>' + (solved ? fb(true, 'قطار کامل شد! ✓') + K.dm('t_{n+1}-t_{n}=' + rt(s.d)) : '<div class="opts"><button type="button" class="btn primary" data-ck="1">بررسی</button></div>');
         h += '<div class="opts"><button type="button" class="btn' + (solved ? ' primary' : '') + '" data-nx="1" data-scroll>' + (solved ? 'قطار بعدی' : 'قطار دیگر') + '</button></div>';
         host.innerHTML = rr(h);
@@ -73,7 +73,7 @@ window.LESSONS.S03 = {
       function paint() {
         var h = '<p class="ask">شکل‌های زیر با کاشی ساخته شده‌اند: ستون‌های آبی و یک ستونِ ثابتِ قرمز. با دکمه‌ها شکل‌های بیشتری ببین:</p>' + figs(a, b, [1, 2, 3].concat(view > 3 ? [view] : []));
         h += '<div class="lk-line"><button type="button" class="btn" data-v="1">شکل بعدی</button><button type="button" class="btn" data-v="0">برگشت</button></div>';
-        if (stage === 1) { h += '<p class="ask">شکل ' + fa(nT) + ' چند کاشی دارد؟</p><div class="lk-line"><input class="lk-in" type="text" dir="ltr" autocomplete="off" placeholder="؟"><button type="button" class="btn primary" data-ck="1">بررسی</button></div>'; }
+        if (stage === 1) { h += '<p class="ask">شکل ' + fa(nT) + ' چند کاشی دارد؟</p><div class="lk-line"><input class="numin lk-in" type="text" dir="ltr" autocomplete="off" placeholder="؟"><button type="button" class="btn primary" data-ck="1">بررسی</button></div>'; }
         else if (stage === 2) { shown = shown || opts(); h += fb(true, 'درست است! ✓ شکل ' + fa(nT) + ' دارد ' + fa(a * nT + b) + ' کاشی') + '<p class="ask">کدام رابطه تعداد کاشی‌های شکل ' + M('n') + ' (یعنی ' + M('t_n') + ') را می‌دهد؟</p><div class="mc">' + shown.map(function (o, i) { return '<button type="button" class="btn opt" data-o="' + i + '">' + M('t_n=' + o[0] + 'n+' + o[1]) + '</button>'; }).join('') + '</div>'; }
         else { h += fb(true, 'همین است! ✓') + K.dm('t_n=' + a + '\\times n+' + b + '=' + H.BL(a + 'n') + '+' + H.CR('' + b)) + '<div class="ex"><p>ستون‌های آبی به‌ازای هر شکل ' + fa(a) + ' کاشی اضافه می‌کنند (' + M(H.BL(a + 'n')) + ') و ستونِ قرمز همیشه ' + fa(b) + ' کاشی است.</p></div>'; }
         h += '<div class="lk-cap">' + msg + '</div><div class="opts"><button type="button" class="btn' + (stage === 3 ? ' primary' : '') + '" data-nx="1" data-scroll>' + (stage === 3 ? 'الگوی بعدی' : 'الگوی دیگر') + '</button></div>';
@@ -101,7 +101,7 @@ window.LESSONS.S03 = {
       function newQ() { s = genSeq(); probes = []; msg = ''; solved = false; options = mkOptions(); paint(); }
       function paint() {
         var h = '<p class="ask">یک ماشین به هر شمارهٔ جمله ' + M('n') + ' مقدار ' + M('t_n') + ' را می‌دهد. حداکثر ۴ عدد به آن بده، بعد قاعدهٔ ماشین را از بین گزینه‌ها پیدا کن:</p>';
-        h += '<div class="lk-line"><input class="lk-in" id="mn" type="text" dir="ltr" autocomplete="off" placeholder="n = ؟"><button type="button" class="btn primary" data-pr="1"' + (probes.length >= 4 || solved ? ' disabled' : '') + '>بده به ماشین</button></div>';
+        h += '<div class="lk-line"><input class="numin lk-in" id="mn" type="text" dir="ltr" autocomplete="off" placeholder="n = ؟"><button type="button" class="btn primary" data-pr="1"' + (probes.length >= 4 || solved ? ' disabled' : '') + '>بده به ماشین</button></div>';
         if (probes.length) { h += '<table class="s3-tb"><tr><th>n</th>' + probes.map(function (n) { return '<td>' + fa(n) + '</td>'; }).join('') + '</tr><tr><th>t<sub>n</sub></th>' + probes.map(function (n) { return '<td>' + M(rt(term(s, n))) + '</td>'; }).join('') + '</tr></table>'; }
         if (probes.length >= 2) { h += '<p class="ask">قاعدهٔ ماشین کدام است؟</p><div class="mc">' + options.map(function (o, i) { return '<button type="button" class="btn opt' + (solved && o.ok ? ' right' : '') + '" data-o="' + i + '"' + (solved ? ' disabled' : '') + '>' + M('t_n=' + fm(o.d, o.c)) + '</button>'; }).join('') + '</div>'; }
         h += solved ? fb(true, 'درست است! ✓') + K.dm('t_n=' + fm(s.d, s.c) + '\\;\\Rightarrow\\;t_{10}=' + rt(term(s, 10))) : '<div class="lk-cap">' + msg + '</div>';
