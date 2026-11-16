@@ -5516,7 +5516,7 @@
 }
 
 .e01-lesson .e01-answer.is-sel {
-  background: var(--mark);
+  background: #eef2f8;
   border-color: var(--ink)
 }
 
@@ -5569,11 +5569,12 @@
   white-space: nowrap;
   font-size: .82rem;
   font-weight: 700;
-  padding: 3px 11px;
-  border: 1.5px solid var(--ink);
+  padding: 3px 11px 5px 11px;
+  /* border: 1.5px solid var(--ink); */
   border-radius: 999px;
-  background: var(--mark);
-  color: var(--ink)
+  background: var(--ink);
+  color: var(--card);
+  box-shadow: 2px 2px 0 #0e8f7e;
 }
 
 .e3-tri-val {
@@ -5824,9 +5825,52 @@
 }
 
 #e04-draw svg,
-#e04-final svg {
+#e04-final button svg,
+#e04-final .fb svg {
   max-width: 90%;
   margin-top: -10px;
+}
+
+#e04-final>svg {
+  margin-top: -20px;
+}
+
+#e04-final ol.e3-final-lines {
+  list-style: none;
+  counter-reset: st;
+  margin: 14px 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  direction: rtl
+}
+
+#e04-final ol.e3-final-lines li {
+  counter-increment: st;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 30px
+}
+
+#e04-final ol.e3-final-lines li::before {
+  content: counter(st, persian);
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #14213d;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .85rem;
+  font-weight: bold;
+  box-shadow: 2px 2px 0 #0e8f7e
+}
+
+#e04-final ol.e3-final-lines li .katex {
+  direction: ltr
 }
 
 #e04-final .fb.bad svg {
@@ -5853,4 +5897,181 @@
     min-height: 38px;
     padding: 3px 4px
   }
+}
+
+/* ===== E04: جدول سه‌زبانه و پرسش‌های محور ===== */
+.e3x .e4-ros {
+  display: grid;
+  grid-template-columns: 74px repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  direction: rtl;
+  margin: 12px 0;
+  text-align: center
+}
+
+.e3x .e4-ros-h {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-weight: 700;
+  font-size: .8rem;
+  line-height: 1.5;
+  padding: 2px 2px 6px;
+  border-bottom: 2px solid var(--ink)
+}
+
+.e3x .e4-ros-h i,
+.e3x .e4-dec-q i {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  font-style: normal;
+  font-size: .8rem;
+  line-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 0 #0e8f7e;
+}
+
+.e3x .e4-ros-l {
+  align-self: center
+}
+
+.e3x .e4-ros-c {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 58px;
+  padding: 4px 2px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 1.05rem
+}
+
+.e3x .e4-hl {
+  padding: 0 5px 5px 3px;
+  border-radius: 5px;
+  background: var(--mark)
+}
+
+.e3x .e4-mini {
+  width: 100%;
+  max-width: 132px;
+  height: auto
+}
+
+.e3x .e4-dec {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 8px;
+  margin: 12px 0
+}
+
+.e3x .e4-dec-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  background: #fff
+}
+
+.e3x .e4-dec-q {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  line-height: 1.6
+}
+
+.e3x .e4-dec-a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px
+}
+
+.e3x .e4-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: #f3f6fa;
+  font-size: .9rem
+}
+
+.e3x .e4-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+  background: #fff;
+  box-sizing: border-box
+}
+
+.e3x .e4-dot.on {
+  background: var(--accent)
+}
+
+@media (max-width: 420px) {
+  .e3x .e4-ros {
+    gap: 4px;
+    grid-template-columns: 62px repeat(3, minmax(0, 1fr))
+  }
+
+  .e3x .e4-ros-c {
+    font-size: .9rem
+  }
+}
+
+/* E04: انیمیشن‌های سطر محور (حلقهٔ جای عدد، رشد ناحیه به سمت جواب) */
+.e3x .e4-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: e4-pulse 1.8s ease-out infinite
+}
+
+.e3x .e4-grow {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: e4-grow 3.2s ease-in-out infinite
+}
+
+@keyframes e4-pulse {
+  0% { transform: scale(1); opacity: .9 }
+  100% { transform: scale(2.6); opacity: 0 }
+}
+
+@keyframes e4-grow {
+  0% { transform: scaleX(0); opacity: 1 }
+  55%, 85% { transform: scaleX(1); opacity: 1 }
+  100% { transform: scaleX(1); opacity: 0 }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .e3x .e4-pulse { animation: none; opacity: 0 }
+  .e3x .e4-grow { animation: none }
+}
+
+/* E05: نوار ترتیب حرکت‌ها در «ماشین حل» */
+.e3x .e5-order .e4-dec-a {
+  justify-content: flex-start;
+  min-height: 0;
+  font-size: .88rem;
+  line-height: 1.7;
+  text-align: right;
+  color: var(--ink-soft)
 }

@@ -110,7 +110,7 @@ window.LESSONS.E04 = {
           body = '<div class="e01-answer-grid' + (/<svg/.test(it.opts[0].h) ? ' e3-svgopts' : '') + '">' + it.opts.map(function (op, k) { return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (a === k ? ' e01-wrong' : '')) : '') + '" data-choice="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>';
         } else if (it.type === 'multi') {
           var cur = frozen ? a : (s.sel[s.pos] || []);
-          body = '<div class="e01-answer-grid">' + it.opts.map(function (op, k) { var on = cur.indexOf(k) > -1; return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (on ? ' e01-wrong' : '')) : (on ? ' is-sel' : '')) + '" data-toggle="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>' + (frozen ? '' : '<div class="opts"><button type="button" class="btn primary" data-submit' + (cur.length ? '' : ' disabled') + '>ثبت پاسخ</button></div>');
+          body = '<div class="e01-answer-grid">' + it.opts.map(function (op, k) { var on = cur.indexOf(k) > -1; return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (on ? ' e01-wrong' : '')) : (on ? ' is-sel' : '')) + '" data-toggle="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>';
         } else if (it.type === 'num') {
           body = '<div class="e3-numrow"><span class="lbl">' + M(it.lbl || 'x=') + '</span><input class="numin" id="fin-num" type="text" inputmode="decimal" autocomplete="off" aria-label="پاسخ"' + (frozen ? ' disabled value="' + (a < 0 ? '−' : '') + F(abs(a)) + '"' : '') + '></div>';
         } else if (it.type === 'match') {
@@ -119,7 +119,8 @@ window.LESSONS.E04 = {
         }
         h = '<div class="e01-progress stg" aria-label="پیشرفت آزمون">' + s.q.map(function (q, k) { return '<span class="' + (k === s.pos ? 'cu' : s.res[k] === null ? '' : s.res[k] ? 'dn' : 'wr') + '" aria-label="سؤال ' + F(k + 1) + '">' + F(k + 1) + '</span>'; }).join('') + '</div><p class="ask e01-question">' + it.ask + '</p>' + (it.fig || '') + body;
         if (frozen) { h += fbx(s.res[s.pos], s.res[s.pos] || (it.type !== 'num' && it.type !== 'match') ? '' : (it.wrongText ? it.wrongText(a) : 'پاسخ درست: ' + (it.show || (it.opts ? it.opts.filter(function (op) { return op.ok; }).map(function (op) { return op.h; }).join('، ') : '')) + '.') + ' ', it.why); }
-        h += '<div class="e01-navigation"><button type="button" class="btn" data-prev' + (s.pos === 0 ? ' disabled' : '') + '>سؤال قبلی</button><button type="button" class="btn primary" ' + (!frozen && (it.type === 'match' || it.type === 'num') ? 'data-check' : 'data-next') + (!frozen && !(it.type === 'match' && (s.sel[s.pos] || []).filter(function (v) { return v !== undefined && v !== null; }).length === it.left.length) ? ' disabled' : '') + '>' + (!frozen && (it.type === 'match' || it.type === 'num') ? 'بررسی' : (s.pos === N - 1 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی')) + '</button></div>';
+        // h += '<div class="e01-navigation"><button type="button" class="btn" data-prev'             + (s.pos === 0 ? ' disabled' : '') + '>سؤال قبلی</button><button type="button" class="btn primary" '             + (!frozen && (it.type === 'match' || it.type === 'num') ? 'data-check' : 'data-next') + (!frozen && (it.type === 'multi' ? !(s.sel[s.pos] || []).length : !(it.type === 'match' && (s.sel[s.pos] || []).filter(function (v) { return v !== undefined && v !== null; }).length === it.left.length)) ? ' disabled' : '') + '>' + (!frozen && (it.type === 'match' || it.type === 'num') ? 'بررسی' : (s.pos === N - 1 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی')) + '</button></div>';
+        h += '<div class="e01-navigation"><button type="button" class="btn" data-prev data-scroll' + (s.pos === 0 ? ' disabled' : '') + '>سؤال قبلی</button><button type="button" class="btn primary" data-scroll ' + (!frozen && (it.type === 'match' || it.type === 'num') ? 'data-check' : 'data-next') + (!frozen && (it.type === 'multi' ? !(s.sel[s.pos] || []).length : !(it.type === 'match' && (s.sel[s.pos] || []).filter(function (v) { return v !== undefined && v !== null; }).length === it.left.length)) ? ' disabled' : '') + '>' + (!frozen && (it.type === 'match' || it.type === 'num') ? 'بررسی' : (s.pos === N - 1 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی')) + '</button></div>';
         root.innerHTML = rr(h);
       }
       function grade() {
@@ -130,7 +131,7 @@ window.LESSONS.E04 = {
         return true;
       }
       function submit() { if (grade()) { paint(); } }
-      function goNext() { if (s.ans[s.pos] === null && !grade()) { return; } if (s.pos < N - 1) { s.pos++; } else { s.fin = true; s.review = false; } paint(); }
+      function goNext() { if (s.ans[s.pos] === null) { if (!grade()) { return; } if (s.q[s.pos].type === 'multi') { paint(); return; } } if (s.pos < N - 1) { s.pos++; } else { s.fin = true; s.review = false; } paint(); }
       root.addEventListener('click', function (e) {
         var b = e.target.closest('button'); if (!b || b.disabled) { return; }
         if (b.hasAttribute('data-choice')) { if (s.ans[s.pos] === null) { var k = +b.dataset.choice; s.ans[s.pos] = k; s.res[s.pos] = !!s.q[s.pos].opts[k].ok; paint(); } return; }
@@ -183,13 +184,13 @@ window.LESSONS.E04 = {
     }
     /* ---------- کارگاه ۱: مترجم سه‌زبانه ---------- */
     function transLab(root) {
-      var st = root.querySelector('[data-stage]'), rel = 'ge', v = 2, ticks = '<div class="graduated-ticks" aria-hidden="true">', t;
+      var st = root.querySelector('[data-stage]'), rel = 'ge', v = -3, ticks = '<div class="graduated-ticks" aria-hidden="true">', t;
       for (t = -4; t <= 4; t++) { ticks += '<span' + (t === 0 ? ' class="zero"' : '') + ' style="--gr-step:' + (t + 4) + ';--gr-total:8"><i></i>' + M(String(t)) + '</span>'; }
       ticks += '</div>';
       function row(lab, key) { return '<div class="e3-tri-row"><span class="e3-tri-lab">' + lab + '</span><div class="e3-tri-val" data-' + key + '></div></div>'; }
       st.innerHTML = rr('<div class="e3-row">' + RELS.map(function (r) { return '<button type="button" class="e3-op" data-rel="' + r + '">' + M('x' + REL[r] + 'a') + '</button>'; }).join('') + '</div>' +
         '<div class="e3-slider graduated-range"><div class="lab"><span data-lab></span></div><input type="range" id="tr-v" min="-4" max="4" step="1" value="' + v + '" aria-label="عدد مرزی">' + ticks + '</div>' +
-        '<div class="e3-tri">' + row('نامعادله', 'ineq') + row('محور', 'axis') + row('بازه', 'iv') + '</div><div class="e3-row" data-pill></div><p class="e3-note">بی‌نهایت هرگز با کروشه نوشته نمی‌شود؛ چون عدد نیست و به آن نمی‌رسیم.</p>');
+        '<div class="e3-tri">' + row('نامعادله', 'ineq') + row('محور', 'axis') + row('بازه', 'iv') + '</div><div class="e3-row" data-pill></div>');
       function put(sel, html) { st.querySelector(sel).innerHTML = rr(html); }
       function upd() {
         var closed = rel === 'ge' || rel === 'le';
@@ -274,14 +275,17 @@ window.LESSONS.E04 = {
       return { tex: q.tex, steps: steps, end: 'جواب: ' + M(interval(q.rel2, q.x0)) };
     }
     /* ================= آزمون پایانی ================= */
-    function mkF1() { var q = iq4(); return { type: 'mc', ask: 'جواب نامعادلهٔ ' + M(q.tex) + ' را به‌صورت بازه بنویس.', opts: mc({ t: q.iv }, wrongIntervals(q)), why: 'کروشه یعنی عدد مرزی جزو جواب است و پرانتز یعنی نیست؛ بی‌نهایت همیشه با پرانتز می‌آید.' }; }
+    function mkF1() {
+      var q = iq4(), right = q.rel === 'gt' || q.rel === 'ge', closed = q.rel === 'ge' || q.rel === 'le';
+      return { type: 'mc', ask: 'این محور کدام بازه را نشان می‌دهد؟', fig: ray({ min: -5, max: 5, v: q.v, rel: q.rel }), opts: mc({ t: q.iv }, wrongIntervals(q)), why: 'سه پرسش را از محور بپرس: دایره روی ' + M(String(q.v)) + ' است؛ دایره ' + (closed ? 'توپر است (کروشه)' : 'توخالی است (پرانتز)') + '؛ ناحیهٔ سبز به سمت ' + (right ? 'راست' : 'چپ') + ' می‌رود (' + M(right ? '+\\infty' : '-\\infty') + ' با پرانتز). پس ' + M(q.iv) + '.' };
+    }
     function mkF2() {
       var q = iq4(), right = q.rel === 'gt' || q.rel === 'ge', mk = function (rel, v) { return ray({ min: -4, max: 4, v: v, rel: rel, W: 280, H: 62, mini: 1 }); };
       var v = Math.max(-3, Math.min(3, q.v)); q = { v: v, rel: q.rel, tex: relTex(q.rel, v), iv: interval(q.rel, v) };
       var cand = [{ rel: q.rel, v: q.v, ok: 1 }, { rel: flipRel(q.rel), v: q.v, ok: 0 }, { rel: (q.rel === 'lt' ? 'le' : q.rel === 'le' ? 'lt' : q.rel === 'gt' ? 'ge' : 'gt'), v: q.v, ok: 0 }, { rel: q.rel, v: -q.v, ok: 0 }];
       cand = uniqBy(cand, function (c) { return c.rel + c.v; });
       if (cand.length < 4) { cand.push({ rel: flipRel(q.rel) === 'lt' ? 'le' : 'ge', v: q.v + 1, ok: 0 }); }
-      return { type: 'mc', ask: 'جواب نامعادلهٔ ' + M(q.tex) + ' روی کدام محور درست نشان داده شده است؟', opts: shuffle(cand).slice(0, 4).map(function (c) { return { h: mk(c.rel, c.v), ok: !!c.ok }; }), why: 'دایرهٔ ' + (q.rel === 'ge' || q.rel === 'le' ? 'توپر (عدد مرزی جزو جواب است)' : 'توخالی (عدد مرزی جزو جواب نیست)') + ' و ناحیهٔ سبز به سمت ' + (q.rel === 'gt' || q.rel === 'ge' ? 'راست' : 'چپ') + '.' };
+      return { type: 'mc', ask: 'بازهٔ ' + M(q.iv) + ' روی کدام محور درست نشان داده شده است؟', opts: shuffle(cand).slice(0, 4).map(function (c) { return { h: mk(c.rel, c.v), ok: !!c.ok }; }), why: 'دایرهٔ ' + (q.rel === 'ge' || q.rel === 'le' ? 'توپر (عدد مرزی جزو جواب است)' : 'توخالی (عدد مرزی جزو جواب نیست)') + ' و ناحیهٔ سبز به سمت ' + (q.rel === 'gt' || q.rel === 'ge' ? 'راست' : 'چپ') + '.' };
     }
     function mkF3() {
       var vs = shuffle([-3, -2, -1, 1, 2, 3, 4]).slice(0, 3), rels = shuffle(['lt', 'le', 'ge', 'gt']).slice(0, 3), left = rels.map(function (r, i) { return M(relTex(r, vs[i])); }), swap = function (r) { return r === 'lt' ? 'le' : r === 'le' ? 'lt' : r === 'gt' ? 'ge' : 'gt'; }, rows;
@@ -289,38 +293,85 @@ window.LESSONS.E04 = {
       var key = rows.map(function (r) { return r.key; });
       return { type: 'match', ask: 'برای هر نامعادله، بازهٔ درست را از فهرست انتخاب کن.', left: left, rows: rows, key: key, why: 'کروشه برای ≤ و ≥ و پرانتز برای < و >؛ جهت بازه همان جهت نامعادله است.', show: left.map(function (l, i) { return l + ' ← ' + M(interval(rels[i], vs[i])); }).join('، ') };
     }
-    function mkF4() { var q = iqS(choose(['C', 'D', 'B'])), iv = interval(q.rel2, q.x0); return { type: 'mc', ask: 'جواب نامعادلهٔ ' + M(q.tex) + ' را به‌صورت بازه بنویس.', opts: mc({ t: iv }, wrongIntervals({ v: q.x0, rel: q.rel2 }).concat([{ t: interval(q.rel, q.x0), m: q.a < 0 ? 'تقسیم بر عددِ منفی جهت را برعکس می‌کند؛ این‌جا برعکس نشده است.' : 'جهتِ علامت اشتباه شده است.' }])), why: 'اول نامعادله را حل کن: ' + M('x' + REL[q.rel2] + q.x0) + '؛ بعد آن را با پرانتز یا کروشهٔ درست به‌صورت بازه بنویس: ' + M(iv) + '.' }; }
-    function mkF5() {
-      var q = iq4(), iv = q.iv, wr = wrongIntervals(q);
-      var test = choose([q.v + 1, q.v - 1, q.v]); var inSet = function (x) { return q.rel === 'lt' ? x < q.v : q.rel === 'gt' ? x > q.v : q.rel === 'le' ? x <= q.v : x >= q.v; };
-      var opts = [{ h: 'جزو جواب است', ok: inSet(test) }, { h: 'جزو جواب نیست', ok: !inSet(test) }];
-      return { type: 'mc', ask: 'جواب نامعادله‌ای به‌صورت بازهٔ ' + M(iv) + ' است. عدد ' + M(String(test)) + ' جزو جواب است؟', opts: opts.concat([{ h: 'فقط وقتی جواب است که آن را دایره‌ای نشان دهیم', ok: false }, { h: 'نمی‌توان فهمید', ok: false }]), why: 'عدد را در بازه بسنج: ' + (test === q.v ? 'عدد مرزی ' + (q.rel === 'ge' || q.rel === 'le' ? 'با کروشه جزو جواب است.' : 'با پرانتز جزو جواب نیست.') : 'عدد ' + M(String(test)) + (inSet(test) ? ' در ناحیهٔ جواب قرار دارد.' : ' در ناحیهٔ جواب قرار ندارد.')) };
+    function mkF4() {
+      var q = iq4(), right = q.rel === 'gt' || q.rel === 'ge', closed = q.rel === 'ge' || q.rel === 'le',
+        inSet = function (x) { return q.rel === 'lt' ? x < q.v : q.rel === 'gt' ? x > q.v : q.rel === 'le' ? x <= q.v : x >= q.v; },
+        nums = [q.v, q.v + 1, q.v - 1, right ? q.v + 3 : q.v - 3],
+        correct = nums.filter(inSet)[0];
+      return {
+        type: 'mc',
+        ask: 'کدام عدد جزو جواب بازهٔ ' + M(q.iv) + ' است؟',
+        opts: shuffle(nums.map(function (n) { return { h: M(String(n)), ok: n === correct }; })),
+        why: 'عدد مرزی ' + M(String(q.v)) + (closed ? ' با کروشه جزو جواب است' : ' با پرانتز جزو جواب نیست') + '؛ عددهای سمتِ ' + (right ? 'راست' : 'چپ') + ' (ناحیهٔ سبز) جواب‌اند.'
+      };
     }
-    function mkF6() { var q = iqS(choose(['C', 'B', 'D'])), r = q.rel2, v = q.x0; return { type: 'num', ask: 'نامعادلهٔ ' + M(q.tex) + ' را حل کن. عدد مرزی (مقدارِ ' + M('x') + ' در جواب) چند است؟', lbl: 'x=', ans: v, show: M(String(v)), why: 'پس از حل: ' + M('x' + REL[r] + v) + '؛ یعنی بازهٔ ' + M(interval(r, v)) + '. عدد مرزی ' + M(String(v)) + ' است.' }; }
+    function mkF5() {
+      var q = iqS('C'), mid = ax(q.a) + REL[q.rel] + (q.c - q.b), good = 'x' + REL[q.rel2] + q.x0, ivOk = interval(q.rel2, q.x0), kind = R(0, 3), L2 = good, L3 = ivOk, bad = -1, txt, w;
+      if (kind === 0) { L2 = 'x' + REL[q.rel] + q.x0; L3 = interval(q.rel, q.x0); bad = 1; txt = 'خط ۲ نادرست است: در تقسیم بر ' + M(String(q.a)) + ' که منفی است، جهت علامت باید برگردد؛ پس ' + M(good) + ' و بازه ' + M(ivOk) + ' است.'; }
+      else if (kind === 1) { L2 = 'x' + REL[q.rel2] + (-q.x0); L3 = interval(q.rel2, -q.x0); bad = 1; txt = 'خط ۲ نادرست است: ' + M(String(q.a * q.x0)) + ' تقسیم بر ' + M(String(q.a)) + ' برابر ' + M(String(q.x0)) + ' است، نه ' + M(String(-q.x0)) + '؛ جواب ' + M(good) + ' و بازه ' + M(ivOk) + ' است.'; }
+      else if (kind === 2) { w = choose([wrongIntervals({ v: q.x0, rel: q.rel2 })[0], wrongIntervals({ v: q.x0, rel: q.rel2 })[3]]); L3 = w.t; bad = 2; txt = 'خط ۳ نادرست است: ' + w.m + ' درستش ' + M(ivOk) + ' است.'; }
+      else { txt = 'هر سه خط درست است: جهت پس از تقسیم بر عدد منفی برگشته و بازه با پرانتز و کروشهٔ درست نوشته شده است.'; }
+      return { type: 'mc', ask: 'نامعادلهٔ ' + M(q.tex) + ' را این‌طور حل کرده و جواب را به بازه نوشته‌اند:<ol class="e3-final-lines"><li>' + M(mid) + '</li><li>' + M(L2) + '</li><li>' + M(L3) + '</li></ol>کدام گزینه درست است؟', opts: [{ h: 'خط ۱ نادرست است', ok: false }, { h: 'خط ۲ نادرست است', ok: bad === 1 }, { h: 'خط ۳ نادرست است', ok: bad === 2 }, { h: 'هر سه خط درست است', ok: bad < 0 }], why: txt };
+    }
+    function mkF6() { var q = iqS(choose(['C', 'D', 'B'])), iv = interval(q.rel2, q.x0); return { type: 'mc', ask: 'جواب نامعادلهٔ ' + M(q.tex) + ' را به‌صورت بازه بنویس.', opts: mc({ t: iv }, wrongIntervals({ v: q.x0, rel: q.rel2 }).concat([{ t: interval(q.rel, q.x0), m: q.a < 0 ? 'تقسیم بر عددِ منفی جهت را برعکس می‌کند؛ این‌جا برعکس نشده است.' : 'جهتِ علامت اشتباه شده است.' }])), why: 'اول نامعادله را حل کن: ' + M('x' + REL[q.rel2] + q.x0) + '؛ بعد آن را با پرانتز یا کروشهٔ درست به‌صورت بازه بنویس: ' + M(iv) + '.' }; }
+    /* ---------- تصویرهای ثابت درس: سه اطلاعاتِ یک جواب (عدد مرزی، جزو جواب بودن، جهت) ---------- */
+    var HEADS = ['عدد مرزی', 'خودِ عدد هم جواب است؟', 'ناحیه به کدام سمت می‌رود؟'];
+    function hl(x) { return '<span class="e4-hl">' + x + '</span>'; }
+    function mini(kind) {
+      var W = 132, y = 21, x = 44, g = '<svg class="e4-mini" viewBox="0 0 ' + W + ' 46" role="img" aria-hidden="true">';
+      if (kind === 'dir') { g += '<rect class="e4-grow" x="' + x + '" y="' + (y - 4) + '" width="' + (W - 8 - x) + '" height="8" rx="4" fill="#7fd0c3"/>'; }
+      g += '<line x1="8" y1="' + y + '" x2="' + (W - 8) + '" y2="' + y + '" stroke="#14213d" stroke-width="2.2"/><path d="M' + (W - 8) + ' ' + y + ' l-8 -4.5 v9 z" fill="#14213d"/><path d="M8 ' + y + ' l8 -4.5 v9 z" fill="#14213d"/>';
+      if (kind === 'num') { g += '<circle class="e4-pulse" cx="' + x + '" cy="' + y + '" r="7" fill="none" stroke="#0e8f7e" stroke-width="2"/>'; }
+      g += '<circle cx="' + x + '" cy="' + y + '" r="7" fill="#0e8f7e" stroke="#0e8f7e" stroke-width="3"/>';
+      if (kind === 'num') { g += '<text x="' + x + '" y="42" text-anchor="middle" font-size="14" fill="#14213d" font-family="Tahoma,sans-serif">\u200E−' + F(3) + '</text>'; }
+      return g + '</svg>';
+    }
+    function ineqCell(h) { return ltr(M('x') + ' ' + (h === 'num' ? M('\\geq') : hl(M('\\geq'))) + ' ' + (h === 'num' ? hl(M('-3')) : M('-3'))); }
+    function ivCell(h) { return ltr((h === 'br' ? hl(M('[')) : M('[')) + (h === 'num' ? hl(M('-3')) : M('-3')) + M(',') + ' ' + (h === 'inf' ? hl(M('+\\infty')) : M('+\\infty')) + M(')')); }
+    function rosetta() {
+      var rows = [['نامعادله', ineqCell('num'), ineqCell('sign'), ineqCell('sign')], ['محور', mini('num'), mini('closed'), mini('dir')], ['بازه', ivCell('num'), ivCell('br'), ivCell('inf')]],
+        h = '<div class="e4-ros"><span></span>';
+      HEADS.forEach(function (t, i) { h += '<span class="e4-ros-h"><i>' + F(i + 1) + '</i>' + t + '</span>'; });
+      rows.forEach(function (r) {
+        h += '<span class="e3-tri-lab e4-ros-l">' + r[0] + '</span>';
+        for (var i = 1; i < 4; i++) { h += '<span class="e4-ros-c">' + r[i] + '</span>'; }
+      });
+      return h + '</div>';
+    }
+    function decoder() {
+      var dot = function (on) { return '<i class="e4-dot' + (on ? ' on' : '') + '"></i>'; };
+      var cards = [
+        ['دایره روی کدام عدد است؟', mini('num')],
+        ['دایره توپر است یا توخالی؟', '<span class="e4-key">' + dot(1) + 'توپر</span><span class="e4-key">' + dot(0) + 'توخالی</span>'],
+        ['ناحیهٔ سبز به کدام سمت می‌رود؟', '<span class="e4-key">→ راست</span><span class="e4-key">← چپ</span>']
+      ];
+      return '<div class="e4-dec">' + cards.map(function (c, i) { return '<div class="e4-dec-card"><span class="e4-dec-q"><i>' + F(i + 1) + '</i>' + c[0] + '</span><span class="e4-dec-a">' + c[1] + '</span></div>'; }).join('') + '</div>';
+    }
     return {
       html: function () {
         var h = '<div class="e01-lesson e02-lesson e3x">';
-        h += intro('یک جواب، سه زبان', 'جواب نامعادله فقط یک عدد نیست؛ <b>مجموعه‌ای از عددها</b> است. این مجموعه را می‌توان با سه زبان نوشت: نامعادله، محور و بازه. بیاموز بین این سه ترجمه کنی و بدانی دایره‌ها و پرانتزها دقیقاً چه می‌گویند.', ['نامعادله', 'محور', 'بازه', 'حل تا بازه']);
+        h += intro('یک جواب، سه زبان', 'نامعادلهٔ ' + M('3-2x\\leq 9') + ' را که حل کنی، به ' + M('x\\geq -3') + ' می‌رسی. این جواب فقط یک عدد نیست؛ <b>مجموعه‌ای از عددهاست</b> و همین مجموعه را می‌شود روی محور هم نشان داد و با نمادی کوتاه به نام بازه هم نوشت. در این درس بین این سه نوشته ترجمه می‌کنی و در پایان، همین نامعادله را از اول تا بازه حل می‌کنی.', ['نامعادله', 'محور', 'بازه', 'حل تا بازه']);
         h += K.sn('۱', 'سه زبانِ یک جواب');
-        h += '<p>نامعادلهٔ ' + M('x\\geq 2') + ' یعنی هر عددی که از ' + M('2') + ' بزرگ‌تر یا برابر با آن باشد. روی محور، ناحیهٔ سبز از ' + M('2') + ' به راست ادامه دارد و در ' + M('2') + ' دایرهٔ توپر می‌گذاریم، چون خودِ ' + M('2') + ' هم جواب است. به‌صورت بازه می‌نویسیم ' + M('[2,\\ +\\infty)') + '. علامت نامعادله، عدد مرزی و جهت را عوض کن و هر سه ترجمه را همزمان ببین:</p>';
-        h += activity('کارگاه مترجم سه‌زبانه', 'e04-trans', 'یکی از چهار علامت را انتخاب کن و عدد مرزی را با نوار بلغزان. نامعادله، محور و بازه همزمان تغییر می‌کنند.');
+        h += '<p>جوابِ ' + M('x\\geq -3') + ' را در هر سه زبان کنار هم ببین. هر ردیف یک زبان است و هر ستون یکی از سه اطلاعاتی که در هر سه زبان به شکلی دیگر نوشته می‌شود.</p>' + rosetta();
+        h += activity('کارگاه مترجم سه‌زبانه', 'e04-trans', 'علامت را عوض کن و عدد مرزی را با نوار بلغزان؛ هر سه نوشته با هم تغییر می‌کنند.');
+        h += '<p>با علامت‌های مختلف دیدی که توپر یا توخالی‌بودنِ دایره همیشه با کروشه یا پرانتز‌بودنِ بازه هم‌راه است. قاعده‌اش را کنار هم بگذاریم:</p>';
         h += K.box('note', 'قاعدهٔ دایره و پرانتز', '<ul><li>' + M('\\leq') + ' و ' + M('\\geq') + ': دایرهٔ <b>توپر</b> و <b>کروشه</b> ' + M('[\\ ]') + '؛ عدد مرزی جزو جواب است.</li><li>' + M('\\lt') + ' و ' + M('\\gt') + ': دایرهٔ <b>توخالی</b> و <b>پرانتز</b> ' + M('(\\ )') + '؛ عدد مرزی جزو جواب نیست.</li><li>بی‌نهایت (' + M('\\infty') + ') هرگز با کروشه نوشته نمی‌شود.</li></ul>');
         h += K.sn('۲', 'از محور به نامعادله و بازه');
-        h += '<p>برای خواندن یک محور، سه چیز را نگاه کن: <b>جهتِ</b> ناحیهٔ سبز (راست ' + M('\\gt') + ' و چپ ' + M('\\lt') + ')، <b>نوعِ</b> دایره (توپر یا توخالی)، و <b>عددِ</b> مرزی. بعد همان را به بازه ترجمه کن.</p>';
+        h += '<p>وقتی فقط محور را داری، سه پرسش از آن بپرس؛ جوابشان همان سه ستونِ جدول بالاست و با آن‌ها نامعادله و بازه نوشته می‌شود:</p>' + decoder();
         h += activity('کارگاه محورخوانی', 'e04-read', 'محور را بخوان؛ نخست نامعادله را و بعد بازه را انتخاب کن. اگر اشتباه کنی، دلیلش را می‌بینی.');
-        h += K.box('err', '⚠ سه خطای رایج', '<p>۱) توخالی را با توپر قاطی‌کردن (و برعکس). ۲) نوشتنِ ' + M('+\\infty') + ' با کروشه، مثل ' + M('[2,\\ +\\infty]') + '؛ این درست نیست. ۳) برعکس‌گرفتنِ جهت: ' + M('x\\lt 2') + ' به چپ می‌رود، نه راست.</p>');
+        h += K.box('err', '⚠ سه خطای رایج', '<ol><li>توخالی را با توپر قاطی‌کردن (و برعکس).</li><li>نوشتنِ ' + M('+\\infty') + ' با کروشه، مثل ' + M('[-3,\\ +\\infty]') + '؛ این درست نیست.</li><li>برعکس‌گرفتنِ جهت: ' + M('x\\lt -3') + ' به چپ می‌رود، نه راست.</li></ol>');
         h += K.sn('۳', 'از بازه به محور');
-        h += '<p>برعکسش هم لازم است: بازه را ببین و محورِ درست را از میان چند شکل انتخاب کن. کروشه ← دایرهٔ توپر؛ پرانتز ← دایرهٔ توخالی؛ ' + M('-\\infty') + ' سمت چپ و ' + M('+\\infty') + ' سمت راست.</p>';
+        h += '<p>گاهی هم عکسش لازم است: بازه را می‌بینی و باید محورِ درست را از میان چند شکل انتخاب کنی. سه نشانه کافی است:</p><ul><li>کروشه ← دایرهٔ توپر</li><li>پرانتز ← دایرهٔ توخالی</li><li>' + M('-\\infty') + ' سمت چپ و ' + M('+\\infty') + ' سمت راست</li></ul>';
         h += activity('کارگاه از بازه به محور', 'e04-draw', 'بازه را می‌بینی؛ از بین چهار محور، درستش را انتخاب کن. اگر اشتباه بود، پیام راهنما می‌بینی و می‌توانی دوباره انتخاب کنی.');
         h += K.sn('۴', 'حل تا بازه');
-        h += '<p>در مسئله‌های واقعی هر سه مهارت پشت‌سر هم می‌آیند: اول نامعادله را حل می‌کنیم (با مراقبت از جهت علامت)، بعد جواب را به بازه ترجمه می‌کنیم. برای نامعادلهٔ ' + M('3-2x\\leq 9') + ':</p>';
+        h += '<p>به نامعادلهٔ اول درس برگردیم: ' + M('3-2x\\leq 9') + '. حلِ آن را از درس قبل داری (تقسیم بر عدد منفی جهت علامت را برمی‌گرداند)؛ بعد از حل، همان سه اطلاعات جدول جواب را به بازه می‌رسانند.</p>';
         h += exampleBlock('e04-example-steps', 'حل کامل تا بازه', 3);
         h += activity('کارگاه حل تا بازه', 'e04-full', 'در هر گام یک خط یا ترجمهٔ درست را انتخاب کن. آخرین گام نوشتن جواب با بازه است. با دکمهٔ چرخان مسئلهٔ تازه بگیر.');
         h += K.box('err', '⚠ خطای رایج: جهت پس از ضریب منفی', '<p>اگر در تقسیم بر عدد منفی جهت را برعکس نکنی، بازه به سمت اشتباه می‌رود؛ مثلاً به‌جای ' + M('[-3,\\ +\\infty)') + ' می‌نویسی ' + M('(-\\infty,\\ -3]') + '.</p>');
         h += K.sn('۵', 'آزمون پایانی');
-        h += '<p>در آزمون پایانی، ترجمهٔ نامعادله به بازه و محور، وصل‌کردن نامعادله‌ها به بازه‌ها، و حل کامل با بازه سنجیده می‌شود. شش سؤال در قالب‌های گوناگون، با عددهای تازه در هر دور.</p>';
+        h += '<p>در آزمون پایانی، خواندن محور و ساختن آن از روی بازه، آزمایش عدد، خطایابی و حل تا بازه سنجیده می‌شود. شش سؤال در قالب‌های گوناگون، با عددهای تازه در هر دور.</p>';
         h += '<div id="e04-final" class="e01-interaction e01-final" aria-label="آزمون پایانی" data-activity></div>';
-        h += K.box('sum', 'بعد از این درس باید بتوانی', '<ul><li>نامعادله را با محور و با بازه بنویسی و بین این سه زبان ترجمه کنی.</li><li>دایرهٔ توپر و توخالی و کروشه و پرانتز را درست به کار ببری.</li><li>بدانی بی‌نهایت همیشه با پرانتز نوشته می‌شود.</li><li>نامعادلهٔ خطی را حل کنی و جواب را مستقیم با بازه بنویسی.</li></ul>');
+        h += K.box('sum', 'بعد از این درس باید بتوانی', '<ul><li>نامعادله را با محور و با بازه بنویسی و بین این سه زبان ترجمه کنی.</li><li>از روی محور، نامعادله و بازه را بخوانی و از روی بازه، محور را بسازی.</li><li>دایرهٔ توپر و توخالی و کروشه و پرانتز را درست به کار ببری.</li><li>بدانی بی‌نهایت همیشه با پرانتز نوشته می‌شود.</li><li>نامعادلهٔ خطی را حل کنی و جواب را مستقیم با بازه بنویسی.</li></ul>');
         return h + '</div>';
       },
       init: function () {
