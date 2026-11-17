@@ -6140,3 +6140,17 @@
 #e06-final .e3-match-row select { direction: rtl; text-align: right }
 
 @media (prefers-reduced-motion: reduce) { .e3x .e5-belt-row { animation: none } }
+
+@media (max-width:620px) {
+  .e3-svg {
+    max-width: 75%;
+  }
+
+  .e3-v3 .e3-svg {
+    max-width: 50%;
+  }
+
+  .e3-svg.mir, .e3-svg.axs{
+    max-width: 75%;
+  }
+}
