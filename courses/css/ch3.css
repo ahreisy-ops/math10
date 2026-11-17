@@ -61,7 +61,7 @@
 .e01-lesson .e01-pairs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 15px;
   margin: 14px 0
 }
 
@@ -1317,7 +1317,7 @@
     box-shadow 0.75s ease,
     border-color 0.75s ease;
 
-  transform: translateY(-3px) scale(1.015);
+  transform: translateY(-3px) scale(1.01);
 }
 
 .e01-lesson .e01-compare-ticks .e01-target-tick {
@@ -5835,7 +5835,8 @@
   margin-top: -20px;
 }
 
-#e04-final ol.e3-final-lines {
+#e04-final ol.e3-final-lines,
+#e05-final ol.e3-final-lines {
   list-style: none;
   counter-reset: st;
   margin: 14px 0;
@@ -5845,7 +5846,8 @@
   direction: rtl
 }
 
-#e04-final ol.e3-final-lines li {
+#e04-final ol.e3-final-lines li,
+#e05-final ol.e3-final-lines li {
   counter-increment: st;
   display: flex;
   align-items: center;
@@ -5853,7 +5855,8 @@
   min-height: 30px
 }
 
-#e04-final ol.e3-final-lines li::before {
+#e04-final ol.e3-final-lines li::before,
+#e05-final ol.e3-final-lines li::before {
   content: counter(st, persian);
   flex: none;
   width: 28px;
@@ -5869,7 +5872,8 @@
   box-shadow: 2px 2px 0 #0e8f7e
 }
 
-#e04-final ol.e3-final-lines li .katex {
+#e04-final ol.e3-final-lines li .katex,
+#e05-final ol.e3-final-lines li .katex {
   direction: ltr
 }
 
@@ -6075,3 +6079,59 @@
   text-align: right;
   color: var(--ink-soft)
 }
+
+/* E05 — کارگاه مخرج صفر: کارت‌ها همان e01-pair هستند؛ فقط حالت «تعریف‌نشده» تازه است. */
+.e01-lesson .e01-compare .e01-pair.is-undefined {
+  background: #fdeceb;
+  border-color: #b4463c;
+  box-shadow: 4px 4px 0 #b4463c;
+  transform: translateY(-3px) scale(1.015);
+}
+.e01-lesson .e01-compare .e01-pair.is-undefined .e01-pair-eval,
+.e01-lesson .e01-compare .e01-pair.is-undefined > small { color: #8a2f2a; }
+@media (prefers-reduced-motion: reduce) {
+  .e01-lesson .e01-compare .e01-pair { transition: none; transform: none; }
+}.e3x .e5-tag { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0 12px; font-size: .84rem; color: var(--ink-soft) }
+.e3x .e5-tag > span { padding: 3px 10px; border: 1.5px solid var(--line); border-radius: 999px; background: #f3f6fa }
+.e3x .e5-tag > span.on { background: var(--sc, var(--ink)); border-color: var(--ink); color: #fff; font-weight: 700; box-shadow: 2px 2px 0 var(--ink) }
+.e3x .e5-tag > i { font-style: normal; opacity: .5 }
+.e3x .e5-rules { display: grid; gap: 12px; margin: 12px 0 }
+.e3x .e5-rule { display: grid; gap: 0; padding: 0; border: 1.5px solid var(--ink); border-radius: 14px; background: #fff; box-shadow: 3px 3px 0 var(--sc, #0e8f7e); overflow: hidden }
+.e3x .e5-mach { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin: 10px 0 }
+.e3x .e5-stn { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border: 1.5px solid var(--ink); border-radius: 12px; background: #fff; box-shadow: 3px 3px 0 var(--sc) }
+.e3x .e5-stn-h { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .92rem }
+.e3x .e5-stn-h i { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--sc); color: #fff; font-style: normal; font-size: .8rem; display: inline-flex; align-items: center; justify-content: center; box-shadow: none }
+.e3x .e5-stn-c { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: center }
+.e3x .e5-stn-c .btn { flex: none; padding: 8px 4px; font-size: .86rem; width: 100%; min-width: 0; white-space: nowrap; text-align: center }
+.e3x .e5-stn-c .btn.on { background: var(--sc); color: #fff; border-color: var(--ink) }
+.e3x .e5-belt { margin: 12px 0; padding: 10px 12px; border: 1.5px solid var(--ink); border-radius: 14px; background: #fff; display: grid; gap: 8px }
+.e3x .e5-belt-row { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; align-items: center; padding: 6px 8px; border-radius: 10px; border: 1.5px solid var(--sc, #0e8f7e); background: color-mix(in srgb, var(--sc, #0e8f7e) 9%, #fff); animation: e5-belt-in .45s both; position: relative }
+.e3x .e5-belt-row.off { border-color: var(--line); background: #f3f6fa; color: var(--ink-soft) }
+.e3x .e5-belt-row .n { grid-row: span 2; width: 24px; height: 24px; border-radius: 50%; background: var(--sc, #0e8f7e); color: #fff; font-size: .8rem; display: inline-flex; align-items: center; justify-content: center }
+.e3x .e5-belt-row.off .n { background: var(--line); color: var(--ink-soft) }
+.e3x .e5-belt-row b { font-size: .9rem }
+.e3x .e5-belt-row .eqs { grid-column: 2; text-align: center }
+@keyframes e5-belt-in { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }
+.e3x .e5-rule .eq { padding: 12px 10px; text-align: center; font-size: 1.25rem; overflow-x: auto; overflow-y: hidden; background: color-mix(in srgb, var(--sc, #0e8f7e) 9%, #fff); border-bottom: 1.5px dashed color-mix(in srgb, var(--sc, #0e8f7e) 55%, #fff) }
+.e3x .e5-rule p { display: flex; gap: 9px; align-items: baseline; margin: 0; padding: 8px 14px 9px; font-size: .9rem; line-height: 1.8; color: var(--ink); text-align: right }
+.e3x .e5-rule p::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 3px; background: var(--sc, #0e8f7e); transform: translateY(1px) }
+.e3x .e5-err { display: grid; margin: 4px 0 6px }
+.e3x .e5-er { display: grid; grid-template-columns: 1fr; gap: 2px; align-items: center; padding: 10px 2px }
+.e3x .e5-er + .e5-er { border-top: 1.5px dashed rgba(138, 90, 0, .45) }
+.e3x .e5-er .mk { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: #fff; font-weight: 800; box-shadow: 2px 2px 0 rgba(20, 33, 61, .25); flex: none }
+.e3x .e5-er.bad .mk { background: #c0392b }
+.e3x .e5-er.ok .mk { background: #0b7a5a }
+.e3x .e5-er .what { font-size: .88rem; font-weight: 700; color: #6b4a00 }
+.e3x .e5-er .eq { text-align: center; font-size: 1.15rem; flex: none; max-width: 100% }
+.e3x .e5-always { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0; padding: 9px 12px; border: 1.5px dashed var(--line); border-radius: 12px; font-size: .88rem; color: var(--ink-soft) }
+.e3x .e5-always b { padding: 2px 11px; border-radius: 999px; background: var(--sc); color: #fff; font-size: .84rem }
+.e3x .e5-always i { font-style: normal; opacity: .55 }
+.e3x .e5-belt-row + .e5-belt-row::before { content: ""; position: absolute; inset-inline-end: 19px; top: -9px; height: 9px; border-inline-end: 2px solid var(--line) }
+.e3x .e5-cur { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 6px; padding: 7px 12px; border: 1.5px solid var(--ink); border-radius: 12px; background: var(--ink) }
+.e3x .e5-cur > span { font-size: .84rem; font-weight: 700; color: var(--amber) }
+.e3x .e5-cur > div { direction: ltr; color: var(--amber) }
+.e3x .e5-er .line { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap }
+.e3x .e5-ov { margin: 0 0 12px; padding: 10px 14px; border-radius: 10px; border-inline-start: 4px solid #0e8f7e; background: #eefaf7; line-height: 1.9 }
+#e05-final .e3-match-row select { direction: rtl; text-align: right }
+
+@media (prefers-reduced-motion: reduce) { .e3x .e5-belt-row { animation: none } }

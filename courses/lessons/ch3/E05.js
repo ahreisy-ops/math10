@@ -57,27 +57,37 @@ window.LESSONS.E05 = {
       render();
     }
 
-    /* ---------- کارگاه گام‌به‌گام (انتخاب خط درست در هر گام) ----------
-       gen() → {tex, steps:[{ask, opts:[{h,ok,m}], line, why}], end} */
-    K.guide = function (root, gen) {
-      var st = root.querySelector('[data-stage]'), p, si, tries, okIdx, last, wrong, log, done;
-      function nw() { p = gen(); si = 0; tries = []; okIdx = undefined; last = undefined; wrong = 0; log = []; done = false; }
+    function more(label) { return '<div class="opts g-ops"><button type="button" class="btn primary" data-fresh data-scroll=".e02-problem-head" data-scroll-offset="100">' + label + '</button></div>'; }
+    /* ---------- کارگاه گام‌به‌گام (انتخاب خط درست در هر گام؛ گام‌ها پشت‌سرهم می‌آیند) ----------
+       gen() → {tex, steps:[{ask, opts:[{h,ok,m}], line, why}], end}؛ o.log=true → «مسیر ساخته‌شده» نمایش داده می‌شود */
+    K.guide = function (root, gen, o) {
+      var st = root.querySelector('[data-stage]'), p, si, tries, okIdx, last, wrong, log, done, withLog = !!(o && o.log);
+      function nw() {
+        p = gen(); si = 0; wrong = 0; log = []; done = false;
+        tries = p.steps.map(function () { return []; }); okIdx = p.steps.map(function () { return undefined; }); last = p.steps.map(function () { return undefined; });
+      }
       function paint() {
-        var h = head(p.tex), s;
-        h += '<div class="e3-log"><b>مسیر ساخته‌شده</b><ol>' + (log.length ? log.map(function (l, i) { return '<li><span class="n">' + F(i + 1) + '</span><span class="tx">' + M(l) + '</span></li>'; }).join('') : '<li><span class="tx" style="color:var(--ink-soft);font-size:.88rem;direction:rtl">هنوز گامی انجام نشده است.</span></li>') + '</ol></div>';
-        if (done) { st.innerHTML = rr(h + mark(true, '<b>حل کامل شد' + (wrong ? '' : ' (بدون خطا)') + '.</b> ' + (p.end || '')) + '<div class="opts g-ops"><button type="button" class="btn" data-fresh>مسئلهٔ دیگر</button></div>'); return; }
-        s = p.steps[si];
-        h += '<p class="ask e3-ask">' + F(si + 1) + '. ' + s.ask + '</p><div class="e01-answer-grid">' + s.opts.map(function (op, i) { var cl = okIdx !== undefined ? (op.ok ? ' e01-right' : (tries.indexOf(i) > -1 ? ' e01-wrong' : '')) : (tries.indexOf(i) > -1 ? ' e01-wrong' : ''); return '<button type="button" class="btn e01-answer' + cl + '" data-pick="' + i + '"' + (okIdx !== undefined || tries.indexOf(i) > -1 ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>';
-        if (last !== undefined) { var lo = s.opts[last]; h += mark(lo.ok, lo.ok ? '✓ درست است. ' + s.why : lo.m); }
-        if (okIdx !== undefined) { h += '<div class="e01-navigation"><span></span><button type="button" class="btn primary" data-go>' + (si === p.steps.length - 1 ? 'پایان' : 'گام بعدی') + '</button></div>'; }
+        var h = head(p.tex), j, s;
+        for (j = 0; j <= si; j++) {
+          s = p.steps[j];
+          if (withLog && j) { h += '<div class="e3-sep"><div class="e5-cur"><span>معادلهٔ فعلی</span><div dir="ltr">' + M((function () { for (var q = j - 1; q >= 0; q--) { if (p.steps[q].line.indexOf('=') > -1) { return p.steps[q].line; } } return p.tex; })()) + '</div></div></div>'; }
+          h += '<p class="ask e3-ask' + (j && !withLog ? ' e3-sep' : '') + '">' + F(j + 1) + '. ' + s.ask + '</p><div class="e01-answer-grid">' + s.opts.map(function (op, i) { var cl = okIdx[j] !== undefined ? (op.ok ? ' e01-right' : (tries[j].indexOf(i) > -1 ? ' e01-wrong' : '')) : (tries[j].indexOf(i) > -1 ? ' e01-wrong' : ''); return '<button type="button" class="btn e01-answer' + cl + '" data-pick="' + i + '"' + (okIdx[j] !== undefined || tries[j].indexOf(i) > -1 ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>';
+          if (last[j] !== undefined) { var lo = s.opts[last[j]]; h += mark(lo.ok, lo.ok ? '✓ درست است. ' + s.why + (done && j === si ? '<br><b>حل کامل شد' + (wrong ? '' : ' (بدون خطا)') + '.</b> ' + (p.end || '') : '') : lo.m); }
+        }
+        if (done) { h += '<div class="opts g-ops"><button type="button" class="btn" data-solution>راه‌حل کامل را ببین</button><button type="button" class="btn primary" data-fresh data-scroll=".e02-problem-head" data-scroll-offset="100">مسئلهٔ دیگر</button></div>'; }
         st.innerHTML = rr(h);
       }
       root.addEventListener('click', function (e) {
         var b = e.target.closest('button'), i; if (!b || b.disabled) { return; }
         if (b.hasAttribute('data-fresh')) { nw(); paint(); return; }
-        if (b.hasAttribute('data-pick')) { i = +b.dataset.pick; last = i; if (p.steps[si].opts[i].ok) { okIdx = i; } else { tries.push(i); wrong++; } paint(); return; }
-        if (b.hasAttribute('data-go')) { log.push(p.steps[si].line); tries = []; okIdx = undefined; last = undefined; if (si === p.steps.length - 1) { done = true; } else { si++; } paint(); }
+        if (b.hasAttribute('data-pick')) {
+          i = +b.dataset.pick; last[si] = i;
+          if (p.steps[si].opts[i].ok) { okIdx[si] = i; log.push(p.steps[si].line); if (si === p.steps.length - 1) { done = true; } else { si++; } }
+          else { tries[si].push(i); wrong++; }
+          paint();
+        }
       });
+      root.getProblem = function () { return p; };
       nw(); paint();
     };
 
@@ -89,7 +99,7 @@ window.LESSONS.E05 = {
       function setup() { s = { q: makers.map(function (m) { return m(); }), pos: 0, ans: makers.map(function () { return null; }), res: makers.map(function () { return null; }), sel: {}, fin: false, review: false }; }
       function parseNum(v) { v = (v || '').replace(/[۰-۹]/g, function (d) { return d.charCodeAt(0) - 1776; }).replace(/[٫,،]/g, '.').replace(/[−–—]/g, '-').replace(/\s/g, ''); return /^-?\d+(\.\d+)?$/.test(v) ? +v : null; }
       function paint() {
-        var h, it, a, frozen, body = '', i, sc;
+        var h, it, a, frozen, body = '', i, sc, needs = false, canSub = true;
         if (s.fin && !s.review) {
           sc = s.res.filter(function (r) { return r; }).length;
           root.innerHTML = rr('<div class="fb ' + (sc >= N - 2 ? 'ok' : 'bad') + '" role="status"><b>نتیجه: ' + F(sc) + ' از ' + F(N) + '</b><br>' + (sc === N ? 'همهٔ سؤال‌ها را درست پاسخ دادی.' : sc >= N - 2 ? 'سؤال‌های نادرست را مرور کن و دلیل هر اشتباه را بررسی کن.' : 'یک بار دیگر درس را مرور کن؛ سپس با سؤال‌های تازه تمرین کن.') + '</div><div class="opts end-actions"><button type="button" class="btn" data-review>مرور سؤال‌ها</button><button type="button" class="btn primary" data-final-new>سؤال‌های جدید</button></div>'); return;
@@ -99,16 +109,16 @@ window.LESSONS.E05 = {
           body = '<div class="e01-answer-grid">' + it.opts.map(function (op, k) { return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (a === k ? ' e01-wrong' : '')) : '') + '" data-choice="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>';
         } else if (it.type === 'multi') {
           var cur = frozen ? a : (s.sel[s.pos] || []);
-          body = '<div class="e01-answer-grid">' + it.opts.map(function (op, k) { var on = cur.indexOf(k) > -1; return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (on ? ' e01-wrong' : '')) : (on ? ' is-sel' : '')) + '" data-toggle="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>' + (frozen ? '' : '<div class="opts"><button type="button" class="btn primary" data-submit' + (cur.length ? '' : ' disabled') + '>ثبت پاسخ</button></div>');
+          body = '<div class="e01-answer-grid">' + it.opts.map(function (op, k) { var on = cur.indexOf(k) > -1; return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (on ? ' e01-wrong' : '')) : (on ? ' is-sel' : '')) + '" data-toggle="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>' ; needs = !frozen; canSub = cur.length > 0;
         } else if (it.type === 'num') {
-          body = '<div class="e3-numrow"><span class="lbl">' + M(it.lbl || 'x=') + '</span><input class="numin" id="fin-num" type="text" inputmode="decimal" autocomplete="off" aria-label="پاسخ"' + (frozen ? ' disabled' : '') + '></div>' + (frozen ? '' : '<div class="opts"><button type="button" class="btn primary" data-submit>ثبت پاسخ</button></div>');
+          body = '<div class="e3-numrow"><span class="lbl">' + M(it.lbl || 'x=') + '</span><input class="numin" id="fin-num" type="text" inputmode="decimal" autocomplete="off" aria-label="پاسخ"' + (frozen ? ' disabled' : '') + '></div>' ; needs = !frozen; canSub = false;
         } else if (it.type === 'match') {
           var cur2 = frozen ? a : (s.sel[s.pos] || []);
-          body = it.left.map(function (l, r) { var cl = frozen ? (a[r] === it.key[r] ? ' right' : ' wrong') : ''; return '<div class="e3-match-row' + cl + '"><span class="l">' + l + '</span><select data-row="' + r + '"' + (frozen ? ' disabled' : '') + '><option value="">انتخاب کن…</option>' + it.right.map(function (rt, k) { return '<option value="' + k + '"' + (cur2[r] === k ? ' selected' : '') + '>' + rt + '</option>'; }).join('') + '</select></div>'; }).join('') + (frozen ? '' : '<div class="opts"><button type="button" class="btn primary" data-submit' + (cur2.filter(function (v) { return v !== undefined && v !== null; }).length === it.left.length ? '' : ' disabled') + '>ثبت پاسخ</button></div>');
+          body = it.left.map(function (l, r) { var cl = frozen ? (a[r] === it.key[r] ? ' right' : ' wrong') : ''; return '<div class="e3-match-row' + cl + '"><span class="l">' + l + '</span><select data-row="' + r + '"' + (frozen ? ' disabled' : '') + '><option value="">انتخاب کن…</option>' + it.right.map(function (rt, k) { return '<option value="' + k + '"' + (cur2[r] === k ? ' selected' : '') + '>' + rt + '</option>'; }).join('') + '</select></div>'; }).join('') ; needs = !frozen; canSub = cur2.filter(function (v) { return v !== undefined && v !== null; }).length === it.left.length;
         }
         h = '<div class="e01-progress stg" aria-label="پیشرفت آزمون">' + s.q.map(function (q, k) { return '<span class="' + (k === s.pos ? 'cu' : s.res[k] === null ? '' : s.res[k] ? 'dn' : 'wr') + '" aria-label="سؤال ' + F(k + 1) + '">' + F(k + 1) + '</span>'; }).join('') + '</div><p class="ask e01-question">' + it.ask + '</p>' + (it.fig || '') + body;
         if (frozen) { h += fbx(s.res[s.pos], s.res[s.pos] || (it.type !== 'num' && it.type !== 'match') ? '' : (it.wrongText ? it.wrongText(a) : 'پاسخ درست: ' + (it.show || (it.opts ? it.opts.filter(function (op) { return op.ok; }).map(function (op) { return op.h; }).join('، ') : '')) + '.') + ' ', it.why); }
-        h += '<div class="e01-navigation"><button type="button" class="btn" data-prev' + (s.pos === 0 ? ' disabled' : '') + '>سؤال قبلی</button><button type="button" class="btn primary" data-next' + (!frozen ? ' disabled' : '') + '>' + (s.pos === N - 1 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی') + '</button></div>';
+        h += '<div class="e01-navigation"><button type="button" class="btn" data-prev data-scroll' + (s.pos === 0 ? ' disabled' : '') + '>سؤال قبلی</button><button type="button" class="btn primary" data-scroll ' + (needs ? 'data-check' : 'data-next') + ((needs ? !canSub : !frozen) ? ' disabled' : '') + '>' + (needs ? 'بررسی' : (s.pos === N - 1 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی')) + '</button></div>';
         root.innerHTML = rr(h);
       }
       function submit() {
@@ -122,7 +132,7 @@ window.LESSONS.E05 = {
         var b = e.target.closest('button'); if (!b || b.disabled) { return; }
         if (b.hasAttribute('data-choice')) { if (s.ans[s.pos] === null) { var k = +b.dataset.choice; s.ans[s.pos] = k; s.res[s.pos] = !!s.q[s.pos].opts[k].ok; paint(); } return; }
         if (b.hasAttribute('data-toggle')) { var t = +b.dataset.toggle, c = (s.sel[s.pos] || []).slice(), ix = c.indexOf(t); if (ix > -1) { c.splice(ix, 1); } else { c.push(t); } s.sel[s.pos] = c; paint(); return; }
-        if (b.hasAttribute('data-submit')) { submit(); return; }
+        if (b.hasAttribute('data-submit') || b.hasAttribute('data-check')) { submit(); return; }
         if (b.hasAttribute('data-prev')) { s.pos--; paint(); return; }
         if (b.hasAttribute('data-next')) { if (s.pos < N - 1) { s.pos++; } else { s.fin = true; s.review = false; } paint(); return; }
         if (b.hasAttribute('data-review')) { s.review = true; s.pos = 0; paint(); return; }
@@ -130,6 +140,7 @@ window.LESSONS.E05 = {
       });
       root.addEventListener('change', function (e) { var sel = e.target.closest('select[data-row]'); if (!sel) { return; } var c = (s.sel[s.pos] || []).slice(); c[+sel.dataset.row] = sel.value === '' ? undefined : +sel.value; s.sel[s.pos] = c; paint(); });
       root.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.id === 'fin-num') { e.preventDefault(); submit(); } });
+      root.addEventListener('input', function (e) { if (e.target.id !== 'fin-num') { return; } var nb = root.querySelector('[data-check]'); if (nb) { nb.disabled = parseNum(e.target.value) === null; } });
       setup(); paint();
     };
 
@@ -162,7 +173,7 @@ window.LESSONS.E05 = {
         steps.push({ ask: 'همهٔ جمله‌ها (حتی عدد طرف راست) را در ' + M(String(L)) + ' ضرب می‌کنیم. خط بعدی کدام است؟', opts: pairOpts(eqs(xs(pp) + '+' + xs(qq), L * c3), [{ t: eqs(xs(pp) + '+' + xs(qq), c3), m: 'عدد طرف راست را هم باید در ' + L + ' ضرب کنی.' }, { t: eqs(xs(pp) + '+' + xs(qq), L + c3), m: 'ضرب را با جمع قاطی کرده‌ای.' }, { t: eqs(xs(pp) + '+' + dfr('x', d2), L * c3), m: 'جملهٔ دوم را هم باید در ' + L + ' ضرب کنی.' }]), line: eqs(xs(pp) + '+' + xs(qq), L * c3), why: 'همهٔ جمله‌ها در ' + L + ' ضرب شدند.' });
         steps.push({ ask: 'جمله‌های ' + M('x') + ' را جمع کن و ' + M('x') + ' را پیدا کن.', opts: pairOpts(eqs('x', x0), [{ t: eqs('x', L * c3), m: 'باید بر ضریب ' + (pp + qq) + ' تقسیم کنی.' }, { t: eqs('x', c3), m: 'طرف راست پس از ضرب ' + L * c3 + ' است، نه ' + c3 + '.' }, { t: eqs('x', x0 + L), m: 'محاسبه را دوباره بررسی کن: ' + L * c3 + '÷' + (pp + qq) + '.' }]), line: eqs('x', x0), why: M(xs(pp) + '+' + xs(qq) + '=' + (pp + qq) + 'x') + ' و ' + M(eqs(L * c3, (pp + qq) + '\\times ' + x0)) + '.' });
       }
-      return { tex: tex, steps: steps, end: 'جواب: ' + M('x=' + x0) };
+      return { tex: tex, steps: steps, end: 'جواب: ' + M('x=' + x0), ov: { one: 'کسر تنهاست؛ پس اول عددِ کنارش را کنار می‌گذاریم تا کسر تنها بماند، و بعد ضرب در مخرج آن را از بین می‌برد.', cross: 'صورتِ کسر دو جمله دارد و مخرج فقط یک عدد است؛ ضرب در همان عدد مخرج را برمی‌دارد و یک معادلهٔ خطیِ ساده می‌ماند.', two: 'دو کسر با مخرج‌های متفاوت داریم؛ ک.م.م مخرج‌ها هر دو را یک‌جا از بین می‌برد.' }[kind] };
     }
     function genParen() {
       var kind = choose(['p1', 'p1', 'neg']), steps = [], tex, x0;
@@ -180,29 +191,82 @@ window.LESSONS.E05 = {
         steps.push({ ask: 'اعداد را به طرف راست ببر. خط بعدی کدام است؟', opts: pairOpts(eqs('-x', c3 - a3 - p), [{ t: eqs('-x', c3 - a3 + p), m: 'علامت ' + sgn(p) + ' با جابه‌جایی عوض می‌شود.' }, { t: eqs('x', c3 - a3 - p), m: 'علامتِ منفیِ x را از دست داده‌ای.' }, { t: eqs('-x', c3 + a3 - p), m: 'علامت ' + a3 + ' با جابه‌جایی عوض می‌شود.' }]), line: eqs('-x', c3 - a3 - p), why: 'اعداد به طرف راست رفتند.' });
         steps.push({ ask: 'دو طرف را در ' + M('-1') + ' ضرب کن (یا بر ' + M('-1') + ' تقسیم). جواب کدام است؟', opts: pairOpts(eqs('x', x0), [{ t: eqs('x', c3 - a3 - p), m: 'باید علامتِ عدد طرف راست هم عوض شود.' }, { t: eqs('x', -x0), m: 'علامت جواب اشتباه شد.' }, { t: eqs('x', a3 + p + c3), m: 'محاسبه را دوباره بررسی کن.' }]), line: eqs('x', x0), why: 'علامتِ دو طرف عوض شد.' });
       }
-      return { tex: tex, steps: steps, end: 'جواب: ' + M('x=' + x0) };
+      return { tex: tex, steps: steps, end: 'جواب: ' + M('x=' + x0), ov: { p1: 'پرانتز جلوی جمله‌های x را گرفته است؛ پس اول باز می‌شود، و بعد x‌ها یک طرف و عددها طرف دیگر می‌روند.', neg: 'منفیِ جلوی پرانتز علامتِ هر دو جمله‌ی داخلش را برمی‌گرداند؛ بعد از بازشدن، معادله یک معادلهٔ خطیِ معمولی است.' }[kind] };
     }
     function genMix() { return R(0, 1) ? genFrac() : genParen(); }
     /* ---------- کارگاه: مخرج صفر ---------- */
     function zeroLab(root) {
-      var st = root.querySelector('[data-stage]'), k = 3, x = 0, algebra = false;
-      function nw() { k = R(2, 5); x = 0; algebra = false; }
+      var st = root.querySelector('[data-stage]'), k = 3, x = 0, c = 1, a = 0, sw = false, den = 'x-3';
+      var MIN = -4, MAX = 8, TOTAL = MAX - MIN;
+      function nw() {
+        k = nz(-3, 5); c = choose([1, 1, 2, 3]); a = R(-3, 3); x = 0; sw = R(0, 1) === 1;
+        if (c * k + a === 0) { a = a === 3 ? 2 : a + 1; }
+        den = 'x' + (k > 0 ? '-' + k : '+' + (-k));
+      }
+      function pv(v) { return v < 0 ? '(' + v + ')' : String(v); }
+      function sg(v) { return v === 0 ? '' : (v > 0 ? '+' : '-') + abs(v); }
+      function sides() {
+        var kk = c * k + a, w = [
+          { tag: (c === 1 ? '' : c) + 'x' + sg(a), sub: function (v) { return (c === 1 ? '' : c + '\\cdot ') + pv(v) + sg(a); }, num: function (v) { return c * v + a; } },
+          { tag: String(kk), sub: function () { return String(kk); }, num: function () { return kk; } }
+        ];
+        return sw ? [w[1], w[0]] : w;
+      }
+      function texNum(v) { return String(Math.round(v * 100) / 100); }
+      function ticksHtml() {
+        var h = '', i, n;
+        for (i = 0; i <= TOTAL; i++) {
+          n = MIN + i;
+          h += '<span class="' + (n === k ? 'e01-target-tick' : '') + '" style="--gr-step:' + i + ';--gr-total:' + TOTAL + '"><i></i>' + M(String(n)) + '</span>';
+        }
+        return h;
+      }
+      function card(side, label) {
+        return '<div class="e01-pair" data-side="' + side + '"><span>' + label + '</span><strong class="e01-formula-tag" data-tag></strong><div class="e01-pair-eval" data-eval></div><small data-sub></small></div>';
+      }
       function draw() {
-        st.innerHTML = rr('<div class="e02-problem-head"><span class="e02-problem-chip">' + M(dfr('x', 'x-' + k) + '=' + dfr(k, 'x-' + k)) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="عدد دیگر" aria-label="عدد دیگر">' + REFRESH + '</button></div><div class="e3-slider"><div class="lab"><span>عدد آزمایشی ' + M('x') + '</span></div><input type="range" id="z-x" min="-3" max="9" step="1" value="' + x + '" aria-label="عدد آزمایشی"></div><div id="z-live"></div><div class="e3-row"><button type="button" class="e3-op' + (algebra ? ' is-on' : '') + '" data-alg>' + (algebra ? 'پنهان‌کردن حل جبری' : 'حل جبری را نشان بده') + '</button></div><div id="z-alg"></div>');
+        st.innerHTML = rr(
+          '<div class="e02-problem-head"><span class="e02-problem-chip">' + M(dfr(sides()[0].tag, den) + '=' + dfr(sides()[1].tag, den)) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="عدد دیگر" aria-label="عدد دیگر">' + REFRESH + '</button></div>' +
+          '<div class="e01-compare">' +
+            '<div class="e01-compare-control graduated-range">' +
+              '<div class="e01-compare-head"><span>عدد آزمایشی ' + M('x') + '</span><strong data-z-x></strong></div>' +
+              '<input type="range" id="z-x" min="' + MIN + '" max="' + MAX + '" step="1" value="' + x + '" aria-label="عدد آزمایشی">' +
+              '<div class="e01-compare-ticks graduated-ticks" aria-hidden="true">' + ticksHtml() + '</div>' +
+            '</div>' +
+            '<div class="e01-pairs">' + card('L', 'سمت چپ') + card('R', 'سمت راست') + '</div>' +
+          '</div>' +
+          '<div id="z-note"></div>'
+        );
         upd();
       }
       function upd() {
-        var x2 = +st.querySelector('#z-x').value, d = x2 - k, h;
-        if (d === 0) { h = '<div class="e3-eq" style="font-size:1.1rem">' + M(dfr('x', 'x-' + k) + '\\ \\to\\ ' + dfr(k, 0)) + '</div><div class="e3-row"><span class="e3-pill bad">مخرج برابر صفر است؛ این عدد قابل‌قبول نیست و چپ و راست «تعریف‌نشده» می‌شوند.</span></div>'; }
-        else { var L = x2 / d, Rr = k / d; h = '<div class="e3-eq" style="font-size:1.05rem">' + M(dfr(x2, '(' + x2 + ')-' + k) + '=' + dfr(x2, d)) + '<span class="e3-note" style="margin:0">سمت چپ ' + ltr(fan(L)) + '</span></div><div class="e3-eq" style="font-size:1.05rem">' + M(dfr(k, '(' + x2 + ')-' + k) + '=' + dfr(k, d)) + '<span class="e3-note" style="margin:0">سمت راست ' + ltr(fan(Rr)) + '</span></div><div class="e3-row"><span class="e3-pill bad">سمت چپ و راست برابر نیستند؛ پس این عدد جواب نیست.</span></div>'; }
-        st.querySelector('#z-live').innerHTML = rr(h);
-        st.querySelector('#z-alg').innerHTML = algebra ? rr('<div class="e3-log"><b>حل جبری</b><ol><li><span class="n">۱</span><span class="tx">' + M('x=' + k) + '</span></li></ol></div><p class="e3-note">با ضرب دو طرف در ' + M('x-' + k) + ' به ' + M('x=' + k) + ' می‌رسیم؛ ولی ' + M('x=' + k) + ' مخرج را صفر می‌کند و قابل‌قبول نیست. پس معادله <b>جواب ندارد</b>. همیشه بعد از حل، جواب را در مخرج‌ها بگذار.</p>') : '';
+        var x2 = +st.querySelector('#z-x').value, d = x2 - k, bad = d === 0;
+        x = x2;
+        st.querySelector('[data-z-x]').innerHTML = rr(M('x=' + x2));
+        var note = st.querySelector('#z-note');
+        var S = sides();
+        ['L', 'R'].forEach(function (id, i) {
+          var el = st.querySelector('[data-side="' + id + '"]'), q = S[i], dn = pv(x2) + (k > 0 ? '-' + k : '+' + (-k)), nv = q.num(x2);
+          el.querySelector('[data-tag]').innerHTML = rr(M(dfr(q.tag, den)));
+          el.querySelector('[data-eval]').innerHTML = bad ? '<span dir="rtl">تعریف‌نشده</span>'
+            : rr(M(dfr(q.sub(x2), dn) + '=' + dfr(nv, d) + '=' + texNum(nv / d)));
+          el.querySelector('[data-sub]').innerHTML = bad ? 'مخرج صفر است' : rr('با جایگذاری ' + M('x=' + x2));
+          el.classList.toggle('is-undefined', bad);
+        });
+        note.innerHTML = bad ? rr(
+          '<div class="fb bad" role="status">مخرج برابر صفر است؛ این عدد قابل‌قبول نیست.</div>' +
+          '<div class="ex">اگر دو طرف را در ' + M(den) + ' ضرب کنیم به ' + M('x=' + k) + ' می‌رسیم، اما همین مقدار مخرج را صفر می‌کند؛ پس معادله <b>جواب ندارد</b>. همیشه بعد از حل، جواب را در مخرج‌ها بررسی کن.</div>'
+        ) : rr('<div class="e3-row"><span class="e3-pill bad">سمت چپ و راست برابر نیستند؛ پس این عدد جواب نیست.</span></div>');
       }
-      function fan(v) { return (Math.round(v * 100) / 100).toString().replace('.', '٫').replace(/[0-9]/g, function (d) { return F(d); }).replace(/^-/, '−'); }
       root.addEventListener('input', function (e) { if (e.target.id === 'z-x') { upd(); } });
-      root.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b || b.disabled) { return; } if (b.hasAttribute('data-fresh')) { nw(); draw(); } else if (b.hasAttribute('data-alg')) { algebra = !algebra; var keep = +st.querySelector('#z-x').value; draw(); st.querySelector('#z-x').value = keep; upd(); } });
+      root.addEventListener('click', function (e) {
+        var b = e.target.closest('button');
+        if (!b || b.disabled) { return; }
+        if (b.hasAttribute('data-fresh')) { nw(); draw(); }
+      });
       nw(); draw();
     }
+
     /* ---------- کارگاه: پرانتزبازکن ---------- */
     function distLab(root) {
       var st = root.querySelector('[data-stage]'), p, done;
@@ -210,7 +274,7 @@ window.LESSONS.E05 = {
       function paint() {
         var a = p.a, b = p.b, c = p.c, A = a * 1, B = a * b, ex = (a === -1 ? '-' : a) + '(x' + sgn(b) + ')', res = [xs(a), (B < 0 ? '' : '+') + B];
         var inner = '<span class="e3-pill ' + (p.done[0] ? 'ok' : '') + '">' + M(xs(a)) + '</span><span class="e3-pill ' + (p.done[1] ? 'ok' : '') + '">' + M((B < 0 ? '' : '+') + B) + '</span>';
-        st.innerHTML = rr('<div class="e02-problem-head"><span class="e02-problem-chip">' + M(ex) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="عبارت جدید" aria-label="عبارت جدید">' + REFRESH + '</button></div><p class="e3-note">عددِ ' + M(String(a)) + ' بیرونِ پرانتز است. آن را در هر جملهٔ داخل پرانتز ضرب کن (روی هر دکمه بزن):</p><div class="e3-row"><button type="button" class="e3-op' + (p.done[0] ? ' is-on' : '') + '" data-t="0">' + M(fm(a) + '\\times x') + '</button><button type="button" class="e3-op' + (p.done[1] ? ' is-on' : '') + '" data-t="1">' + M(fm(a) + '\\times(' + b + ')') + '</button></div><div class="e3-eq" style="font-size:1.2rem">' + M(ex + '=' + (p.done[0] ? xs(a) : '?') + (p.done[1] ? (B < 0 ? '' : '+') + B : '+\\,?')) + '</div>' + (p.done[0] && p.done[1] ? mark(true, '✓ هر دو جمله را ضرب کردی: ' + M(ex + '=' + xs(a) + (B < 0 ? '' : '+') + B) + '. توجه: ' + (a < 0 ? 'ضرب در عددِ منفی علامتِ جمله‌ها را عوض می‌کند.' : 'علامتِ جملهٔ دوم به علامتِ ' + b + ' بستگی دارد.')) + '<div class="opts g-ops"><button type="button" class="btn" data-fresh>عبارت دیگر</button></div>' : (p.done[0] !== p.done[1] ? mark(false, 'فقط یک جمله را ضرب کرده‌ای؛ پرانتز دو جمله دارد و عدد بیرون باید در هر دو ضرب شود.') : '')));
+        st.innerHTML = rr('<div class="e02-problem-head"><span class="e02-problem-chip">' + M(ex) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="عبارت جدید" aria-label="عبارت جدید">' + REFRESH + '</button></div><p class="e3-note">عددِ ' + M(String(a)) + ' بیرونِ پرانتز است. آن را در هر جملهٔ داخل پرانتز ضرب کن (روی هر دکمه بزن):</p><div class="e3-row"><button type="button" class="e3-op' + (p.done[0] ? ' is-on' : '') + '" data-t="0">' + M(fm(a) + '\\times x') + '</button><button type="button" class="e3-op' + (p.done[1] ? ' is-on' : '') + '" data-t="1">' + M(fm(a) + '\\times(' + b + ')') + '</button></div><div class="e3-eq" style="font-size:1.2rem">' + M(ex + '=' + (p.done[0] ? xs(a) : '?') + (p.done[1] ? (B < 0 ? '' : '+') + B : '+\\,?')) + '</div>' + (p.done[0] && p.done[1] ? mark(true, '✓ هر دو جمله را ضرب کردی: ' + M(ex + '=' + xs(a) + (B < 0 ? '' : '+') + B) + '. توجه: ' + (a < 0 ? 'ضرب در عددِ منفی علامتِ جمله‌ها را عوض می‌کند.' : 'علامتِ جملهٔ دوم به علامتِ ' + b + ' بستگی دارد.')) : (p.done[0] !== p.done[1] ? mark(false, 'فقط یک جمله را ضرب کرده‌ای؛ پرانتز دو جمله دارد و عدد بیرون باید در هر دو ضرب شود.') : '')));
       }
       root.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b || b.disabled) { return; } if (b.hasAttribute('data-fresh')) { nw(); paint(); } else if (b.hasAttribute('data-t')) { p.done[+b.dataset.t] = true; paint(); } });
       nw(); paint();
@@ -227,55 +291,154 @@ window.LESSONS.E05 = {
       return { type: 'mc', ask: 'جواب معادلهٔ ' + M(a + '(x' + sgn(b) + ')=' + lin(c, d)) + ' کدام است؟', opts: mc({ t: 'x=' + x0 }, [{ t: 'x=' + rat(d + b, a - c), m: 'عدد ' + a + ' را فقط در x ضرب کرده‌ای؛ باید در ' + b + ' هم ضرب شود.' }, { t: 'x=' + -x0, m: 'علامت جواب اشتباه شد.' }, { t: 'x=' + rat(d + ab, m), m: 'علامت ' + sgn(ab) + ' را هنگام جابه‌جایی عوض نکرده‌ای.' }, { t: 'x=' + (d - ab), m: 'باید بر ضریب ' + m + ' تقسیم کنی.' }]), why: 'پرانتز را باز کن: ' + M(eqs(xs(a) + sgn(ab), lin(c, d))) + '؛ جمله‌ها را جابه‌جا کن: ' + M(eqs(xs(m), d - ab)) + '؛ پس ' + M('x=' + x0) + '.' };
     }
     function mkG4() {
-      var k = R(2, 6), t = R(0, 1), left = t ? 'x' : k, text = dfr('x', 'x-' + k) + '=' + dfr(k, 'x-' + k);
-      return { type: 'mc', ask: 'جواب معادلهٔ زیر کدام است؟<div class="e3-eq" style="margin-top:6px">' + M(text) + '</div>', opts: [{ h: M('x=' + k), ok: false }, { h: 'هر عددی به‌جز ' + M(String(k)), ok: false }, { h: M('x=0'), ok: false }, { h: 'معادله جواب ندارد', ok: true }], why: 'اگر دو طرف را در ' + M('x-' + k) + ' ضرب کنیم، به ' + M('x=' + k) + ' می‌رسیم؛ ولی ' + M('x=' + k) + ' مخرج را صفر می‌کند و قابل‌قبول نیست؛ پس معادله جواب ندارد.' };
+      var k = R(2, 6), m, n;
+      if (R(0, 1)) {
+        return { type: 'mc', ask: 'جواب معادلهٔ زیر کدام است؟<div class="e3-eq" style="margin-top:6px">' + M(dfr('x', 'x-' + k) + '=' + dfr(k, 'x-' + k)) + '</div>', opts: shuffle([{ h: M('x=' + k), ok: false }, { h: 'هر عددی به‌جز ' + M(String(k)), ok: false }, { h: M('x=0'), ok: false }, { h: 'معادله جواب ندارد', ok: true }]), why: 'اگر دو طرف را در ' + M('x-' + k) + ' ضرب کنیم، به ' + M('x=' + k) + ' می‌رسیم؛ ولی ' + M('x=' + k) + ' مخرج را صفر می‌کند و قابل‌قبول نیست؛ پس معادله جواب ندارد.' };
+      }
+      m = choose([2, 3, 4]); n = choose([1, 2]);
+      return { type: 'mc', ask: 'جواب معادلهٔ زیر کدام است؟<div class="e3-eq" style="margin-top:6px">' + M(dfr(m * n, 'x-' + k) + '=' + m) + '</div>', opts: shuffle([{ h: M('x=' + (k + n)), ok: true }, { h: M('x=' + k), ok: false }, { h: M('x=' + n), ok: false }, { h: 'معادله جواب ندارد', ok: false }]), why: 'دو طرف را در ' + M('x-' + k) + ' ضرب کن: ' + M(m * n + '=' + m + '(x-' + k + ')') + '، پس ' + M('x-' + k + '=' + n) + ' و ' + M('x=' + (k + n)) + '. این عدد مخرج را صفر نمی‌کند (مخرج می‌شود ' + M(String(n)) + ')، پس قابل‌قبول است.' };
     }
     function mkG5() {
-      var C = ['همهٔ جمله‌ها، حتی عدد تنها، در ک.م.م مخرج‌ها ضرب می‌شوند', 'پس از حل، جواب را در مخرج‌ها می‌گذاریم تا مخرج صفر نشود', 'عدد بیرون پرانتز در همهٔ جمله‌های داخل پرانتز ضرب می‌شود'], W = ['فقط جمله‌های کسری در ک.م.م ضرب می‌شوند', 'عدد بیرون پرانتز فقط در جملهٔ اول داخل پرانتز ضرب می‌شود', 'اگر جواب مخرج را صفر کند، باز هم قابل‌قبول است'], ci = shuffle(C).slice(0, 2), wi = shuffle(W).slice(0, 2);
-      return { type: 'multi', ask: 'کدام گزاره‌ها دربارهٔ حل معادله‌های کسری و پرانتزی درست‌اند؟ همهٔ گزینه‌های درست را انتخاب کن.', opts: shuffle(ci.map(function (t) { return { h: t, ok: true }; }).concat(wi.map(function (t) { return { h: t, ok: false }; }))), why: 'در حذف مخرج‌ها همهٔ جمله‌ها ضرب می‌شوند؛ پرانتز را کامل باز می‌کنیم؛ و جواب را همیشه با مخرج‌ها می‌سنجیم.' };
+      var a = choose([2, 3, 4]), b = nz(-6, 6), c = choose([1, 2, 3, 5].filter(function (z) { return z !== a; })), x0 = nz(-6, 8), d = a * (x0 + b) - c * x0;
+      var d1 = choose([2, 3, 4]), d2 = choose([5, 6]), L = lcm(d1, d2), x1 = L * R(1, 3), c2 = x1 / d1 + x1 / d2, k = R(2, 6);
+      var right = ['باز کردن پرانتز', 'ضرب در ک.م.م مخرج‌های عددی', 'ضرب در مخرجِ دارای x، و سنجش جواب در پایان'], order = shuffle([0, 1, 2]);
+      return { type: 'match', ask: 'هر معادله را به نخستین کاری که لازم دارد وصل کن.', left: [M(a + '(x' + sgn(b) + ')=' + lin(c, d)), M(dfr('x', d1) + '+' + dfr('x', d2) + '=' + c2), M(dfr('x', 'x-' + k) + '+1=' + dfr(k, 'x-' + k))], right: order.map(function (i) { return right[i]; }), key: [0, 1, 2].map(function (i) { return order.indexOf(i); }), show: 'معادلهٔ پرانتزی ← باز کردن پرانتز؛ کسرهای عددی ← ضرب در ک.م.م؛ مخرجِ دارای x ← ضرب در آن مخرج و سنجش در پایان', why: 'پرانتز جلوی جمع‌شدنِ x‌ها را می‌گیرد؛ مخرج‌های عددی با ک.م.م از بین می‌روند؛ و مخرجی که x دارد ممکن است صفر شود، پس جواب را باید در پایان سنجید.' };
     }
-    function mkG6() {
+    function mkG6p() {
       var a = choose([2, 3, 4]), b = nz(-6, 6), c = choose([1, 2, 3, 5].filter(function (z) { return z !== a; })), x0 = nz(-6, 8), d = a * (x0 + b) - c * x0, ab = a * b, m = a - c, kind = R(0, 2), L1 = a + '(x' + sgn(b) + ')=' + lin(c, d), L2, L3, bad, txt;
       if (kind === 0) { L2 = eqs(xs(a) + sgn(b), lin(c, d)); L3 = eqs(xs(m), d - b); bad = 1; txt = 'سطر ۲ نادرست است: عدد ' + a + ' باید در جملهٔ دوم پرانتز هم ضرب شود (' + M(sgn(ab)) + ' نه ' + M(sgn(b)) + ').'; }
       else if (kind === 1) { L2 = eqs(xs(a) + sgn(ab), lin(c, d)); L3 = eqs(xs(m), d + ab); bad = 2; txt = 'سطر ۳ نادرست است: ' + M(sgn(ab)) + ' با جابه‌جایی باید علامتش عوض شود و ' + M(String(d - ab)) + ' بشود.'; }
       else { L2 = eqs(xs(a) + sgn(ab), lin(c, d)); L3 = eqs(xs(m), d - ab); bad = -1; txt = 'همهٔ سطرها درست‌اند: پرانتز کامل باز شده و جمله‌ها با تغییر علامت جابه‌جا شده‌اند.'; }
       return { type: 'mc', ask: 'معادلهٔ ' + M(L1) + ' به این صورت حل شده است:<ol class="e3-final-lines"><li>' + M(L1) + '</li><li>' + M(L2) + '</li><li>' + M(L3) + '</li></ol>کدام گزینه درست است؟', opts: [{ h: 'سطر ۲ نادرست است', ok: bad === 1 }, { h: 'سطر ۳ نادرست است', ok: bad === 2 }, { h: 'همهٔ سطرها درست‌اند', ok: bad < 0 }, { h: 'سطر ۱ نادرست است', ok: false }], why: txt };
     }
-    function orderStrip() {
-      var st = [['پرانتزها را باز کن', 'عدد بیرون پرانتز در همهٔ جمله‌های داخل آن ضرب می‌شود.'], ['کسرها را حذف کن', 'دو طرف را در ک.م.م مخرج‌ها ضرب کن.'], ['معادلهٔ خطی را حل کن', 'جمله‌ها را جابه‌جا کن و بر ضریب x تقسیم کن.'], ['جواب را بسنج', 'جواب را در معادله و مخرج‌ها بگذار.']];
-      return '<div class="e4-dec e5-order">' + st.map(function (c, i) { return '<div class="e4-dec-card"><span class="e4-dec-q"><i>' + F(i + 1) + '</i>' + c[0] + '</span><span class="e4-dec-a">' + c[1] + '</span></div>'; }).join('') + '</div>';
+    function mkG6f() {
+      var d1 = choose([2, 3, 4, 5]), d2 = choose([2, 3, 4, 5, 6]); while (d2 === d1) { d2 = choose([2, 3, 4, 5, 6]); }
+      var L = lcm(d1, d2), x0 = L * R(1, 3), c = x0 / d1 + x0 / d2, pp = L / d1, qq = L / d2, kind = R(0, 2), L1 = dfr('x', d1) + '+' + dfr('x', d2) + '=' + c, L2, L3, bad, txt;
+      if (kind === 0) { L2 = eqs(xs(pp) + '+' + xs(qq), c); L3 = eqs('x', rat(c, pp + qq)); bad = 1; txt = 'سطر ۲ نادرست است: ضرب در ' + L + ' باید به عدد طرف راست هم برسد؛ درستش ' + M(eqs(xs(pp) + '+' + xs(qq), L * c)) + ' است.'; }
+      else if (kind === 1) { L2 = eqs(xs(pp) + '+' + xs(qq), L * c); L3 = eqs('x', L * c); bad = 2; txt = 'سطر ۳ نادرست است: ' + M(xs(pp) + '+' + xs(qq) + '=' + xs(pp + qq)) + ' و باید بر ' + (pp + qq) + ' تقسیم کنی؛ درستش ' + M('x=' + x0) + ' است.'; }
+      else { L2 = eqs(xs(pp) + '+' + xs(qq), L * c); L3 = eqs('x', x0); bad = -1; txt = 'همهٔ سطرها درست‌اند: ضرب در ' + L + ' روی همهٔ جمله‌ها انجام شده و بعد بر ' + (pp + qq) + ' تقسیم شده است.'; }
+      return { type: 'mc', ask: 'معادلهٔ ' + M(L1) + ' به این صورت حل شده است:<ol class="e3-final-lines"><li>' + M(L1) + '</li><li>' + M(L2) + '</li><li>' + M(L3) + '</li></ol>کدام گزینه درست است؟', opts: [{ h: 'سطر ۲ نادرست است', ok: bad === 1 }, { h: 'سطر ۳ نادرست است', ok: bad === 2 }, { h: 'همهٔ سطرها درست‌اند', ok: bad < 0 }, { h: 'سطر ۱ نادرست است', ok: false }], why: txt };
+    }
+    function mkG6() { return R(0, 1) ? mkG6p() : mkG6f(); }
+    /* ---------- جایگاه هر بخش در مسیر چهارمرحله‌ای حل ---------- */
+    var STAGES = ['باز کردن پرانتز', 'حذف مخرج', 'حل معادلهٔ خطی', 'سنجش جواب'];
+    function stageTag(i) { return '<div class="e5-tag" style="--sc:' + SC[i] + '" aria-label="جایگاه این بخش در مسیر حل">' + STAGES.map(function (s, k) { return '<span class="' + (k === i ? 'on' : '') + '">' + F(k + 1) + '. ' + s + '</span>'; }).join('<i aria-hidden="true">←</i>') + '</div>'; }
+    /* ---------- کارت‌های قاعده: معادله به‌جای توصیف ---------- */
+    var SC = ['#d6457a', '#4c5fd5', '#0e8f7e', '#b8860b'];
+    function rules(rows, st) { return '<div class="e5-rules" style="--sc:' + SC[st || 0] + '">' + rows.map(function (r) { return '<div class="e5-rule"><div class="eq" dir="ltr">' + M(r[1]) + '</div><p>' + r[0] + '</p></div>'; }).join('') + '</div>'; }
+    function errPair(w, wt, r, rt) { function row(c, mk, t, q) { return '<div class="e5-er ' + c + '"><div class="what">' + t + '</div><div class="line"><span class="mk">' + mk + '</span><div class="eq" dir="ltr">' + M(q) + '</div></div></div>'; } return '<div class="e5-err">' + row('bad', '✗', w, wt) + row('ok', '✓', r, rt) + '</div>'; }
+
+    /* ---------- ماشین مرحله‌ها: تشخیص بده معادله از کدام مرحله‌ها می‌گذرد ---------- */
+    var addc = function (n) { return n === 0 ? '' : n > 0 ? '+' + n : '-' + (-n); };
+    function genMachine() {
+      var kind = choose(['paren', 'frac', 'both', 'lin']), r = { need: [kind === 'paren' || kind === 'both', kind === 'frac' || kind === 'both'] }, x0, V, a, b, c, d, ab;
+      if (kind === 'paren') {
+        a = choose([2, 3, 4]); b = nz(-6, 6); c = choose([1, 2, 3, 5].filter(function (z) { return z !== a; })); x0 = nz(-6, 8); d = a * (x0 + b) - c * x0; ab = a * b; V = a * (x0 + b);
+        r.tex = a + '(x' + sgn(b) + ')=' + lin(c, d);
+        r.st = [[eqs(xs(a) + sgn(ab), lin(c, d))], null, [eqs(xs(a - c), d - ab), 'x=' + x0], [a + '(' + x0 + sgn(b) + ')=' + V, c + '\\times' + fm(x0) + addc(d) + '=' + V]];
+      } else if (kind === 'frac') {
+        var d1 = choose([2, 3, 4, 5]), d2 = choose([2, 3, 4, 5, 6]); while (d2 === d1) { d2 = choose([2, 3, 4, 5, 6]); }
+        var L = lcm(d1, d2), pp = L / d1, qq = L / d2; x0 = L * R(1, 3); c = x0 / d1 + x0 / d2;
+        r.tex = dfr('x', d1) + '+' + dfr('x', d2) + '=' + c;
+        r.st = [null, [eqs(xs(pp) + '+' + xs(qq), L * c)], [eqs(xs(pp + qq), L * c), 'x=' + x0], [dfr(x0, d1) + '+' + dfr(x0, d2) + '=' + c]];
+      } else if (kind === 'both') {
+        d = choose([2, 3, 4]); var k = nz(-3, 4); x0 = d * k; a = choose([2, 3]); b = nz(-4, 4); var e = a * (x0 + b) - k; ab = a * b; V = a * (x0 + b);
+        r.tex = a + '(x' + sgn(b) + ')=' + dfr('x', d) + addc(e);
+        r.st = [[eqs(xs(a) + sgn(ab), dfr('x', d) + addc(e))], [eqs(xs(d * a) + sgn(d * ab), 'x' + addc(d * e))], [eqs(xs(d * a - 1), d * e - d * ab), 'x=' + x0], [a + '(' + x0 + sgn(b) + ')=' + V, dfr(x0, d) + addc(e) + '=' + V]];
+      } else {
+        a = choose([3, 4, 5]); c = choose([1, 2]); b = nz(-6, 6); x0 = nz(-6, 8); d = a * x0 + b - c * x0; V = a * x0 + b;
+        r.tex = lin(a, b) + '=' + lin(c, d);
+        r.st = [null, null, [eqs(xs(a - c), d - b), 'x=' + x0], [a + '\\times' + fm(x0) + addc(b) + '=' + V, c + '\\times' + fm(x0) + addc(d) + '=' + V]];
+      }
+      return r;
+    }
+    function machine(root) {
+      var st = root.querySelector('[data-stage]'), p, ans, ran, msg;
+      function nw() { p = genMachine(); ans = [null, null]; ran = false; msg = ''; }
+      function paint() {
+        var h = head(p.tex), i;
+        h += '<p class="ask e3-ask">کدام مرحله‌ها برای این معادله لازم‌اند؟</p><div class="e5-mach">';
+        for (i = 0; i < 2; i++) {
+          h += '<div class=\"e5-stn\" style=\"--sc:' + SC[i] + '\"><div class=\"e5-stn-h\"><i>' + F(i + 1) + '</i><span>' + STAGES[i] + '</span></div><div class=\"e5-stn-c\"><button type=\"button\" class=\"btn' + (ans[i] === 1 ? ' on' : '') + '\" data-ch=\"' + i + ':1\"' + (ran ? ' disabled' : '') + '>لازم است</button><button type=\"button\" class=\"btn' + (ans[i] === 0 ? ' on' : '') + '\" data-ch=\"' + i + ':0\"' + (ran ? ' disabled' : '') + '>لازم نیست</button></div></div>';
+        }
+        h += '</div><div class=\"e5-always\"><span>این دو مرحله در هر معادله کار می‌کنند:</span><b style=\"--sc:' + SC[2] + '\">' + F(3) + '. ' + STAGES[2] + '</b><i aria-hidden=\"true\">←</i><b style=\"--sc:' + SC[3] + '\">' + F(4) + '. ' + STAGES[3] + '</b></div>';
+        if (!ran) { h += '<div class="opts g-ops"><button type="button" class="btn primary" data-run' + (ans[0] === null || ans[1] === null ? ' disabled' : '') + '>ماشین را روشن کن</button></div>' + msg; }
+        else {
+          h += '<div class="e5-belt"><div class="e5-belt-in"><span>ورودی</span><div dir="ltr">' + M(p.tex) + '</div></div>';
+          for (i = 0; i < 4; i++) {
+            var on = i >= 2 || p.need[i];
+            h += '<div class="e5-belt-row ' + (on ? 'on' : 'off') + '" style="--sc:' + SC[i] + ';animation-delay:' + (i * 0.18).toFixed(2) + 's"><span class="n">' + F(i + 1) + '</span><b>' + STAGES[i] + '</b><div class="eqs">' + (on ? p.st[i].map(function (q) { return '<div dir="ltr">' + M(q) + '</div>'; }).join('') : '<small>بدون کار</small>') + '</div></div>';
+          }
+          h += '</div>' + mark(true, '<b>درست تشخیص دادی.</b> فقط مرحله‌های لازم کار کردند.') + more('معادلهٔ دیگر');
+        }
+        st.innerHTML = rr(h);
+      }
+      root.addEventListener('click', function (e) {
+        var b = e.target.closest('button'), w, bad = []; if (!b || b.disabled) { return; }
+        if (b.hasAttribute('data-fresh')) { nw(); paint(); return; }
+        if (b.hasAttribute('data-ch')) { w = b.dataset.ch.split(':'); ans[+w[0]] = +w[1]; msg = ''; paint(); return; }
+        if (b.hasAttribute('data-run')) {
+          if (ans[0] !== (p.need[0] ? 1 : 0)) { bad.push(p.need[0] ? 'در این معادله پرانتز هست؛ تا باز نشود، جمله‌های x جمع نمی‌شوند.' : 'این معادله پرانتز ندارد؛ مرحله ۱ کاری ندارد.'); }
+          if (ans[1] !== (p.need[1] ? 1 : 0)) { bad.push(p.need[1] ? 'در این معادله کسر هست؛ مخرج‌ها باید حذف شوند.' : 'این معادله کسر ندارد؛ مرحله ۲ کاری ندارد.'); }
+          if (bad.length) { msg = mark(false, bad.join('<br>')); } else { ran = true; msg = ''; }
+          paint();
+        }
+      });
+      nw(); paint();
+    }
+
+    /* ---------- دیالوگ «مراحل حل این مسئله» (آیکون i) ---------- */
+    function stepsNote(dlgId) {
+      return '<dialog class=\"e02-example-dialog\" id=\"' + dlgId + '\" aria-labelledby=\"' + dlgId + '-t\"><div class=\"e02-example-dialog-header\"><strong id=\"' + dlgId + '-t\">راه‌حل کامل این مسئله</strong><button type=\"button\" class=\"btn primary\" data-sd-close aria-label=\"بستن پنجره\">بستن</button></div><div class=\"e02-example-dialog-content\" data-sd-body></div></dialog>';
+    }
+    function stepsBind(dlgId, forId, $) {
+      var dlg = $(dlgId), root = $(forId), body = dlg.querySelector('[data-sd-body]');
+      root.addEventListener('click', function (e) {
+        if (!e.target.closest('[data-solution]')) { return; }
+        var p = root.getProblem(), steps = [{ title: 'معادلهٔ اولیه', lines: [p.tex], note: '' }].concat(p.steps.map(function (s, i) { return { title: 'گام ' + F(i + 1), lines: [s.line], note: s.why }; }));
+        steps[steps.length - 1].note += (p.end ? ' ' + p.end : '');
+        body.innerHTML = rr((p.ov ? '<p class="e5-ov"><b>چرا این مسیر؟</b> ' + p.ov + '</p>' : '') + steps.map(function (s) { return '<section class="e02-example-step"><div class="e02-example-heading"><span class="e02-example-chip">' + s.title + '</span></div><div class="e02-example-lines">' + s.lines.map(function (l) { return '<div dir="ltr">' + M(l) + '</div>'; }).join('') + '</div>' + (s.note ? '<p class="e02-example-note">' + s.note + '</p>' : '') + '</section>'; }).join(''));
+        dlg.showModal();
+      });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.closest('[data-sd-close]')) { dlg.close(); } });
     }
     return {
       html: function () {
         var h = '<div class="e01-lesson e02-lesson e3x">';
-        h += intro('کسرها و پرانتزها را از سر راه برداریم', 'معادله‌ای که کسر یا پرانتز دارد، با چند حرکتِ مشخص به معادلهٔ خطیِ ساده‌ای تبدیل می‌شود که قبلاً حلش را بلدی: کسرها را با <b>ضرب در ک.م.م</b> حذف می‌کنیم و پرانتز را با <b>توزیع</b> باز می‌کنیم. یک خطر هم هست: جوابی که مخرج را صفر کند، جواب نیست.', ['حذف کسر', 'باز کردن پرانتز', 'مخرج صفر', 'ماشین حل']);
-        h += K.sn('۱', 'حذف مخرج با ضرب در ک.م.م');
-        h += '<p>در معادلهٔ ' + M(dfr('x', 2) + '+' + dfr('x', 3) + '=5') + ' مخرج‌ها ' + M('2') + ' و ' + M('3') + ' هستند. کوچک‌ترین عددی که هر دو را می‌شمارد ' + M('6') + ' است. دو طرف را در ' + M('6') + ' ضرب می‌کنیم؛ نکتهٔ مهم این است که <b>همهٔ</b> جمله‌ها (حتی ' + M('5') + ') ضرب می‌شوند.</p>';
-        h += exampleBlock('e05-example-steps', 'حل کامل معادلهٔ کسری', 3);
-        h += activity('کارگاه حذف مخرج', 'e05-frac', 'در هر گام یکی از خط‌ها را انتخاب کن. برای مسئلهٔ تازه، دکمهٔ چرخان را بزن. هر بار یکی از انواع معادلهٔ کسری می‌آید.');
-        h += K.box('err', '⚠ خطای رایج: ضرب‌نکردنِ عددِ تنها', '<p>اگر فقط جمله‌های کسری را در ک.م.م ضرب کنی و ' + M('5') + ' را دست‌نخورده بگذاری، به ' + M('x=1') + ' می‌رسی که نادرست است. در ضرب‌کردن، دو طرف کامل ضرب می‌شوند.</p>');
-        h += K.sn('۲', 'باز کردن پرانتز');
-        h += '<p>در ' + M('2(x-3)') + ' عدد ' + M('2') + ' باید در <b>هر دو</b> جملهٔ داخل پرانتز ضرب شود: ' + M('2\\times x') + ' و ' + M('2\\times(-3)') + '؛ یعنی ' + M('2x-6') + '. اگر پشت پرانتز علامتِ منفی باشد، علامتِ هر دو جمله عوض می‌شود: ' + M('-(x-3)=-x+3') + '.</p>';
+        h += intro('کسرها و پرانتزها را از سر راه برداریم', 'معادله‌ای که پرانتز یا کسر دارد، با چند حرکتِ مشخص به همان معادلهٔ خطیِ آشنا تبدیل می‌شود. فقط یک تله هست: جوابی که مخرج را صفر کند، جواب نیست.', ['باز کردن پرانتز', 'حذف مخرج', 'مخرج صفر', 'ماشین مرحله‌ها']);
+        h += K.sn('۱', 'باز کردن پرانتز') + stageTag(0);
+        h += '<p>پرانتز مثل یک بسته است: عددی که جلوی آن ایستاده باید به همهٔ چیزهای داخلش برسد. تا بسته باز نشود، جمله‌های ' + M('x') + ' نمی‌توانند با هم جمع شوند؛ پس باز کردن پرانتز یعنی رساندنِ عددِ بیرون به تک‌تکِ جمله‌های داخل.</p>';
         h += exampleBlock('e05-example-dist', 'حل کامل معادلهٔ پرانتزی', 3);
-        h += activity('کارگاه پرانتزبازکن', 'e05-dist', 'روی هر دو دکمه بزن تا ضرب‌ها انجام شود. اگر فقط یکی را بزنی، متوجه خطا می‌شوی. برای عبارت تازه، دکمهٔ چرخان را بزن.');
-        h += K.box('err', '⚠ خطای رایج: ضرب فقط در جملهٔ اول', '<p>در ' + M('2(x-3)=x+4') + ' اگر بنویسی ' + M('2x-3=x+4') + '، عدد ' + M('2') + ' را فقط در ' + M('x') + ' ضرب کرده‌ای و به ' + M('x=7') + ' می‌رسی که نادرست است. درستش ' + M('2x-6=x+4') + ' و ' + M('x=10') + ' است.</p>');
-        h += K.sn('۳', 'خطرِ مخرجِ صفر');
-        h += '<p>تا اینجا مخرج‌ها فقط عدد بودند. اگر ' + M('x') + ' در مخرج باشد، پرسش تازه‌ای پیدا می‌شود: آیا جوابی که به دست می‌آوریم اصلاً مجاز است؟ در معادلهٔ ' + M(dfr('x', 'x-3') + '=' + dfr(3, 'x-3')) + ' اگر دو طرف را در ' + M('x-3') + ' ضرب کنیم، به ' + M('x=3') + ' می‌رسیم. ولی ' + M('x=3') + ' مخرج را صفر می‌کند و تقسیم بر صفر معنا ندارد. پس این جواب باید کنار گذاشته شود. روی نوار حرکت کن و ببین در عددِ مرزی چه می‌شود:</p>';
-        h += activity('کارگاه مخرج صفر', 'e05-zero', 'نوار را حرکت بده و مقدار دو طرف را ببین. وقتی مخرج صفر شود، دو طرف «تعریف‌نشده»اند. «حل جبری» را بزن تا ببینی چرا معادله جواب ندارد.');
+        h += '<p>در مثال دیدی عددِ بیرون به هر دو جمله رسید و منفیِ جلوی پرانتز علامت‌ها را برگرداند. حالا خودت با عبارت‌های تازه امتحانش کن.</p>';
+        h += activity('کارگاه پرانتزبازکن', 'e05-dist', 'عددِ بیرون را به هر دو جمله برسان؛ روی هر دو ضرب بزن.');
+        h += K.box('err', '⚠ خطای رایج: ضرب فقط در جملهٔ اول', '<p>معادلهٔ اصلی: ' + ltr(M('2(x-3)=x+4')) + '</p>' + errPair('عدد ۲ فقط به جملهٔ اول رسید', '2x\\textcolor{firebrick}{-3}=x+4\\ \\Rightarrow\\ x=7', 'عدد ۲ به هر دو جملهٔ پرانتز می‌رسد', '2x\\textcolor{seagreen}{-6}=x+4\\ \\Rightarrow\\ x=10') + '<p>راه تشخیص: جواب را در معادلهٔ اصلی بگذار. طرف چپ ' + ltr(M('2(7-3)=8')) + ' می‌شود ولی طرف راست ' + ltr(M('7+4=11')) + '؛ پس ' + ltr(M('x=7')) + ' جواب نیست.</p>');
+        h += K.sn('۲', 'حذف مخرج') + stageTag(1);
+        h += '<p>پرانتزها که رفتند، نوبت کسرهاست. کسر یعنی تقسیم و جمع‌کردنش دردسر دارد؛ اما اگر دو طرف را در عددی ضرب کنیم که همهٔ مخرج‌ها آن را بشمارند (ک.م.م)، کسرها یک‌جا ناپدید می‌شوند و همان معادلهٔ خطیِ آشنا می‌ماند.</p>';
+        h += exampleBlock('e05-example-steps', 'حل کامل معادلهٔ کسری', 3);
+        h += '<p>در مثال، ضرب در ک.م.م به همهٔ جمله‌ها رسید، حتی به عددِ تنها. حالا خودت امتحان کن.</p>';
+        h += activity('کارگاه حذف مخرج', 'e05-frac', 'سه شکل معادله می‌آید: کسرِ تنها با عددی کنارش، کسر با صورتِ دوجمله‌ای، و دو کسر با مخرج‌های متفاوت. در هر گام خط درست را انتخاب کن.');
+        h += stepsNote('e05-sd-frac');
+        h += K.box('err', '⚠ خطای رایج: جا انداختنِ عددِ تنها', '<p>معادلهٔ اصلی: ' + ltr(M(dfr('x', 2) + '+' + dfr('x', 3) + '=5')) + '</p>' + errPair('عددِ ' + M('5') + ' ضرب نشد', '5x=\\textcolor{firebrick}{5}\\ \\Rightarrow\\ x=1', 'همهٔ جمله‌ها ضرب می‌شوند', '5x=\\textcolor{seagreen}{30}\\ \\Rightarrow\\ x=6') + '<p>سنجش: با ' + ltr(M('x=1')) + ' طرف چپ ' + ltr(M(dfr('1', 2) + '+' + dfr('1', 3) + '=' + dfr(5, 6))) + ' می‌شود ولی طرف راست ' + M('5') + ' است.</p>');
+        h += K.sn('۳', 'خطرِ مخرجِ صفر') + stageTag(3);
+        h += '<p>کسرها که رفتند، یک نگرانی می‌ماند: ضرب در مخرج یعنی ضرب در عبارتی که ممکن است صفر شود. وقتی ' + M('x') + ' در مخرج است، جوابی که مخرج را صفر کند قابل‌قبول نیست.</p>';
+        h += rules([['ضرب در ' + M('x-3'), dfr('x', 'x-3') + '=' + dfr(3, 'x-3') + '\\ \\Rightarrow\\ x=3'], [M('x=3') + ' مخرج را صفر می‌کند؛ پس جواب نیست', 'x-3=3-3=0']], 3);
+        h += '<p>پس همیشه باید دید جواب، مخرج را صفر می‌کند یا نه.</p>';
+        h += activity('کارگاه مخرج صفر', 'e05-zero', 'نوار را حرکت بده و مقدار دو طرف را ببین؛ عددی را پیدا کن که مخرج را صفر می‌کند. همان‌جا دو طرف «تعریف‌نشده» می‌شوند و دلیلش ظاهر می‌شود.');
         h += K.box('note', 'همیشه بسنج', '<p>پس از حل معادله‌ای که مخرجِ شاملِ ' + M('x') + ' دارد، جواب را در همهٔ مخرج‌ها بگذار. اگر مخرجی صفر شد، آن جواب قابل‌قبول نیست.</p>');
-        h += K.sn('۴', 'ماشین حل');
-        h += '<p>حالا هر سه مهارت را با هم به کار ببر. معادله‌ها کسری یا پرانتزی‌اند و گاهی هر دو را دارند. ترتیب حرکت‌ها این است:</p>' + orderStrip();
-        h += exampleBlock('e05-example-mix', 'حل کامل معادلهٔ ترکیبی', 4);
-        h += activity('کارگاه مسیر حل', 'e05-solve', 'مسئلهٔ ترکیبی (کسری یا پرانتزی). در هر گام خط درست را انتخاب کن؛ با دکمهٔ چرخان مسئلهٔ تازه بگیر.');
+        h += K.sn('۴', 'ماشین مرحله‌ها');
+        h += '<p>هر معادله را با چهار کار پشت‌سرهم حل می‌کنیم (همان چهار کار نوارِ بالای هر بخش). اما همهٔ معادله‌ها به هر چهار کار نیاز ندارند: اگر پرانتز یا کسر نباشد، دو کار اول لازم نیست.</p>';
+        h += activity('ماشین مرحله‌ها', 'e05-machine', 'برای هر معادله مشخص کن کدام‌یک از دو مرحلهٔ اول لازم است (مرحلهٔ ۳ و ۴ همیشه انجام می‌شوند)، بعد «ماشین را روشن کن» را بزن تا ببینی معادله از چه مسیری حل می‌شود.');
+        h += activity('کارگاه مسیر حل', 'e05-solve', 'حالا خودت یک معادله را از ابتدا تا انتها حل کن: در هر گام خط درست را انتخاب کن.');
+        h += stepsNote('e05-sd-solve');
         h += K.sn('۵', 'آزمون پایانی');
         h += '<p>در آزمون پایانی، معادله‌های کسری، پرانتزی و مخرج‌صفر سنجیده می‌شوند. شش سؤال در قالب‌های گوناگون، با عددهای تازه در هر دور.</p>';
         h += '<div id="e05-final" class="e01-interaction e01-final" aria-label="آزمون پایانی" data-activity></div>';
-        h += K.box('sum', 'بعد از این درس باید بتوانی', '<ul><li>معادلهٔ دارای کسر را با ضرب در ک.م.م (روی همهٔ جمله‌ها) حل کنی.</li><li>پرانتز را با توزیع کامل باز کنی و مراقب علامتِ منفیِ پشت پرانتز باشی.</li><li>بدانی جوابی که مخرج را صفر کند قابل‌قبول نیست و در مخرج‌ها بسنجی.</li><li>نخستین سطر نادرستِ یک راه‌حل را پیدا کنی.</li></ul>');
+        h += K.box('sum', 'بعد از این درس باید بتوانی', '<ul><li>پرانتز را با توزیع کامل باز کنی و مراقب علامتِ منفیِ پشت پرانتز باشی.</li><li>معادلهٔ دارای کسر را با ضرب در ک.م.م (روی همهٔ جمله‌ها) حل کنی.</li><li>بدانی جوابی که مخرج را صفر کند قابل‌قبول نیست و در مخرج‌ها بسنجی.</li><li>نخستین سطر نادرستِ یک راه‌حل را پیدا کنی.</li></ul>');
         return h + '</div>';
       },
       init: function () {
         var $ = function (id) { return document.getElementById(id); };
-        K.guide($('e05-frac'), genFrac); distLab($('e05-dist')); zeroLab($('e05-zero')); K.guide($('e05-solve'), genMix);
+        K.guide($('e05-frac'), genFrac, { log: false }); distLab($('e05-dist')); zeroLab($('e05-zero')); K.guide($('e05-solve'), genMix, { log: true }); machine($('e05-machine')); stepsBind('e05-sd-frac', 'e05-frac', $); stepsBind('e05-sd-solve', 'e05-solve', $);
         exampleBind('e05-example-steps', [
           { title: 'مخرج مشترک', lines: ['\\dfrac{x}{2}+\\dfrac{x}{3}=5', '@ک.م.م ' + M('2') + ' و ' + M('3') + ' برابر ' + M('6') + ' است'], note: 'کوچک‌ترین عددی که ۲ و ۳ هر دو آن را می‌شمارند، ۶ است.' },
           { title: 'ضرب در ۶', lines: ['6\\times\\dfrac{x}{2}+6\\times\\dfrac{x}{3}=6\\times5', '3x+2x=30', '5x=30'], note: 'همهٔ جمله‌ها، از جمله ۵ طرف راست، در ۶ ضرب می‌شوند.' },
@@ -285,12 +448,6 @@ window.LESSONS.E05 = {
           { title: 'باز کردن پرانتزها', lines: ['2(x-3)-(x-4)=9', '2x-6-x+4=9'], note: 'عدد ۲ در هر دو جملهٔ پرانتز اول ضرب می‌شود. علامت منفیِ پشت پرانتز دوم، علامت هر دو جمله را عوض می‌کند: ' + M('-(x-4)=-x+4') + '.' },
           { title: 'جمع جمله‌های مشابه', lines: ['2x-x-6+4=9', 'x-2=9'], note: 'جمله‌های ' + M('x') + ' را با هم و عددها را با هم جمع می‌کنیم.' },
           { title: 'حل و آزمایش', lines: ['x=11', '2(11-3)-(11-4)=16-7=9\\ \\color{teal}{\\checkmark}'], note: 'جواب را جایگذاری می‌کنیم؛ دو طرف برابرند.' }
-        ]);
-        exampleBind('e05-example-mix', [
-          { title: 'باز کردن پرانتز', lines: ['3(x-1)=\\dfrac{x}{2}+2', '3x-3=\\dfrac{x}{2}+2'], note: 'عدد ۳ در هر دو جملهٔ پرانتز ضرب می‌شود.' },
-          { title: 'حذف کسر', lines: ['2(3x-3)=2\\left(\\dfrac{x}{2}+2\\right)', '6x-6=x+4'], note: 'ک.م.م مخرج‌ها ۲ است؛ همهٔ جمله‌های دو طرف در ۲ ضرب می‌شوند.' },
-          { title: 'حل معادلهٔ خطی', lines: ['6x-x=4+6', '5x=10', 'x=2'], note: 'جمله‌های ' + M('x') + ' را یک طرف و عددها را طرف دیگر می‌بریم؛ بعد بر ۵ تقسیم می‌کنیم.' },
-          { title: 'سنجیدن جواب', lines: ['3(2-1)=3', '\\dfrac{2}{2}+2=3\\ \\color{teal}{\\checkmark}'], note: 'دو طرف برابرند و مخرج (عدد ثابت ۲) صفر نمی‌شود. اگر ' + M('x') + ' در مخرج بود، همین‌جا آن را هم می‌سنجیدیم.' }
         ]);
         K.final($('e05-final'), [mkG1, mkG2, mkG3, mkG4, mkG5, mkG6]);
       }
