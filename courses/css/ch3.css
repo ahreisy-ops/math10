@@ -5836,7 +5836,8 @@
 }
 
 #e04-final ol.e3-final-lines,
-#e05-final ol.e3-final-lines {
+#e05-final ol.e3-final-lines,
+#e06-final ol.e3-final-lines {
   list-style: none;
   counter-reset: st;
   margin: 14px 0;
@@ -5847,7 +5848,8 @@
 }
 
 #e04-final ol.e3-final-lines li,
-#e05-final ol.e3-final-lines li {
+#e05-final ol.e3-final-lines li,
+#e06-final ol.e3-final-lines li {
   counter-increment: st;
   display: flex;
   align-items: center;
@@ -5856,7 +5858,8 @@
 }
 
 #e04-final ol.e3-final-lines li::before,
-#e05-final ol.e3-final-lines li::before {
+#e05-final ol.e3-final-lines li::before,
+#e06-final ol.e3-final-lines li::before {
   content: counter(st, persian);
   flex: none;
   width: 28px;
@@ -5873,7 +5876,8 @@
 }
 
 #e04-final ol.e3-final-lines li .katex,
-#e05-final ol.e3-final-lines li .katex {
+#e05-final ol.e3-final-lines li .katex,
+#e06-final ol.e3-final-lines li .katex {
   direction: ltr
 }
 
@@ -6132,6 +6136,7 @@
 .e3x .e5-cur > div { direction: ltr; color: var(--amber) }
 .e3x .e5-er .line { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap }
 .e3x .e5-ov { margin: 0 0 12px; padding: 10px 14px; border-radius: 10px; border-inline-start: 4px solid #0e8f7e; background: #eefaf7; line-height: 1.9 }
-#e05-final .e3-match-row select { direction: rtl; text-align: right }
+#e05-final .e3-match-row select,
+#e06-final .e3-match-row select { direction: rtl; text-align: right }
 
 @media (prefers-reduced-motion: reduce) { .e3x .e5-belt-row { animation: none } }
