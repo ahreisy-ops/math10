@@ -185,7 +185,8 @@ window.LESSONS.C01 = {
         var a = 3 * sa, b = 2 * sb, p = C.quad(a, b), q = C.quad(b, a), sh = {}; sh[q] = QF[q]; sh[p] = QF[p];
         seen[sa + ',' + sb] = 1;
         cl.innerHTML = rr(grp('a', 'a=' + a, sa) + grp('b', 'b=' + b, sb));
-        pl.innerHTML = C.plane({ x0: -4, x1: 4, y0: -3, y1: 3, shade: sh, seg: [{ a: [a, b], b: [b, a], c: '#8a96ab', dash: true, w: 1.8 }], pts: [{ x: a, y: b, c: C.TEAL, r: 7, l: 'P', pair: true, dy: b >= 3 ? 24 : -11 }, { x: b, y: a, c: C.PINK, r: 7, l: 'Q', pair: true, dy: a >= 3 ? 24 : -11 }] });
+        // pl.innerHTML = C.plane({ x0: -4, x1: 4, y0: -3, y1: 3, shade: sh, seg: [{ a: [a, b], b: [b, a], c: '#8a96ab', dash: true, w: 1.8 }], pts: [{ x: a, y: b, c: C.TEAL, r: 7, l: 'P', pair: true, dy: b >= 3 ? 24 : -11 }, { x: b, y: a, c: C.PINK, r: 7, l: 'Q', pair: true, dy: a >= 3 ? 24 : -11 }] });
+        pl.innerHTML = C.plane({ x0: -4, x1: 4, y0: -3, y1: 3, shade: sh, seg: [{ a: [a, b], b: [b, a], c: '#8a96ab', dash: true, w: 1.8 }], pts: [{ x: a, y: b, c: C.TEAL, r: 7, l: 'P', dy: b >= 3 ? 24 : -11 }, { x: b, y: a, c: C.PINK, r: 7, l: 'Q', dy: a === b ? (b >= 3 ? 42 : 24) : (a >= 3 ? 24 : -11) }] });
         info.innerHTML = rr(line('P', C.pt('a', 'b') + ' = ' + C.pt(a, b), p) + line('Q', C.pt('b', 'a') + ' = ' + C.pt(b, a), q) + '<div class="cd-cs">' + (p === q ? 'ناحیه همان ماند.' : 'ناحیه عوض شد!') + '</div>');
         tb.innerHTML = rr(rowsT.map(function (r) { var on = seen[r[0] + ',' + r[1]], cur = r[0] === sa && r[1] === sb; return '<div class="cd-chip' + (cur ? ' cur' : '') + '"><span>' + C.signs(r[0], r[1]) + '</span><b>' + (on ? fa(C.quad(3 * r[0], 2 * r[1])) + '<i>←</i>' + fa(C.quad(2 * r[1], 3 * r[0])) : '؟') + '</b></div>'; }).join(''));
       }
