@@ -17,15 +17,15 @@
     C.bd = function (s) { return '<bdi dir="ltr">' + s + '</bdi>'; };
     C.num = function (n) { return '$' + n + '$'; };
     C.pair = function (x, y) { return '(' + x + ',\\,' + y + ')'; };                             /* TeX */
-    C.pt = function (x, y) { return typeof x === 'number' && typeof y === 'number' ? C.bd('(' + C.sg(x) + '\u060C ' + C.sg(y) + ')') : M(C.pair(x, y)); };                                          /* زوج مرتب با KaTeX */
+    C.pt = function (x, y) { return M(C.pair(x, y)); };                                                                  /* زوج مرتب با KaTeX */
     C.pairTxt = function (x, y) { return '\u2066(' + C.sg(x) + '\u060C ' + C.sg(y) + ')\u2069'; };  /* متن ساده داخل SVG */
     C.quad = function (x, y) { return x > 0 && y > 0 ? 1 : x < 0 && y > 0 ? 2 : x < 0 && y < 0 ? 3 : x > 0 && y < 0 ? 4 : 0; };
     C.where = function (x, y) {                                                                   /* توضیح محل نقطه */
       var q = C.quad(x, y);
-      return q ? 'ناحیهٔ ' + QN[q] : (x === 0 && y === 0 ? 'مبدأ مختصات' : y === 0 ? 'روی محور x' : 'روی محور y');
+      return q ? 'ناحیهٔ ' + QN[q] : (x === 0 && y === 0 ? 'مبدأ مختصات' : y === 0 ? 'روی محور ' + M('x') : 'روی محور ' + M('y'));
     };
     C.pill = function (txt, q) { return '<span class="cd-pill q' + q + '">' + txt + '</span>'; };
-    C.signs = function (x, y) { return C.bd('( ' + (x < 0 ? '\u2212' : x > 0 ? '+' : '0') + ' \u060C ' + (y < 0 ? '\u2212' : y > 0 ? '+' : '0') + ' )'); };
+    C.signs = function (x, y) { var g = function (v) { return v < 0 ? '-' : v > 0 ? '+' : '0'; }; return M('(' + g(x) + ',\\,' + g(y) + ')'); };
     C.dots = function (res, cur, n) { var h = '', k; n = n || res.length; for (k = 0; k < n; k++) { h += '<i class="' + (res[k] === undefined ? (k === cur ? 'cu' : '') : res[k] ? 'ok' : 'no') + '"></i>'; } return '<div class="lk-dots">' + h + '</div>'; };
 
     /* ---------- صفحهٔ مختصات ----------
@@ -83,6 +83,8 @@
         s += '<text x="' + (px(x1) + 22) + '" y="' + (py(0) + 5) + '" font-size="16" font-style="italic" fill="' + INK + '" font-family="Times New Roman,serif">x</text>';
         if (!o.noY) { s += '<text x="' + (px(0) + 10) + '" y="' + (py(y1) - 10) + '" font-size="16" font-style="italic" fill="' + INK + '" font-family="Times New Roman,serif">y</text>'; }
       }
+      if (o.noY && x0 <= 0) { s += '<text x="' + px(0) + '" y="' + (py(0) + 15) + '" text-anchor="middle" font-size="10.5" fill="' + INK + '" ' + F + '>' + fa(0) + '</text>'; }
+      if (o.klab) { s += '<foreignObject x="' + (px(x1) + 19) + '" y="' + (py(0) - 13) + '" width="18" height="26"><div class="cd-kl">' + M('x') + '</div></foreignObject>'; }
       if (o.part === 'o') { s += '<circle cx="' + px(0) + '" cy="' + py(0) + '" r="14" fill="rgba(255,194,51,.55)" stroke="' + PINK + '" stroke-width="3"/><circle cx="' + px(0) + '" cy="' + py(0) + '" r="4.5" fill="' + INK + '"/>'; }
       /* خط و پاره‌خط‌ها */
       (o.seg || []).forEach(function (g) { s += '<line x1="' + px(g.a[0]) + '" y1="' + py(g.a[1]) + '" x2="' + px(g.b[0]) + '" y2="' + py(g.b[1]) + '" stroke="' + (g.c || PINK) + '" stroke-width="' + (g.w || 2.4) + '"' + (g.dash ? ' stroke-dasharray="6 4"' : '') + ' stroke-linecap="round"/>'; });
@@ -100,12 +102,21 @@
         if (a.ring) { s += '<circle cx="' + px(a.x) + '" cy="' + py(a.y) + '" r="' + (rad + 5) + '" fill="none" stroke="' + (a.c || RED) + '" stroke-width="2.5"/>'; }
         s += '<circle cx="' + px(a.x) + '" cy="' + py(a.y) + '" r="' + rad + '" fill="' + (a.hollow ? '#fff' : (a.c || RED)) + '" stroke="' + INK + '" stroke-width="1.6"' + (a.hollow ? ' stroke-dasharray="3 2"' : '') + '/>';
         var t = (a.l || '') + (a.pair ? (a.l ? ' ' : '') + C.pairTxt(a.x, a.y) : '');
-        if (t) { s += '<text x="' + (px(a.x) + (a.dx === undefined ? 9 : a.dx)) + '" y="' + (py(a.y) + (a.dy === undefined ? -8 : a.dy)) + '" font-size="13" font-weight="700" fill="' + INK + '" paint-order="stroke" stroke="#fff" stroke-width="3" ' + F + '>' + t + '</text>'; }
+        if (t) {
+          s += '<text x="' + (px(a.x) - 4 + (a.dx === undefined ? 9 : a.dx)) +
+            '" y="' + (py(a.y) + (a.dy === undefined ? -8 : a.dy)) +
+            '" font-size="13" font-weight="700" fill="' + INK + '" paint-order="stroke" stroke="#fff" stroke-width="3" ' + F + '>' + t + '</text>';
+        }
       });
       (o.notes || []).forEach(function (a) { s += '<text x="' + px(a.x) + '" y="' + py(a.y) + '" text-anchor="' + (a.anchor || 'middle') + '" font-size="' + (a.fs || 13) + '" font-weight="700" fill="' + (a.c || INK) + '" paint-order="stroke" stroke="#fff" stroke-width="3" ' + F + '>' + a.t + '</text>'; });
       if (o.sel) { s += '<circle cx="' + px(o.sel[0]) + '" cy="' + py(o.sel[1]) + '" r="8" fill="' + TEAL + '" stroke="' + INK + '" stroke-width="2.5"/>'; }
       if (o.pick) {
-        for (p = x0; p <= x1; p++) { for (q = y0; q <= y1; q++) { s += '<g class="cd-pk" data-x="' + p + '" data-y="' + q + '"><rect x="' + (px(p) - c / 2) + '" y="' + (py(q) - c / 2) + '" width="' + c + '" height="' + c + '" rx="6"/></g>'; } }
+        for (p = x0; p <= x1; p++) {
+          for (q = y0; q <= y1; q++) {
+            var bx = Math.max(2, Math.min(W - 66, px(p) - 32)), up = py(q) - 44 > 2, by = up ? py(q) - 42 : py(q) + 20, ay = up ? by + 22 : by, ad = up ? 6 : -6;
+            s += '<g class="cd-pk" data-x="' + p + '" data-y="' + q + '"><rect x="' + (px(p) - c / 2) + '" y="' + (py(q) - c / 2) + '" width="' + c + '" height="' + c + '" rx="6"/><circle class="hv" cx="' + px(p) + '" cy="' + py(q) + '" r="12"/><g class="tp"><rect x="' + bx + '" y="' + by + '" width="64" height="22" rx="7"/><path d="M' + (px(p) - 5) + ' ' + ay + 'L' + (px(p) + 5) + ' ' + ay + 'L' + px(p) + ' ' + (ay + ad) + 'z"/><text x="' + (bx + 32) + '" y="' + (by + 15) + '" text-anchor="middle" ' + F + '>' + C.pairTxt(p, q) + '</text></g></g>';
+          }
+        }
       }
       if (o.quads) {
         [1, 2, 3, 4].forEach(function (k) {
@@ -164,25 +175,24 @@
         var n = qs.length, q = qs[i], a = ans[i], h, oh = '', s = 0, k;
         if (i === n) {
           for (k = 0; k < n; k++) { if (good(k)) { s++; } }
-          host.innerHTML = rr('<div class="fb ' + (s >= n - 1 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(s) + ' از ' + fa(n) + '</b><br>' + resText(s, n) + '</div><div class="opts"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
+          host.innerHTML = rr(K.res(s, n) + '<div class="end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
           return;
         }
-        h = '<div class="stg">' + qs.map(function (x, k2) { var g = good(k2); return '<span class="' + (g === null ? (k2 === i ? 'cu' : '') : g ? 'dn' : 'wr') + '">' + fa(k2 + 1) + '</span>'; }).join('') + '</div><p class="ask">سؤال ' + fa(i + 1) + ' از ' + fa(n) + ': ' + q.ask + '</p>' + (q.fig || '') + (q.tex ? K.dm(q.tex) : '');
+        h = '<div class="stg">' + qs.map(function (x, k2) { var g = good(k2); return '<span class="' + (g === null ? (k2 === i ? 'cu' : '') : g ? 'dn' : 'wr') + '">' + fa(k2 + 1) + '</span>'; }).join('') + '</div><p class="ask"><b>' + q.ask + '</b></p>' + (q.fig || '') + (q.tex ? K.dm(q.tex) : '');
         if (q.kind === 'pick') {
           var po = Object.assign({}, q.plane);
           if (a === undefined) { po.pick = true; po.sel = sel; }
           else { po.pts = (po.pts || []).concat(q.ans ? [{ x: q.ans[0], y: q.ans[1], c: GREEN, r: 7, ring: true }] : []); if (!a.ok) { po.pts.push({ x: a.x, y: a.y, c: RED, r: 6 }); } else if (!q.ans) { po.pts.push({ x: a.x, y: a.y, c: GREEN, r: 7, ring: true }); } }
           h += C.plane(po);
-          if (a === undefined) { h += '<div class="opts"><button type="button" class="btn" data-ck="1"' + (sel ? '' : ' disabled') + '>تأیید پاسخ</button></div>'; }
         } else {
-          oh = ''; q.opts.forEach(function (o, k2) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (o.ok ? ' right' : k2 === a ? ' wrong' : '') : '') + '" data-o="' + k2 + '"' + (a !== undefined ? ' disabled' : '') + '>' + o.h + '</button>'; });
+          oh = ''; q.opts.forEach(function (o, k2) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (o.ok ? ' right' : k2 === a ? ' wrong' : '') : '') + '" data-o="' + k2 + '"' + (a !== undefined ? ' disabled' : '') + '><span class="cd-ot">' + o.h + '</span></button>'; });
           h += '<div class="mc" id="mcx"></div>';
         }
         if (a !== undefined) {
           var ok = good(i), msg = ok ? 'درست است! ✓' : q.kind === 'pick' ? (q.bad ? q.bad(a) : 'این نقطه درست نیست.') : (q.opts[a].m || 'این گزینه درست نیست.');
           h += fb(ok, msg) + '<div class="ex">' + q.expl + '</div>';
         }
-        h += '<div class="opts"><button type="button" class="btn" data-p="1" data-scroll' + (i ? '' : ' disabled') + '>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1" data-scroll' + (a === undefined ? ' disabled' : '') + '>' + (i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
+        var chk = q.kind === 'pick' && a === undefined; h += '<div class="end-actions"><button type="button" class="btn" data-p="1" data-scroll' + (i ? '' : ' disabled') + '>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1" data-scroll' + (chk ? (sel ? '' : ' disabled') : (a === undefined ? ' disabled' : '')) + '>' + (chk ? 'بررسی' : i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
         host.innerHTML = rr(h); if (q.kind !== 'pick') { host.querySelector('#mcx').innerHTML = rr(oh); }
       }
       host.addEventListener('click', function (e) {
@@ -190,7 +200,7 @@
         if (t && qs[i] && qs[i].kind === 'pick' && ans[i] === undefined) { sel = [t.x, t.y]; paint(); return; }
         var b = e.target.closest('button'); if (!b || b.disabled) { return; }
         if (b.dataset.o) { ans[i] = +b.dataset.o; paint(); }
-        else if (b.dataset.ck && sel) { ans[i] = { x: sel[0], y: sel[1], ok: qs[i].test ? !!qs[i].test(sel[0], sel[1]) : sel[0] === qs[i].ans[0] && sel[1] === qs[i].ans[1] }; sel = null; paint(); }
+        else if ((b.dataset.ck || (b.dataset.nx && qs[i].kind === 'pick' && ans[i] === undefined)) && sel) { ans[i] = { x: sel[0], y: sel[1], ok: qs[i].test ? !!qs[i].test(sel[0], sel[1]) : sel[0] === qs[i].ans[0] && sel[1] === qs[i].ans[1] }; sel = null; paint(); }
         else if (b.dataset.nx) { i++; sel = null; paint(); } else if (b.dataset.p) { i--; sel = null; paint(); }
         else if (b.dataset.pv) { i = 0; sel = null; paint(); } else if (b.dataset.r) { start(); paint(); }
       });

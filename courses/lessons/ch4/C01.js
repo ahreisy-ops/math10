@@ -12,9 +12,9 @@ window.LESSONS.C01 = {
     var SIGN = { 1: [1, 1], 2: [-1, 1], 3: [-1, -1], 4: [1, -1] };
     var stSigns = function (k) { return C.signs(SIGN[k][0], SIGN[k][1]); };
 
-    /* ============ ۱) ساختن صفحه، گام‌به‌گام ============ */
+    /* ============ ۱) ساختن صفحه، مرحله‌به‌مرحله (ساختار مثال حل‌شدهٔ فصل ۳، بدون «مشاهدهٔ حل کامل») ============ */
     K.build = function (host) {
-      var step = 0, N = 5;
+      var step = 0, N = 5, mh = 0;
       var CAP = [
         ['محور عدد را می‌شناسی', 'این همان «محور عدد» فصل اول است: صفر وسط است و عددها به راست بزرگ‌تر می‌شوند. اما با یک محور فقط می‌توانیم جای نقطه‌ها را <b>روی یک خط</b> بگوییم.'],
         ['محور دوم، عمودی', 'یک محور عدد دیگر را <b>عمود</b> بر اولی می‌گذاریم، طوری که صفرِ هر دو در یک جا باشد. حالا هر نقطه از کاغذ را می‌شود با دو عدد پیدا کرد.'],
@@ -24,47 +24,77 @@ window.LESSONS.C01 = {
       ];
       function fig() {
         var base = { x0: -5, x1: 5, y0: -4, y1: 4, cell: 30 };
-        if (step === 0) { return C.plane({ x0: -5, x1: 5, y0: -1, y1: 1, bare: true, noY: true, nolab: true, notes: [{ x: 5.3, y: 0.9, t: 'x', c: C.PINK, fs: 16 }] }); }
+        if (step === 0) { return C.plane({ x0: -5, x1: 5, y0: -3, y1: 3, bare: true, noY: true, nolab: true, klab: true, pts: [{ x: -3, y: 0, c: C.PINK, r: 7, l: '\u2212' + fa(3), dy: -14 }, { x: 2, y: 0, c: C.TEAL, r: 7, l: fa(2), dy: -14 }] }); }
         if (step === 1) { return C.plane(Object.assign(base, { nolab: true })); }
         if (step === 2) { return C.plane(Object.assign(base, { nolab: true, part: 'o', notes: [{ x: 1.9, y: 0.75, t: 'مبدأ', c: C.PINK, fs: 14 }] })); }
         if (step === 3) { return C.plane(Object.assign(base, { notes: [{ x: 3.4, y: 1.0, t: 'مثبت +', c: C.TEAL }, { x: -3.4, y: 1.0, t: 'منفی −', c: C.RED }, { x: 1.9, y: 3.3, t: 'مثبت +', c: C.TEAL }, { x: 1.9, y: -3.4, t: 'منفی −', c: C.RED }] })); }
         return C.plane(Object.assign(base, { shade: QF, qn: true, ccw: true }));
       }
       function paint() {
-        var h = '<div class="stg">' + CAP.map(function (c, k) { return '<span class="' + (k < step ? 'dn' : k === step ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div>';
-        h += fig() + '<p class="ask"><b>گام ' + fa(step + 1) + ': ' + CAP[step][0] + '</b></p><div class="cd-info" style="min-height:5.2em">' + CAP[step][1] + '</div>';
-        h += '<div class="opts"><button type="button" class="btn" data-d="-1" data-scroll=".stg"' + (step ? '' : ' disabled') + '>گام قبلی</button><button type="button" class="btn primary" data-d="1" data-scroll=".stg"' + (step < N - 1 ? '' : ' disabled') + '>گام بعدی</button></div>';
-        host.innerHTML = rr(h);
+        var seg = CAP.map(function (c, k) { return '<i' + (k <= step ? ' class="current"' : '') + '></i>'; }).join('');
+        host.innerHTML = rr('<div class="ex cd-ex"><div class="cd-ex-top"><strong>ساختن صفحهٔ مختصات</strong><span>مرحلهٔ ' + fa(step + 1) + ' از ' + fa(N) + '</span></div><div class="cd-ex-prog" aria-hidden="true">' + seg + '</div><div class="cd-ex-body" aria-live="polite"' + (mh ? ' style="min-height:' + mh + 'px"' : '') + '><section><div class="cd-ex-head"><span class="cd-ex-chip">مرحلهٔ ' + fa(step + 1) + '</span><strong>' + CAP[step][0] + '</strong></div>' + fig() + '<p class="cd-ex-note">' + CAP[step][1] + '</p></section></div><div class="end-actions"><button type="button" class="btn" data-d="-1" data-scroll=".cd-ex-top" data-scroll-offset="-120"' + (step ? '' : ' disabled') + '>مرحلهٔ قبلی</button><button type="button" class="btn primary" data-d="1" data-scroll=".cd-ex-top" data-scroll-offset="-120"' + (step < N - 1 ? '' : ' disabled') + '>مرحلهٔ بعدی</button></div></div>');
       }
       host.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b || b.disabled) { return; } step += +b.dataset.d; paint(); });
-      paint();
+      var m = 0, bd, k;
+      for (k = 0; k < N; k++) { step = k; mh = 0; paint(); bd = host.querySelector('.cd-ex-body'); m = Math.max(m, bd.offsetHeight); }
+      step = 0; mh = m; paint();
     };
+
+    /* ============ موتور مشترک بازی‌های سؤال‌به‌سؤال (نوار شماره‌دار، قبلی/بعدی، نتیجهٔ استاندارد، مرور) ============
+       o.once → هر سؤال یک پاسخ دارد و پس از آن جای درست نشان داده می‌شود؛ o.chk(it) → سؤالی که دکمهٔ بعدی‌اش تا پاسخ «بررسی» است */
+    function hunt(host, o) {
+      var items, st, i;
+      function newGame() { items = o.make(); st = items.map(function () { return { wr: 0, done: false, first: false, msg: '' }; }); i = 0; paint(); }
+      function paint() {
+        var n = items.length, it = items[i], s = st[i], h, c, chk;
+        if (i >= n) {
+          c = st.filter(function (x) { return x.first; }).length;
+          host.innerHTML = rr(K.res(c, n) + '<div class="end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
+          return;
+        }
+        chk = !s.done && o.chk && o.chk(it);
+        h = '<div class="stg">' + st.map(function (x, k) { return '<span class="' + (x.done ? (x.first ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div>';
+        h += '<p class="ask"><b>' + o.ask(it) + '</b></p>' + o.fig(it, s) + (o.ctl ? o.ctl(it, s) : '') + s.msg;
+        // h += '<div class="end-actions"><button type="button" class="btn" data-p="1" data-scroll=".stg" data-scroll-offset="-40"' + (i ? '' : ' disabled') + '>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (chk ? '' : ' data-scroll=".stg" data-scroll-offset="-40"') + (s.done || (chk && o.ready(it)) ? '' : ' disabled') + '>' + (chk ? 'بررسی' : i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
+        h += '<div class="end-actions"><button type="button" class="btn" data-p="1" data-scroll=".stg" data-scroll-offset="20"' + (i ? '' : ' disabled') + '>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (chk ? '' : ' data-scroll=".stg" data-scroll-offset="20"') + (s.done || (chk && o.ready(it)) ? '' : ' disabled') + '>' + (chk ? 'بررسی' : i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
+        host.innerHTML = rr(h);
+      }
+      function settle(r, s) {
+        if (r === true) { s.done = true; s.first = s.wr === 0; s.msg = fb(true, 'درست است! ✓'); }
+        else if (r === 1) { s.msg = ''; }
+        else if (r) { s.wr++; if (o.once) { s.done = true; s.first = false; } s.msg = fb(false, r); }
+        else { return; }
+        paint();
+      }
+      host.addEventListener('click', function (e) {
+        var b = e.target.closest('button'), s = st && st[i];
+        if (b) {
+          if (b.disabled) { return; }
+          if (b.dataset.r) { newGame(); return; }
+          if (b.dataset.pv) { i = 0; paint(); return; }
+          if (b.dataset.p) { i--; paint(); return; }
+          if (b.dataset.nx) { if (!s.done && o.chk && o.chk(items[i])) { settle(o.check(items[i]), s); } else { i++; paint(); } return; }
+        }
+        if (i >= items.length || s.done) { return; }
+        settle(o.act(e, items[i], s), s);
+      });
+      newGame();
+    }
+    var WH = function (x, y) { var q = C.quad(x, y); return q ? RE(q) : x === 0 && y === 0 ? 'مبدأ مختصات' : 'محور ' + M(y === 0 ? 'x' : 'y'); };
+    var PL = function (x, y) { return C.quad(x, y) || (x === 0 && y === 0) ? WH(x, y) : 'روی ' + WH(x, y); };
 
     /* ============ ۲) نام را بشنو، جایش را لمس کن ============ */
     K.nameIt = function (host) {
-      var items, i, res, wr, msg;
       function cls(x, y) { return x === 0 && y === 0 ? 'o' : y === 0 ? 'x' : x === 0 ? 'y' : 'q' + C.quad(x, y); }
-      function newGame() {
-        items = shuffle([{ t: 'x', p: pick(['محور افقی', 'محور x']) }, { t: 'y', p: pick(['محور عمودی', 'محور y']) }, { t: 'o', p: 'مبدأ مختصات' }, { t: 'q1', p: RE(1) }, { t: 'q2', p: RE(2) }, { t: 'q3', p: RE(3) }, { t: 'q4', p: RE(4) }]);
-        i = 0; res = []; wr = 0; msg = ''; paint();
-      }
-      function paint() {
-        var n = items.length, s;
-        if (i >= n) {
-          s = res.filter(Boolean).length;
-          host.innerHTML = rr(C.dots(res, -1, n) + fb(s >= 6, '<b>نتیجه: ' + fa(s) + ' از ' + fa(n) + '</b> (درست در اولین تلاش)') + '<div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>بازی جدید</button></div>');
-          return;
+      hunt(host, {
+        make: function () { return shuffle([{ t: 'x', p: pick(['محور افقی', 'محور ' + M('x')]) }, { t: 'y', p: pick(['محور عمودی', 'محور ' + M('y')]) }, { t: 'o', p: 'مبدأ مختصات' }, { t: 'q1', p: RE(1) }, { t: 'q2', p: RE(2) }, { t: 'q3', p: RE(3) }, { t: 'q4', p: RE(4) }]); },
+        ask: function (it) { return 'روی «' + it.p + '» بزن:'; },
+        fig: function (it, s) { return C.plane(s.done ? { part: it.t } : { pick: true, part: s.wr >= 2 ? it.t : '' }); },
+        act: function (e, it) {
+          var t = C.hit(e); if (!t) { return null; }
+          return cls(t.x, t.y) === it.t ? true : 'آنجا «' + WH(t.x, t.y) + '» است' + (t.x === 0 && t.y === 0 ? '؛ مبدأ روی هر دو محور است. نقطه‌ای دیگر روی محور بزن.' : '. دوباره امتحان کن.');
         }
-        host.innerHTML = rr(C.dots(res, i, n) + '<p class="ask">روی «<b>' + items[i].p + '</b>» بزن:</p>' + C.plane({ pick: true, part: wr >= 2 ? items[i].t : '' }) + '<div class="lk-cap">' + msg + '</div>');
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (b && b.dataset.r) { newGame(); return; }
-        var t = C.hit(e); if (!t || i >= items.length) { return; }
-        if (cls(t.x, t.y) === items[i].t) { res[i] = wr === 0; i++; wr = 0; msg = '<span style="color:green">درست! ✓</span>'; }
-        else { wr++; msg = '<span class="lk-bad">آنجا «' + C.where(t.x, t.y).replace('روی ', '') + '» است' + (t.x === 0 && t.y === 0 ? '؛ مبدأ روی هر دو محور است. نقطه‌ای دیگر روی محور بزن.' : '. دوباره امتحان کن.') + '</span>'; }
-        paint();
       });
-      newGame();
     };
 
     /* ============ ۳) کاوشگر ناحیه‌ها ============ */
@@ -73,88 +103,93 @@ window.LESSONS.C01 = {
         function (x, y) {
           var q = C.quad(x, y);
           return q ? C.pill(RE(q), q) + ' · علامت‌ها ' + stSigns(q) + '<br>نقطه ' + C.pt(x, y) + ' ' + (x < 0 ? 'سمت چپ' : 'سمت راست') + ' محور ' + M('y') + ' و ' + (y < 0 ? 'پایین' : 'بالای') + ' محور ' + M('x') + ' است.'
-            : C.pill(C.where(x, y), 0) + '<br>نقطه ' + C.pt(x, y) + ' روی یکی از محورهاست، پس در هیچ ناحیه‌ای نیست.';
+            : C.pill(PL(x, y), 0) + '<br>نقطه ' + C.pt(x, y) + ' روی یکی از محورهاست، پس در هیچ ناحیه‌ای نیست.';
         });
     };
 
     /* ============ ۴) علامت ← ناحیه ============ */
     K.signGame = function (host) {
-      var rounds, i, res, wr, msg, tg, pt;
-      function newGame() {
-        var ms = shuffle(['A', 'A', 'A', 'B', 'B', 'B']), qs = shuffle([1, 2, 3, 4, pick([1, 2, 3, 4]), pick([1, 2, 3, 4])]);
-        rounds = ms.map(function (m, k) { return { m: m, q: qs[k] }; }); i = 0; res = []; wr = 0; msg = ''; tg = { x: 0, y: 0 }; pt = null; paint();
-      }
-      function paint() {
-        var n = rounds.length, r = rounds[i], h, s;
-        if (i >= n) {
-          s = res.filter(Boolean).length;
-          host.innerHTML = rr(C.dots(res, -1, n) + fb(s >= 5, '<b>نتیجه: ' + fa(s) + ' از ' + fa(n) + '</b> (درست در اولین تلاش)') + '<div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>بازی جدید</button></div>');
-          return;
-        }
-        h = C.dots(res, i, n);
-        if (r.m === 'A') {
-          h += '<p class="ask">علامت‌های یک نقطه ' + stSigns(r.q) + ' است (علامت مؤلفهٔ ' + M('x') + '، سپس ' + M('y') + '). روی ناحیه‌ای که این نقطه در آن است بزن:</p>' + C.plane({ quads: true, qn: true });
-        } else {
-          pt = pt || C.rp(4, { q: r.q });
-          h += '<p class="ask">نقطهٔ ' + M('P') + ' را ببین. علامت مؤلفهٔ ' + M('x') + ' و مؤلفهٔ ' + M('y') + ' آن را انتخاب کن:</p>' + C.plane({ pts: [{ x: pt[0], y: pt[1], l: 'P', c: C.PINK, r: 7 }] });
-          h += '<div class="lk-line"><span>' + M('x') + '</span><span class="cd-tg"><button type="button" data-g="x" data-v="1" class="' + (tg.x === 1 ? 'on' : '') + '">+</button><button type="button" data-g="x" data-v="-1" class="' + (tg.x === -1 ? 'on' : '') + '">\u2212</button></span><span>' + M('y') + '</span><span class="cd-tg"><button type="button" data-g="y" data-v="1" class="' + (tg.y === 1 ? 'on' : '') + '">+</button><button type="button" data-g="y" data-v="-1" class="' + (tg.y === -1 ? 'on' : '') + '">\u2212</button></span><button type="button" class="btn primary" data-ck="1"' + (tg.x && tg.y ? '' : ' disabled') + '>بررسی</button></div>';
-        }
-        host.innerHTML = rr(h + '<div class="lk-cap">' + msg + '</div>');
-      }
-      function good() { res[i] = wr === 0; i++; wr = 0; tg = { x: 0, y: 0 }; pt = null; msg = '<span style="color:green">درست! ✓</span>'; paint(); }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'), r = rounds && rounds[i], q;
-        if (b && b.dataset.r) { newGame(); return; }
-        if (!r) { return; }
-        if (r.m === 'A') {
-          q = C.qhit(e); if (!q) { return; }
-          if (q === r.q) { good(); } else { wr++; msg = '<span class="lk-bad">' + RE(q) + ' علامت‌هایش ' + stSigns(q) + ' است. دوباره امتحان کن.</span>'; paint(); }
-        } else if (b && b.dataset.g) { tg[b.dataset.g] = +b.dataset.v; paint(); }
-        else if (b && b.dataset.ck) {
-          var sx = pt[0] > 0 ? 1 : -1, sy = pt[1] > 0 ? 1 : -1;
-          if (tg.x === sx && tg.y === sy) { good(); }
-          else { wr++; msg = '<span class="lk-bad">' + (tg.x !== sx ? 'نقطه ' + (sx > 0 ? 'سمت راست' : 'سمت چپ') + ' محور ' + M('y') + ' است، پس ' + M('x') + ' ' + sgn(sx) + ' است. ' : '') + (tg.y !== sy ? 'نقطه ' + (sy > 0 ? 'بالای' : 'پایین') + ' محور ' + M('x') + ' است، پس ' + M('y') + ' ' + sgn(sy) + ' است.' : '') + '</span>'; paint(); }
+      var tgl = function (it, k, dis) { return '<span class="cd-tg">' + [1, -1].map(function (v) { return '<button type="button" data-g="' + k + '" data-v="' + v + '" class="' + (it.tg[k] === v ? 'on' : '') + '"' + (dis ? ' disabled' : '') + '>' + (v > 0 ? '+' : '\u2212') + '</button>'; }).join('') + '</span>'; };
+      hunt(host, {
+        once: true,
+        make: function () {
+          var ms = shuffle(['A', 'A', 'A', 'B', 'B', 'B']), qs = shuffle([1, 2, 3, 4, pick([1, 2, 3, 4]), pick([1, 2, 3, 4])]);
+          return ms.map(function (m, k) { return { m: m, q: qs[k], tg: { x: 0, y: 0 }, pt: m === 'B' ? C.rp(4, { q: qs[k] }) : null }; });
+        },
+        ask: function (it) {
+          return it.m === 'A' ? 'علامت‌های یک نقطه ' + stSigns(it.q) + ' است (علامت مؤلفهٔ ' + M('x') + '، سپس ' + M('y') + '). یک نقطه در ناحیه‌ای که این نقطه در آن است روی صفحه بزن:'
+            : 'نقطهٔ ' + M('P') + ' را ببین. علامت مؤلفهٔ ' + M('x') + ' و مؤلفهٔ ' + M('y') + ' آن را انتخاب کن:';
+        },
+        fig: function (it, s) {
+          if (it.m === 'B') { return C.plane({ pts: [{ x: it.pt[0], y: it.pt[1], l: 'P', c: C.PINK, r: 7 }] }); }
+          if (s.done) { var sh = {}; sh[it.q] = QF[it.q]; return C.plane({ qn: true, shade: sh }); }
+          return C.plane({ pick: true, qn: true });
+        },
+        ctl: function (it, s) {
+          if (it.m !== 'B') { return ''; }
+          if (s.done) { it.tg = { x: it.pt[0] > 0 ? 1 : -1, y: it.pt[1] > 0 ? 1 : -1 }; }
+          return '<div class="cd-sgrow">' + tgl(it, 'x', s.done) + '<span>' + M('x') + '</span></div><div class="cd-sgrow">' + tgl(it, 'y', s.done) + '<span>' + M('y') + '</span></div>';
+        },
+        chk: function (it) { return it.m === 'B'; },
+        ready: function (it) { return !!(it.tg.x && it.tg.y); },
+        check: function (it) {
+          var sx = it.pt[0] > 0 ? 1 : -1, sy = it.pt[1] > 0 ? 1 : -1;
+          if (it.tg.x === sx && it.tg.y === sy) { return true; }
+          return (it.tg.x !== sx ? 'نقطه ' + (sx > 0 ? 'سمت راست' : 'سمت چپ') + ' محور ' + M('y') + ' است، پس ' + M('x') + ' ' + sgn(sx) + ' است. ' : '') + (it.tg.y !== sy ? 'نقطه ' + (sy > 0 ? 'بالای' : 'پایین') + ' محور ' + M('x') + ' است، پس ' + M('y') + ' ' + sgn(sy) + ' است.' : '');
+        },
+        act: function (e, it) {
+          var b = e.target.closest('button'), t, q;
+          if (it.m === 'A') {
+            t = C.hit(e); if (!t) { return null; }
+            q = C.quad(t.x, t.y); if (q === it.q) { return true; }
+            return (q ? RE(q) + ' علامت‌هایش ' + stSigns(q) + ' است.' : 'آن نقطه روی محور است و در هیچ ناحیه‌ای نیست.') + ' جای درست: ' + RE(it.q) + ' (روی شکل پررنگ شده).';
+          }
+          if (b && b.dataset.g) { it.tg[b.dataset.g] = +b.dataset.v; return 1; }
+          return null;
         }
       });
-      newGame();
     };
 
     /* ============ ۵) پهپاد: نقشهٔ کشف ============ */
     K.drone = function (host) {
-      var x = 2, y = 1, seen = {}, KEYS = [['q1', RE(1), 1], ['q2', RE(2), 2], ['q3', RE(3), 3], ['q4', RE(4), 4], ['ax', 'روی محور x', 0], ['ay', 'روی محور y', 0], ['o', 'مبدأ', 0]];
-      host.innerHTML = '<div id="dpl"></div><div class="cd-sl"><b>x</b><input type="range" id="dx" min="-5" max="5" step="1" value="2" aria-label="مقدار x"><b id="dxv"></b></div><div class="cd-sl"><b>y</b><input type="range" id="dy" min="-5" max="5" step="1" value="1" aria-label="مقدار y"><b id="dyv"></b></div><div class="cd-info" id="din"></div><div id="dbd" class="lk-line"></div>';
-      var pl = host.querySelector('#dpl'), din = host.querySelector('#din'), dbd = host.querySelector('#dbd');
+      var x = 2, y = 1, seen = {}, KEYS = [['q1', RE(1), 1], ['q2', RE(2), 2], ['q3', RE(3), 3], ['q4', RE(4), 4], ['ax', 'روی محور ' + M('x'), 0], ['ay', 'روی محور ' + M('y'), 0], ['o', 'مبدأ', 0]];
+      var TK = '<div class="graduated-ticks" aria-hidden="true">' + [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map(function (k) { return '<span style="--gr-step:' + (k + 5) + ';--gr-total:10"><i></i>' + M(String(k)) + '</span>'; }).join('') + '</div>';
+      var sl = function (id, v, nm) { return '<div class="cd-sl"><b>' + M(nm) + '</b><div class="cd-sw graduated-range"><input type="range" id="' + id + '" min="-5" max="5" step="1" value="' + v + '" aria-label="مقدار ' + nm + '">' + TK + '</div></div>'; };
+      host.innerHTML = rr('<div id="dpl"></div>' + sl('dx', 2, 'x') + sl('dy', 1, 'y') + '<div class="cd-info" id="din"></div><div id="dbd" class="cd-map"></div><div id="dok"></div>');
+      var pl = host.querySelector('#dpl'), din = host.querySelector('#din'), dbd = host.querySelector('#dbd'), dok = host.querySelector('#dok');
       function key() { return x === 0 && y === 0 ? 'o' : y === 0 ? 'ax' : x === 0 ? 'ay' : 'q' + C.quad(x, y); }
       function draw() {
-        var q = C.quad(x, y), sh = {}; if (q) { sh[q] = QF[q]; }
-        pl.innerHTML = C.plane({ x0: -5, x1: 5, y0: -5, y1: 5, shade: sh, pts: [{ x: x, y: y, c: C.PINK, r: 8, l: '', pair: true, dy: -12 }] });
-        host.querySelector('#dxv').innerHTML = rr(M(String(x))); host.querySelector('#dyv').innerHTML = rr(M(String(y)));
+        var q = C.quad(x, y), sh = {}, n = 0; if (q) { sh[q] = QF[q]; }
+        pl.innerHTML = C.plane({ x0: -5, x1: 5, y0: -5, y1: 5, shade: sh, pts: [{ x: x, y: y, c: C.PINK, r: 8, l: '', pair: true, dy: y >= 5 ? 26 : -12 }] });
         seen[key()] = 1;
-        din.innerHTML = rr('پهپاد در ' + C.pt(x, y) + ' است: ' + C.pill(C.where(x, y), q));
-        var n = 0; dbd.innerHTML = KEYS.map(function (k) { var on = seen[k[0]]; if (on) { n++; } return '<span class="cd-pill q' + k[2] + '" style="opacity:' + (on ? 1 : .35) + '">' + (on ? '✓ ' : '') + k[1] + '</span>'; }).join('');
-        if (n === KEYS.length) { dbd.insertAdjacentHTML('afterend', '<div class="fb ok" id="dok">همهٔ هفت جای ممکن را کشف کردی! 🎉</div>'); }
-        else { var d = host.querySelector('#dok'); if (d) { d.remove(); } }
+        din.innerHTML = rr('پهپاد در ' + C.pt(x, y) + ' است: ' + C.pill(PL(x, y), q));
+        dbd.innerHTML = rr(KEYS.map(function (k) { var on = seen[k[0]]; if (on) { n++; } return '<span class="cd-pill q' + k[2] + (on ? '' : ' off') + '">' + (on ? '✓ ' : '') + k[1] + '</span>'; }).join(''));
+        dok.innerHTML = n === KEYS.length ? rr(fb(true, 'همهٔ هفت جای ممکن را کشف کردی! 🎉') + '<div class="end-actions cd-center"><button type="button" class="btn primary" data-rs="1" data-scroll data-scroll-offset="10">بازنشانی نقشه</button></div>') : '';
       }
       host.addEventListener('input', function (e) { if (e.target.id === 'dx') { x = +e.target.value; draw(); } else if (e.target.id === 'dy') { y = +e.target.value; draw(); } });
+      host.addEventListener('click', function (e) {
+        if (!e.target.closest('[data-rs]')) { return; }
+        seen = {}; x = 2; y = 1; host.querySelector('#dx').value = 2; host.querySelector('#dy').value = 1; draw();
+      });
       draw();
     };
 
     /* ============ ۶) آینه: (a, b) و (b, a) ============ */
     K.mirror = function (host) {
-      var sa = 1, sb = -1, seen = {};
-      var rowsT = [[1, 1, 'a مثبت، b مثبت'], [1, -1, 'a مثبت، b منفی'], [-1, 1, 'a منفی، b مثبت'], [-1, -1, 'a منفی، b منفی']];
-      host.innerHTML = rr('<div id="mpl"></div><div class="lk-line"><span>' + M('a=3') + ' یا ' + M('a=-3') + ':</span><span class="cd-tg" id="tga"></span></div><div class="lk-line"><span>' + M('b=2') + ' یا ' + M('b=-2') + ':</span><span class="cd-tg" id="tgb"></span></div><div class="cd-info" id="min"></div><div id="mtb"></div>');
-      var pl = host.querySelector('#mpl'), info = host.querySelector('#min'), tb = host.querySelector('#mtb');
-      function tgl(id, cur, key) { host.querySelector(id).innerHTML = '<button type="button" data-k="' + key + '" data-v="1" class="' + (cur === 1 ? 'on' : '') + '">مثبت</button><button type="button" data-k="' + key + '" data-v="-1" class="' + (cur === -1 ? 'on' : '') + '">منفی</button>'; }
+      var sa = 1, sb = -1, seen = {}, rowsT = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
+      var grp = function (k, txt, cur) { return '<div class="cd-mg"><span class="cd-sgl">' + M(txt) + '</span><span class="cd-tg fa"><button type="button" data-k="' + k + '" data-v="1" class="' + (cur === 1 ? 'on' : '') + '">مثبت</button><button type="button" data-k="' + k + '" data-v="-1" class="' + (cur === -1 ? 'on' : '') + '">منفی</button></span></div>'; };
+      var line = function (nm, tex, reg) { return '<div class="cd-cr">' + C.pill(nm, reg) + '<span class="cd-cm">' + tex + '</span><b>' + RE(reg) + '</b></div>'; };
+      host.innerHTML = rr('<div class="cd-mir"><div class="cd-mp" id="mpl"></div><div class="cd-mr"><div class="cd-mc" id="mcl"></div><div class="cd-cmp" id="min"></div><p class="cd-cap">جدول کشف‌ها: بالا علامت‌های ' + M('(a,b)') + '، پایین شمارهٔ ناحیهٔ ' + M('P') + ' ← ناحیهٔ ' + M('Q') + '</p><div class="cd-chips" id="mtb"></div><div class="end-actions cd-center"><button type="button" class="btn primary" data-rs="1">بازنشانی جدول</button></div></div></div>');
+      var pl = host.querySelector('#mpl'), cl = host.querySelector('#mcl'), info = host.querySelector('#min'), tb = host.querySelector('#mtb');
       function draw() {
         var a = 3 * sa, b = 2 * sb, p = C.quad(a, b), q = C.quad(b, a), sh = {}; sh[q] = QF[q]; sh[p] = QF[p];
-        tgl('#tga', sa, 'a'); tgl('#tgb', sb, 'b');
-        pl.innerHTML = C.plane({ shade: sh, seg: [{ a: [a, b], b: [b, a], c: '#8a96ab', dash: true, w: 1.8 }], pts: [{ x: a, y: b, c: C.TEAL, r: 7, l: 'P', pair: true, dy: -11 }, { x: b, y: a, c: C.PINK, r: 7, l: 'Q', pair: true, dy: -11 }] });
         seen[sa + ',' + sb] = 1;
-        info.innerHTML = rr(C.pill('P', p) + ' ' + C.pt('a', 'b') + ' = ' + C.pt(a, b) + ' ← ' + RE(p) + '<br>' + C.pill('Q', q) + ' ' + C.pt('b', 'a') + ' = ' + C.pt(b, a) + ' ← ' + RE(q) + '<br><b>' + (p === q ? 'ناحیه همان ماند.' : 'ناحیه عوض شد!') + '</b>');
-        tb.innerHTML = rr(K.tbl(['حالت', M('(a,b)'), M('(b,a)')], rowsT.map(function (r) { var s = seen[r[0] + ',' + r[1]]; return [r[2].replace('a', M('a')).replace('b', M('b')), s ? RE(C.quad(3 * r[0], 2 * r[1])) : '؟', s ? RE(C.quad(2 * r[1], 3 * r[0])) : '؟']; })));
+        cl.innerHTML = rr(grp('a', 'a=' + a, sa) + grp('b', 'b=' + b, sb));
+        pl.innerHTML = C.plane({ x0: -4, x1: 4, y0: -3, y1: 3, shade: sh, seg: [{ a: [a, b], b: [b, a], c: '#8a96ab', dash: true, w: 1.8 }], pts: [{ x: a, y: b, c: C.TEAL, r: 7, l: 'P', pair: true, dy: b >= 3 ? 24 : -11 }, { x: b, y: a, c: C.PINK, r: 7, l: 'Q', pair: true, dy: a >= 3 ? 24 : -11 }] });
+        info.innerHTML = rr(line('P', C.pt('a', 'b') + ' = ' + C.pt(a, b), p) + line('Q', C.pt('b', 'a') + ' = ' + C.pt(b, a), q) + '<div class="cd-cs">' + (p === q ? 'ناحیه همان ماند.' : 'ناحیه عوض شد!') + '</div>');
+        tb.innerHTML = rr(rowsT.map(function (r) { var on = seen[r[0] + ',' + r[1]], cur = r[0] === sa && r[1] === sb; return '<div class="cd-chip' + (cur ? ' cur' : '') + '"><span>' + C.signs(r[0], r[1]) + '</span><b>' + (on ? fa(C.quad(3 * r[0], 2 * r[1])) + '<i>←</i>' + fa(C.quad(2 * r[1], 3 * r[0])) : '؟') + '</b></div>'; }).join(''));
       }
-      host.addEventListener('click', function (e) { var b = e.target.closest('button[data-k]'); if (!b) { return; } if (b.dataset.k === 'a') { sa = +b.dataset.v; } else { sb = +b.dataset.v; } draw(); });
+      host.addEventListener('click', function (e) { var b = e.target.closest('button[data-k]'); if (e.target.closest('[data-rs]')) { sa = 1; sb = -1; seen = {}; draw(); return; } if (!b) { return; } if (b.dataset.k === 'a') { sa = +b.dataset.v; } else { sb = +b.dataset.v; } draw(); });
       draw();
     };
 
@@ -165,7 +200,7 @@ window.LESSONS.C01 = {
       var swapQ = { 1: 1, 2: 4, 3: 3, 4: 2 };
       function qSign() {
         var k = pick([1, 2, 3, 4]), s = SIGN[k];
-        return { kind: 'mcq', keep: true, ask: 'نقطه‌ای مؤلفهٔ ' + M('x') + ' ' + sgn(s[0]) + ' و مؤلفهٔ ' + M('y') + ' ' + sgn(s[1]) + ' دارد. این نقطه در کدام ناحیه است؟', opts: regs(k), expl: '<p>علامت‌ها ' + stSigns(k) + ' یعنی ' + (s[0] > 0 ? 'سمت راست' : 'سمت چپ') + ' و ' + (s[1] > 0 ? 'بالا'  : 'پایین') + ' مبدأ؛ این ' + RE(k) + ' است.</p>' };
+        return { kind: 'mcq', keep: true, ask: 'نقطه‌ای مؤلفهٔ ' + M('x') + ' ' + sgn(s[0]) + ' و مؤلفهٔ ' + M('y') + ' ' + sgn(s[1]) + ' دارد. این نقطه در کدام ناحیه است؟', opts: regs(k), expl: '<p>علامت‌ها ' + stSigns(k) + ' یعنی ' + (s[0] > 0 ? 'سمت راست' : 'سمت چپ') + ' و ' + (s[1] > 0 ? 'بالا' : 'پایین') + ' مبدأ؛ این ' + RE(k) + ' است.</p>' };
       }
       function qRegion() {
         var k = pick([1, 2, 3, 4]), s = SIGN[k];
@@ -183,9 +218,9 @@ window.LESSONS.C01 = {
       }
       function qName() {
         var v = pick([0, 1, 2]), d = [
-          ['محور افقی چه نام دیگری دارد؟', [['محور x', 1], ['محور y', 0], ['مبدأ مختصات', 0], [RE(1), 0]], 'محور افقی همان محور x است.'],
-          ['نقطه‌ای که دو محور همدیگر را قطع می‌کنند چه نام دارد؟', [['مبدأ مختصات', 1], ['محور x', 0], ['محور y', 0], [RE(2), 0]], 'برخورد دو محور «مبدأ مختصات» نام دارد.'],
-          ['محور عمودی کدام است؟', [['محور y', 1], ['محور x', 0], ['مبدأ مختصات', 0], [RE(4), 0]], 'محور عمودی همان محور y است.']][v];
+          ['محور افقی چه نام دیگری دارد؟', [['محور ' + M('x'), 1], ['محور ' + M('y'), 0], ['مبدأ مختصات', 0], [RE(1), 0]], 'محور افقی همان محور ' + M('x') + ' است.'],
+          ['نقطه‌ای که دو محور همدیگر را قطع می‌کنند چه نام دارد؟', [['مبدأ مختصات', 1], ['محور ' + M('x'), 0], ['محور ' + M('y'), 0], [RE(2), 0]], 'برخورد دو محور «مبدأ مختصات» نام دارد.'],
+          ['محور عمودی کدام است؟', [['محور ' + M('y'), 1], ['محور ' + M('x'), 0], ['مبدأ مختصات', 0], [RE(4), 0]], 'محور عمودی همان محور ' + M('y') + ' است.']][v];
         return { kind: 'mcq', ask: d[0], opts: d[1].map(function (r) { return o(r[0], !!r[1], 'این نام برای چیز دیگری است.'); }), expl: '<p>' + d[2] + '</p>' };
       }
       function qAxis() {
@@ -202,7 +237,7 @@ window.LESSONS.C01 = {
           if (q.opts && !q.keep) { q.opts = shuffle(q.opts.slice()); }
           return q;
         });
-      }, function (s) { return s === 7 ? 'عالی! همهٔ سؤال‌ها درست بود.' : s >= 5 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن و با سؤال‌های جدید امتحان کن.'; });
+      });
     };
 
     var TIP_XY = '<p>نام‌های «x» و «y» فقط قرارداد هستند، مثل شمارهٔ پلاک؛ همهٔ ریاضی‌دان‌ها دربارهٔ آن‌ها توافق کرده‌اند تا همه یک زبان صحبت کنند.</p><p>برای یادآوری: <b>x</b> افقی (روی زمین می‌خوابد) و <b>y</b> عمودی (به آسمان می‌رود) است.</p>';
@@ -229,7 +264,7 @@ window.LESSONS.C01 = {
           K.box('note', 'ترفند یادآوری', '<p>از ناحیهٔ اول شروع کن: <b>(+ ، +)</b>. در هر قدم خلاف ساعت، یک علامت عوض می‌شود: اول ' + M('x') + ' (می‌شود ' + M('-') + ')، بعد ' + M('y') + '، بعد دوباره ' + M('x') + '.</p>'),
 
           K.sn('۴', 'از علامت به ناحیه، از ناحیه به علامت'),
-          '<p>هر دو مسیر را باید بلد باشی. در بازی زیر شش سؤال هست: گاهی علامت‌ها را می‌دهیم و تو ناحیه را لمس می‌کنی، گاهی نقطه را نشان می‌دهیم و تو علامت‌ها را پیدا می‌کنی:</p>', host('c1d'),
+          '<p>هر دو مسیر را باید بلد باشی. در تمرین زیر شش سؤال هست: گاهی علامت‌ها را می‌دهیم و تو ناحیه را لمس می‌کنی، گاهی نقطه را نشان می‌دهیم و تو علامت‌ها را پیدا می‌کنی:</p>', host('c1d'),
 
           K.sn('۵', 'روی محورها چه می‌شود؟'),
           '<p>اگر یکی از دو عدد صفر باشد، نقطه از هیچ طرفِ محوری بیرون نمی‌زند و <b>روی خودِ محور</b> می‌افتد. محورها مرزِ ناحیه‌ها هستند و در هیچ ناحیه‌ای نیستند ' + H.tip('c1-ax', 'چرا نقطهٔ روی محور ناحیه ندارد؟', TIP_AX) + '.</p>',
