@@ -608,7 +608,7 @@
 }
 
 .e01-gauge-tick .katex {
-  font-size: .9em
+  font-size: 1em
 }
 
 .e01-formula {
@@ -1187,7 +1187,7 @@
   margin: 1px 9px 0;
   direction: ltr;
   text-align: center;
-  font-size: .7rem;
+  font-size: .75rem;
   color: var(--ink-soft);
 }
 
@@ -1258,7 +1258,7 @@
   }
 
   .e01-lesson .e01-compare-ticks {
-    font-size: .61rem;
+    font-size: .72rem;
   }
 
   .e01-lesson .e01-compare .e01-pair {
@@ -1746,7 +1746,7 @@
 .e01-lesson .e01-identity-side-label {
   display: inline-block;
   direction: rtl;
-  font-size: .72rem;
+  font-size: .78rem;
   font-weight: 400;
   color: var(--muted);
   margin: 0;
@@ -3476,7 +3476,7 @@
   }
 
   .e02-lesson .e02-machine-flow>.e02-machine-node small {
-    font-size: .63rem
+    font-size: .72rem
   }
 
   .e02-lesson .e02-machine-flow>.e02-machine-pass {
@@ -3520,7 +3520,7 @@
   }
 
   .e02-lesson .e02-machine-flow>.e02-machine-node small {
-    font-size: .59rem
+    font-size: .72rem
   }
 
   .e02-lesson .e02-return-arrow {
@@ -3806,7 +3806,7 @@
 }
 
 .e02-lesson .e02-machine-flow>.e02-machine-node small {
-  font-size: .64rem;
+  font-size: .72rem;
   line-height: 1.5;
   text-align: center
 }
@@ -3871,7 +3871,7 @@
   border: 1px solid var(--line);
   border-radius: 50%;
   color: var(--ink-soft);
-  font-size: .69rem;
+  font-size: .75rem;
   line-height: 1;
 }
 
@@ -4025,7 +4025,7 @@
   }
 
   .e02-lesson .e02-machine-flow>.e02-machine-node small {
-    font-size: .58rem
+    font-size: .72rem
   }
 
   .e02-lesson .e02-return-arrow {
@@ -4369,16 +4369,16 @@
   }
 
   .e02-lesson .e02-fr-side>strong {
-    font-size: clamp(.66rem, 2.55vw, .92rem)
+    font-size: clamp(.8rem, 3.3vw, .95rem)
   }
 
   .e02-lesson .e02-fr-level {
-    font-size: .75rem;
+    font-size: .8rem;
     padding: 5px 8px
   }
 
   .e02-lesson .e02-fr-phase-label {
-    font-size: .7rem
+    font-size: .78rem
   }
 
   .e02-lesson .e02-fr-entry-fields {
@@ -4414,7 +4414,7 @@
 
 @media(max-width:450px) {
   .e02-lesson .e02-fr-level {
-    font-size: .72rem;
+    font-size: .8rem;
     padding: 5px 3px
   }
 }
@@ -5245,7 +5245,7 @@
   }
 
   .e02-lesson .e02-machine-flow>.e02-machine-node small {
-    font-size: .68rem;
+    font-size: .72rem;
     line-height: 1.35
   }
 }
@@ -5964,6 +5964,109 @@
   font-size: 1.05rem
 }
 
+/* E04: حلقهٔ «خودِ عدد هم جواب است؟» (بله ⇄ نه) در ستون دوم جدول سه‌زبانه */
+.e3x .e4-sw,
+.e3x .e4-ros-st {
+  display: inline-grid;
+  justify-items: center;
+  align-items: center
+}
+
+.e3x .e4-sw>.e4-sa,
+.e3x .e4-sw>.e4-sb,
+.e3x .e4-ros-st>b {
+  grid-area: 1 / 1;
+  animation: e4-flip-a 5s ease-in-out infinite
+}
+
+.e3x .e4-sw>.e4-sb,
+.e3x .e4-ros-st>.e4-sb {
+  animation-name: e4-flip-b
+}
+
+.e3x .e4-ros-st {
+  font-size: .78rem
+}
+
+.e3x .e4-ros-st>.e4-sa {
+  color: #0b7a6b
+}
+
+.e3x .e4-ros-st>.e4-sb {
+  color: #c2335f
+}
+
+.e3x .e4-flipc {
+  animation: e4-flip-fill 5s ease-in-out infinite
+}
+
+@keyframes e4-flip-a {
+
+  0%,
+  42% {
+    opacity: 1
+  }
+
+  52%,
+  92% {
+    opacity: 0
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
+@keyframes e4-flip-b {
+
+  0%,
+  42% {
+    opacity: 0
+  }
+
+  52%,
+  92% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0
+  }
+}
+
+@keyframes e4-flip-fill {
+
+  0%,
+  42% {
+    fill: #0e8f7e
+  }
+
+  52%,
+  92% {
+    fill: #fff
+  }
+
+  100% {
+    fill: #0e8f7e
+  }
+}
+
+/* کاهش حرکت: همان جابه‌جایی، ولی بی‌محو‌شدن و آهسته‌تر (هر چند ثانیه یک‌بار) */
+@media (prefers-reduced-motion: reduce) {
+
+  .e3x .e4-sw>.e4-sa,
+  .e3x .e4-sw>.e4-sb,
+  .e3x .e4-ros-st>b,
+  .e3x .e4-flipc {
+    animation-duration: 5s;
+    animation-timing-function: step-end
+  }
+}
+
+.e3x .e4-ros:not(.live) :is(.e4-sa, .e4-sb, .e4-flipc) {
+   animation-play-state: paused
+}
+
 .e3x .e4-hl {
   padding: 0 5px 5px 3px;
   border-radius: 5px;
@@ -6143,14 +6246,14 @@
 
 @media (max-width:620px) {
   .e3-svg {
-    max-width: 75%;
+    max-width: 100%;
   }
 
   .e3-v3 .e3-svg {
-    max-width: 50%;
+    max-width: 100%;
   }
 
   .e3-svg.mir, .e3-svg.axs{
-    max-width: 75%;
+    max-width: 100%;
   }
 }

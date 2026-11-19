@@ -31,10 +31,10 @@
     /* ---------- صفحهٔ مختصات ----------
        o: x0,x1,y0,y1,cell · shade:{1:fill,...} · qn:true (شمارهٔ ناحیه‌ها) · ccw:true (پیکان خلاف ساعت) · part:'x'|'y'|'o'|'q1'.. (برجسته‌کردن بخش)
           pts:[{x,y,l,c,r,ring,pair,hollow}] · line:[[x,y],...] · seg:[{a,b,c,w,dash}] · guides:[{x,y,vc,hc,vl,hl}]
-          pick:true (نقطه‌های شبکه کلیک‌پذیر) · quads:true (چهار ناحیه کلیک‌پذیر) · sel:[x,y] · xt,yt (نام محورها) · lab (هر چند عدد یک برچسب) */
+          pick:true (نقطه‌های شبکه کلیک‌پذیر؛ notip:true → بدون برچسب مختصات هنگام Hover) · quads:true (چهار ناحیه کلیک‌پذیر) · sel:[x,y] · xt,yt (نام محورها) · lab (هر چند عدد یک برچسب) */
     C.plane = function (o) {
       var c = o.cell || 30, x0 = o.x0 === undefined ? -5 : o.x0, x1 = o.x1 === undefined ? 5 : o.x1, y0 = o.y0 === undefined ? -4 : o.y0, y1 = o.y1 === undefined ? 4 : o.y1;
-      var pL = 30, pR = 36, pT = o.yt ? 34 : 30, pB = o.xt ? 44 : 26, W = (x1 - x0) * c + pL + pR, Ht = (y1 - y0) * c + pT + pB, id = 'cdm' + (++uid), lab = o.lab || 1, i, s, p, q;
+      var pL = 30, pR = 36, pT = o.yt ? 34 : 30, pB = o.xt ? 44 : 26, W = (x1 - x0) * c + pL + pR + 20, Ht = (y1 - y0) * c + pT + pB, id = 'cdm' + (++uid), lab = o.lab || 1, i, s, p, q;
       var px = function (x) { return pL + (x - x0) * c; }, py = function (y) { return pT + (y1 - y) * c; };
       var F = 'font-family="inherit"';
       s = '<svg class="cd-pl" viewBox="0 0 ' + W + ' ' + Ht + '" width="' + W + '" style="width:' + W + 'px" role="img" aria-label="صفحهٔ مختصات"><defs><marker id="' + id + 'a" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="' + PINK + '"/></marker></defs>';
@@ -94,7 +94,7 @@
         if (g.y !== 0) { s += '<line x1="' + px(g.x) + '" y1="' + py(g.y) + '" x2="' + px(g.x) + '" y2="' + py(0) + '" stroke="' + (g.vc || TEAL) + '" stroke-width="2.6" stroke-dasharray="6 4"/>'; }
         if (g.x !== 0) { s += '<line x1="' + px(g.x) + '" y1="' + py(g.y) + '" x2="' + px(0) + '" y2="' + py(g.y) + '" stroke="' + (g.hc || PINK) + '" stroke-width="2.6" stroke-dasharray="6 4"/>'; }
         if (g.vl && g.y !== 0) { s += '<text x="' + (px(g.x) + (g.x >= 0 ? 6 : -6)) + '" y="' + (py(g.y / 2) + 4) + '" text-anchor="' + (g.x >= 0 ? 'start' : 'end') + '" font-size="12" font-weight="700" fill="' + (g.vc || TEAL) + '" ' + F + '>' + g.vl + '</text>'; }
-        if (g.hl && g.x !== 0) { s += '<text x="' + px(g.x / 2) + '" y="' + (py(g.y) + (g.y >= 0 ? -6 : 15)) + '" text-anchor="middle" font-size="12" font-weight="700" fill="' + (g.hc || PINK) + '" ' + F + '>' + g.hl + '</text>'; }
+        if (g.hl && g.x !== 0) { s += '<text x="' + px(g.x / 2) + '" y="' + (py(g.y) + (g.y >= 0 ? -6 : 15) - 20) + '" text-anchor="middle" font-size="12" font-weight="700" fill="' + (g.hc || PINK) + '" ' + F + '>' + g.hl + '</text>'; }
       });
       /* نقطه‌ها */
       (o.pts || []).forEach(function (a) {
@@ -114,7 +114,7 @@
         for (p = x0; p <= x1; p++) {
           for (q = y0; q <= y1; q++) {
             var bx = Math.max(2, Math.min(W - 66, px(p) - 32)), up = py(q) - 44 > 2, by = up ? py(q) - 42 : py(q) + 20, ay = up ? by + 22 : by, ad = up ? 6 : -6;
-            s += '<g class="cd-pk" data-x="' + p + '" data-y="' + q + '"><rect x="' + (px(p) - c / 2) + '" y="' + (py(q) - c / 2) + '" width="' + c + '" height="' + c + '" rx="6"/><circle class="hv" cx="' + px(p) + '" cy="' + py(q) + '" r="12"/><g class="tp"><rect x="' + bx + '" y="' + by + '" width="64" height="22" rx="7"/><path d="M' + (px(p) - 5) + ' ' + ay + 'L' + (px(p) + 5) + ' ' + ay + 'L' + px(p) + ' ' + (ay + ad) + 'z"/><text x="' + (bx + 32) + '" y="' + (by + 15) + '" text-anchor="middle" ' + F + '>' + C.pairTxt(p, q) + '</text></g></g>';
+            s += '<g class="cd-pk" data-x="' + p + '" data-y="' + q + '"><rect x="' + (px(p) - c / 2) + '" y="' + (py(q) - c / 2) + '" width="' + c + '" height="' + c + '" rx="6"/><circle class="hv" cx="' + px(p) + '" cy="' + py(q) + '" r="12"/>' + (o.notip ? '' : '<g class="tp"><rect x="' + bx + '" y="' + by + '" width="64" height="22" rx="7"/><path d="M' + (px(p) - 5) + ' ' + ay + 'L' + (px(p) + 5) + ' ' + ay + 'L' + px(p) + ' ' + (ay + ad) + 'z"/><text x="' + (bx + 32) + '" y="' + (by + 15) + '" text-anchor="middle" ' + F + '>' + C.pairTxt(p, q) + '</text></g>') + '</g>';
           }
         }
       }
@@ -142,7 +142,8 @@
 
     /* ---------- ورودی زوج مرتب: ( [x] ، [y] ) با دکمهٔ ± ---------- */
     C.numBox = function (key) { return '<span style="display:inline-flex;flex-direction:column;align-items:center;gap:3px"><input type="text" inputmode="text" dir="ltr" autocomplete="off" data-k="' + key + '" aria-label="مقدار ' + key + '"><button type="button" class="cd-pm" data-pm="' + key + '" aria-label="تغییر علامت">±</button></span>'; };
-    C.pairIn = function () { return '<div class="cd-pi"><span>(</span>' + C.numBox('x') + '<span>\u060C</span>' + C.numBox('y') + '<span>)</span></div>'; };
+    C.numRow = function (key) { return '<span class="cd-nb"><button type="button" class="cd-pm" data-pm="' + key + '" aria-label="تغییر علامت">±</button><input type="text" inputmode="text" dir="ltr" autocomplete="off" data-k="' + key + '" aria-label="مقدار ' + key + '"></span>'; };
+    C.pairIn = function () { return '<div class="cd-pi"><span>(</span>' + C.numRow('x') + '<span>\u060C</span>' + C.numRow('y') + '<span>)</span></div>'; };   /* ± دقیقاً قبل هر کادر، داخل پرانتز */
     C.parseInt0 = function (s) {
       s = String(s || '').replace(/[۰-۹]/g, function (d) { return d.charCodeAt(0) - 1776; }).replace(/[٠-٩]/g, function (d) { return d.charCodeAt(0) - 1632; }).replace(/[−–—﹣‐]/g, '-').replace(/\s/g, '');
       return /^-?\d+$/.test(s) ? +s : null;
@@ -205,6 +206,50 @@
         else if (b.dataset.pv) { i = 0; sel = null; paint(); } else if (b.dataset.r) { start(); paint(); }
       });
       start(); paint();
+    };
+
+    /* ---------- موتور مشترک بازی‌های سؤال‌به‌سؤال (نوار شماره‌دار، قبلی/بعدی، نتیجهٔ استاندارد، مرور) ----------
+       o.once → هر سؤال یک پاسخ دارد؛ o.chk(it) → دکمهٔ بعدی تا پاسخ «بررسی» است؛ check می‌تواند {hint} (پیام بدون شمردن اشتباه) برگرداند؛ o.ex(it) توضیح پس از پاسخ؛ o.after(host,it,s) پس از رسم؛ o.input(e,it,s) برای ورودی‌ها */
+    C.hunt = function (host, o) {
+      var items, st, i;
+      function newGame() { items = o.make(); st = items.map(function () { return { wr: 0, done: false, first: false, msg: '' }; }); i = 0; paint(); }
+      function paint() {
+        var n = items.length, it = items[i], s = st[i], h, c, chk;
+        if (i >= n) {
+          c = st.filter(function (x) { return x.first; }).length;
+          host.innerHTML = rr(K.res(c, n) + '<div class="end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
+          return;
+        }
+        chk = !s.done && o.chk && o.chk(it);
+        h = '<div class="stg">' + st.map(function (x, k) { return '<span class="' + (x.done ? (x.first ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div>';
+        h += '<p class="ask"><b>' + o.ask(it) + '</b></p>' + o.fig(it, s) + (o.ctl ? o.ctl(it, s) : '') + s.msg;
+        h += '<div class="end-actions"><button type="button" class="btn" data-p="1" data-scroll=".stg" data-scroll-offset="20"' + (i ? '' : ' disabled') + '>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (chk ? '' : ' data-scroll=".stg" data-scroll-offset="20"') + (s.done || (chk && o.ready(it)) ? '' : ' disabled') + '>' + (chk ? 'بررسی' : i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
+        host.innerHTML = rr(h);
+        if (o.after && !(i >= n)) { o.after(host, it, s); }
+      }
+      function settle(r, s) {
+        if (r === true) { s.done = true; s.first = s.wr === 0; s.msg = fb(true, 'درست است! ✓'); }
+        else if (r === 1) { s.msg = ''; }
+        else if (r && r.hint) { s.msg = fb(false, r.hint); }
+        else if (r) { s.wr++; if (o.once) { s.done = true; s.first = false; } s.msg = fb(false, r); }
+        else { return; }
+        if (s.done && o.ex) { s.msg += '<div class="ex">' + o.ex(items[i]) + '</div>'; }
+        paint();
+      }
+      host.addEventListener('input', function (e) { if (o.input && st && i < items.length) { o.input(e, items[i], st[i]); } });
+      host.addEventListener('click', function (e) {
+        var b = e.target.closest('button'), s = st && st[i];
+        if (b) {
+          if (b.disabled) { return; }
+          if (b.dataset.r) { newGame(); return; }
+          if (b.dataset.pv) { i = 0; paint(); return; }
+          if (b.dataset.p) { i--; paint(); return; }
+          if (b.dataset.nx) { if (!s.done && o.chk && o.chk(items[i])) { settle(o.check(items[i]), s); } else { i++; paint(); } return; }
+        }
+        if (i >= items.length || s.done) { return; }
+        settle(o.act(e, items[i], s), s);
+      });
+      newGame();
     };
 
     /* ---------- ابزارهای تصادفی ---------- */

@@ -40,46 +40,8 @@ window.LESSONS.C01 = {
       step = 0; mh = m; paint();
     };
 
-    /* ============ موتور مشترک بازی‌های سؤال‌به‌سؤال (نوار شماره‌دار، قبلی/بعدی، نتیجهٔ استاندارد، مرور) ============
-       o.once → هر سؤال یک پاسخ دارد و پس از آن جای درست نشان داده می‌شود؛ o.chk(it) → سؤالی که دکمهٔ بعدی‌اش تا پاسخ «بررسی» است */
-    function hunt(host, o) {
-      var items, st, i;
-      function newGame() { items = o.make(); st = items.map(function () { return { wr: 0, done: false, first: false, msg: '' }; }); i = 0; paint(); }
-      function paint() {
-        var n = items.length, it = items[i], s = st[i], h, c, chk;
-        if (i >= n) {
-          c = st.filter(function (x) { return x.first; }).length;
-          host.innerHTML = rr(K.res(c, n) + '<div class="end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
-          return;
-        }
-        chk = !s.done && o.chk && o.chk(it);
-        h = '<div class="stg">' + st.map(function (x, k) { return '<span class="' + (x.done ? (x.first ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div>';
-        h += '<p class="ask"><b>' + o.ask(it) + '</b></p>' + o.fig(it, s) + (o.ctl ? o.ctl(it, s) : '') + s.msg;
-        // h += '<div class="end-actions"><button type="button" class="btn" data-p="1" data-scroll=".stg" data-scroll-offset="-40"' + (i ? '' : ' disabled') + '>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (chk ? '' : ' data-scroll=".stg" data-scroll-offset="-40"') + (s.done || (chk && o.ready(it)) ? '' : ' disabled') + '>' + (chk ? 'بررسی' : i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        h += '<div class="end-actions"><button type="button" class="btn" data-p="1" data-scroll=".stg" data-scroll-offset="20"' + (i ? '' : ' disabled') + '>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (chk ? '' : ' data-scroll=".stg" data-scroll-offset="20"') + (s.done || (chk && o.ready(it)) ? '' : ' disabled') + '>' + (chk ? 'بررسی' : i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h);
-      }
-      function settle(r, s) {
-        if (r === true) { s.done = true; s.first = s.wr === 0; s.msg = fb(true, 'درست است! ✓'); }
-        else if (r === 1) { s.msg = ''; }
-        else if (r) { s.wr++; if (o.once) { s.done = true; s.first = false; } s.msg = fb(false, r); }
-        else { return; }
-        paint();
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'), s = st && st[i];
-        if (b) {
-          if (b.disabled) { return; }
-          if (b.dataset.r) { newGame(); return; }
-          if (b.dataset.pv) { i = 0; paint(); return; }
-          if (b.dataset.p) { i--; paint(); return; }
-          if (b.dataset.nx) { if (!s.done && o.chk && o.chk(items[i])) { settle(o.check(items[i]), s); } else { i++; paint(); } return; }
-        }
-        if (i >= items.length || s.done) { return; }
-        settle(o.act(e, items[i], s), s);
-      });
-      newGame();
-    }
+    /* موتور مشترک بازی‌های سؤال‌به‌سؤال: C.hunt در js/shared/coord.js */
+    var hunt = C.hunt;
     var WH = function (x, y) { var q = C.quad(x, y); return q ? RE(q) : x === 0 && y === 0 ? 'مبدأ مختصات' : 'محور ' + M(y === 0 ? 'x' : 'y'); };
     var PL = function (x, y) { return C.quad(x, y) || (x === 0 && y === 0) ? WH(x, y) : 'روی ' + WH(x, y); };
 

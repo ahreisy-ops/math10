@@ -2,7 +2,7 @@
 
 .cd-pl {
     display: block;
-    margin: 6px auto;
+    margin: 0px auto;
     max-width: 100%;
     height: auto;
     direction: ltr;
@@ -236,7 +236,7 @@
 .cd-grid {
     display: grid;
     gap: 8px;
-    margin: 8px 0
+    margin: 0 0 8px 0
 }
 
 .cd-g2 {
@@ -676,4 +676,87 @@
 
 .lesson .end-actions.cd-center {
     justify-content: center
+}
+
+/* درس C02 — ابعاد دکمه‌ها هم‌اندازهٔ دکمه‌های درس C01 / README */
+.lesson .lk-line>.btn:not(.cd-st) {
+    min-width: 120px;
+    min-height: 36px;
+    height: auto;
+    font-size: .9rem;
+    font-weight: 700;
+    padding: 5px 14px
+}
+
+.lesson .btn.cd-st {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    line-height: 1;
+    box-shadow: 2px 2px 0 var(--ink);
+    transition: none
+}
+
+.lesson .btn.cd-st:active:not(:disabled) {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 var(--ink)
+}
+
+.lesson .btn.cd-tgl.on,
+.lesson .btn.cd-tgl.on:hover:not(:disabled) {
+    background: var(--mark)
+}
+
+.cd-pm {
+    position: relative
+}
+
+.cd-pm::after {
+    content: "";
+    position: absolute;
+    inset: -2px -8px -10px
+}
+
+/* C02 — دسته‌بندی با کشیدن/کلیک، ± قبل از کادر ورود */
+.cd-tile {
+    touch-action: none;
+    cursor: grab
+}
+
+.cd-tile:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 var(--ink);
+    cursor: grabbing
+}
+
+.cd-bin:active {
+    transform: translate(1px, 1px)
+}
+
+.cd-bin.over {
+    border-style: solid;
+    border-color: var(--accent);
+    background: #e6f6f3
+}
+
+.cd-nb {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px
+}
+
+.cd-nb .cd-pm::after {
+    inset: -8px -2px -8px -8px
+}
+
+@media(prefers-reduced-motion:reduce) {
+
+    .cd-tile:active,
+    .cd-bin:active {
+        transform: none
+    }
 }

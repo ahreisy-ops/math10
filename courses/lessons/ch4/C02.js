@@ -26,9 +26,9 @@ window.LESSONS.C02 = {
     /* ============ ۱) پیاده‌روی از مبدأ ============ */
     K.walk = function (host) {
       var x = 3, y = 2, swap = false;
-      host.innerHTML = rr('<div id="wpl"></div><div class="cd-grid cd-g2"><div class="lk-line" id="wx"></div><div class="lk-line" id="wy"></div></div><div class="cd-info" id="win"></div><div class="lk-line"><button type="button" class="btn" id="wsw">ترتیب را عوض کن: نقطهٔ ' + M('(y,x)') + ' را هم نشان بده</button></div>');
+      host.innerHTML = rr('<div id="wpl"></div><div class="cd-grid cd-g2"><div class="lk-line" id="wx"></div><div class="lk-line" id="wy"></div></div><div class="cd-info" id="win"></div><div class="lk-line"><button type="button" class="btn cd-tgl" id="wsw" aria-pressed="false">ترتیب را عوض کن: نقطهٔ ' + M('(y,x)') + ' را هم نشان بده</button></div>');
       var pl = host.querySelector('#wpl'), info = host.querySelector('#win'), bsw = host.querySelector('#wsw');
-      function steppers(id, nm, v) { host.querySelector(id).style.direction = 'ltr'; host.querySelector(id).innerHTML = '<button type="button" class="btn" data-s="' + nm + '" data-d="-1" aria-label="کم کن">\u2212</button><span>' + rr(M(nm + '=' + v)) + '</span><button type="button" class="btn" data-s="' + nm + '" data-d="1" aria-label="زیاد کن">+</button>'; }
+      function steppers(id, nm, v) { host.querySelector(id).style.direction = 'ltr'; host.querySelector(id).innerHTML = '<button type="button" class="btn cd-st" data-s="' + nm + '" data-d="-1" aria-label="کم کن">\u2212</button><span>' + rr(M(nm + '=' + v)) + '</span><button type="button" class="btn cd-st" data-s="' + nm + '" data-d="1" aria-label="زیاد کن">+</button>'; }
       function draw() {
         var pts = [{ x: x, y: y, c: C.PINK, r: 7, l: 'P', pair: true, dy: -11 }], seg = [{ a: [0, 0], b: [x, 0], c: C.TEAL, w: 3.4 }, { a: [x, 0], b: [x, y], c: C.PINK, w: 3.4 }];
         if (swap && !(x === y)) {
@@ -39,7 +39,7 @@ window.LESSONS.C02 = {
         var hs = x === 0 ? 'در راستای افقی حرکتی نمی‌کنی' : num(x) + ' واحد ' + hz(x), vs = y === 0 ? 'در راستای عمودی هم حرکتی نمی‌کنی' : num(y) + ' واحد ' + vt(y);
         info.innerHTML = rr('از مبدأ: <span style="color:#0a6f61"><b>' + hs + '</b></span>، سپس <span style="color:#d6457a"><b>' + vs + '</b></span> ← ' + C.pt(x, y) +
           (swap ? (x === y ? '<br><b>این‌جا ' + M('(y,x)') + ' با ' + M('(x,y)') + ' یکی است.</b>' : abs(y) > 5 || abs(x) > 4 ? '<br>' + C.pt(y, x) + ' خارج از این صفحه است.' : '<br>نقطهٔ ' + M('Q') + ' = ' + C.pt(y, x) + ' جایی دیگر است: ترتیب مؤلفه‌ها مهم است!') : ''));
-        bsw.classList.toggle('primary', swap);
+        bsw.classList.toggle('on', swap); bsw.setAttribute('aria-pressed', swap);
       }
       host.addEventListener('click', function (e) {
         var b = e.target.closest('button'); if (!b) { return; }
@@ -50,70 +50,94 @@ window.LESSONS.C02 = {
       draw();
     };
 
-    /* ============ ۲) خواندن مختصات ============ */
-    K.readLab = function (host) {
-      var N = 5, i, res, pt, show, done, msg, vx, vy;
-      function newPt() { pt = rpt(Math.random() < 0.2); show = false; done = false; msg = ''; vx = ''; vy = ''; }
-      function newGame() { i = 0; res = []; newPt(); paint(); }
-      function keep() { var a = host.querySelector('input[data-k="x"]'), b = host.querySelector('input[data-k="y"]'); if (a) { vx = a.value; vy = b.value; } }
-      function paint() {
-        var h, a, b;
-        if (i >= N) { var s = res.filter(Boolean).length; host.innerHTML = rr(C.dots(res, -1, N) + fb(s >= 4, '<b>نتیجه: ' + fa(s) + ' از ' + fa(N) + '</b>') + '<div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>مجموعهٔ جدید</button></div>'); return; }
-        h = C.dots(res, i, N) + '<p class="ask">مختصات نقطهٔ ' + M('P') + ' را بنویس (مؤلفهٔ اول، سپس مؤلفهٔ دوم):</p>' + C.plane({ pts: [{ x: pt[0], y: pt[1], l: 'P', c: C.PINK, r: 7 }], guides: show || done ? [{ x: pt[0], y: pt[1] }] : [] });
-        h += '<div class="lk-line"><button type="button" class="btn" data-g="1">' + (show ? 'پنهان‌کردن راهنما' : 'نمایش خط‌های راهنما') + '</button></div><div style="text-align:center">' + C.pairIn() + '</div>' + (done ? '' : '<div class="opts"><button type="button" class="btn primary" data-ck="1">بررسی</button></div>');
-        if (msg) { h += msg; }
-        if (done) { h += '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (i === N - 1 ? 'پایان' : 'نقطهٔ بعدی') + '</button></div>'; }
-        host.innerHTML = rr(h);
-        a = host.querySelector('input[data-k="x"]'); b = host.querySelector('input[data-k="y"]'); a.value = vx; b.value = vy;
-        if (done) { a.disabled = b.disabled = true; var ok = res[i]; a.className = b.className = ok ? 'ok' : 'no'; host.querySelectorAll('.cd-pm').forEach(function (z) { z.disabled = true; }); }
+    /* ============ انیمیشن مرحله‌به‌مرحلهٔ خواندن مختصات (مثال بخش ۲) ============ */
+    K.readDemo = function (host) {
+      var A = [-3, 2], N = 4, step = 0, tm = null, started = false;
+      var CAP = [
+        'نقطهٔ ' + M('A') + ' روی صفحه است. می‌خواهیم آدرسش را بنویسیم.',
+        '<b>قدم ۱:</b> از ' + M('A') + ' به محور ' + M('x') + ' عمود می‌کشیم. به عدد ' + M('-3') + ' می‌رسیم؛ این <b>مؤلفهٔ اول</b> است.',
+        '<b>قدم ۲:</b> از ' + M('A') + ' به محور ' + M('y') + ' عمود می‌کشیم. به عدد ' + M('2') + ' می‌رسیم؛ این <b>مؤلفهٔ دوم</b> است.',
+        '<b>قدم ۳:</b> عددها را به‌ترتیب (اول، دوم) می‌نویسیم: ' + M('A(-3,2)') + '.'
+      ];
+      function fig() {
+        var o = { pts: [{ x: A[0], y: A[1], c: C.PINK, r: 7, l: 'A', pair: step === 3, dy: -11 }], seg: [], notes: [] };
+        if (step >= 1) { o.seg.push({ a: A, b: [A[0], 0], c: C.TEAL, w: 3.4 }); o.notes.push({ x: -3, y: -0.95, t: C.sg(-3), c: C.TEAL, fs: 14 }); }
+        if (step >= 2) { o.seg.push({ a: A, b: [0, A[1]], c: C.PINK, w: 3.4 }); o.notes.push({ x: 0.55, y: 1.78, t: fa(2), c: C.PINK, fs: 14, anchor: 'start' }); }
+        return C.plane(o);
       }
-      function check() {
-        keep(); var x = C.parseInt0(vx), y = C.parseInt0(vy), ok;
-        if (x === null || y === null) { msg = '<div class="lk-cap lk-bad">هر دو عدد را بنویس (برای منفی از دکمهٔ ± استفاده کن).</div>'; paint(); return; }
-        ok = x === pt[0] && y === pt[1]; done = true; res[i] = ok;
-        msg = fb(ok, ok ? 'درست است! ✓' : MSG[errKind(x, y, pt)]) + '<div class="ex"><p>از مبدأ ' + (pt[0] === 0 ? 'در راستای افقی حرکتی نمی‌کنی' : num(pt[0]) + ' واحد ' + hz(pt[0])) + ' و ' + (pt[1] === 0 ? 'در راستای عمودی حرکتی نمی‌کنی' : num(pt[1]) + ' واحد ' + vt(pt[1])) + ' می‌روی؛ پس ' + C.pt(pt[0], pt[1]) + '.</p></div>';
+      function paint() {
+        var bar = CAP.map(function (c, k) { return '<i' + (k <= step ? ' class="current"' : '') + '></i>'; }).join('');
+        host.innerHTML = rr('<div class="cd-ex-prog" aria-hidden="true">' + bar + '</div>' + fig() + '<div class="cd-info" aria-live="polite">' + CAP[step] + '</div><div class="lk-line"><button type="button" class="btn" data-a="1">' + (tm ? 'توقف و نمایش نتیجه' : started ? 'پخش دوباره' : 'شروع') + '</button></div>');
+      }
+      function stop() { if (tm) { clearInterval(tm); tm = null; } step = N - 1; paint(); }
+      function play() {
+        if (tm) { clearInterval(tm); } started = true; step = 0;
+        tm = setInterval(function () { if (!host.isConnected) { clearInterval(tm); tm = null; return; } step++; if (step >= N - 1) { clearInterval(tm); tm = null; } paint(); }, 2200);
         paint();
       }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.r) { newGame(); } else if (b.dataset.g) { keep(); show = !show; paint(); } else if (b.dataset.ck) { check(); } else if (b.dataset.nx) { i++; newPt(); paint(); }
+      host.addEventListener('click', function (e) { if (e.target.closest('[data-a]')) { if (tm) { stop(); } else { play(); } } });
+      paint();
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { started = true; step = N - 1; paint(); }
+      else if (window.IntersectionObserver) { var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); play(); } }, { threshold: 0.6 }); io.observe(host); }
+      else { play(); }
+    };
+
+    /* ============ ۲) خواندن مختصات ============ */
+    K.readLab = function (host) {
+      var pairOf = function (it) { return it.p; };
+      function keep(it) { var a = host.querySelector('input[data-k="x"]'), b = host.querySelector('input[data-k="y"]'); if (a && b) { it.vx = a.value; it.vy = b.value; } }
+      C.hunt(host, {
+        once: true,
+        make: function () { var l = []; while (l.length < 5) { l.push({ p: rpt(Math.random() < 0.2), g: false, vx: '', vy: '' }); } return l; },
+        ask: function () { return 'مختصات نقطهٔ ' + M('P') + ' را بنویس (مؤلفهٔ اول، سپس مؤلفهٔ دوم):'; },
+        fig: function (it, s) { var p = pairOf(it); return C.plane({ pts: [{ x: p[0], y: p[1], l: 'P', c: C.PINK, r: 7 }], guides: it.g || s.done ? [{ x: p[0], y: p[1] }] : [] }); },
+        ctl: function (it, s) { return (s.done ? '' : '<div class="lk-line"><button type="button" class="btn" data-g="1">' + (it.g ? 'پنهان‌کردن راهنما' : 'نمایش خط‌های راهنما') + '</button></div>') + '<div style="text-align:center">' + C.pairIn() + '</div>'; },
+        chk: function () { return true; },
+        ready: function () { return true; },
+        after: function (h, it, s) {
+          var a = h.querySelector('input[data-k="x"]'), b = h.querySelector('input[data-k="y"]'); a.value = it.vx; b.value = it.vy;
+          if (s.done) { a.disabled = b.disabled = true; a.className = b.className = s.first ? 'ok' : 'no'; h.querySelectorAll('.cd-pm').forEach(function (z) { z.disabled = true; }); }
+        },
+        input: function (e, it) { if (e.target.dataset.k) { keep(it); } },
+        check: function (it) {
+          keep(it); var x = C.parseInt0(it.vx), y = C.parseInt0(it.vy), p = pairOf(it);
+          if (x === null || y === null) { return { hint: 'هر دو عدد را بنویس (برای منفی از دکمهٔ ± استفاده کن).' }; }
+          return x === p[0] && y === p[1] ? true : MSG[errKind(x, y, p)];
+        },
+        ex: function (it) { var p = pairOf(it); return '<p>از مبدأ ' + (p[0] === 0 ? 'در راستای افقی حرکتی نمی‌کنی' : num(p[0]) + ' واحد ' + hz(p[0])) + ' و ' + (p[1] === 0 ? 'در راستای عمودی حرکتی نمی‌کنی' : num(p[1]) + ' واحد ' + vt(p[1])) + ' می‌روی؛ پس ' + C.pt(p[0], p[1]) + '.</p>'; },
+        act: function (e, it) { var b = e.target.closest('button'); if (b && b.dataset.g) { keep(it); it.g = !it.g; return 1; } return null; }
       });
-      host.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.tagName === 'INPUT' && !done) { check(); } });
-      C.wirePm(host); newGame();
+      C.wirePm(host);
+      host.addEventListener('click', function (e) { if (e.target.closest('.cd-pm')) { var s = host.querySelector('input[data-k="x"]'); if (s) { s.dispatchEvent(new Event('input', { bubbles: true })); } } });
+      host.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { var b = host.querySelector('[data-nx]'); if (b && !b.disabled) { b.click(); } } });
     };
 
     /* ============ ۳) رسم نقطه با لمس ============ */
     K.plot = function (host) {
-      var N = 5, i, res, tg, sel, ans, msg;
-      function newPt() { tg = rpt(i === 1 || i === 3); sel = null; ans = null; msg = ''; }
-      function newGame() { i = 0; res = []; newPt(); paint(); }
-      function paint() {
-        var h, po;
-        if (i >= N) { var s = res.filter(Boolean).length; host.innerHTML = rr(C.dots(res, -1, N) + fb(s >= 4, '<b>نتیجه: ' + fa(s) + ' از ' + fa(N) + '</b>') + '<div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>مجموعهٔ جدید</button></div>'); return; }
-        po = { pts: [] };
-        if (!ans) { po.pick = true; po.sel = sel; } else { po.pts.push({ x: tg[0], y: tg[1], c: C.GREEN, r: 7, ring: true }); if (!ans.ok) { po.pts.push({ x: ans.x, y: ans.y, c: C.RED, r: 6 }); } po.seg = [{ a: [0, 0], b: [tg[0], 0], c: C.TEAL, w: 3 }, { a: [tg[0], 0], b: tg, c: C.PINK, w: 3 }]; }
-        h = C.dots(res, i, N) + '<p class="ask">نقطهٔ ' + C.pt(tg[0], tg[1]) + ' را روی صفحه مشخص کن (لمس کن، بعد «تأیید» را بزن):</p>' + C.plane(po);
-        if (!ans) { h += '<div class="opts"><button type="button" class="btn primary" data-ck="1"' + (sel ? '' : ' disabled') + '>تأیید</button></div>'; }
-        else { h += msg + '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (i === N - 1 ? 'پایان' : 'نقطهٔ بعدی') + '</button></div>'; }
-        host.innerHTML = rr(h);
-      }
-      host.addEventListener('click', function (e) {
-        var t = C.hit(e), b = e.target.closest('button');
-        if (t && !ans) { sel = [t.x, t.y]; paint(); return; }
-        if (!b || b.disabled) { return; }
-        if (b.dataset.r) { newGame(); }
-        else if (b.dataset.ck && sel) {
-          var ok = sel[0] === tg[0] && sel[1] === tg[1]; ans = { x: sel[0], y: sel[1], ok: ok }; res[i] = ok;
-          msg = fb(ok, ok ? 'درست است! ✓' : MSG[errKind(sel[0], sel[1], tg)]) + '<div class="ex"><p>' + (tg[0] === 0 ? 'مؤلفهٔ اول صفر است؛ پس به چپ و راست نمی‌روی.' : num(tg[0]) + ' واحد ' + hz(tg[0]) + ' می‌روی') + ' ' + (tg[1] === 0 ? 'مؤلفهٔ دوم صفر است؛ پس بالا و پایین نمی‌روی.' : 'و ' + num(tg[1]) + ' واحد ' + vt(tg[1]) + '.') + '</p></div>';
-          paint();
-        } else if (b.dataset.nx) { i++; newPt(); paint(); }
+      C.hunt(host, {
+        once: true,
+        make: function () { var l = [], k; for (k = 0; k < 5; k++) { l.push({ p: rpt(k === 1 || k === 3), sel: null, ans: null }); } return l; },
+        ask: function (it) { return 'نقطهٔ ' + C.pt(it.p[0], it.p[1]) + ' را روی صفحه مشخص کن (لمس کن، بعد «بررسی» را بزن):'; },
+        fig: function (it, s) {
+          var tg = it.p, po = { pts: [] };
+          if (!s.done) { po.pick = true; po.notip = true; po.sel = it.sel; return C.plane(po); }
+          po.pts.push({ x: tg[0], y: tg[1], c: C.GREEN, r: 7, ring: true }); if (!it.ans.ok) { po.pts.push({ x: it.ans.x, y: it.ans.y, c: C.RED, r: 6 }); }
+          po.seg = [{ a: [0, 0], b: [tg[0], 0], c: C.TEAL, w: 3 }, { a: [tg[0], 0], b: tg, c: C.PINK, w: 3 }]; return C.plane(po);
+        },
+        chk: function () { return true; },
+        ready: function (it) { return !!it.sel; },
+        check: function (it) {
+          var ok = it.sel[0] === it.p[0] && it.sel[1] === it.p[1]; it.ans = { x: it.sel[0], y: it.sel[1], ok: ok };
+          return ok ? true : MSG[errKind(it.sel[0], it.sel[1], it.p)];
+        },
+        ex: function (it) { var tg = it.p; return '<p>' + (tg[0] === 0 ? 'مؤلفهٔ اول صفر است؛ پس به چپ و راست نمی‌روی.' : num(tg[0]) + ' واحد ' + hz(tg[0]) + ' می‌روی') + ' ' + (tg[1] === 0 ? 'مؤلفهٔ دوم صفر است؛ پس بالا و پایین نمی‌روی.' : 'و ' + num(tg[1]) + ' واحد ' + vt(tg[1]) + '.') + '</p>'; },
+        act: function (e, it) { var t = C.hit(e); if (!t) { return null; } it.sel = [t.x, t.y]; return 1; }
       });
-      newGame();
     };
 
     /* ============ ۴) دسته‌بندی: کدام نقطه کجاست؟ ============ */
     K.bins = function (host) {
-      var tiles, sel, placed, wrong, msg, done;
+      var tiles, sel, placed, wrong, msg, done, dragT = null, touchDrag = null, skipClick = false;
       var BINS = [['x', 'روی محور ' + M('x')], ['y', 'روی محور ' + M('y')], ['o', 'مبدأ مختصات'], ['r', 'داخل یک ناحیه']];
       function cl(p) { return p[0] === 0 && p[1] === 0 ? 'o' : p[1] === 0 ? 'x' : p[0] === 0 ? 'y' : 'r'; }
       function why(p) {
@@ -129,24 +153,52 @@ window.LESSONS.C02 = {
         tiles = shuffle(list.map(function (p, k) { return { p: p, k: k }; })); sel = -1; placed = { x: [], y: [], o: [], r: [] }; wrong = 0; msg = ''; done = false; paint();
       }
       function paint() {
-        var left = tiles.filter(function (t) { return !t.done; }), h = '<p class="ask">زوج مرتب را انتخاب کن، بعد روی جایی بزن که نقطه‌اش در آنجا قرار می‌گیرد:</p><div class="cd-tray">';
-        tiles.forEach(function (t, k) { if (!t.done) { h += '<button type="button" class="cd-tile' + (k === sel ? ' sel' : '') + (t.shk ? ' shk' : '') + '" data-t="' + k + '">' + C.bd('(' + sg(t.p[0]) + '\u060C ' + sg(t.p[1]) + ')') + '</button>'; t.shk = false; } });
+        var left = tiles.filter(function (t) { return !t.done; }), h = '<p class="ask">زوج مرتب را بکش و در جای درستش رها کن؛ یا آن را انتخاب کن و روی جای درست بزن:</p><div class="cd-tray">';
+        tiles.forEach(function (t, k) { if (!t.done) { h += '<button type="button" class="cd-tile' + (k === sel ? ' sel' : '') + (t.shk ? ' shk' : '') + '" draggable="true" data-t="' + k + '">' + C.pt(t.p[0], t.p[1]) + '</button>'; t.shk = false; } });
         h += '</div><div class="cd-grid cd-g2">';
-        BINS.forEach(function (b) { h += '<button type="button" class="cd-bin' + (sel >= 0 ? ' hot' : '') + '" data-b="' + b[0] + '"><b>' + b[1] + '</b>' + placed[b[0]].map(function (p) { return '<span>' + C.bd('(' + sg(p[0]) + '\u060C ' + sg(p[1]) + ')') + '</span>'; }).join('') + '</button>'; });
-        h += '</div><div class="lk-cap">' + msg + '</div>';
-        if (!left.length) { h += fb(wrong <= 1, '<b>همه را درست دسته‌بندی کردی!</b> تعداد اشتباه‌ها: ' + fa(wrong)) + '<div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>بازی جدید</button></div>'; }
+        BINS.forEach(function (b) { h += '<button type="button" class="cd-bin' + (sel >= 0 ? ' hot' : '') + '" data-b="' + b[0] + '"><b>' + b[1] + '</b>' + placed[b[0]].map(function (p) { return '<span>' + C.pt(p[0], p[1]) + '</span>'; }).join('') + '</button>'; });
+        h += '</div>' + msg;
+        if (!left.length) { h += fb(wrong <= 1, '<b>همه را درست دسته‌بندی کردی!</b> تعداد اشتباه‌ها: ' + fa(wrong)) + '<div class="end-actions cd-center"><button type="button" class="btn primary" data-r="1" data-scroll>بازی جدید</button></div>'; }
         host.innerHTML = rr(h);
       }
+      function place(b) {
+        if (sel < 0) { msg = fb(false, 'اول یک زوج مرتب را انتخاب کن.'); paint(); return; }
+        var t = tiles[sel];
+        if (cl(t.p) === b) { t.done = true; placed[b].push(t.p); msg = fb(true, why(t.p)); sel = -1; }
+        else { wrong++; t.shk = true; msg = fb(false, 'این‌جا نیست. ببین کدام مؤلفه صفر است (یا هیچ‌کدام).'); }
+        paint();
+      }
+      function binAt(x, y) { var el = document.elementFromPoint(x, y); return el && el.closest('.cd-bin'); }
+      function clearOver() { host.querySelectorAll('.cd-bin.over').forEach(function (x) { x.classList.remove('over'); }); }
+      host.addEventListener('dragstart', function (e) {
+        var c = e.target.closest('.cd-tile'); if (!c) { return; }
+        dragT = +c.dataset.t; sel = dragT;
+        if (e.dataTransfer) { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', String(dragT)); }
+      });
+      host.addEventListener('dragover', function (e) { var b = e.target.closest('.cd-bin'); if (b && dragT !== null) { e.preventDefault(); if (e.dataTransfer) { e.dataTransfer.dropEffect = 'move'; } clearOver(); b.classList.add('over'); } });
+      host.addEventListener('dragleave', function (e) { var b = e.target.closest('.cd-bin'); if (b && !b.contains(e.relatedTarget)) { b.classList.remove('over'); } });
+      host.addEventListener('drop', function (e) { var b = e.target.closest('.cd-bin'); clearOver(); if (b && dragT !== null) { e.preventDefault(); sel = dragT; dragT = null; place(b.dataset.b); } dragT = null; });
+      host.addEventListener('dragend', function () { dragT = null; clearOver(); });
+      host.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'mouse') { return; }
+        var c = e.target.closest('.cd-tile'); if (c) { touchDrag = { x: e.clientX, y: e.clientY, moved: false, k: +c.dataset.t }; }
+      });
+      host.addEventListener('pointermove', function (e) {
+        if (!touchDrag) { return; }
+        if (Math.hypot(e.clientX - touchDrag.x, e.clientY - touchDrag.y) > 9) { touchDrag.moved = true; e.preventDefault(); }
+        if (touchDrag.moved) { var b = binAt(e.clientX, e.clientY); clearOver(); if (b) { b.classList.add('over'); } }
+      }, { passive: false });
+      host.addEventListener('pointerup', function (e) {
+        if (!touchDrag) { return; } var d = touchDrag; touchDrag = null; clearOver();
+        if (d.moved) { skipClick = true; var b = binAt(e.clientX, e.clientY); if (b) { e.preventDefault(); sel = d.k; place(b.dataset.b); } }
+      });
+      host.addEventListener('pointercancel', function () { touchDrag = null; clearOver(); });
       host.addEventListener('click', function (e) {
         var b = e.target.closest('button'); if (!b) { return; }
+        if (skipClick) { skipClick = false; return; }
         if (b.dataset.r) { newGame(); return; }
         if (b.dataset.t !== undefined) { sel = sel === +b.dataset.t ? -1 : +b.dataset.t; msg = ''; paint(); return; }
-        if (b.dataset.b && sel >= 0) {
-          var t = tiles[sel];
-          if (cl(t.p) === b.dataset.b) { t.done = true; placed[b.dataset.b].push(t.p); msg = '<span style="color:green">' + why(t.p) + '</span>'; sel = -1; }
-          else { wrong++; t.shk = true; msg = '<span class="lk-bad">این‌جا نیست. ببین کدام مؤلفه صفر است (یا هیچ‌کدام).</span>'; }
-          paint();
-        }
+        if (b.dataset.b) { place(b.dataset.b); }
       });
       newGame();
     };
@@ -155,7 +207,7 @@ window.LESSONS.C02 = {
     K.dist = function (host) {
       C.probe(host, { plane: {}, hint: 'نقطه‌ای را لمس کن تا فاصله‌اش از دو محور را ببینی.', extra: function (x, y) { return { guides: [{ x: x, y: y, vc: C.TEAL, hc: C.PINK, vl: fa(abs(y)), hl: fa(abs(x)) }], pts: [{ x: x, y: y, c: C.RED, r: 6, l: '', pair: true, dy: -10 }] }; } },
         function (x, y) {
-          return C.pt(x, y) + '<br><span style="color:#0a6f61"><b>فاصله تا محور ' + M('x') + ':</b> ' + M('|y|=|' + y + '|=' + abs(y)) + '</span> · <span style="color:#d6457a"><b>فاصله تا محور ' + M('y') + ':</b> ' + M('|x|=|' + x + '|=' + abs(x)) + '</span>';
+          return C.pt(x, y) + '<br><span style="color:#0a6f61"><b>فاصله تا محور ' + M('x') + ':</b> ' + M('|y|=|' + y + '|=' + abs(y)) + '</span><br><span style="color:#d6457a"><b>فاصله تا محور ' + M('y') + ':</b> ' + M('|x|=|' + x + '|=' + abs(x)) + '</span>';
         });
     };
 
@@ -174,7 +226,7 @@ window.LESSONS.C02 = {
         if (over) { tr.forEach(function (t) { if (!t.got) { pts.push({ x: t.p[0], y: t.p[1], c: C.RED, hollow: true, r: 7, l: '?', dx: 10, dy: 5 }); } }); }
         h = '<p class="ask">تیرها: <b>' + fa(shots.length) + '</b> از ' + fa(MAX) + ' · گنج‌های پیداشده: <b>' + fa(found) + '</b> از ' + fa(3) + '</p><div class="cd-bar"><i style="width:' + (shots.length / MAX * 100) + '%"></i></div>';
         h += C.plane({ pts: pts, pick: !over }) + '<div class="cd-info">' + msg + '</div>';
-        if (over) { h += '<div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>نقشهٔ جدید</button></div>'; }
+        if (over) { h += '<div class="end-actions cd-center"><button type="button" class="btn primary" data-r="1" data-scroll>نقشهٔ جدید</button></div>'; }
         host.innerHTML = rr(h);
       }
       host.addEventListener('click', function (e) {
@@ -200,46 +252,56 @@ window.LESSONS.C02 = {
       var o = function (h, ok, m) { return { h: h, ok: ok, m: m }; };
       function qRead() {
         var p = rpt(false), L = pick(['الف', 'ب', 'ج', 'د', 'ه']);
-        return { kind: 'mcq', ask: 'مختصات نقطهٔ «' + L + '» کدام است؟', fig: C.plane({ pts: [{ x: p[0], y: p[1], l: L, c: C.PINK, r: 7 }] }),
+        return {
+          kind: 'mcq', ask: 'مختصات نقطهٔ «' + L + '» کدام است؟', fig: C.plane({ pts: [{ x: p[0], y: p[1], l: L, c: C.PINK, r: 7 }] }),
           opts: [o(C.pt(p[0], p[1]), true), o(C.pt(p[1], p[0]), false, 'مؤلفه‌ها جابه‌جا شده‌اند؛ اول جای افقی را بنویس.'), o(C.pt(-p[0], p[1]), false, 'علامت مؤلفهٔ اول درست نیست.'), o(C.pt(p[0], -p[1]), false, 'علامت مؤلفهٔ دوم درست نیست.')],
-          expl: '<p>' + num(p[0]) + ' واحد ' + hz(p[0]) + ' و ' + num(p[1]) + ' واحد ' + vt(p[1]) + ' از مبدأ؛ پس ' + C.pt(p[0], p[1]) + '.</p>' };
+          expl: '<p>' + num(p[0]) + ' واحد ' + hz(p[0]) + ' و ' + num(p[1]) + ' واحد ' + vt(p[1]) + ' از مبدأ؛ پس ' + C.pt(p[0], p[1]) + '.</p>'
+        };
       }
       function qPlot() {
         var p = rpt(Math.random() < 0.3);
-        return { kind: 'pick', ask: 'نقطهٔ ' + C.pt(p[0], p[1]) + ' را روی صفحه مشخص کن.', plane: {}, ans: p, bad: function (a) { return MSG[errKind(a.x, a.y, p)]; }, expl: '<p>' + (p[0] === 0 ? 'مؤلفهٔ اول صفر است.' : num(p[0]) + ' واحد ' + hz(p[0])) + ' ' + (p[1] === 0 ? 'مؤلفهٔ دوم صفر است.' : 'و ' + num(p[1]) + ' واحد ' + vt(p[1]) + '.') + '</p>' };
+        return { kind: 'pick', ask: 'نقطهٔ ' + C.pt(p[0], p[1]) + ' را روی صفحه مشخص کن.', plane: { notip: true }, ans: p, bad: function (a) { return MSG[errKind(a.x, a.y, p)]; }, expl: '<p>' + (p[0] === 0 ? 'مؤلفهٔ اول صفر است.' : num(p[0]) + ' واحد ' + hz(p[0])) + ' ' + (p[1] === 0 ? 'مؤلفهٔ دوم صفر است.' : 'و ' + num(p[1]) + ' واحد ' + vt(p[1]) + '.') + '</p>' };
       }
       function qAxis() {
         var p = rpt(true), n = abs(p[0] || p[1]), onX = p[1] === 0, v = onX ? (p[0] < 0 ? 'چپ' : 'راست') : (p[1] < 0 ? 'پایین' : 'بالای');
         var mk = function (ax, dir) { return 'روی محور ' + M(ax) + '، ' + M(String(n)) + ' واحد ' + (dir === 'چپ' ? 'سمت چپ' : dir === 'راست' ? 'سمت راست' : dir === 'بالای' ? 'بالای' : 'پایین') + ' مبدأ'; };
         var key = (onX ? 'x' : 'y') + v;
-        return { kind: 'mcq', ask: 'نقطهٔ ' + C.pt(p[0], p[1]) + ' کجا قرار دارد؟', opts: [['x', 'چپ'], ['x', 'راست'], ['y', 'بالای'], ['y', 'پایین']].map(function (d) { return o(mk(d[0], d[1]), d[0] + d[1] === key, 'مؤلفهٔ ' + (onX ? 'دوم' : 'اول') + ' صفر است؛ این نقطه روی محور ' + M(onX ? 'x' : 'y') + ' است و جهتش را علامتِ مؤلفهٔ دیگر می‌گوید.'); }),
-          expl: '<p>یک مؤلفه صفر است، پس نقطه روی محور ' + M(onX ? 'x' : 'y') + ' می‌ماند. ' + (onX ? 'مؤلفهٔ اول ' + M(String(p[0])) + ' ' : 'مؤلفهٔ دوم ' + M(String(p[1])) + ' ') + 'جهت و اندازه را می‌گوید.</p>' };
+        return {
+          kind: 'mcq', ask: 'نقطهٔ ' + C.pt(p[0], p[1]) + ' کجا قرار دارد؟', opts: [['x', 'چپ'], ['x', 'راست'], ['y', 'بالای'], ['y', 'پایین']].map(function (d) { return o(mk(d[0], d[1]), d[0] + d[1] === key, 'مؤلفهٔ ' + (onX ? 'دوم' : 'اول') + ' صفر است؛ این نقطه روی محور ' + M(onX ? 'x' : 'y') + ' است و جهتش را علامتِ مؤلفهٔ دیگر می‌گوید.'); }),
+          expl: '<p>یک مؤلفه صفر است، پس نقطه روی محور ' + M(onX ? 'x' : 'y') + ' می‌ماند. ' + (onX ? 'مؤلفهٔ اول ' + M(String(p[0])) + ' ' : 'مؤلفهٔ دوم ' + M(String(p[1])) + ' ') + 'جهت و اندازه را می‌گوید.</p>'
+        };
       }
       function qOrder() {
         var p = rpt(false), A = abs(p[0]), B = abs(p[1]);
         var txt = function (a, b, sx, sy) { return num(a) + ' واحد ' + (sx < 0 ? 'به چپ' : 'به راست') + ' و ' + num(b) + ' واحد ' + (sy < 0 ? 'پایین' : 'بالا'); };
         var sx = p[0] < 0 ? -1 : 1, sy = p[1] < 0 ? -1 : 1;
-        return { kind: 'mcq', ask: 'برای رسیدن از مبدأ به نقطهٔ ' + C.pt(p[0], p[1]) + ' چه باید کرد؟', opts: [o(txt(A, B, sx, sy), true), o(txt(A, B, -sx, sy), false, 'جهت حرکت افقی برعکس شده است.'), o(txt(A, B, sx, -sy), false, 'جهت حرکت عمودی برعکس شده است.'), o(txt(B, A, sx, sy), false, 'مؤلفهٔ اول افقی است و مؤلفهٔ دوم عمودی؛ اندازه‌ها جابه‌جا شده‌اند.')],
-          expl: '<p>مؤلفهٔ اول ' + M(String(p[0])) + ' حرکت افقی را می‌گوید و مؤلفهٔ دوم ' + M(String(p[1])) + ' حرکت عمودی را.</p>' };
+        return {
+          kind: 'mcq', ask: 'برای رسیدن از مبدأ به نقطهٔ ' + C.pt(p[0], p[1]) + ' چه باید کرد؟', opts: [o(txt(A, B, sx, sy), true), o(txt(A, B, -sx, sy), false, 'جهت حرکت افقی برعکس شده است.'), o(txt(A, B, sx, -sy), false, 'جهت حرکت عمودی برعکس شده است.'), o(txt(B, A, sx, sy), false, 'مؤلفهٔ اول افقی است و مؤلفهٔ دوم عمودی؛ اندازه‌ها جابه‌جا شده‌اند.')],
+          expl: '<p>مؤلفهٔ اول ' + M(String(p[0])) + ' حرکت افقی را می‌گوید و مؤلفهٔ دوم ' + M(String(p[1])) + ' حرکت عمودی را.</p>'
+        };
       }
       function qDist() {
         var p = rpt(false), toY = Math.random() < 0.5, d1 = toY ? abs(p[0]) : abs(p[1]), d2 = toY ? abs(p[1]) : abs(p[0]);
         var vals = [[d1, true, ''], [d2, false, 'فاصله از محور ' + M(toY ? 'y' : 'x') + ' را با فاصله از محور دیگر اشتباه گرفته‌ای.'], [-d1, false, 'فاصله منفی نمی‌شود؛ علامت فقط می‌گوید نقطه در کدام طرف است.'], [d1 + d2, false, 'فاصله از یک محور فقط به همان یک مؤلفه بستگی دارد.']];
-        return { kind: 'mcq', ask: 'فاصلهٔ نقطهٔ ' + C.pt(p[0], p[1]) + ' تا محور ' + M(toY ? 'y' : 'x') + ' چند واحد است؟', opts: vals.map(function (v) { return o(M(String(v[0])), v[1], v[2]); }),
-          expl: '<p>فاصله تا محور ' + M('y') + ' برابر ' + M('|x|') + ' و فاصله تا محور ' + M('x') + ' برابر ' + M('|y|') + ' است. اینجا ' + M(toY ? '|' + p[0] + '|=' + d1 : '|' + p[1] + '|=' + d1) + '.</p>' };
+        return {
+          kind: 'mcq', ask: 'فاصلهٔ نقطهٔ ' + C.pt(p[0], p[1]) + ' تا محور ' + M(toY ? 'y' : 'x') + ' چند واحد است؟', opts: vals.map(function (v) { return o(M(String(v[0])), v[1], v[2]); }),
+          expl: '<p>فاصله تا محور ' + M('y') + ' برابر ' + M('|x|') + ' و فاصله تا محور ' + M('x') + ' برابر ' + M('|y|') + ' است. اینجا ' + M(toY ? '|' + p[0] + '|=' + d1 : '|' + p[1] + '|=' + d1) + '.</p>'
+        };
       }
       function qFind() {
         var k = pick([1, 2, 3, 4]), sx = k === 1 || k === 4 ? 1 : -1, sy = k <= 2 ? 1 : -1, a = R(1, 4), b = R(1, 4), ans = [sx * a, sy * b];
-        return { kind: 'pick', ask: 'نقطه‌ای را مشخص کن که در ' + RE(k) + ' باشد، فاصله‌اش تا محور ' + M('y') + ' برابر ' + M(String(a)) + ' و تا محور ' + M('x') + ' برابر ' + M(String(b)) + ' باشد.', plane: { qn: false }, ans: ans,
+        return {
+          kind: 'pick', ask: 'نقطه‌ای را مشخص کن که در ' + RE(k) + ' باشد، فاصله‌اش تا محور ' + M('y') + ' برابر ' + M(String(a)) + ' و تا محور ' + M('x') + ' برابر ' + M(String(b)) + ' باشد.', plane: { qn: false, notip: true }, ans: ans,
           bad: function (s) { return s.x === sy * b && s.y === sx * a ? 'فاصله تا محور ' + M('y') + ' اندازهٔ مؤلفهٔ اول است، نه دوم.' : C.quad(s.x, s.y) !== k ? 'آن نقطه در ' + (C.quad(s.x, s.y) ? RE(C.quad(s.x, s.y)) : 'هیچ ناحیه‌ای') + ' است.' : 'فاصله‌ها را از روی شبکه بشمار.'; },
-          expl: '<p>فاصله تا محور ' + M('y') + ' یعنی ' + M('|x|=' + a) + ' و فاصله تا محور ' + M('x') + ' یعنی ' + M('|y|=' + b) + '. در ' + RE(k) + ' علامت‌ها ' + C.signs(sx, sy) + ' است؛ پس ' + C.pt(sx * a, sy * b) + '.</p>' };
+          expl: '<p>فاصله تا محور ' + M('y') + ' یعنی ' + M('|x|=' + a) + ' و فاصله تا محور ' + M('x') + ' یعنی ' + M('|y|=' + b) + '. در ' + RE(k) + ' علامت‌ها ' + C.signs(sx, sy) + ' است؛ پس ' + C.pt(sx * a, sy * b) + '.</p>'
+        };
       }
       C.quiz(host, function () { return [qRead, qPlot, qAxis, qOrder, qDist, qFind].map(function (f) { var q, t = 0; do { q = f(); } while (q.opts && C.distinct(q.opts, function (x) { return x.h; }).length < q.opts.length && t++ < 40); if (q.opts) { q.opts = shuffle(q.opts.slice()); } return q; }); },
         function (s) { return s === 6 ? 'عالی! همهٔ سؤال‌ها درست بود.' : s >= 4 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن و با سؤال‌های جدید امتحان کن.'; });
     };
 
     var TIP_ORD = '<p>به این زوج «مرتب» می‌گوییم چون <b>ترتیب</b> نوشتن عددها مهم است. ' + M('(3,2)') + ' یعنی ۳ واحد افقی و ۲ واحد عمودی، ولی ' + M('(2,3)') + ' یعنی ۲ واحد افقی و ۳ واحد عمودی؛ دو نقطهٔ متفاوت.</p><p>مجموعهٔ ' + M('\\{3,2\\}') + ' و ' + M('\\{2,3\\}') + ' یکی بودند، اما زوج‌مرتب‌ها یکی نیستند.</p>';
-    var TIP_ABS = '<p>قدرمطلق یعنی «اندازه بدون علامت»: ' + M('|-3|=3') + ' و ' + M('|3|=3') + '. فاصله هیچ‌وقت منفی نیست؛ علامتِ مؤلفه فقط می‌گوید نقطه در کدام طرف محور است.</p>';
+    var TIP_ABS = '<p><b>یادآوری:</b> قدرمطلق را قبلاً در فصل اول خوانده‌ای؛ این‌جا فقط دوباره به کارش می‌بریم.</p><p>قدرمطلق یعنی «اندازه بدون علامت»: ' + M('|-3|=3') + ' و ' + M('|3|=3') + '. فاصله هیچ‌وقت منفی نیست؛ علامتِ مؤلفه فقط می‌گوید نقطه در کدام طرف محور است.</p>';
 
     return {
       html: function () {
@@ -247,13 +309,14 @@ window.LESSONS.C02 = {
         var host = H.host;
         return fix([
           K.sn('۱', 'زوج مرتب: آدرسِ نقطه'),
+          '<p>این شکل نوشتن را در بخش قبل چند بار دیده‌ای، ولی هنوز درست معرفی نشده بود. حالا آرام و دقیق می‌گوییم چه معنایی دارد؛ پس سرسری رد نشو، چون بقیهٔ فصل روی همین بنا شده است.</p>',
           '<p>برای پیدا کردن یک نقطه روی صفحه دو عدد کافی است: اولی می‌گوید <b>چقدر افقی</b> (راست یا چپ) و دومی می‌گوید <b>چقدر عمودی</b> (بالا یا پایین). این دو عدد را داخل پرانتز و با ویرگول می‌نویسیم:</p>', K.dm(T`(x,\ y)`), '<p>مثلاً:</p>', K.dm(T`(3,\ 2)`),
           '<p>' + M('x') + ' را «مؤلفهٔ اول» (یا طول) و ' + M('y') + ' را «مؤلفهٔ دوم» (یا عرض) می‌نامیم. به این پرانتز «زوج مرتب» می‌گوییم ' + H.tip('c2-ord', 'چرا «مرتب»؟', TIP_ORD) + '. مثلاً ' + M('(3,2)') + ' یعنی از مبدأ ۳ واحد به راست و بعد ۲ واحد بالا. خودت امتحان کن:</p>', host('c2a'),
           K.box('err', '⚠ ترتیب مهم است', '<p>' + M('(3,2)') + ' با ' + M('(2,3)') + ' یکی نیست. همیشه <b>اول افقی، بعد عمودی</b>.</p>'),
 
           K.sn('۲', 'خواندن مختصات یک نقطه'),
           '<p>برای نوشتنِ زوج‌مرتبِ یک نقطه، سه قدم کافی است:</p><ol><li>از نقطه به محور ' + M('x') + ' عمود بکش (به پایین یا بالا). عددی که آنجا می‌رسی <b>مؤلفهٔ اول</b> است.</li><li>از نقطه به محور ' + M('y') + ' عمود بکش (به چپ یا راست). عددی که آنجا می‌رسی <b>مؤلفهٔ دوم</b> است.</li><li>عددها را به‌ترتیب (اول، دوم) در پرانتز بنویس.</li></ol>',
-          C.plane({ pts: [{ x: -3, y: 2, c: C.PINK, r: 7, l: 'A' }], guides: [{ x: -3, y: 2 }], notes: [{ x: -3, y: -0.95, t: C.sg(-3), c: C.TEAL, fs: 14 }, { x: 0.55, y: 1.78, t: fa(2), c: C.PINK, fs: 14, anchor: 'start' }] }),
+          host('c2h'),
           '<p>برای نقطهٔ ' + M('A') + ' در شکل: عمود بر محور ' + M('x') + ' به عدد ' + M('-3') + ' می‌رسد و عمود بر محور ' + M('y') + ' به عدد ' + M('2') + '؛ پس ' + M('A(-3,2)') + '.</p>',
           '<h4>خواندن مختصات</h4><p>پنج نقطه را بخوان. اگر کمک خواستی، خط‌های راهنما را نشان بده:</p>', host('c2b'),
 
@@ -267,9 +330,9 @@ window.LESSONS.C02 = {
 
           K.sn('۵', 'فاصله از محورها'),
           '<p>فاصلهٔ نقطه تا محور ' + M('y') + ' را مؤلفهٔ اول و فاصلهٔ آن تا محور ' + M('x') + ' را مؤلفهٔ دوم می‌گوید؛ البته بدون علامت: ' + M('|x|') + ' و ' + M('|y|') + ' ' + H.tip('c2-abs', 'قدرمطلق و فاصله', TIP_ABS) + '. علامت فقط می‌گوید نقطه در کدام طرف است. نقطه‌ای را لمس کن و فاصله‌ها را ببین:</p>', host('c2e'),
-          K.box('err', '⚠ اشتباه رایج', '<p>فاصله تا محور ' + M('x') + ' را با ' + M('|x|') + ' اشتباه نگیر. نقطه‌ای که ' + M('|y|') + ' واحد بالا یا پایینِ محور ' + M('x') + ' است، از محور ' + M('x') + ' به اندازهٔ <b>' + M('|y|') + '</b> فاصله دارد.</p>'),
-          '<p><b>مثال:</b> نقطه‌ای در ناحیهٔ سوم، با فاصلهٔ ۳ تا محور ' + M('y') + ' و فاصلهٔ ۲ تا محور ' + M('x') + ' بخواهیم. ناحیهٔ سوم یعنی ' + M('x') + ' و ' + M('y') + ' منفی‌اند؛ اندازه‌ها ۳ و ۲ هستند؛ پس ' + M('(-3,-2)') + '.</p>',
+          '<p><b>مثال:</b> می‌خواهیم نقطه‌ای در ناحیهٔ سوم پیدا کنیم که فاصله‌اش تا محور ' + M('y') + ' برابر ۳ و فاصله‌اش تا محور ' + M('x') + ' برابر ۲ باشد. ناحیهٔ سوم یعنی ' + M('x') + ' و ' + M('y') + ' منفی‌اند؛ اندازه‌ها ۳ و ۲ هستند؛ پس ' + M('(-3,-2)') + '.</p>',
           C.plane({ shade: { 3: QF[3] }, pts: [{ x: -3, y: -2, c: C.PINK, r: 7, pair: true, dy: 18 }], guides: [{ x: -3, y: -2, vl: fa(2), hl: fa(3) }] }),
+          K.box('err', '⚠ اشتباه رایج: جابه‌جا کردن دو فاصله', '<p>فاصله تا محور ' + M('x') + ' را مؤلفهٔ <b>دوم</b> می‌گوید و فاصله تا محور ' + M('y') + ' را مؤلفهٔ <b>اول</b>؛ ذهن معمولاً برعکس می‌رود. مثلاً برای ' + M('(4,-2)') + ':<ul><li> فاصله تا محور ' + M('x') + ' برابر ' + M('|-2|=2') + ' است (نه ۴)</li><li> و فاصله تا محور ' + M('y') + ' برابر ' + M('|4|=4') + ' است.</li></ul></p>'),
 
           K.sn('۶', 'بازی: گنج‌یابی'),
           '<p>سه گنج روی نقشه پنهان است. هر بار که جایی را لمس کنی، زوج‌مرتبِ آن‌جا را می‌بینی و می‌فهمی گنج «داغ» است یا «سرد». با دوازده تیر سه گنج را پیدا کن:</p>', host('c2f'),
@@ -280,7 +343,7 @@ window.LESSONS.C02 = {
         ].join(''));
       },
       init: function (panel) {
-        K.walk(panel.querySelector('#c2a')); K.readLab(panel.querySelector('#c2b')); K.plot(panel.querySelector('#c2c')); K.bins(panel.querySelector('#c2d'));
+        K.walk(panel.querySelector('#c2a')); K.readDemo(panel.querySelector('#c2h')); K.readLab(panel.querySelector('#c2b')); K.plot(panel.querySelector('#c2c')); K.bins(panel.querySelector('#c2d'));
         K.dist(panel.querySelector('#c2e')); K.treasure(panel.querySelector('#c2f')); K.finalC02(panel.querySelector('#c2g'));
       }
     };

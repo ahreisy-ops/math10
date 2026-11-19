@@ -168,7 +168,7 @@ window.LESSONS.E04 = {
       svg += '<rect x="' + x1 + '" y="' + (y - 5) + '" width="' + (x2 - x1) + '" height="10" rx="5" fill="#7fd0c3"/>';
       svg += '<line x1="8" y1="' + y + '" x2="' + (W - 8) + '" y2="' + y + '" stroke="#14213d" stroke-width="2.4"/>';
       svg += '<path d="M' + (W - 8) + ' ' + y + ' l-9 -5 v10 z" fill="#14213d"/><path d="M8 ' + y + ' l9 -5 v10 z" fill="#14213d"/>';
-      for (v = min; v <= max; v++) { svg += '<line x1="' + X(v) + '" y1="' + (y - 5) + '" x2="' + X(v) + '" y2="' + (y + 5) + '" stroke="#14213d" stroke-width="1.5"/><text x="' + X(v) + '" y="' + (y + 22) + '" text-anchor="middle" font-size="11.5" fill="#14213d" font-family="Tahoma,sans-serif">' + (v < 0 ? '−' : '') + F(abs(v)) + '</text>'; }
+      for (v = min; v <= max; v++) { svg += '<line x1="' + X(v) + '" y1="' + (y - 5) + '" x2="' + X(v) + '" y2="' + (y + 5) + '" stroke="#14213d" stroke-width="1.5"/><text x="' + X(v) + '" y="' + (y + 22) + '" text-anchor="middle" font-size="14.5" fill="#14213d" font-family="Tahoma,sans-serif">' + (v < 0 ? '−' : '') + F(abs(v)) + '</text>'; }
       svg += '<circle cx="' + X(o.v) + '" cy="' + y + '" r="8" fill="' + (closed ? '#0e8f7e' : '#fff') + '" stroke="#0e8f7e" stroke-width="3.2"/>';
       return svg + '</svg>';
     }
@@ -318,20 +318,21 @@ window.LESSONS.E04 = {
     var HEADS = ['عدد مرزی', 'خودِ عدد هم جواب است؟', 'ناحیه به کدام سمت می‌رود؟'];
     function hl(x) { return '<span class="e4-hl">' + x + '</span>'; }
     function mini(kind) {
-      var W = 132, y = 21, x = 44, g = '<svg class="e4-mini" viewBox="0 0 ' + W + ' 46" role="img" aria-hidden="true">';
+      var W = 132, y = 21, x = 44, g = '<svg class="e4-mini" viewBox="0 0 ' + W + ' 52" role="img" aria-hidden="true">';
       if (kind === 'dir') { g += '<rect class="e4-grow" x="' + x + '" y="' + (y - 4) + '" width="' + (W - 8 - x) + '" height="8" rx="4" fill="#7fd0c3"/>'; }
       g += '<line x1="8" y1="' + y + '" x2="' + (W - 8) + '" y2="' + y + '" stroke="#14213d" stroke-width="2.2"/><path d="M' + (W - 8) + ' ' + y + ' l-8 -4.5 v9 z" fill="#14213d"/><path d="M8 ' + y + ' l8 -4.5 v9 z" fill="#14213d"/>';
       if (kind === 'num') { g += '<circle class="e4-pulse" cx="' + x + '" cy="' + y + '" r="7" fill="none" stroke="#0e8f7e" stroke-width="2"/>'; }
-      g += '<circle cx="' + x + '" cy="' + y + '" r="7" fill="#0e8f7e" stroke="#0e8f7e" stroke-width="3"/>';
-      if (kind === 'num') { g += '<text x="' + x + '" y="42" text-anchor="middle" font-size="14" fill="#14213d" font-family="Tahoma,sans-serif">\u200E−' + F(3) + '</text>'; }
+      g += '<circle cx="' + x + '" cy="' + y + '" r="7" fill="#0e8f7e" stroke="#0e8f7e" stroke-width="3"' + (kind === 'flip' ? ' class="e4-flipc"' : '') + '/>';
+      if (kind === 'num') { g += '<text x="' + x + '" y="48" text-anchor="middle" font-size="15" fill="#14213d" font-family="Tahoma,sans-serif">\u200E−' + F(3) + '</text>'; }
       return g + '</svg>';
     }
-    function ineqCell(h) { return ltr(M('x') + ' ' + (h === 'num' ? M('\\geq') : hl(M('\\geq'))) + ' ' + (h === 'num' ? hl(M('-3')) : M('-3'))); }
-    function ivCell(h) { return ltr((h === 'br' ? hl(M('[')) : M('[')) + (h === 'num' ? hl(M('-3')) : M('-3')) + M(',') + ' ' + (h === 'inf' ? hl(M('+\\infty')) : M('+\\infty')) + M(')')); }
+    function swap(a, b) { return '<span class="e4-sw"><span class="e4-sa">' + a + '</span><span class="e4-sb">' + b + '</span></span>'; }
+    function ineqCell(h) { return ltr(M('x') + ' ' + (h === 'num' ? M('\\geq') : h === 'flip' ? hl(swap(M('\\geq'), M('>'))) : hl(M('\\geq'))) + ' ' + (h === 'num' ? hl(M('-3')) : M('-3'))); }
+    function ivCell(h) { return ltr((h === 'flip' ? hl(swap(M('['), M('('))) : h === 'br' ? hl(M('[')) : M('[')) + (h === 'num' ? hl(M('-3')) : M('-3')) + M(',') + ' ' + (h === 'inf' ? hl(M('+\\infty')) : M('+\\infty')) + M(')')); }
     function rosetta() {
-      var rows = [['نامعادله', ineqCell('num'), ineqCell('sign'), ineqCell('sign')], ['محور', mini('num'), mini('closed'), mini('dir')], ['بازه', ivCell('num'), ivCell('br'), ivCell('inf')]],
+      var rows = [['نامعادله', ineqCell('num'), ineqCell('flip'), ineqCell('sign')], ['محور', mini('num'), mini('flip'), mini('dir')], ['بازه', ivCell('num'), ivCell('flip'), ivCell('inf')]],
         h = '<div class="e4-ros"><span></span>';
-      HEADS.forEach(function (t, i) { h += '<span class="e4-ros-h"><i>' + F(i + 1) + '</i>' + t + '</span>'; });
+      HEADS.forEach(function (t, i) { h += '<span class="e4-ros-h"><i>' + F(i + 1) + '</i>' + t + (i === 1 ? '<small class="e4-ros-st"><b class="e4-sa">بله</b><b class="e4-sb">نه</b></small>' : '') + '</span>'; });
       rows.forEach(function (r) {
         h += '<span class="e3-tri-lab e4-ros-l">' + r[0] + '</span>';
         for (var i = 1; i < 4; i++) { h += '<span class="e4-ros-c">' + r[i] + '</span>'; }
@@ -343,7 +344,7 @@ window.LESSONS.E04 = {
       var cards = [
         ['دایره روی کدام عدد است؟', mini('num')],
         ['دایره توپر است یا توخالی؟', '<span class="e4-key">' + dot(1) + 'توپر</span><span class="e4-key">' + dot(0) + 'توخالی</span>'],
-        ['ناحیهٔ سبز به کدام سمت می‌رود؟', '<span class="e4-key">→ راست</span><span class="e4-key">← چپ</span>']
+        ['ناحیهٔ سبز به کدام سمت می‌رود؟', '<span class="e4-key">→ راست</span><span class="e4-key" style="direction: ltr;">← چپ</span>']
       ];
       return '<div class="e4-dec">' + cards.map(function (c, i) { return '<div class="e4-dec-card"><span class="e4-dec-q"><i>' + F(i + 1) + '</i>' + c[0] + '</span><span class="e4-dec-a">' + c[1] + '</span></div>'; }).join('') + '</div>';
     }
@@ -375,6 +376,10 @@ window.LESSONS.E04 = {
         return h + '</div>';
       },
       init: function () {
+	var ros = document.querySelector('.e4-ros');
+	if (ros && window.IntersectionObserver) {
+	  new IntersectionObserver(function (en) { ros.classList.toggle('live', en[0].isIntersecting); }).observe(ros);
+	} else if (ros) { ros.classList.add('live'); }
         var $ = function (id) { return document.getElementById(id); };
         transLab($('e04-trans')); readLab($('e04-read')); drawLab($('e04-draw')); K.guide($('e04-full'), genFull);
         exampleBind('e04-example-steps', [
