@@ -25,22 +25,29 @@ function uniqBy(arr, key) { var s = {}; return arr.filter(function (x) { var k =
 /* ---------- موتورهای تمرین (مشترک بین درس‌ها) ---------- */
 /* stages: [{n, gen}] ؛ gen() → {ask, cq, fig, opts:[{h,ok,m}], expl(), cls} */
 K.stepRun = function (host, stages, o) {
-  o = o || {}; var si = 0, ok = 0, q, pick = null, fin = false;
-  function nw() { q = stages[si].gen(); pick = null; }
+  var per = 2, qs, ans, i;
+  function start() { qs = []; ans = []; i = 0; stages.forEach(function (s, si) { for (var k = 0; k < per; k++) { qs.push({ si: si, k: k, q: s.gen() }); } }); }
+  function stageState(si) { var all = true, ok = true; qs.forEach(function (x, j) { if (x.si === si) { if (ans[j] === undefined) { all = false; } else if (!x.q.opts[ans[j]].ok) { ok = false; } } }); return all ? (ok ? 'dn' : 'wr') : ''; }
   function paint() {
-    var h = '<div class="stg">' + stages.map(function (s, i) { return '<span class="' + (i < si || fin ? 'dn' : i === si ? 'cu' : '') + '">' + (i < si || fin ? '✓ ' : '') + s.n + '</span>'; }).join('') + '</div>', oh = '', op, last = stages.length - 1;
-    if (fin) { host.innerHTML = rr(h + '<div class="fb ok"><b>✓ همهٔ مرحله‌ها را گذراندی!</b> ' + (o.done || '') + '</div><div class="opts"><button type="button" class="btn" data-r="1" data-scroll>از اول، با مسئله‌های جدید</button></div>'); return; }
-    h += '<p class="stage-progress-meta">مرحلهٔ ' + fa(si + 1) + ' — پاسخ‌های درست: ' + fa(ok) + ' از ۲</p><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + (q.cls || 'm2') + '" id="smc"></div>';
-    q.opts.forEach(function (x, k) { var c = pick === null ? '' : x.ok ? ' right' : k === pick ? ' wrong' : ''; oh += '<button type="button" class="btn opt' + c + '" data-o="' + k + '"' + (pick === null ? '' : ' disabled') + '>' + x.h + '</button>'; });
-    if (pick !== null) { op = q.opts[pick]; h += '<div class="fb ' + (op.ok ? 'ok' : 'bad') + '">' + (op.ok ? '✓ درست است!' : op.m || 'این گزینه درست نیست.') + '</div><div class="ex">' + q.expl() + '</div><div class="opts"><button type="button" class="btn primary" data-n="1" data-scroll>' + (op.ok && ok >= 2 && si === last ? 'پایان' : 'مرحلهٔ بعدی') + '</button></div>'; }
+    var n = qs.length, it = qs[i], q, a, h, oh = '', s, op;
+    if (i === n) {
+      s = qs.filter(function (x, j) { return x.q.opts[ans[j]].ok; }).length;
+      host.innerHTML = rr(window.CourseKit.res(s, n) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
+      return;
+    }
+    q = it.q; a = ans[i];
+    h = '<div class="stg">' + stages.map(function (s, si) { var st = si === it.si ? 'cu' : stageState(si); return '<span class="' + st + '">' + (st === 'dn' ? '✓ ' : '') + s.n + '</span>'; }).join('') + '</div>';
+    h += '<p class="stage-progress-meta">مرحلهٔ ' + fa(it.si + 1) + ' — سؤال ' + fa(it.k + 1) + ' از ' + fa(per) + '</p><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + (q.cls || 'm2') + '" id="smc"></div>';
+    q.opts.forEach(function (x, k) { var c = a === undefined ? '' : x.ok ? ' right' : k === a ? ' wrong' : ''; oh += '<button type="button" class="btn opt' + c + '" data-o="' + k + '"' + (a === undefined ? '' : ' disabled') + '>' + x.h + '</button>'; });
+    if (a !== undefined) { op = q.opts[a]; h += '<div class="fb ' + (op.ok ? 'ok' : 'bad') + '">' + (op.ok ? '✓ درست است!' : op.m || 'این گزینه درست نیست.') + '</div><div class="ex">' + q.expl() + '</div>'; }
+    h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
     host.innerHTML = rr(h); host.querySelector('#smc').innerHTML = rr(oh);
   }
   host.addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-    if (b.dataset.o !== undefined) { if (pick !== null) { return; } pick = +b.dataset.o; if (q.opts[pick].ok) { ok++; } paint(); }
-    else if (b.dataset.n) { if (ok >= 2) { ok = 0; si++; if (si >= stages.length) { fin = true; paint(); return; } } nw(); paint(); }
-    else if (b.dataset.r) { si = 0; ok = 0; fin = false; nw(); paint(); }
-  }); nw(); paint();
+    if (b.dataset.o !== undefined) { if (ans[i] !== undefined) { return; } ans[i] = +b.dataset.o; paint(); }
+    else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { start(); paint(); }
+  }); start(); paint();
 };
 /* gens: آرایه‌ای از ۵ تابع (هر کدام یک سؤال می‌دهد) */
 K.finalRun = function (host, gens, msgs) {
@@ -51,7 +58,7 @@ K.finalRun = function (host, gens, msgs) {
     var q = qs[i], a = ans[i], h, oh = '', s, o, N = qs.length;
     if (i === N) {
       s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-      host.innerHTML = rr('<div class="fb ' + (s >= N - 1 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(s) + ' از ' + fa(N) + '</b><br>' + (s === N ? (msgs.top || 'عالی بود!') : s >= 3 ? 'خوب بود. بخش‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با سؤال‌های جدید امتحان کن.') + '</div><div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
+      host.innerHTML = rr(window.CourseKit.res(s, N) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
     }
     h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + (q.cls || 'm2') + '" id="mcx"></div>';
     q.opts.forEach(function (op, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + op.h + '</button>'; });
@@ -72,7 +79,7 @@ K.tfRun = function (host, pool, msgs) {
     var h, q, ans = answers[i], sc;
     if (i >= L.length) {
       sc = answers.filter(function (x, k) { return x === L[k].ok; }).length;
-      host.innerHTML = rr('<div class="fb ' + (sc >= 5 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(sc) + ' از ' + fa(L.length) + '</b><br>' + (sc === L.length ? 'عالی! از هیچ تله‌ای رد نشدی.' : (msgs.bad || 'پیش از جواب‌دادن، جمله را با دقت با داده‌ها بسنج.')) + '</div><div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
+      host.innerHTML = rr(window.CourseKit.res(sc, L.length) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
     }
     q = L[i];
     h = '<div class="stg">' + L.map(function (x, k) { return '<span class="' + (answers[k] !== null ? (answers[k] === x.ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">این جمله درست است؟</p>' + (q.fig || '') + '<div class="cq" style="font-size:1rem"><span class="snt">' + q.h + '</span></div><div class="sgnrow"><button type="button" class="btn' + (ans === null ? '' : q.ok === 1 ? ' right' : ans === 1 ? ' wrong' : '') + '" data-a="1"' + (ans === null ? '' : ' disabled') + '>درست</button><button type="button" class="btn' + (ans === null ? '' : q.ok === 0 ? ' right' : ans === 0 ? ' wrong' : '') + '" data-a="0"' + (ans === null ? '' : ' disabled') + '>نادرست</button></div>';

@@ -27,10 +27,10 @@ window.LESSONS.C03 = {
       var ci = 0, d, col = -1, line = false;
       function gen() { d = mkData(CTX[ci], 5); col = -1; }
       function paint() {
-        var h = '<div class="lk-line">' + CTX.map(function (c, k) { return '<button type="button" class="lk-chip' + (k === ci ? ' sel' : '') + '" data-c="' + k + '">' + c.t + '</button>'; }).join('') + '</div>';
+        var h = '<div class="lk-line">' + CTX.map(function (c, k) { return '<button type="button" class="lk-chip' + (k === ci ? ' sel' : '') + '" data-c="' + k + '" aria-pressed="' + (k === ci) + '">' + c.t + '</button>'; }).join('') + '</div>';
         h += tab(d, { cells: true, hl: col }) + dp(d, { pts: pts(d), line: line ? d.xs.map(function (x, i) { return [x, d.ys[i]]; }) : null, guides: col >= 0 ? [{ x: d.xs[col], y: d.ys[col] }] : [], part: '' });
         h += '<div class="cd-info">' + (col >= 0 ? 'ستون ' + fa(col + 1) + ': ' + d.ctx.xn + ' ' + C.num(d.xs[col]) + ' و ' + d.ctx.yn + ' ' + C.num(d.ys[col]) + ' ← نقطهٔ ' + C.pt(d.xs[col], d.ys[col]) : 'روی یکی از ستون‌های جدول بزن تا نقطهٔ متناظرش را روی نمودار ببینی.') + '</div>';
-        h += '<div class="lk-line"><button type="button" class="btn' + (line ? ' primary' : '') + '" data-l="1">' + (line ? 'نقطه‌ها را جدا کن' : 'نقطه‌ها را به هم وصل کن') + '</button><button type="button" class="btn" data-n="1" data-scroll>داده‌های دیگر</button></div>';
+        h += '<div class="lk-line"><button type="button" class="btn cd-tgl' + (line ? ' on' : '') + '" data-l="1" aria-pressed="' + line + '">' + (line ? 'نقطه‌ها را جدا کن' : 'نقطه‌ها را به هم وصل کن') + '</button><button type="button" class="btn primary" data-n="1" data-scroll>داده‌های دیگر</button></div>';
         host.innerHTML = rr(h);
       }
       host.addEventListener('click', function (e) {
@@ -45,62 +45,37 @@ window.LESSONS.C03 = {
 
     /* ============ ۲) خانه‌یاب جدول ============ */
     K.cellTap = function (host) {
-      var N = 5, i, res, d, kind, tx, wr, msg, done;
-      function nw() {
-        d = mkData(rctx(), pick([4, 5])); kind = Math.random() < 0.65 ? 'y' : 'x'; tx = R(0, d.xs.length - 1); wr = 0; msg = ''; done = false;
-      }
-      function newGame() { i = 0; res = []; nw(); paint(); }
-      function paint() {
-        var h, q;
-        if (i >= N) { var s = res.filter(Boolean).length; host.innerHTML = rr(C.dots(res, -1, N) + fb(s >= 4, '<b>نتیجه: ' + fa(s) + ' از ' + fa(N) + '</b> (درست در اولین تلاش)') + '<div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>مجموعهٔ جدید</button></div>'); return; }
-        q = kind === 'y' ? 'روی خانه‌ای بزن که نشان می‌دهد ' + d.ctx.xn + ' ' + C.num(d.xs[tx]) + ' چه مقدار <b>' + d.ctx.yn + '</b> دارد.' : 'روی خانه‌ای بزن که نشان می‌دهد ' + d.ctx.yn + ' چه وقت برابر ' + C.num(d.ys[tx]) + ' بود: کدام <b>' + d.ctx.xn + '</b>؟';
-        h = C.dots(res, i, N) + '<p class="ask">' + q + '</p>' + tab(d, { cells: !done, mark: done ? (function () { var m = {}; m[tx] = 'ok'; return m; })() : null }) + '<div class="lk-cap">' + msg + '</div>';
-        if (done) { h += '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (i === N - 1 ? 'پایان' : 'بعدی') + '</button></div>'; }
-        host.innerHTML = rr(h);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'), td = e.target.closest('td[data-col]');
-        if (b && b.dataset.r) { newGame(); return; } if (b && b.dataset.nx) { i++; nw(); paint(); return; }
-        if (!td || done) { return; }
-        var c = +td.dataset.col, row = td.dataset.row;
-        if (c === tx && row === kind) { res[i] = wr === 0; done = true; msg = '<span style="color:green">درست! ✓ ' + (kind === 'y' ? 'زیر ستونِ ' + d.ctx.xn + ' ' + C.num(d.xs[tx]) + ' عدد ' + C.num(d.ys[tx]) + ' نوشته شده است.' : 'بالای عدد ' + C.num(d.ys[tx]) + ' ' + d.ctx.xn + ' ' + C.num(d.xs[tx]) + ' نوشته شده است.') + '</span>'; }
-        else { wr++; msg = '<span class="lk-bad">' + (c === tx ? (kind === 'y' ? 'این خانه خودِ ' + d.ctx.xn + ' است؛ مقدار ' + d.ctx.yn + ' را در ردیف پایین بخوان.' : 'این خانه مقدار ' + d.ctx.yn + ' است؛ ' + d.ctx.xn + ' را در ردیف بالا بخوان.') : 'ستون درست نیست؛ ' + (kind === 'y' ? 'ستونِ ' + d.ctx.xn + ' ' + C.num(d.xs[tx]) + ' را پیدا کن.' : 'ستونی را پیدا کن که ' + d.ctx.yn + ' آن ' + C.num(d.ys[tx]) + ' است.')) + '</span>'; }
-        paint();
+      C.hunt(host, {
+        make: function () { var l = [], k, d; for (k = 0; k < 5; k++) { d = mkData(rctx(), pick([4, 5])); l.push({ d: d, kind: Math.random() < 0.65 ? 'y' : 'x', tx: R(0, d.xs.length - 1) }); } return l; },
+        ask: function (it) { var d = it.d; return it.kind === 'y' ? 'روی خانه‌ای بزن که نشان می‌دهد ' + d.ctx.xn + ' ' + C.num(d.xs[it.tx]) + ' چه مقدار ' + d.ctx.yn + ' دارد.' : 'روی خانه‌ای بزن که نشان می‌دهد ' + d.ctx.yn + ' چه وقت برابر ' + C.num(d.ys[it.tx]) + ' بود: کدام ' + d.ctx.xn + '؟'; },
+        fig: function (it, s) { var m = {}; if (s.done) { m[it.tx] = 'ok'; } return tab(it.d, { cells: !s.done, mark: s.done ? m : null }); },
+        act: function (e, it) {
+          var td = e.target.closest('td[data-col]'), d = it.d; if (!td) { return null; }
+          var c = +td.dataset.col, row = td.dataset.row;
+          if (c === it.tx && row === it.kind) { return true; }
+          return c === it.tx ? (it.kind === 'y' ? 'این خانه خودِ ' + d.ctx.xn + ' است؛ مقدار ' + d.ctx.yn + ' را در ردیف پایین بخوان.' : 'این خانه مقدار ' + d.ctx.yn + ' است؛ ' + d.ctx.xn + ' را در ردیف بالا بخوان.') : 'ستون درست نیست؛ ' + (it.kind === 'y' ? 'ستونِ ' + d.ctx.xn + ' ' + C.num(d.xs[it.tx]) + ' را پیدا کن.' : 'ستونی را پیدا کن که ' + d.ctx.yn + ' آن ' + C.num(d.ys[it.tx]) + ' است.');
+        },
+        ex: function (it) { var d = it.d; return '<p>' + (it.kind === 'y' ? 'زیر ستونِ ' + d.ctx.xn + ' ' + C.num(d.xs[it.tx]) + ' عدد ' + C.num(d.ys[it.tx]) + ' نوشته شده است.' : 'بالای عدد ' + C.num(d.ys[it.tx]) + '، ' + d.ctx.xn + ' ' + C.num(d.xs[it.tx]) + ' نوشته شده است.') + '</p>'; }
       });
-      newGame();
     };
 
     /* ============ ۳) اسکنر نمودار ============ */
     K.scanner = function (host) {
-      var N = 4, i, res, d, ms, x, msg, done;
-      function newGame() { i = 0; res = []; ms = shuffle(['eq', 'max', 'min', 'eq']).map(function (k) { return { t: k, wr: 0 }; }); nw(); paint(); }
-      function nw() { d = mkData(rctx(), 5); x = 1; msg = ''; done = false; ms[i].v = d.ys[R(0, 4)]; }
-      function target() { var m = ms[i]; return m.t === 'max' ? d.ys.indexOf(Math.max.apply(null, d.ys)) + 1 : m.t === 'min' ? d.ys.indexOf(Math.min.apply(null, d.ys)) + 1 : d.ys.indexOf(m.v) + 1; }
-      function paint() {
-        var h, m, y, c;
-        if (i >= N) { var s = res.filter(Boolean).length; host.innerHTML = rr(C.dots(res, -1, N) + fb(s >= 3, '<b>نتیجه: ' + fa(s) + ' از ' + fa(N) + '</b>') + '<div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>مأموریت‌های جدید</button></div>'); return; }
-        m = ms[i]; y = d.ys[x - 1]; c = d.ctx;
-        h = C.dots(res, i, N) + '<p class="ask">' + (m.t === 'eq' ? 'اسکنر را روی ' + c.xn + 'ی ببر که ' + c.yn + ' در آن برابر ' + C.num(m.v) + ' است.' : m.t === 'max' ? 'اسکنر را روی ' + c.xn + 'ی ببر که ' + c.yn + ' در آن <b>بیشترین</b> مقدار را دارد.' : 'اسکنر را روی ' + c.xn + 'ی ببر که ' + c.yn + ' در آن <b>کمترین</b> مقدار را دارد.') + '</p>';
-        h += dp(d, { pts: pts(d), seg: [{ a: [x, Math.min(0, c.lo)], b: [x, c.hi], c: C.YEL, w: 4 }], guides: [{ x: x, y: y, vc: 'transparent' }] });
-        h += '<div class="cd-sl"><b>' + c.xn + '</b><input type="range" min="1" max="5" step="1" value="' + x + '"' + (done ? ' disabled' : '') + ' aria-label="' + c.xn + '"><b>' + fa(x) + '</b></div>';
-        h += '<div class="lk-cap">' + msg + '</div>';
-        h += done ? '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (i === N - 1 ? 'پایان' : 'مأموریت بعدی') + '</button></div>' : '<div class="opts"><button type="button" class="btn primary" data-ck="1">ثبت</button></div>';
-        host.innerHTML = rr(h);
-      }
-      host.addEventListener('input', function (e) { if (e.target.type === 'range') { x = +e.target.value; msg = ''; paint(); var nr = host.querySelector('input[type=range]'); if (nr) { nr.focus({ preventScroll: true }); } } });
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b) { return; }
-        if (b.dataset.r) { newGame(); }
-        else if (b.dataset.nx) { i++; if (i < N) { nw(); } paint(); }
-        else if (b.dataset.ck) {
-          var ok = x === target(), c = d.ctx;
-          if (ok) { done = true; res[i] = ms[i].wr === 0; msg = '<span style="color:green">درست! ✓ در ' + c.xn + ' ' + C.num(x) + '، ' + c.yn + ' برابر ' + C.num(d.ys[x - 1]) + ' است.</span>'; }
-          else { ms[i].wr++; msg = '<span class="lk-bad">در ' + c.xn + ' ' + C.num(x) + '، ' + c.yn + ' برابر ' + C.num(d.ys[x - 1]) + ' است؛ اسکنر را جابه‌جا کن و دوباره ثبت کن.</span>'; }
-          paint();
-        }
+      function target(it) { return it.t === 'max' ? it.d.ys.indexOf(Math.max.apply(null, it.d.ys)) + 1 : it.t === 'min' ? it.d.ys.indexOf(Math.min.apply(null, it.d.ys)) + 1 : it.d.ys.indexOf(it.v) + 1; }
+      function figH(it) { var c = it.d.ctx; return dp(it.d, { pts: pts(it.d), seg: [{ a: [it.x, Math.min(0, c.lo)], b: [it.x, c.hi], c: C.YEL, w: 4 }], guides: [{ x: it.x, y: it.d.ys[it.x - 1], vc: 'transparent' }] }); }
+      C.hunt(host, {
+        make: function () { return shuffle(['eq', 'max', 'min', 'eq']).map(function (t) { var d = mkData(rctx(), 5); return { d: d, t: t, v: d.ys[R(0, 4)], x: 1 }; }); },
+        ask: function (it) { var c = it.d.ctx; return it.t === 'eq' ? 'اسکنر را روی ' + c.xn + 'ی ببر که ' + c.yn + ' در آن برابر ' + C.num(it.v) + ' است.' : 'اسکنر را روی ' + c.xn + 'ی ببر که ' + c.yn + ' در آن <b>' + (it.t === 'max' ? 'بیشترین' : 'کمترین') + '</b> مقدار را دارد.'; },
+        fig: function (it) { return '<div id="c3sc">' + figH(it) + '</div>'; },
+        ctl: function (it, s) { var c = it.d.ctx; return '<div class="cd-sl"><b>' + c.xn + '</b><input type="range" min="1" max="5" step="1" value="' + it.x + '"' + (s.done ? ' disabled' : '') + ' aria-label="' + c.xn + '"><b id="c3sv">' + fa(it.x) + '</b></div>'; },
+        chk: function () { return true; },
+        ready: function () { return true; },
+        input: function (e, it) { if (e.target.type === 'range') { it.x = +e.target.value; host.querySelector('#c3sc').innerHTML = rr(figH(it)); host.querySelector('#c3sv').textContent = fa(it.x); } },
+        check: function (it) { var c = it.d.ctx; return it.x === target(it) ? true : 'در ' + c.xn + ' ' + C.num(it.x) + '، ' + c.yn + ' برابر ' + C.num(it.d.ys[it.x - 1]) + ' است؛ اسکنر را جابه‌جا کن و دوباره «بررسی» را بزن.'; },
+        ex: function (it) { var c = it.d.ctx; return '<p>در ' + c.xn + ' ' + C.num(it.x) + '، ' + c.yn + ' برابر ' + C.num(it.d.ys[it.x - 1]) + ' است.</p>'; }
       });
-      newGame();
     };
+
 
     /* ============ ۴) از نمودار به جدول ============ */
     K.fillTab = function (host) {
@@ -110,7 +85,7 @@ window.LESSONS.C03 = {
       function paint() {
         var h = '<p class="ask">نمودار را بخوان و ردیفِ ' + d.ctx.yn + ' جدول را کامل کن:</p>' + dp(d, { pts: pts(d) });
         h += C.table(d.xs, d.ys, { xh: d.ctx.xn, yh: d.ctx.yn, blank: [0, 1, 2, 3], blankHtml: function (k) { return C.numBox('c' + k); }, mark: marks });
-        h += msg + '<div class="opts"><button type="button" class="btn primary" data-ck="1">بررسی</button><button type="button" class="btn" data-n="1" data-scroll>نمودار جدید</button></div>';
+        h += msg + '<div class="lk-line"><button type="button" class="btn" data-ck="1">بررسی</button><button type="button" class="btn primary" data-n="1" data-scroll>نمودار دیگر</button></div>';
         host.innerHTML = rr(h);
         host.querySelectorAll('input[data-k]').forEach(function (inp) { inp.value = vals[inp.dataset.k] || ''; });
       }
@@ -120,7 +95,7 @@ window.LESSONS.C03 = {
         if (b.dataset.ck) {
           keep(); var bad = 0, sw = 0, empty = 0; marks = {};
           d.xs.forEach(function (x, k) { var v = C.parseInt0(vals['c' + k]); if (v === null) { empty++; marks[k] = 'no'; } else if (v === d.ys[k]) { marks[k] = 'ok'; } else { marks[k] = 'no'; bad++; if (v === x) { sw++; } } });
-          msg = empty ? '<div class="lk-cap lk-bad">همهٔ خانه‌ها را پر کن (برای منفی از ± استفاده کن).</div>' : bad === 0 ? fb(true, 'درست است! ✓ همهٔ ستون‌ها با نمودار می‌خوانند.') : fb(false, (bad === 1 ? 'یک خانه' : fa(bad) + ' خانه') + ' درست نیست.' + (sw ? ' دقت کن عددِ ' + d.ctx.xn + ' را به جای ' + d.ctx.yn + ' ننویسی.' : ' از نقطه تا محور ' + M('y') + ' خط راهنما بکش و ارتفاع را بخوان.'));
+          msg = empty ? fb(false, 'همهٔ خانه‌ها را پر کن (برای منفی از ± استفاده کن).') : bad === 0 ? fb(true, 'درست است! ✓ همهٔ ستون‌ها با نمودار می‌خوانند.') : fb(false, (bad === 1 ? 'یک خانه' : fa(bad) + ' خانه') + ' درست نیست.' + (sw ? ' دقت کن عددِ ' + d.ctx.xn + ' را به جای ' + d.ctx.yn + ' ننویسی.' : ' از نقطه تا محور ' + M('y') + ' خط راهنما بکش و ارتفاع را بخوان.'));
           keep(); paint();
         }
       });
@@ -134,18 +109,18 @@ window.LESSONS.C03 = {
       function paint() {
         var h = '<p class="ask">برای هر ستونِ جدول، نقطه‌اش را روی نمودار بگذار (لمس کن). اگر جای یک ستون را عوض کنی، نقطهٔ قبلی همان ستون جابه‌جا می‌شود.</p>' + tab(d);
         var p = d.xs.filter(function (x) { return placed[x] !== undefined; }).map(function (x) { return { x: x, y: placed[x], c: marks[x] === 'ok' ? C.GREEN : marks[x] === 'no' ? C.RED : C.PINK, r: 6.5 }; });
-        h += dp(d, { pts: p, pick: true }) + msg + '<div class="opts"><button type="button" class="btn primary" data-ck="1">بررسی</button><button type="button" class="btn" data-cl="1">پاک‌کردن</button><button type="button" class="btn" data-n="1" data-scroll>جدول جدید</button></div>';
+        h += dp(d, { pts: p, pick: true }) + msg + '<div class="lk-line c3-r3"><button type="button" class="btn" data-ck="1">بررسی</button><button type="button" class="btn" data-cl="1">بازنشانی</button><button type="button" class="btn primary" data-n="1" data-scroll>جدول دیگر</button></div>';
         host.innerHTML = rr(h);
       }
       host.addEventListener('click', function (e) {
         var t = C.hit(e), b = e.target.closest('button');
-        if (t) { if (d.xs.indexOf(t.x) < 0) { msg = '<div class="lk-cap lk-bad">در جدول ستونی با ' + d.ctx.xn + ' ' + C.num(t.x) + ' نیست.</div>'; } else { placed[t.x] = t.y; marks = {}; msg = ''; } paint(); return; }
+        if (t) { if (d.xs.indexOf(t.x) < 0) { msg = fb(false, 'در جدول ستونی با ' + d.ctx.xn + ' ' + C.num(t.x) + ' نیست.'); } else { placed[t.x] = t.y; marks = {}; msg = ''; } paint(); return; }
         if (!b) { return; }
         if (b.dataset.n) { newSet(); } else if (b.dataset.cl) { placed = {}; marks = {}; msg = ''; paint(); }
         else if (b.dataset.ck) {
           var miss = 0, bad = 0, sw = 0; marks = {};
           d.xs.forEach(function (x, k) { if (placed[x] === undefined) { miss++; } else if (placed[x] === d.ys[k]) { marks[x] = 'ok'; } else { marks[x] = 'no'; bad++; if (placed[x] === x && d.ys[k] !== x) { sw++; } } });
-          msg = miss ? '<div class="lk-cap lk-bad">برای ' + fa(miss) + ' ستون هنوز نقطه‌ای نگذاشته‌ای.</div>' : bad ? fb(false, fa(bad) + ' نقطه درست نیست (قرمز). برای هر نقطه اول ' + d.ctx.xn + ' را روی محور افقی پیدا کن و بعد به اندازهٔ ' + d.ctx.yn + ' بالا یا پایین برو.') : fb(true, 'درست است! ✓ نمودار با جدول می‌خواند.');
+          msg = miss ? fb(false, 'برای ' + fa(miss) + ' ستون هنوز نقطه‌ای نگذاشته‌ای.') : bad ? fb(false, fa(bad) + ' نقطه درست نیست (قرمز). برای هر نقطه اول ' + d.ctx.xn + ' را روی محور افقی پیدا کن و بعد به اندازهٔ ' + d.ctx.yn + ' بالا یا پایین برو.') : fb(true, 'درست است! ✓ نمودار با جدول می‌خواند.');
           paint();
         }
       });
@@ -163,10 +138,10 @@ window.LESSONS.C03 = {
         labels = shuffle(all).map(function (q, k) { q.l = NM[k]; return q; }); rows = ps; sel = -1; done = {}; msg = ''; paint();
       }
       function paint() {
-        var h = '<p class="ask">هر ردیف جدول را انتخاب کن و بعد روی نقطهٔ متناظرش در شکل بزن:</p><div class="cd-tray">', n = Object.keys(done).length;
+        var h = '<p class="ask">هر ردیف جدول را انتخاب کن و بعد روی نقطهٔ متناظرش در شکل بزن:</p><div class="cd-tray c3m">', n = Object.keys(done).length;
         rows.forEach(function (p, k) { h += '<button type="button" class="cd-tile' + (sel === k ? ' sel' : '') + '" style="direction:rtl' + (done[k] ? ';background:#d9f2e3' : '') + '"' + (done[k] ? ' disabled' : '') + ' data-rw="' + k + '">' + RN[k] + ': ' + M('x=' + p[0]) + ' ، ' + M('y=' + p[1]) + '</button>'; });
         h += '</div>' + C.plane({ x0: -4, x1: 4, y0: -4, y1: 4, pick: n < 3, pts: labels.map(function (q) { return { x: q.p[0], y: q.p[1], l: q.l, c: q.row >= 0 && done[q.row] ? C.GREEN : C.PINK, r: 6.5 }; }) });
-        h += '<div class="lk-cap">' + msg + '</div>' + (n === 3 ? fb(true, 'همهٔ ردیف‌ها را درست جفت کردی!') + '<div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>بازی جدید</button></div>' : '');
+        h += (n === 3 ? fb(true, 'همهٔ ردیف‌ها را درست جفت کردی!') + '<div class="end-actions cd-center"><button type="button" class="btn primary" data-r="1" data-scroll>بازی جدید</button></div>' : msg);
         host.innerHTML = rr(h);
       }
       host.addEventListener('click', function (e) {
@@ -174,12 +149,12 @@ window.LESSONS.C03 = {
         if (b && b.dataset.r) { newGame(); return; }
         if (b && b.dataset.rw !== undefined) { sel = +b.dataset.rw; msg = ''; paint(); return; }
         if (!t) { return; }
-        if (sel < 0) { msg = 'اول یک ردیف جدول را انتخاب کن.'; paint(); return; }
+        if (sel < 0) { msg = fb(false, 'اول یک ردیف جدول را انتخاب کن.'); paint(); return; }
         var q = labels.filter(function (z) { return z.p[0] === t.x && z.p[1] === t.y; })[0], p = rows[sel];
-        if (!q) { msg = '<span class="lk-bad">آنجا نقطه‌ای نیست؛ روی یکی از نقطه‌های نام‌دار بزن.</span>'; }
-        else if (q.row === sel) { done[sel] = 1; msg = '<span style="color:green">درست! ' + C.pt(p[0], p[1]) + ' همان نقطهٔ «' + q.l + '» است.</span>'; sel = -1; }
-        else if (q.row < 0) { msg = '<span class="lk-bad">نقطهٔ «' + q.l + '» ' + C.pt(q.p[0], q.p[1]) + ' است؛ مؤلفه‌های این ردیف را جابه‌جا خوانده‌ای. ترتیب (x، y) مهم است.</span>'; }
-        else { msg = '<span class="lk-bad">نقطهٔ «' + q.l + '» ' + C.pt(q.p[0], q.p[1]) + ' است، نه ' + C.pt(p[0], p[1]) + '.</span>'; }
+        if (!q) { msg = fb(false, 'آنجا نقطه‌ای نیست؛ روی یکی از نقطه‌های نام‌دار بزن.'); }
+        else if (q.row === sel) { done[sel] = 1; msg = fb(true, 'درست است! ' + C.pt(p[0], p[1]) + ' همان نقطهٔ «' + q.l + '» است.'); sel = -1; }
+        else if (q.row < 0) { msg = fb(false, 'نقطهٔ «' + q.l + '» ' + C.pt(q.p[0], q.p[1]) + ' است؛ مؤلفه‌های این ردیف را جابه‌جا خوانده‌ای. ترتیب (x، y) مهم است.'); }
+        else { msg = fb(false, 'نقطهٔ «' + q.l + '» ' + C.pt(q.p[0], q.p[1]) + ' است، نه ' + C.pt(p[0], p[1]) + '.'); }
         paint();
       });
       newGame();
@@ -187,30 +162,15 @@ window.LESSONS.C03 = {
 
     /* ============ ۷) کارآگاه: ستون ناهمخوان ============ */
     K.mismatch = function (host) {
-      var N = 4, i, res, d, ty, w, tried, wr, done, msg;
-      function nw() {
-        d = mkData(rctx(), 4); w = R(0, 3); ty = d.ys.slice(); var v; do { v = R(d.ctx.lo, d.ctx.hi); } while (v === d.ys[w]); ty[w] = v; tried = {}; wr = 0; done = false; msg = '';
-      }
-      function newGame() { i = 0; res = []; nw(); paint(); }
-      function paint() {
-        var h, mk = {};
-        if (i >= N) { var s = res.filter(Boolean).length; host.innerHTML = rr(C.dots(res, -1, N) + fb(s >= 3, '<b>نتیجه: ' + fa(s) + ' از ' + fa(N) + '</b> (درست در اولین تلاش)') + '<div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>پروندهٔ جدید</button></div>'); return; }
-        Object.keys(tried).forEach(function (k) { mk[k] = 'no'; }); if (done) { mk = {}; mk[w] = 'bad'; }
-        h = C.dots(res, i, N) + '<p class="ask">این جدول و نمودار دادهٔ یک آزمایش‌اند، ولی <b>یک ستونِ جدول</b> با نمودار نمی‌خواند. آن را پیدا کن:</p>' + dp(d, { pts: pts(d) }) + C.table(d.xs, ty, { xh: d.ctx.xn, yh: d.ctx.yn, cells: !done, mark: mk }) + '<div class="lk-cap">' + msg + '</div>';
-        if (done) { h += '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (i === N - 1 ? 'پایان' : 'پروندهٔ بعدی') + '</button></div>'; }
-        host.innerHTML = rr(h);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'), td = e.target.closest('td[data-col]');
-        if (b && b.dataset.r) { newGame(); return; } if (b && b.dataset.nx) { i++; nw(); paint(); return; }
-        if (!td || done) { return; }
-        var c = +td.dataset.col;
-        if (c === w) { done = true; res[i] = wr === 0; msg = '<span style="color:green">درست! ✓ در نمودار ' + d.ctx.xn + ' ' + C.num(d.xs[w]) + ' مقدار ' + C.num(d.ys[w]) + ' دارد، ولی جدول ' + C.num(ty[w]) + ' نوشته است.</span>'; }
-        else { wr++; tried[c] = 1; msg = '<span class="lk-bad">این ستون با نمودار می‌خواند: نقطهٔ ' + C.pt(d.xs[c], d.ys[c]) + ' را روی نمودار پیدا کن.</span>'; }
-        paint();
+      C.hunt(host, {
+        make: function () { var l = [], k, d, w, ty, v; for (k = 0; k < 4; k++) { d = mkData(rctx(), 4); w = R(0, 3); ty = d.ys.slice(); do { v = R(d.ctx.lo, d.ctx.hi); } while (v === d.ys[w]); ty[w] = v; l.push({ d: d, w: w, ty: ty, tried: {} }); } return l; },
+        ask: function () { return 'این جدول و نمودار دادهٔ یک آزمایش‌اند، ولی یک ستونِ جدول با نمودار نمی‌خواند. آن را پیدا کن:'; },
+        fig: function (it, s) { var mk = {}; Object.keys(it.tried).forEach(function (k) { mk[k] = 'no'; }); if (s.done) { mk = {}; mk[it.w] = 'bad'; } return dp(it.d, { pts: pts(it.d) }) + C.table(it.d.xs, it.ty, { xh: it.d.ctx.xn, yh: it.d.ctx.yn, cells: !s.done, mark: mk }); },
+        act: function (e, it) { var td = e.target.closest('td[data-col]'); if (!td) { return null; } var c = +td.dataset.col; if (c === it.w) { return true; } it.tried[c] = 1; return 'این ستون با نمودار می‌خواند: نقطهٔ ' + C.pt(it.d.xs[c], it.d.ys[c]) + ' را روی نمودار پیدا کن.'; },
+        ex: function (it) { var d = it.d, w = it.w; return '<p>در نمودار ' + d.ctx.xn + ' ' + C.num(d.xs[w]) + ' مقدار ' + C.num(d.ys[w]) + ' دارد، ولی جدول ' + C.num(it.ty[w]) + ' نوشته است.</p>'; }
       });
-      newGame();
     };
+
 
     /* ============ آزمون پایانی ============ */
     K.finalC03 = function (host) {
@@ -261,7 +221,7 @@ window.LESSONS.C03 = {
           if (q.opts && !q.keep) { q.opts = shuffle(q.opts.slice()); }
           return q;
         });
-      }, function (s) { return s === 7 ? 'عالی! همهٔ سؤال‌ها درست بود.' : s >= 5 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن و با سؤال‌های جدید امتحان کن.'; });
+      });
     };
 
     var TIP_CONN = '<p>وصل کردنِ نقطه‌ها فقط وقتی معنا دارد که بین دو مقدار هم چیزی اتفاق بیفتد؛ مثلاً دما بین ساعت ۲ و ۳ ناگهان نمی‌پرد. اما «تعداد صفحه‌هایی که علی هر روز خوانده» برای روزِ ۲٫۵ معنا ندارد.</p><p>در این درس فقط خودِ نقطه‌ها را می‌خوانیم.</p>';
@@ -283,7 +243,7 @@ window.LESSONS.C03 = {
 
           K.sn('۳', 'خواندن از نمودار'),
           '<p>برای خواندنِ مقدارِ یک نقطه از روی نمودار: روی محور افقی مقدار ' + M('x') + ' را پیدا کن، تا نقطه بالا یا پایین برو، و از همان‌جا به محور عمودی نگاه کن؛ این ' + M('y') + ' است. برای راه برعکس، از ' + M('y') + ' روی محور عمودی به نقطه و بعد پایین یا بالا به محور افقی برو.</p>',
-          '<h4>اسکنر</h4><p>خط اسکنر را روی نمودار حرکت بده و ماموریت‌ها را انجام بده (ارتفاع نقطه را از روی محور عمودی بخوان):</p>', host('c3c'),
+          '<h4>اسکنر</h4><p>خط اسکنر را روی نمودار حرکت بده و مأموریت‌ها را انجام بده (ارتفاع نقطه را از روی محور عمودی بخوان):</p>', host('c3c'),
 
           K.sn('۴', 'از نمودار به جدول'),
           '<p>برای ساختن جدول از روی نمودار، هر نقطه را بخوان و ' + M('x') + ' و ' + M('y') + ' آن را در یک ستون بنویس. در تمرین زیر ' + M('x') + 'ها داده شده؛ مقدار ' + M('y') + ' هر نقطه را پیدا کن:</p>', host('c3d'),

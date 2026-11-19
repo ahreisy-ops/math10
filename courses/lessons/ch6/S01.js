@@ -17,10 +17,10 @@ window.LESSONS.S01 = {
         q = shuffle(mem.concat(non)); i = 0; res = []; msg = ''; paint();
       }
       function paint() {
-        var h, dots = '<div class="lk-dots">' + q.map(function (x, k) { return '<i class="' + (res[k] === undefined ? (k === i ? 'cu' : '') : res[k] ? 'ok' : 'no') + '"></i>'; }).join('') + '</div>';
+        var h, dots = '<div class="stg">' + q.map(function (x, k) { return '<span class="' + (res[k] === undefined ? (k === i ? 'cu' : '') : res[k] ? 'dn' : 'wr') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div>';
         if (i >= q.length) {
           var s = res.filter(Boolean).length;
-          host.innerHTML = rr(dots + K.dm('A=' + setTex(A)) + fb(s >= 7, '<b>نتیجه: ' + fa(s) + ' از ' + fa(q.length) + '</b>') + '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>باشگاهِ جدید</button></div>'); return;
+          host.innerHTML = rr(dots + K.dm('A=' + setTex(A)) + window.CourseKit.res(s, q.length) + '<div class="opts end-actions"><button type="button" class="btn primary" data-nx="1" data-scroll>سؤال‌های جدید</button></div>'); return;
         }
         h = '<p class="ask">فهرست مهمان‌های باشگاهِ ' + M('A') + ' این است. هر مهمانی که می‌رسد را بررسی کن:</p>' + K.dm('A=' + setTex(A)) + dots + '<div class="s1-guest"><span>' + fa(q[i]) + '</span></div>';
         h += K.dm(q[i] + '\\;?\\;A');
@@ -54,7 +54,7 @@ window.LESSONS.S01 = {
       function paint() {
         var h = '<p class="ask">دو مجموعه را در نمودار ببین. کدام جمله درست است؟</p>' + K.dm('A=' + setTex(p.A) + ',\\qquad B=' + setTex(p.B));
         h += H.venn({ A: p.A, B: p.B, U: POOL, tok: function (x, r) { return show && r === 'a' ? { bg: 'crimson', fg: '#fff' } : show && r === 'b' ? { bg: '#8fb4ff', fg: '#000' } : null; } });
-        h += '<div class="lk-line"><button type="button" class="btn' + (show ? ' primary' : '') + '" data-sh="1">' + (show ? 'پنهان‌کردن' : 'بازرس: اعضای «بیرون‌زده» را نشان بده') + '</button></div>';
+        h += '<div class="lk-line"><button type="button" class="btn" data-sh="1">' + (show ? 'پنهان‌کردن' : 'بازرس: اعضای «بیرون‌زده» را نشان بده') + '</button></div>';
         if (show) { h += '<p class="lk-cap">قرمز: عضوِ ' + M('A') + ' که در ' + M('B') + ' نیست · آبی: عضوِ ' + M('B') + ' که در ' + M('A') + ' نیست</p>'; }
         var labels = ['A\\subseteq B', 'B\\subseteq A', null, null], keys = ['sub', 'sup', 'none'];
         h += '<div class="mc"><button type="button" class="btn opt' + (ans ? (rel === 'sub' ? ' right' : ans === 'sub' ? ' wrong' : '') : '') + '" data-a="sub"' + (ans ? ' disabled' : '') + '>' + M('A\\subseteq B') + '</button><button type="button" class="btn opt' + (ans ? (rel === 'sup' ? ' right' : ans === 'sup' ? ' wrong' : '') : '') + '" data-a="sup"' + (ans ? ' disabled' : '') + '>' + M('B\\subseteq A') + '</button><button type="button" class="btn opt' + (ans ? (rel === 'none' ? ' right' : ans === 'none' ? ' wrong' : '') : '') + '" data-a="none"' + (ans ? ' disabled' : '') + '>هیچ‌کدام از این دو</button></div>';
@@ -62,7 +62,7 @@ window.LESSONS.S01 = {
           var ab = H.minus(p.A, p.B), ba = H.minus(p.B, p.A), why = rel === 'sub' ? 'همهٔ اعضای ' + M('A') + ' داخل ' + M('B') + ' هستند.' : rel === 'sup' ? 'همهٔ اعضای ' + M('B') + ' داخل ' + M('A') + ' هستند.' : 'عضوِ ' + M(ab.length ? '' + ab[0] : '') + (ab.length ? ' فقط در ' + M('A') + ' است' : '') + (ab.length && ba.length ? ' و عضوِ ' : ' ') + (ba.length ? M('' + ba[0]) + ' فقط در ' + M('B') + ' است' : '') + '؛ پس هیچ‌کدام زیرمجموعهٔ دیگری نیست.';
           h += fb(ans === rel, ans === rel ? 'درست است! ✓' : 'این‌طور نیست.') + '<div class="ex"><p>' + why + '</p></div>';
         }
-        h += '<div class="opts"><button type="button" class="btn' + (ans ? ' primary' : '') + '" data-nx="1" data-scroll>' + (ans ? 'مثال بعدی' : 'مثال دیگر') + '</button></div>';
+        h += '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (ans ? 'مثال بعدی' : 'مثال دیگر') + '</button></div>';
         host.innerHTML = rr(h); host.dataset.rel = rel;
       }
       host.addEventListener('click', function (e) {
@@ -183,7 +183,7 @@ window.LESSONS.S01 = {
           T`<p>اگر مجموعه‌ای عضوی داشته باشد که در دیگری نیست، برابر نیستند: $\{1,2\}\neq\{1,2,3\}$، چون ۳ فقط در مجموعهٔ دوم است.</p>`,
           '<h4>جفت‌یابی</h4><p>هشت کارت داریم. هر کارت با یک کارتِ دیگر برابر است، اما کارت‌ها به‌هم شبیه‌اند! جفت‌ها را پیدا کن:</p>', host('s1c'),
 
-          K.sn('۵', 'آزمونک پایانی'),
+          K.sn('۵', 'آزمون پایانی'),
           '<p>پنج سؤال با عددهای تصادفی. هر بار که از اول شروع کنی، سؤال‌ها عوض می‌شوند.</p>', host('s1d'),
           K.box('sum', 'جمع‌بندی', T`<ul><li>مجموعه با فهرست‌کردنِ اعضا نوشته می‌شود؛ ترتیب و تکرار مهم نیست.</li><li>$x\in A$ یعنی $x$ عضو است و $x\notin A$ یعنی عضو نیست.</li><li>$A\subseteq B$ یعنی همهٔ اعضای $A$ در $B$ هستند. $\varnothing\subseteq A$ و $A\subseteq A$ همیشه درست‌اند.</li><li>$A=B$ یعنی $A\subseteq B$ و $B\subseteq A$.</li><li>$\in$ بین عضو و مجموعه است؛ $\subseteq$ بین دو مجموعه.</li></ul><p>در درس بعد با اجتماع، اشتراک، تفاضل و متمم، مجموعه‌ها را با هم ترکیب می‌کنیم.</p>`)
         ].join(''));

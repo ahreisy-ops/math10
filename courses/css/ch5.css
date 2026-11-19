@@ -12,7 +12,9 @@
 @media(prefers-reduced-motion:reduce){.g5-scope .g-act .opts.g-ops>.btn:not(.primary) {transition:none}
 .g5-scope .g-act .opts.g-ops>.btn:not(.primary):active:not(:disabled) {transform:none}
 }
-.g5-scope .g-act svg.gsv{display:block;margin:6px auto;max-width:100%;height:auto;direction:ltr}
+@media(max-width:520px){.g5-scope .mc.m2:has(.pcard){grid-template-columns:1fr}}
+.g5-scope .g-act svg.gsv{display:block;margin:6px auto;max-width:100%;height:auto;max-height:clamp(200px,calc(100vh - 380px),560px);direction:ltr}
+.g5-scope .g-act #shf svg.gsv{max-height:clamp(120px,calc((100vh - 380px)*.55),320px)}
 .g5-scope .g-act .gval{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0;font-size:1rem}
 .g5-scope .g-act .gval i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:3px 12px;border:2px solid var(--ink);border-radius:10px;background:#fff;box-shadow:2px 2px 0 var(--ink)}
 .g5-scope .g-act .gval i.y{background:var(--mark)}

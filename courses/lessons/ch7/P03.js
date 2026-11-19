@@ -28,13 +28,13 @@ function barSVG(o) {
   var W = o.w || 340, H = o.h || 230, L = 44, Rr = 12, Tp = o.title ? 34 : 16, B = 40, pw = W - L - Rr, ph = H - Tp - B, n = o.labels.length, slot = pw / n, bw = Math.min(46, slot * 0.56), s, v, i, py = function (x) { return Tp + ph - x / o.max * ph; };
   s = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="max-width:100%;height:auto;display:block;margin:6px auto;direction:ltr" role="img">';
   if (o.title) { s += '<text x="' + W / 2 + '" y="18" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#14213d" font-family="Tahoma,sans-serif">' + o.title + '</text>'; }
-  if (o.ylab) { s += '<text x="' + (L + 4) + '" y="' + (Tp - 5) + '" text-anchor="start" font-size="10.5" fill="#5a6a85" font-family="Tahoma,sans-serif">' + o.ylab + '</text>'; }
-  for (v = 0; v <= o.max + 1e-9; v += o.step) { s += '<line x1="' + L + '" y1="' + py(v) + '" x2="' + (W - Rr) + '" y2="' + py(v) + '" stroke="' + (v === 0 ? '#14213d' : '#d5dde8') + '" stroke-width="' + (v === 0 ? 2.2 : 1) + '"/>' + (Math.round(v / o.step) % (o.labEvery || 1) === 0 ? '<text x="' + (L - 6) + '" y="' + (py(v) + 4) + '" text-anchor="end" font-size="11" fill="#14213d" font-family="Tahoma,sans-serif">' + fa(nf(v)) + '</text>' : ''); }
+  if (o.ylab) { s += '<text x="' + (L + 4) + '" y="' + (Tp - 5) + '" text-anchor="start" font-size="12" fill="#5a6a85" font-family="Tahoma,sans-serif">' + o.ylab + '</text>'; }
+  for (v = 0; v <= o.max + 1e-9; v += o.step) { s += '<line x1="' + L + '" y1="' + py(v) + '" x2="' + (W - Rr) + '" y2="' + py(v) + '" stroke="' + (v === 0 ? '#14213d' : '#d5dde8') + '" stroke-width="' + (v === 0 ? 2.2 : 1) + '"/>' + (Math.round(v / o.step) % (o.labEvery || 1) === 0 ? '<text x="' + (L - 6) + '" y="' + (py(v) + 4) + '" text-anchor="end" font-size="12" fill="#14213d" font-family="Tahoma,sans-serif">' + fa(nf(v)) + '</text>' : ''); }
   s += '<line x1="' + L + '" y1="' + Tp + '" x2="' + L + '" y2="' + py(0) + '" stroke="#14213d" stroke-width="2.2"/>';
   for (i = 0; i < n; i++) {
     var x = L + i * slot + (slot - bw) / 2, hh = o.vals[i] / o.max * ph, hi = o.hi !== undefined && (o.hi === i || (o.hi.indexOf && o.hi.indexOf(i) > -1));
     s += '<rect class="bar" data-i="' + i + '" x="' + x + '" y="' + (Tp + ph - hh) + '" width="' + bw + '" height="' + hh + '" rx="3" fill="' + (hi ? '#ffc233' : (o.colors ? o.colors[i % o.colors.length] : '#0e8f7e')) + '" stroke="#14213d" stroke-width="1.8" style="' + (o.interactive ? 'cursor:pointer' : '') + '"/>';
-    s += '<text x="' + (x + bw / 2) + '" y="' + (py(0) + 16) + '" text-anchor="middle" font-size="11.5" fill="#14213d" font-family="Tahoma,sans-serif">' + o.labels[i] + '</text>';
+    s += '<text x="' + (x + bw / 2) + '" y="' + (py(0) + 16) + '" text-anchor="middle" font-size="12.5" fill="#14213d" font-family="Tahoma,sans-serif">' + o.labels[i] + '</text>';
     if (o.guide === i) { s += '<line x1="' + L + '" y1="' + py(o.vals[i]) + '" x2="' + x + '" y2="' + py(o.vals[i]) + '" stroke="#d6457a" stroke-width="2" stroke-dasharray="5 4"/>'; }
     if (o.showVals || (o.showAt === i)) { s += '<text x="' + (x + bw / 2) + '" y="' + (Tp + ph - hh - 5) + '" text-anchor="middle" font-size="12" font-weight="bold" fill="#14213d" font-family="Tahoma,sans-serif">' + fa(nf(o.vals[i])) + '</text>'; }
   }
@@ -45,22 +45,29 @@ var fig1 = function (inner, cap) { return '<div class="figs one"><figure>' + inn
 /* ---------- موتورهای تمرین (مشترک بین درس‌ها) ---------- */
 /* stages: [{n, gen}] ؛ gen() → {ask, cq, fig, opts:[{h,ok,m}], expl(), cls} */
 K.stepRun = function (host, stages, o) {
-  o = o || {}; var si = 0, ok = 0, q, pick = null, fin = false;
-  function nw() { q = stages[si].gen(); pick = null; }
+  var per = 2, qs, ans, i;
+  function start() { qs = []; ans = []; i = 0; stages.forEach(function (s, si) { for (var k = 0; k < per; k++) { qs.push({ si: si, k: k, q: s.gen() }); } }); }
+  function stageState(si) { var all = true, ok = true; qs.forEach(function (x, j) { if (x.si === si) { if (ans[j] === undefined) { all = false; } else if (!x.q.opts[ans[j]].ok) { ok = false; } } }); return all ? (ok ? 'dn' : 'wr') : ''; }
   function paint() {
-    var h = '<div class="stg">' + stages.map(function (s, i) { return '<span class="' + (i < si || fin ? 'dn' : i === si ? 'cu' : '') + '">' + (i < si || fin ? '✓ ' : '') + s.n + '</span>'; }).join('') + '</div>', oh = '', op, last = stages.length - 1;
-    if (fin) { host.innerHTML = rr(h + '<div class="fb ok"><b>✓ همهٔ مرحله‌ها را گذراندی!</b> ' + (o.done || '') + '</div><div class="opts"><button type="button" class="btn" data-r="1" data-scroll>از اول، با مسئله‌های جدید</button></div>'); return; }
-    h += '<p class="stage-progress-meta">مرحلهٔ ' + fa(si + 1) + ' — پاسخ‌های درست: ' + fa(ok) + ' از ۲</p><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + (q.cls || 'm2') + '" id="smc"></div>';
-    q.opts.forEach(function (x, k) { var c = pick === null ? '' : x.ok ? ' right' : k === pick ? ' wrong' : ''; oh += '<button type="button" class="btn opt' + c + '" data-o="' + k + '"' + (pick === null ? '' : ' disabled') + '>' + x.h + '</button>'; });
-    if (pick !== null) { op = q.opts[pick]; h += '<div class="fb ' + (op.ok ? 'ok' : 'bad') + '">' + (op.ok ? '✓ درست است!' : op.m || 'این گزینه درست نیست.') + '</div><div class="ex">' + q.expl() + '</div><div class="opts"><button type="button" class="btn primary" data-n="1" data-scroll>' + (op.ok && ok >= 2 && si === last ? 'پایان' : 'مرحلهٔ بعدی') + '</button></div>'; }
+    var n = qs.length, it = qs[i], q, a, h, oh = '', s, op;
+    if (i === n) {
+      s = qs.filter(function (x, j) { return x.q.opts[ans[j]].ok; }).length;
+      host.innerHTML = rr(window.CourseKit.res(s, n) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
+      return;
+    }
+    q = it.q; a = ans[i];
+    h = '<div class="stg">' + stages.map(function (s, si) { var st = si === it.si ? 'cu' : stageState(si); return '<span class="' + st + '">' + (st === 'dn' ? '✓ ' : '') + s.n + '</span>'; }).join('') + '</div>';
+    h += '<p class="stage-progress-meta">مرحلهٔ ' + fa(it.si + 1) + ' — سؤال ' + fa(it.k + 1) + ' از ' + fa(per) + '</p><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + (q.cls || 'm2') + '" id="smc"></div>';
+    q.opts.forEach(function (x, k) { var c = a === undefined ? '' : x.ok ? ' right' : k === a ? ' wrong' : ''; oh += '<button type="button" class="btn opt' + c + '" data-o="' + k + '"' + (a === undefined ? '' : ' disabled') + '>' + x.h + '</button>'; });
+    if (a !== undefined) { op = q.opts[a]; h += '<div class="fb ' + (op.ok ? 'ok' : 'bad') + '">' + (op.ok ? '✓ درست است!' : op.m || 'این گزینه درست نیست.') + '</div><div class="ex">' + q.expl() + '</div>'; }
+    h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
     host.innerHTML = rr(h); host.querySelector('#smc').innerHTML = rr(oh);
   }
   host.addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-    if (b.dataset.o !== undefined) { if (pick !== null) { return; } pick = +b.dataset.o; if (q.opts[pick].ok) { ok++; } paint(); }
-    else if (b.dataset.n) { if (ok >= 2) { ok = 0; si++; if (si >= stages.length) { fin = true; paint(); return; } } nw(); paint(); }
-    else if (b.dataset.r) { si = 0; ok = 0; fin = false; nw(); paint(); }
-  }); nw(); paint();
+    if (b.dataset.o !== undefined) { if (ans[i] !== undefined) { return; } ans[i] = +b.dataset.o; paint(); }
+    else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { start(); paint(); }
+  }); start(); paint();
 };
 /* gens: آرایه‌ای از ۵ تابع (هر کدام یک سؤال می‌دهد) */
 K.finalRun = function (host, gens, msgs) {
@@ -71,7 +78,7 @@ K.finalRun = function (host, gens, msgs) {
     var q = qs[i], a = ans[i], h, oh = '', s, o, N = qs.length;
     if (i === N) {
       s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-      host.innerHTML = rr('<div class="fb ' + (s >= N - 1 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(s) + ' از ' + fa(N) + '</b><br>' + (s === N ? (msgs.top || 'عالی بود!') : s >= 3 ? 'خوب بود. بخش‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با سؤال‌های جدید امتحان کن.') + '</div><div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
+      host.innerHTML = rr(window.CourseKit.res(s, N) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
     }
     h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + (q.cls || 'm2') + '" id="mcx"></div>';
     q.opts.forEach(function (op, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + op.h + '</button>'; });
@@ -92,7 +99,7 @@ K.tfRun = function (host, pool, msgs) {
     var h, q, ans = answers[i], sc;
     if (i >= L.length) {
       sc = answers.filter(function (x, k) { return x === L[k].ok; }).length;
-      host.innerHTML = rr('<div class="fb ' + (sc >= 5 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(sc) + ' از ' + fa(L.length) + '</b><br>' + (sc === L.length ? 'عالی! از هیچ تله‌ای رد نشدی.' : (msgs.bad || 'پیش از جواب‌دادن، جمله را با دقت با داده‌ها بسنج.')) + '</div><div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
+      host.innerHTML = rr(window.CourseKit.res(sc, L.length) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
     }
     q = L[i];
     h = '<div class="stg">' + L.map(function (x, k) { return '<span class="' + (answers[k] !== null ? (answers[k] === x.ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">این جمله درست است؟</p>' + (q.fig || '') + '<div class="cq" style="font-size:1rem"><span class="snt">' + q.h + '</span></div><div class="sgnrow"><button type="button" class="btn' + (ans === null ? '' : q.ok === 1 ? ' right' : ans === 1 ? ' wrong' : '') + '" data-a="1"' + (ans === null ? '' : ' disabled') + '>درست</button><button type="button" class="btn' + (ans === null ? '' : q.ok === 0 ? ' right' : ans === 0 ? ' wrong' : '') + '" data-a="0"' + (ans === null ? '' : ' disabled') + '>نادرست</button></div>';
@@ -120,11 +127,11 @@ function pieSVG(vals, labs, cols, sz) {
 }
 function lineSVG(labels, vals, o) {
   o = o || {}; var W = 340, H = 200, L = 40, Rr = 14, Tp = 18, B = 36, max = o.max, step = o.step, n = labels.length, x = function (i) { return L + (i + 0.5) / n * (W - L - Rr); }, y = function (v) { return Tp + (1 - v / max) * (H - Tp - B); }, s = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="max-width:100%;display:block;margin:6px auto;direction:ltr" aria-hidden="true">', v, i, pts = [];
-  for (v = 0; v <= max + 1e-9; v += step) { s += '<line x1="' + L + '" y1="' + y(v) + '" x2="' + (W - Rr) + '" y2="' + y(v) + '" stroke="' + (v === 0 ? '#14213d' : '#d5dde8') + '" stroke-width="' + (v === 0 ? 2.2 : 1) + '"/><text x="' + (L - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-size="11" font-family="Tahoma" fill="#14213d">' + fa(v) + '</text>'; }
+  for (v = 0; v <= max + 1e-9; v += step) { s += '<line x1="' + L + '" y1="' + y(v) + '" x2="' + (W - Rr) + '" y2="' + y(v) + '" stroke="' + (v === 0 ? '#14213d' : '#d5dde8') + '" stroke-width="' + (v === 0 ? 2.2 : 1) + '"/><text x="' + (L - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-size="12" font-family="Tahoma" fill="#14213d">' + fa(v) + '</text>'; }
   s += '<line x1="' + L + '" y1="' + Tp + '" x2="' + L + '" y2="' + y(0) + '" stroke="#14213d" stroke-width="2.2"/>';
   vals.forEach(function (q, k) { pts.push(x(k) + ',' + y(q)); });
   s += '<polyline points="' + pts.join(' ') + '" fill="none" stroke="#d6457a" stroke-width="3" stroke-linejoin="round"/>';
-  vals.forEach(function (q, k) { s += '<circle cx="' + x(k) + '" cy="' + y(q) + '" r="4.5" fill="#ffc233" stroke="#14213d" stroke-width="2"/><text x="' + x(k) + '" y="' + (y(0) + 16) + '" text-anchor="middle" font-size="11" font-family="Tahoma" fill="#14213d">' + labels[k] + '</text>'; });
+  vals.forEach(function (q, k) { s += '<circle cx="' + x(k) + '" cy="' + y(q) + '" r="4.5" fill="#ffc233" stroke="#14213d" stroke-width="2"/><text x="' + x(k) + '" y="' + (y(0) + 16) + '" text-anchor="middle" font-size="12" font-family="Tahoma" fill="#14213d">' + labels[k] + '</text>'; });
   return s + '</svg>';
 }
 var tallyHTML = function (n) { var h = '', g = Math.floor(n / 5), r = n % 5, i; for (i = 0; i < g; i++) { h += '<span class="g5">||||</span>'; } return '<span class="tally">' + h + new Array(r + 1).join('|') + '</span>'; };
@@ -165,7 +172,7 @@ K.tallyLab = function (host) {
     var done = i >= raw.length, h = '<p class="ask">ورزش مورد علاقهٔ ' + fa(raw.length) + ' دانش‌آموز پرسیده شده. داده‌ها را یکی‌یکی بشمار: روی ردیفِ درستِ جدول بزن.</p><div class="rawrow">' + raw.map(function (r, k) { return '<span class="' + (k === i ? 'cur' : k < i ? 'dn' : '') + '">' + r + '</span>'; }).join('') + '</div>';
     h += '<table class="ftt"><tr><th>ورزش</th><th>شمارش</th><th>فراوانی</th></tr>' + CATS.map(function (c, k) { return '<tr class="' + (done ? '' : 'pickr') + (flash === k ? ' flash' : '') + '" data-c="' + k + '"><td>' + c + '</td><td class="tt">' + tallyHTML(cnt[k]) + '</td><td>' + fa(cnt[k]) + '</td></tr>'; }).join('') + '<tr><th colspan="2">جمع</th><th>' + fa(cnt.reduce(function (a, b) { return a + b; })) + '</th></tr></table>';
     if (!done) { h += '<p class="legend" style="font-size:.92rem;color:var(--ink)">' + (msg || 'داده‌ای که زرد شده «' + raw[i] + '» است.') + '</p>'; }
-    else { h += '<div class="fb ok"><b>تمام شد!</b> جمع فراوانی‌ها ' + fa(raw.length) + ' شد؛ برابر با تعداد همهٔ داده‌ها. (اگر برابر نبود یعنی جایی غلط شمرده‌ای.)</div>' + barSVG({ labels: CATS, vals: cnt, max: Math.max(4, Math.ceil(Math.max.apply(null, cnt) / 2) * 2), step: 2, title: 'ورزش مورد علاقه', ylab: 'تعداد', showVals: true, colors: ['#0e8f7e', '#d6457a', '#4c5fd5', '#e08a00'] }) + '<p class="legend">از روی جدول، نمودار ستونی ساختیم.</p><div class="opts p7-ops"><button type="button" class="btn" data-nw="1" data-scroll>داده‌های دیگر</button></div>'; }
+    else { h += '<div class="fb ok"><b>تمام شد!</b> جمع فراوانی‌ها ' + fa(raw.length) + ' شد؛ برابر با تعداد همهٔ داده‌ها. (اگر برابر نبود یعنی جایی غلط شمرده‌ای.)</div>' + barSVG({ labels: CATS, vals: cnt, max: Math.max(4, Math.ceil(Math.max.apply(null, cnt) / 2) * 2), step: 2, title: 'ورزش مورد علاقه', ylab: 'تعداد', showVals: true, colors: ['#0e8f7e', '#d6457a', '#4c5fd5', '#e08a00'] }) + '<p class="legend">از روی جدول، نمودار ستونی ساختیم.</p><div class="opts p7-ops"><button type="button" class="btn primary" data-nw="1" data-scroll>داده‌های دیگر</button></div>'; }
     host.innerHTML = rr(h);
   }
   host.addEventListener('click', function (e) {

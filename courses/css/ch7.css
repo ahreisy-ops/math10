@@ -1,5 +1,8 @@
 /* ===== فصل ۷ (P01–P05): هم‌ترازی ظاهر و رفتار با استانداردهای README =====
    همهٔ قاعده‌ها فقط به فعالیت‌های فصل هفتم (.p7-act) محدودند. */
+.p7-act .chips .chip{height:40px;min-height:40px;padding:0 14px;font-size:.9rem;font-weight:700}
+.lesson .opts:not(.end-actions)>.btn{min-width:120px;min-height:36px;height:auto;padding:6px 14px;font-size:.9rem;font-weight:700}
+@media(max-width:400px){.lesson .opts:not(.end-actions)>.btn{min-width:0;flex:1 1 auto;padding:6px 10px}}
 /* دکمه‌های عملیاتی سفید (تولید نمونهٔ دیگر، پرتاب، چیپ‌های عملیاتی): سایه و افکت فشردن ملایم */
 .p7-act .opts.p7-ops > .btn:not(.primary){box-shadow:2px 2px 0 var(--ink);transition:transform .10s ease,box-shadow .10s ease}
 .p7-act .opts.p7-ops > .btn:not(.primary):active:not(:disabled){transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}

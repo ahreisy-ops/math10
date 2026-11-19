@@ -760,3 +760,29 @@
         transform: none
     }
 }
+/* C03 — هم‌اندازهٔ دکمه‌های C01/C02 و README */
+.lesson .lk-line>.lk-chip {
+    min-height: 40px;
+    padding: 5px 14px;
+    font-size: .9rem;
+    font-weight: 700
+}
+
+.cd-tray.c3m .cd-tile {
+    min-height: 40px;
+    padding: 5px 14px
+}
+
+.lesson .lk-line.c3-r3 {
+    flex-wrap: nowrap;
+    gap: 6px
+}
+
+@media(max-width:420px) {
+    .lesson .lk-line.c3-r3>.btn {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 5px 4px;
+        font-size: .85rem
+    }
+}

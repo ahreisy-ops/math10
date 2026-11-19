@@ -38,8 +38,8 @@ window.LESSONS.S03 = {
         }
         h += '</div>';
         if (!solved) { h += '<div class="lk-line"><span>تغییرِ هر جمله:</span><input class="numin lk-in" data-r="1" type="text" dir="ltr" autocomplete="off" placeholder="مثلاً ۳- یا ۱/۲"><span class="s3-mk" data-r="1"></span></div>'; }
-        h += '<div class="lk-cap">' + (msg || '') + '</div>' + (solved ? fb(true, 'قطار کامل شد! ✓') + K.dm('t_{n+1}-t_{n}=' + rt(s.d)) : '<div class="opts"><button type="button" class="btn primary" data-ck="1">بررسی</button></div>');
-        h += '<div class="opts"><button type="button" class="btn' + (solved ? ' primary' : '') + '" data-nx="1" data-scroll>' + (solved ? 'قطار بعدی' : 'قطار دیگر') + '</button></div>';
+        h += '<div class="lk-cap">' + (msg || '') + '</div>' + (solved ? fb(true, 'قطار کامل شد! ✓') + K.dm('t_{n+1}-t_{n}=' + rt(s.d)) : '<div class="opts"><button type="button" class="btn" data-ck="1">بررسی</button></div>');
+        h += '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (solved ? 'قطار بعدی' : 'قطار دیگر') + '</button></div>';
         host.innerHTML = rr(h);
         host.querySelectorAll('.lk-in').forEach(function (inp) { inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { check(); } }); });
       }
@@ -72,11 +72,11 @@ window.LESSONS.S03 = {
       var shown = null;
       function paint() {
         var h = '<p class="ask">شکل‌های زیر با کاشی ساخته شده‌اند: ستون‌های آبی و یک ستونِ ثابتِ قرمز. با دکمه‌ها شکل‌های بیشتری ببین:</p>' + figs(a, b, [1, 2, 3].concat(view > 3 ? [view] : []));
-        h += '<div class="lk-line"><button type="button" class="btn" data-v="1">شکل بعدی</button><button type="button" class="btn" data-v="0">برگشت</button></div>';
-        if (stage === 1) { h += '<p class="ask">شکل ' + fa(nT) + ' چند کاشی دارد؟</p><div class="lk-line"><input class="numin lk-in" type="text" dir="ltr" autocomplete="off" placeholder="؟"><button type="button" class="btn primary" data-ck="1">بررسی</button></div>'; }
+        h += '<div class="lk-line"><button type="button" class="btn" data-v="0"' + (view <= 3 ? ' disabled' : '') + '>شکل قبلی</button><button type="button" class="btn" data-v="1"' + (view >= 8 ? ' disabled' : '') + '>شکل بعدی</button></div>';
+        if (stage === 1) { h += '<p class="ask">شکل ' + fa(nT) + ' چند کاشی دارد؟</p><div class="lk-line"><input class="numin lk-in" type="text" dir="ltr" autocomplete="off" placeholder="؟"><button type="button" class="btn" data-ck="1">بررسی</button></div>'; }
         else if (stage === 2) { shown = shown || opts(); h += fb(true, 'درست است! ✓ شکل ' + fa(nT) + ' دارد ' + fa(a * nT + b) + ' کاشی') + '<p class="ask">کدام رابطه تعداد کاشی‌های شکل ' + M('n') + ' (یعنی ' + M('t_n') + ') را می‌دهد؟</p><div class="mc">' + shown.map(function (o, i) { return '<button type="button" class="btn opt" data-o="' + i + '">' + M('t_n=' + o[0] + 'n+' + o[1]) + '</button>'; }).join('') + '</div>'; }
         else { h += fb(true, 'همین است! ✓') + K.dm('t_n=' + a + '\\times n+' + b + '=' + H.BL(a + 'n') + '+' + H.CR('' + b)) + '<div class="ex"><p>ستون‌های آبی به‌ازای هر شکل ' + fa(a) + ' کاشی اضافه می‌کنند (' + M(H.BL(a + 'n')) + ') و ستونِ قرمز همیشه ' + fa(b) + ' کاشی است.</p></div>'; }
-        h += '<div class="lk-cap">' + msg + '</div><div class="opts"><button type="button" class="btn' + (stage === 3 ? ' primary' : '') + '" data-nx="1" data-scroll>' + (stage === 3 ? 'الگوی بعدی' : 'الگوی دیگر') + '</button></div>';
+        h += '<div class="lk-cap">' + msg + '</div><div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (stage === 3 ? 'الگوی بعدی' : 'الگوی دیگر') + '</button></div>';
         host.innerHTML = rr(h); host.dataset.a = a; host.dataset.b = b; host.dataset.n = nT;
       }
       host.addEventListener('click', function (e) {
@@ -101,11 +101,11 @@ window.LESSONS.S03 = {
       function newQ() { s = genSeq(); probes = []; msg = ''; solved = false; options = mkOptions(); paint(); }
       function paint() {
         var h = '<p class="ask">یک ماشین به هر شمارهٔ جمله ' + M('n') + ' مقدار ' + M('t_n') + ' را می‌دهد. حداکثر ۴ عدد به آن بده، بعد قاعدهٔ ماشین را از بین گزینه‌ها پیدا کن:</p>';
-        h += '<div class="lk-line"><input class="numin lk-in" id="mn" type="text" dir="ltr" autocomplete="off" placeholder="n = ؟"><button type="button" class="btn primary" data-pr="1"' + (probes.length >= 4 || solved ? ' disabled' : '') + '>بده به ماشین</button></div>';
+        h += '<div class="lk-line"><input class="numin lk-in" id="mn" type="text" dir="ltr" autocomplete="off" placeholder="n = ؟"><button type="button" class="btn" data-pr="1"' + (probes.length >= 4 || solved ? ' disabled' : '') + '>بده به ماشین</button></div>';
         if (probes.length) { h += '<table class="s3-tb"><tr><th>n</th>' + probes.map(function (n) { return '<td>' + fa(n) + '</td>'; }).join('') + '</tr><tr><th>t<sub>n</sub></th>' + probes.map(function (n) { return '<td>' + M(rt(term(s, n))) + '</td>'; }).join('') + '</tr></table>'; }
         if (probes.length >= 2) { h += '<p class="ask">قاعدهٔ ماشین کدام است؟</p><div class="mc">' + options.map(function (o, i) { return '<button type="button" class="btn opt' + (solved && o.ok ? ' right' : '') + '" data-o="' + i + '"' + (solved ? ' disabled' : '') + '>' + M('t_n=' + fm(o.d, o.c)) + '</button>'; }).join('') + '</div>'; }
         h += solved ? fb(true, 'درست است! ✓') + K.dm('t_n=' + fm(s.d, s.c) + '\\;\\Rightarrow\\;t_{10}=' + rt(term(s, 10))) : '<div class="lk-cap">' + msg + '</div>';
-        h += '<div class="opts"><button type="button" class="btn' + (solved ? ' primary' : '') + '" data-nx="1" data-scroll>' + (solved ? 'ماشین بعدی' : 'ماشین دیگر') + '</button></div>';
+        h += '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (solved ? 'ماشین بعدی' : 'ماشین دیگر') + '</button></div>';
         host.innerHTML = rr(h); host.dataset.d = s.d.n + '/' + s.d.d; host.dataset.c = s.c.n + '/' + s.c.d;
         var mn = host.querySelector('#mn'); if (mn) { mn.addEventListener('keydown', function (e) { if (e.key === 'Enter') { probe(); } }); }
       }
@@ -205,7 +205,7 @@ window.LESSONS.S03 = {
           '<h4>الگوهای دیگر</h4><p>همهٔ الگوها اختلافِ ثابت ندارند. مثلاً در ' + M('1,4,9,16,\\ldots') + ' اختلاف‌ها ۳، ۵ و ۷ هستند؛ ثابت نیستند. اما رابطه‌ای ساده دارد: جملهٔ ' + M('n') + 'ام همان ' + M('n') + ' ضربدر خودش است:</p>', K.dm(T`t_n=n\times n,\qquad t_{10}=10\times10=100`),
           '<h4>ماشین مرموز</h4><p>یک ماشین پنهان از قاعدهٔ ' + M('t_n=dn+c') + ' استفاده می‌کند. چند عدد بده و قاعده‌اش را پیدا کن:</p>', host('s3c'),
 
-          K.sn('۵', 'آزمونک پایانی'),
+          K.sn('۵', 'آزمون پایانی'),
           '<p>پنج سؤال با الگوهای تصادفی. هر بار که از اول شروع کنی، سؤال‌ها عوض می‌شوند.</p>', host('s3d'),
           K.box('sum', 'جمع‌بندی', T`<ul><li>اختلافِ ثابت: $d=t_{2}-t_{1}$ (جمله‌ی بعدی منهای قبلی).</li><li>جملهٔ بعدی = جملهٔ قبلی + $d$.</li><li>رابطهٔ جمله: $t_n=dn+c$ و $c=t_1-d$.</li><li>برای جملهٔ دلخواه، شمارهٔ جمله را به‌جای $n$ جایگذاری کن.</li><li>الگوی $n\times n$ اختلافِ ثابت ندارد.</li></ul><p>این رابطه‌ها در فصل‌های بعدی (معادله و تابع) هم به کارت می‌آیند.</p>`)
         ].join(''));

@@ -25,7 +25,7 @@ window.LESSONS.S02 = {
     }
     function result(S, f) { return S.U.filter(function (x) { return f(S.A.indexOf(x) >= 0, S.B.indexOf(x) >= 0); }); }
     var defTex = function (S, withU) { return '\\begin{aligned}A&=' + setTex(S.A) + '\\\\B&=' + setTex(S.B) + (withU ? '\\\\U&=' + setTex(S.U) : '') + '\\end{aligned}'; };
-    var shaded = function (S, f) { var fl = {}; ['a', 'ab', 'b', 'o'].forEach(function (r) { if (f(!!RIA[r][0], !!RIA[r][1])) { fl[r] = MARK; } }); return H.venn({ A: S.A, B: S.B, U: S.U, fill: fl }); };
+    var shaded = function (S, f, big) { var fl = {}; ['a', 'ab', 'b', 'o'].forEach(function (r) { if (f(!!RIA[r][0], !!RIA[r][1])) { fl[r] = MARK; } }); return H.venn({ A: S.A, B: S.B, U: S.U, fill: fl, big: big }); };
 
     /* ============ ۱) رنگ‌آمیزی نمودار ون ============ */
     K.paint = function (host) {
@@ -35,10 +35,10 @@ window.LESSONS.S02 = {
       function paint() {
         var h = '<p class="ask">ناحیه‌هایی را که نمایندهٔ ' + M(ex[0]) + ' هستند، با کلیک رنگ کن:</p>' + K.dm(defTex(S, true));
         var fl = {}; Object.keys(sel).forEach(function (r) { if (sel[r]) { fl[r] = MARK; } });
-        h += H.venn({ A: S.A, B: S.B, U: S.U, fill: fl, reg: !solved });
+        h += H.venn({ A: S.A, B: S.B, U: S.U, fill: fl, reg: !solved, big: true });
         if (solved) { h += fb(true, 'درست است! ✓') + K.dm(ex[0] + '=' + setTex(result(S, ex[1]))); }
-        else { h += '<div class="lk-cap">' + msg + '</div><div class="opts"><button type="button" class="btn primary" data-ck="1">بررسی</button><button type="button" class="btn" data-cl="1">پاک‌کردن</button></div>'; }
-        h += '<div class="opts"><button type="button" class="btn' + (solved ? ' primary' : '') + '" data-nx="1" data-scroll>' + (solved ? 'عبارت بعدی' : 'عبارت دیگر') + '</button></div>';
+        else { h += '<div class="lk-cap">' + msg + '</div><div class="opts"><button type="button" class="btn" data-ck="1">بررسی</button><button type="button" class="btn" data-cl="1">بازنشانی</button></div>'; }
+        h += '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (solved ? 'عبارت بعدی' : 'عبارت دیگر') + '</button></div>';
         host.innerHTML = rr(h);
       }
       function check() {
@@ -67,8 +67,8 @@ window.LESSONS.S02 = {
         var h = '<p class="ask">حاصل ' + M(ex[0]) + ' را بساز: عددهایی را که عضو حاصل‌اند انتخاب کن (اگر حاصل تهی است، هیچ عددی انتخاب نکن).</p>' + K.dm(defTex(S, ex[0].indexOf("'") >= 0));
         h += '<div class="lk-line">' + S.U.map(function (x) { return '<button type="button" class="lk-chip' + (sel[x] ? ' sel' : '') + '" data-x="' + x + '"' + (solved ? ' disabled' : '') + '>' + fa(x) + '</button>'; }).join('') + '</div>';
         h += '<div class="lk-cap">' + (solved ? '' : 'انتخابِ تو: ' + M(setTex(S.U.filter(function (x) { return sel[x]; })))) + '</div>';
-        if (solved) { h += fb(true, 'درست است! ✓') + K.dm(ex[0] + '=' + setTex(res)); } else { h += '<div class="lk-cap">' + msg + '</div><div class="opts"><button type="button" class="btn primary" data-ck="1">بررسی</button></div>'; }
-        h += '<div class="opts"><button type="button" class="btn' + (solved ? ' primary' : '') + '" data-nx="1" data-scroll>' + (solved ? 'مثال بعدی' : 'مثال دیگر') + '</button></div>';
+        if (solved) { h += fb(true, 'درست است! ✓') + K.dm(ex[0] + '=' + setTex(res)); } else { h += '<div class="lk-cap">' + msg + '</div><div class="opts"><button type="button" class="btn" data-ck="1">بررسی</button></div>'; }
+        h += '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (solved ? 'مثال بعدی' : 'مثال دیگر') + '</button></div>';
         host.innerHTML = rr(h);
       }
       function check() {
@@ -104,18 +104,18 @@ window.LESSONS.S02 = {
 
     var UTIP = '<p>همهٔ چیزهایی که در یک مسئله مطرح‌اند را در یک مجموعهٔ بزرگ‌تر جمع می‌کنیم و آن را «مجموعهٔ مرجع» می‌نامیم و با $U$ نشان می‌دهیم. همهٔ مجموعه‌های آن مسئله زیرمجموعهٔ $U$ هستند. در نمودار ون، مجموعهٔ مرجع را با یک مستطیل نشان می‌دهیم.</p>';
     var DTIP = '<p>عبارتِ $A\\cap B^{\\prime}$ یعنی اعضایی که در $A$ هستند و در $B$ نیستند؛ این همان تعریف تفاضل است:</p><div class="dm">$A-B=A\\cap B^{\\prime}$</div>';
-    var grid = function (S) { return '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;max-width:520px;margin:auto">' + [['اجتماع', 'A\\cup B', function (a, b) { return a || b; }], ['اشتراک', 'A\\cap B', function (a, b) { return a && b; }], ['تفاضل', 'A-B', function (a, b) { return a && !b; }], ['متمم', "A'", function (a, b) { return !a; }]].map(function (x) { return '<div>' + shaded(S, x[2]) + '<div class="lk-cap"><b>' + x[0] + '</b> ' + M(x[1]) + '</div></div>'; }).join('') + '</div>'; };
+    var grid = function (S) { return '<div class="s2-vg">' + [['اجتماع', 'A\\cup B', function (a, b) { return a || b; }], ['اشتراک', 'A\\cap B', function (a, b) { return a && b; }], ['تفاضل', 'A-B', function (a, b) { return a && !b; }], ['متمم', "A'", function (a, b) { return !a; }]].map(function (x) { return '<div>' + shaded(S, x[2], true) + '<div class="lk-cap"><b>' + x[0] + '</b> ' + M(x[1]) + '</div></div>'; }).join('') + '</div>'; };
 
     return {
       html: function () {
         H.tip('s2-u', 'مجموعهٔ مرجع', UTIP); H.tip('s2-d', 'تفاضل با کمک متمم', DTIP);
         var host = H.host, S0 = { A: [1, 2, 3, 4], B: [3, 4, 5], U: [1, 2, 3, 4, 5, 6, 7] };
-        var one = function (f) { return '<div style="max-width:320px;margin:auto">' + shaded(S0, f) + '</div>'; };
+        var one = function (f) { return '<div style="max-width:440px;margin:auto">' + shaded(S0, f, true) + '</div>'; };
         return fix([
           K.sn('۱', 'دو مجموعه کنار هم'),
           '<p>در درس قبل با مجموعه‌ها آشنا شدی. حالا می‌خواهیم دو مجموعه را با هم ترکیب کنیم. در این درس همیشه این دو مجموعه را داریم:</p>', K.dm(T`A=\{1,2,3,4\},\qquad B=\{3,4,5\}`),
           '<p>همهٔ عددهایی که در بحث هستند را در یک «مجموعهٔ مرجع» جمع می‌کنیم؛ مثلاً ' + M('U=\\{1,2,3,4,5,6,7\\}') + ' ' + H.tip('s2-u', 'مجموعهٔ مرجع', UTIP) + '. نمودار ون هر چهار حالتِ ممکن برای یک عدد را نشان می‌دهد:</p>',
-          H.venn({ A: S0.A, B: S0.B, U: S0.U }),
+          H.venn({ A: S0.A, B: S0.B, U: S0.U, big: true }),
           '<p>یک عدد می‌تواند «فقط در ' + M('A') + '»، «در هر دو (اشتراک)»، «فقط در ' + M('B') + '» یا «بیرون از هر دو» باشد. عملیات روی مجموعه‌ها یعنی انتخابِ بعضی از این ناحیه‌ها.</p>',
 
           K.sn('۲', 'اجتماع: ∪'),
@@ -143,7 +143,7 @@ window.LESSONS.S02 = {
           K.box('note', 'برای کنجکاوها', T`<p>$(A\cup B)'$ و $A'\cap B'$ همیشه حاصل یکسان دارند، و $(A\cap B)'$ با $A'\cup B'$ برابر است. تمرینِ زیر کمکت می‌کند این را خودت ببینی.</p>`),
           '<h4>رنگ‌آمیزی نمودار ون</h4><p>یک عبارت می‌بینی. ناحیه‌های درست را رنگ کن؛ بعد «بررسی» را بزن:</p>', host('s2b'),
 
-          K.sn('۷', 'آزمونک پایانی'),
+          K.sn('۷', 'آزمون پایانی'),
           '<p>پنج سؤال با مجموعه‌های تصادفی. هر بار که از اول شروع کنی، سؤال‌ها عوض می‌شوند.</p>', host('s2c'),
           K.box('sum', 'جمع‌بندی', T`<ul><li>$A\cup B$: اعضای $A$ یا $B$ (یا هر دو)، بدون تکرار.</li><li>$A\cap B$: اعضای مشترک؛ اگر نباشد، تهی است.</li><li>$A-B$: اعضای $A$ که در $B$ نیستند؛ ترتیب مهم است.</li><li>$A'$: اعضای مجموعهٔ مرجع که در $A$ نیستند.</li><li>در عبارت‌های ترکیبی اول داخل پرانتز را حساب کن.</li></ul><p>در درس بعد (الگوها) از اعداد به‌جای مجموعه‌ها استفاده می‌کنیم و قاعدهٔ تغییرشان را پیدا می‌کنیم.</p>`)
         ].join(''));

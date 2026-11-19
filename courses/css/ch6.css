@@ -1,4 +1,12 @@
 /* فصل ۶ — مجموعه، الگو و دنباله (استایل مخصوص درس‌های S01 و S03؛ S02 و بقیه از استایل‌های مشترک استفاده می‌کنند) */
+/* ابعاد و رفتار اجزا مطابق README (فقط فصل ۶) */
+.lesson .opts:not(.end-actions) .btn,.lesson .lk-line>.btn{min-width:120px;min-height:36px;height:auto;padding:6px 14px;font-size:.9rem;font-weight:700}
+.lesson .lk-line>.lk-chip{min-height:40px;padding:5px 14px;font-size:.9rem;font-weight:700}
+.lesson .lk-in{font-size:16px;min-height:40px}
+.lesson .mc .opt .katex{font-size:1.15em}
+.lesson .s1-grid .lk-card{min-height:44px}
+@media(max-width:400px){.lesson .opts:not(.end-actions) .btn,.lesson .lk-line>.btn{min-width:0;flex:1 1 0;padding:6px 8px}}
+
 
 /* S01 — مجموعه */
 .s1-guest{display:flex;justify-content:center;margin:8px 0}
@@ -17,3 +25,7 @@
 .s3-tb{border-collapse:collapse;margin:8px auto;direction:ltr}
 .s3-tb td,.s3-tb th{border:2px solid var(--ink);padding:3px 12px;text-align:center;min-width:3.2em}
 .s3-tb th{background:var(--ink);color:#fff}
+
+/* S02 — خلاصهٔ تصویری: ۲×۲ روی صفحهٔ عریض، تک‌ستونی روی گوشی */
+.s2-vg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;max-width:860px;margin:auto}
+@media(max-width:600px){.s2-vg{grid-template-columns:minmax(0,1fr);max-width:480px}}
