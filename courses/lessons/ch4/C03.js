@@ -23,12 +23,33 @@ window.LESSONS.C03 = {
     var tab = function (d, o) { return C.table(d.xs, d.ys, Object.assign({ xh: d.ctx.xn, yh: d.ctx.yn }, o || {})); };
 
     /* ============ ۱) جدول و نمودار: دو زبان ============ */
+    function colHover(host) {
+      function hv(c) {
+        host.querySelectorAll('td.hv').forEach(function (t) {
+          t.classList.remove('hv');
+        });
+        if (c !== null) {
+          host.querySelectorAll('td[data-col="' + c + '"]').forEach(function (t) {
+            t.classList.add('hv');
+          });
+        }
+      }
+      host.addEventListener('mouseover', function (e) {
+        var td = e.target.closest('td[data-col]');
+        hv(td ? td.dataset.col : null);
+      });
+      host.addEventListener('mouseleave', function () {
+        hv(null);
+      });
+    }
     K.linked = function (host) {
+      var LC = CTX.map(function (c) { return Object.assign({}, c, { hi: 6 }); });
       var ci = 0, d, col = -1, line = false;
-      function gen() { d = mkData(CTX[ci], 5); col = -1; }
+      function gen() { d = mkData(LC[ci], 5); col = -1; }
+      colHover(host);
       function paint() {
-        var h = '<div class="lk-line">' + CTX.map(function (c, k) { return '<button type="button" class="lk-chip' + (k === ci ? ' sel' : '') + '" data-c="' + k + '" aria-pressed="' + (k === ci) + '">' + c.t + '</button>'; }).join('') + '</div>';
-        h += tab(d, { cells: true, hl: col }) + dp(d, { pts: pts(d), line: line ? d.xs.map(function (x, i) { return [x, d.ys[i]]; }) : null, guides: col >= 0 ? [{ x: d.xs[col], y: d.ys[col] }] : [], part: '' });
+        var h = '<div class="opseg">' + LC.map(function (c, k) { return '<button type="button" class="btn' + (k === ci ? ' sel on' : '') + '" data-c="' + k + '" aria-pressed="' + (k === ci) + '">' + c.t + '</button>'; }).join('') + '</div>';
+        h += '<div class="lk-fix">' + tab(d, { cells: true, hl: col }) + '</div>' + dp(d, { y0: -3, y1: 6, pts: pts(d), line: line ? d.xs.map(function (x, i) { return [x, d.ys[i]]; }) : null, guides: col >= 0 ? [{ x: d.xs[col], y: d.ys[col] }] : [], part: '' });
         h += '<div class="cd-info">' + (col >= 0 ? 'ستون ' + fa(col + 1) + ': ' + d.ctx.xn + ' ' + C.num(d.xs[col]) + ' و ' + d.ctx.yn + ' ' + C.num(d.ys[col]) + ' ← نقطهٔ ' + C.pt(d.xs[col], d.ys[col]) : 'روی یکی از ستون‌های جدول بزن تا نقطهٔ متناظرش را روی نمودار ببینی.') + '</div>';
         h += '<div class="lk-line"><button type="button" class="btn cd-tgl' + (line ? ' on' : '') + '" data-l="1" aria-pressed="' + line + '">' + (line ? 'نقطه‌ها را جدا کن' : 'نقطه‌ها را به هم وصل کن') + '</button><button type="button" class="btn primary" data-n="1" data-scroll>داده‌های دیگر</button></div>';
         host.innerHTML = rr(h);
@@ -37,10 +58,20 @@ window.LESSONS.C03 = {
         var b = e.target.closest('button'), td = e.target.closest('td[data-col]');
         if (td) { col = +td.dataset.col; paint(); return; }
         if (!b) { return; }
-        if (b.dataset.c !== undefined) { ci = +b.dataset.c; gen(); } else if (b.dataset.l) { line = !line; } else if (b.dataset.n) { gen(); }
+        if (b.dataset.c !== undefined) {
+          if (+b.dataset.c !== ci) {
+            ci = +b.dataset.c; gen();
+          }
+        } else if (b.dataset.l) {
+          line = !line;
+        } else if (b.dataset.n) {
+          gen();
+        }
         paint();
       });
-      gen(); paint();
+      host.addEventListener('mouseover', function (e) { var td = e.target.closest('td[data-col]'); hv(td ? td.dataset.col : null); });
+      host.addEventListener('mouseleave', function () { hv(null); });
+      d = mkData({ lo: 0, hi: 6 }, 5); d.ctx = LC[0]; paint();
     };
 
     /* ============ ۲) خانه‌یاب جدول ============ */
@@ -61,16 +92,17 @@ window.LESSONS.C03 = {
 
     /* ============ ۳) اسکنر نمودار ============ */
     K.scanner = function (host) {
+      function yi(s) { return s + (/ه$/.test(s) ? '\u200cای' : 'ی'); }
       function target(it) { return it.t === 'max' ? it.d.ys.indexOf(Math.max.apply(null, it.d.ys)) + 1 : it.t === 'min' ? it.d.ys.indexOf(Math.min.apply(null, it.d.ys)) + 1 : it.d.ys.indexOf(it.v) + 1; }
       function figH(it) { var c = it.d.ctx; return dp(it.d, { pts: pts(it.d), seg: [{ a: [it.x, Math.min(0, c.lo)], b: [it.x, c.hi], c: C.YEL, w: 4 }], guides: [{ x: it.x, y: it.d.ys[it.x - 1], vc: 'transparent' }] }); }
       C.hunt(host, {
         make: function () { return shuffle(['eq', 'max', 'min', 'eq']).map(function (t) { var d = mkData(rctx(), 5); return { d: d, t: t, v: d.ys[R(0, 4)], x: 1 }; }); },
-        ask: function (it) { var c = it.d.ctx; return it.t === 'eq' ? 'اسکنر را روی ' + c.xn + 'ی ببر که ' + c.yn + ' در آن برابر ' + C.num(it.v) + ' است.' : 'اسکنر را روی ' + c.xn + 'ی ببر که ' + c.yn + ' در آن <b>' + (it.t === 'max' ? 'بیشترین' : 'کمترین') + '</b> مقدار را دارد.'; },
+        ask: function (it) { var c = it.d.ctx; return it.t === 'eq' ? 'اسکنر را روی ' + yi(c.xn) + ' ببر که ' + c.yn + ' در آن برابر ' + C.num(it.v) + ' است.' : 'اسکنر را روی ' + yi(c.xn) + ' ببر که ' + c.yn + ' در آن <b>' + (it.t === 'max' ? 'بیشترین' : 'کمترین') + '</b> مقدار را دارد.'; },
         fig: function (it) { return '<div id="c3sc">' + figH(it) + '</div>'; },
-        ctl: function (it, s) { var c = it.d.ctx; return '<div class="cd-sl"><b>' + c.xn + '</b><input type="range" min="1" max="5" step="1" value="' + it.x + '"' + (s.done ? ' disabled' : '') + ' aria-label="' + c.xn + '"><b id="c3sv">' + fa(it.x) + '</b></div>'; },
+        ctl: function (it, s) { var c = it.d.ctx; return '<div class="cd-sl"><b>' + c.xn + '</b><span class="c3-rg"><input type="range" min="1" max="5" step="1" value="' + it.x + '"' + (s.done ? ' disabled' : '') + ' aria-label="' + c.xn + '"><span class="c3-tk">' + [1, 2, 3, 4, 5].map(function (k) { return '<i>' + fa(k) + '</i>'; }).join('') + '</span></span></div>'; },
         chk: function () { return true; },
         ready: function () { return true; },
-        input: function (e, it) { if (e.target.type === 'range') { it.x = +e.target.value; host.querySelector('#c3sc').innerHTML = rr(figH(it)); host.querySelector('#c3sv').textContent = fa(it.x); } },
+        input: function (e, it) { if (e.target.type === 'range') { it.x = +e.target.value; host.querySelector('#c3sc').innerHTML = rr(figH(it)); } },
         check: function (it) { var c = it.d.ctx; return it.x === target(it) ? true : 'در ' + c.xn + ' ' + C.num(it.x) + '، ' + c.yn + ' برابر ' + C.num(it.d.ys[it.x - 1]) + ' است؛ اسکنر را جابه‌جا کن و دوباره «بررسی» را بزن.'; },
         ex: function (it) { var c = it.d.ctx; return '<p>در ' + c.xn + ' ' + C.num(it.x) + '، ' + c.yn + ' برابر ' + C.num(it.d.ys[it.x - 1]) + ' است.</p>'; }
       });
@@ -162,10 +194,11 @@ window.LESSONS.C03 = {
 
     /* ============ ۷) کارآگاه: ستون ناهمخوان ============ */
     K.mismatch = function (host) {
+      colHover(host);
       C.hunt(host, {
         make: function () { var l = [], k, d, w, ty, v; for (k = 0; k < 4; k++) { d = mkData(rctx(), 4); w = R(0, 3); ty = d.ys.slice(); do { v = R(d.ctx.lo, d.ctx.hi); } while (v === d.ys[w]); ty[w] = v; l.push({ d: d, w: w, ty: ty, tried: {} }); } return l; },
         ask: function () { return 'این جدول و نمودار دادهٔ یک آزمایش‌اند، ولی یک ستونِ جدول با نمودار نمی‌خواند. آن را پیدا کن:'; },
-        fig: function (it, s) { var mk = {}; Object.keys(it.tried).forEach(function (k) { mk[k] = 'no'; }); if (s.done) { mk = {}; mk[it.w] = 'bad'; } return dp(it.d, { pts: pts(it.d) }) + C.table(it.d.xs, it.ty, { xh: it.d.ctx.xn, yh: it.d.ctx.yn, cells: !s.done, mark: mk }); },
+        fig: function (it, s) { var mk = {}; Object.keys(it.tried).forEach(function (k) { mk[k] = 'no'; }); if (s.done) { mk = {}; mk[it.w] = 'ok'; } return dp(it.d, { pts: pts(it.d) }) + C.table(it.d.xs, it.ty, { xh: it.d.ctx.xn, yh: it.d.ctx.yn, cells: !s.done, mark: mk }); },
         act: function (e, it) { var td = e.target.closest('td[data-col]'); if (!td) { return null; } var c = +td.dataset.col; if (c === it.w) { return true; } it.tried[c] = 1; return 'این ستون با نمودار می‌خواند: نقطهٔ ' + C.pt(it.d.xs[c], it.d.ys[c]) + ' را روی نمودار پیدا کن.'; },
         ex: function (it) { var d = it.d, w = it.w; return '<p>در نمودار ' + d.ctx.xn + ' ' + C.num(d.xs[w]) + ' مقدار ' + C.num(d.ys[w]) + ' دارد، ولی جدول ' + C.num(it.ty[w]) + ' نوشته است.</p>'; }
       });
@@ -182,7 +215,7 @@ window.LESSONS.C03 = {
         return { kind: 'mcq', ask: 'در جدول زیر، ' + c.xn + ' ' + nv(x) + ' چه مقدار ' + c.yn + ' دارد؟', fig: tab(d), opts: [o(nv(y), true), o(nv(x), false, 'این عدد خودِ ' + c.xn + ' است؛ مقدار ' + c.yn + ' را در ردیف پایین بخوان.'), o(nv(other), false, 'این مقدار مربوط به ستون دیگری است.'), o(nv(third), false, 'این مقدار مربوط به ستون دیگری است.')], expl: '<p>ستونِ ' + c.xn + ' ' + nv(x) + ' را پیدا کن و عدد زیرش را بخوان: ' + nv(y) + '.</p>' };
       }
       function qTabRev() {
-        var d = mkData(rctx(), 5), k = R(0, 4), c = d.ctx;
+        var d = mkData(rctx(), 4), k = R(0, 3), c = d.ctx;
         return { kind: 'mcq', keep: true, ask: 'در کدام ' + c.xn + '، ' + c.yn + ' برابر ' + nv(d.ys[k]) + ' بوده است؟', fig: tab(d), opts: d.xs.map(function (x, j) { return o(nv(x), j === k, 'در ' + c.xn + ' ' + nv(x) + '، ' + c.yn + ' برابر ' + nv(d.ys[j]) + ' است.'); }), expl: '<p>این بار مقدار ' + c.yn + ' را می‌دانیم و ' + c.xn + ' را می‌خواهیم: ' + nv(d.ys[k]) + ' را در ردیف پایین پیدا کن و عدد بالای آن را بخوان.</p>' };
       }
       function qGraph() {
@@ -190,10 +223,10 @@ window.LESSONS.C03 = {
         return { kind: 'mcq', ask: 'نمودار زیر را ببین. ' + c.xn + ' ' + nv(x) + ' چه مقدار ' + c.yn + ' دارد؟', fig: dp(d, { pts: pts(d) }), opts: vs.map(function (v) { return o(nv(v), v === y, v === x ? 'این عدد خودِ ' + c.xn + ' است، نه ارتفاع نقطه.' : 'این ارتفاع نقطهٔ دیگری است.'); }), expl: '<p>روی محور افقی ' + nv(x) + ' را پیدا کن، تا نقطه بالا یا پایین برو و عددِ روبه‌روی آن روی محور عمودی را بخوان: ' + nv(y) + '.</p>' };
       }
       function qTrend() {
-        var d = mkData(rctx(), 5), c = d.ctx, t = pick(['max', 'min', 'inc']);
+        var d = mkData(rctx(), 4), c = d.ctx, t = pick(['max', 'min', 'inc']);
         if (t === 'inc') {
-          var k = R(0, 3), up = d.ys[k + 1] > d.ys[k];
-          return { kind: 'mcq', keep: true, ask: 'از ' + c.xn + ' ' + nv(d.xs[k]) + ' تا ' + c.xn + ' ' + nv(d.xs[k + 1]) + '، ' + c.yn + ' چه تغییری کرده است؟', fig: dp(d, { pts: pts(d) }), opts: [o('افزایش یافته', up, 'نقطهٔ دوم پایین‌تر از اولی است؛ مقدار کم شده است.'), o('کاهش یافته', !up, 'نقطهٔ دوم بالاتر از اولی است؛ مقدار زیاد شده است.'), o('تغییری نکرده', false, 'دو نقطه ارتفاع یکسان ندارند.')], expl: '<p>نقطهٔ ' + C.pt(d.xs[k], d.ys[k]) + ' و نقطهٔ ' + C.pt(d.xs[k + 1], d.ys[k + 1]) + ' را مقایسه کن؛ نقطهٔ بالاتر مقدار بیشتری دارد.</p>' };
+          var k = R(0, 2), up = d.ys[k + 1] > d.ys[k];
+          return { kind: 'mcq', keep: true, ask: 'از ' + c.xn + ' ' + nv(d.xs[k]) + ' تا ' + c.xn + ' ' + nv(d.xs[k + 1]) + '، ' + c.yn + ' چه تغییری کرده است؟', fig: dp(d, { pts: pts(d) }), opts: [o('افزایش یافته', up, 'نقطهٔ دوم پایین‌تر از اولی است؛ مقدار کم شده است.'), o('کاهش یافته', !up, 'نقطهٔ دوم بالاتر از اولی است؛ مقدار زیاد شده است.'), o('تغییری نکرده', false, 'دو نقطه ارتفاع یکسان ندارند.'), , o('از روی این دو نقطه نمی‌توان فهمید', false, 'هر نقطه ارتفاعش را نشان می‌دهد؛ با مقایسهٔ ارتفاع دو نقطه می‌توان فهمید.')], expl: '<p>نقطهٔ ' + C.pt(d.xs[k], d.ys[k]) + ' و نقطهٔ ' + C.pt(d.xs[k + 1], d.ys[k + 1]) + ' را مقایسه کن؛ نقطهٔ بالاتر مقدار بیشتری دارد.</p>' };
         }
         var tg = t === 'max' ? Math.max.apply(null, d.ys) : Math.min.apply(null, d.ys), ti = d.ys.indexOf(tg);
         return { kind: 'mcq', keep: true, ask: c.yn + ' در کدام ' + c.xn + ' <b>' + (t === 'max' ? 'بیشترین' : 'کمترین') + '</b> مقدار را دارد؟', fig: dp(d, { pts: pts(d) }), opts: d.xs.map(function (x, j) { return o(nv(x), j === ti, 'در ' + c.xn + ' ' + nv(x) + '، ' + c.yn + ' برابر ' + nv(d.ys[j]) + ' است.'); }), expl: '<p>' + (t === 'max' ? 'بالاترین' : 'پایین‌ترین') + ' نقطه را پیدا کن؛ ' + c.xn + ' آن ' + nv(d.xs[ti]) + ' است.</p>' };
@@ -216,10 +249,13 @@ window.LESSONS.C03 = {
           bad: function (a) { return a.x === d.ys[k] && a.y === d.xs[k] ? 'مؤلفه‌ها جابه‌جا شده‌اند: ' + c.xn + ' روی محور افقی است.' : 'نقطه باید ' + c.xn + ' ' + nv(d.xs[k]) + ' و ' + c.yn + ' ' + nv(d.ys[k]) + ' داشته باشد.'; }, expl: '<p>ستون یعنی نقطهٔ ' + C.pt(d.xs[k], d.ys[k]) + ': روی محور افقی ' + nv(d.xs[k]) + ' و روی محور عمودی ' + nv(d.ys[k]) + '.</p>'
         };
       }
-      /* سؤال‌های «کدام x» و «بیشترین» ۴ یا ۵ گزینه‌ای‌اند؛ گزینه‌ها به‌ترتیب x نگه داشته می‌شوند */
+      /* سؤال‌های «کدام x» و «بیشترین» ۴ گزینه‌ای‌اند؛ گزینه‌ها به‌ترتیب x نگه داشته می‌شوند */
       C.quiz(host, function () {
         return [qTab, qTabRev, qGraph, qTrend, qMatch, qMis, qPick].map(function (f) {
-          var q, t = 0; do { q = f(); } while (q.opts && C.distinct(q.opts, function (x) { return x.h; }).length < q.opts.length && t++ < 40);
+          var q, t = 0;
+          do {
+            q = f();
+          } while (q.opts && (C.distinct(q.opts, function (x) { return x.h; }).length < q.opts.length || q.opts.length !== 4) && t++ < 40);
           if (q.opts && !q.keep) { q.opts = shuffle(q.opts.slice()); }
           return q;
         });

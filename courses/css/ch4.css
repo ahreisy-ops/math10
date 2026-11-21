@@ -802,3 +802,86 @@ th:has(>.numgrp) {
 #c3d input::placeholder {
     text-align: center
 }
+
+/* C03 — «جدول و نمودار: دو زبان»: دکمه‌های بالا هم‌سبک آزمایشگاه چهار عمل (فصل ۱)، hover دوسلولی، جدول با ابعاد ثابت */
+.lesson .opseg .btn {
+    min-height: 36px;
+    font-size: .88rem;
+    padding: 5px 12px;
+    box-shadow: 2px 2px 0 var(--ink);
+    transition: transform .1s, box-shadow .1s
+}
+
+.lesson .opseg .btn.on {
+    background: var(--mark);
+    color: var(--ink);
+    border-color: var(--ink)
+}
+
+.lesson .opseg .btn:active:not(:disabled) {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 var(--ink)
+}
+
+.cd-tab td.pk.hv {
+    background: #fff1bd
+}
+
+.lk-fix .cd-tab {
+    table-layout: fixed;
+    width: 100%;
+    max-width: 400px
+}
+
+.lesson .lk-fix .cd-tab th {
+    width: 92px;
+    font-size: .88rem;
+    padding: 3px 4px
+}
+
+.lesson .lk-fix .cd-tab td {
+    padding: 3px 0;
+    min-width: 0
+}
+
+.c3-rg {
+    display: block
+}
+
+.c3-rg input {
+    display: block;
+    margin: 0
+}
+
+.c3-tk {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 9px;
+    margin-top: 2px;
+    pointer-events: none
+}
+
+.c3-tk i {
+    font-style: normal;
+    font-size: .8rem;
+    line-height: 1;
+    width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    white-space: nowrap
+}
+
+.c3-tk i::before {
+    content: "";
+    width: 2px;
+    height: 6px;
+    background: var(--ink);
+    margin-bottom: 2px
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .lesson .opseg .btn:active:not(:disabled) {
+        transform: none
+    }
+}
