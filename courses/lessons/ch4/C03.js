@@ -84,13 +84,13 @@ window.LESSONS.C03 = {
       function keep() { host.querySelectorAll('input[data-k]').forEach(function (inp) { vals[inp.dataset.k] = inp.value; }); }
       function paint() {
         var h = '<p class="ask">نمودار را بخوان و ردیفِ ' + d.ctx.yn + ' جدول را کامل کن:</p>' + dp(d, { pts: pts(d) });
-        h += C.table(d.xs, d.ys, { xh: d.ctx.xn, yh: d.ctx.yn, blank: [0, 1, 2, 3], blankHtml: function (k) { return C.numBox('c' + k); }, mark: marks });
+        h += C.table(d.xs, d.ys, { xh: d.ctx.xn, yh: d.ctx.yn, blank: [0, 1, 2, 3], blankHtml: function (k) { return C.numBox('c' + k, "?"); }, mark: marks });
         h += msg + '<div class="lk-line"><button type="button" class="btn" data-ck="1">بررسی</button><button type="button" class="btn primary" data-n="1" data-scroll>نمودار دیگر</button></div>';
         host.innerHTML = rr(h);
         host.querySelectorAll('input[data-k]').forEach(function (inp) { inp.value = vals[inp.dataset.k] || ''; });
       }
       host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.classList.contains('cd-pm')) { return; }
+        var b = e.target.closest('button'); if (!b || b.classList.contains('ngpm')) { return; }
         if (b.dataset.n) { newSet(); return; }
         if (b.dataset.ck) {
           keep(); var bad = 0, sw = 0, empty = 0; marks = {};
@@ -211,8 +211,10 @@ window.LESSONS.C03 = {
       }
       function qPick() {
         var d = mkData(rctx(), 4), k = R(0, 3), c = d.ctx;
-        return { kind: 'pick', ask: 'نقطهٔ مربوط به ستونِ ' + c.xn + ' ' + nv(d.xs[k]) + ' از جدول را روی نمودار مشخص کن.', fig: tab(d), plane: { x0: 0, x1: 6, y0: Math.min(0, c.lo), y1: c.hi, cell: 32, xt: c.xn, yt: c.yu }, ans: [d.xs[k], d.ys[k]],
-          bad: function (a) { return a.x === d.ys[k] && a.y === d.xs[k] ? 'مؤلفه‌ها جابه‌جا شده‌اند: ' + c.xn + ' روی محور افقی است.' : 'نقطه باید ' + c.xn + ' ' + nv(d.xs[k]) + ' و ' + c.yn + ' ' + nv(d.ys[k]) + ' داشته باشد.'; }, expl: '<p>ستون یعنی نقطهٔ ' + C.pt(d.xs[k], d.ys[k]) + ': روی محور افقی ' + nv(d.xs[k]) + ' و روی محور عمودی ' + nv(d.ys[k]) + '.</p>' };
+        return {
+          kind: 'pick', ask: 'نقطهٔ مربوط به ستونِ ' + c.xn + ' ' + nv(d.xs[k]) + ' از جدول را روی نمودار مشخص کن.', fig: tab(d), plane: { x0: 0, x1: 6, y0: Math.min(0, c.lo), y1: c.hi, cell: 32, xt: c.xn, yt: c.yu }, ans: [d.xs[k], d.ys[k]],
+          bad: function (a) { return a.x === d.ys[k] && a.y === d.xs[k] ? 'مؤلفه‌ها جابه‌جا شده‌اند: ' + c.xn + ' روی محور افقی است.' : 'نقطه باید ' + c.xn + ' ' + nv(d.xs[k]) + ' و ' + c.yn + ' ' + nv(d.ys[k]) + ' داشته باشد.'; }, expl: '<p>ستون یعنی نقطهٔ ' + C.pt(d.xs[k], d.ys[k]) + ': روی محور افقی ' + nv(d.xs[k]) + ' و روی محور عمودی ' + nv(d.ys[k]) + '.</p>'
+        };
       }
       /* سؤال‌های «کدام x» و «بیشترین» ۴ یا ۵ گزینه‌ای‌اند؛ گزینه‌ها به‌ترتیب x نگه داشته می‌شوند */
       C.quiz(host, function () {

@@ -376,10 +376,10 @@ window.LESSONS.E04 = {
         return h + '</div>';
       },
       init: function () {
-	var ros = document.querySelector('.e4-ros');
-	if (ros && window.IntersectionObserver) {
-	  new IntersectionObserver(function (en) { ros.classList.toggle('live', en[0].isIntersecting); }).observe(ros);
-	} else if (ros) { ros.classList.add('live'); }
+        var ros = document.querySelector('.e4-ros');
+        if (ros && window.IntersectionObserver) {
+          new IntersectionObserver(function (en) { ros.classList.toggle('live', en[0].isIntersecting); }).observe(ros);
+        } else if (ros) { ros.classList.add('live'); }
         var $ = function (id) { return document.getElementById(id); };
         transLab($('e04-trans')); readLab($('e04-read')); drawLab($('e04-draw')); K.guide($('e04-full'), genFull);
         exampleBind('e04-example-steps', [

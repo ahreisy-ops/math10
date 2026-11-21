@@ -19,6 +19,12 @@
   line-height: 1.9;
 }
 
+#flab .numin::placeholder,
+#fst .numin::placeholder {
+  text-align: center;
+}
+
+
 .n3-w .btn {
   min-height: 36px
 }

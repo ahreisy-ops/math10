@@ -69,11 +69,10 @@
       }
       o.errs = o.errs.filter(function (z) { return z.f.d !== 0 && !feq(z.f, o.ans); }); o.kind = kind; return o;
     }
-    var FIN = function () { return '<div class="fin"><button type="button" class="btn pm" aria-label="تغییر علامت">±</button><div class="fr2"><input class="nn" type="text" inputmode="text" dir="ltr" autocomplete="off" placeholder="صورت"><span class="bar"></span><input class="dd" type="text" inputmode="text" dir="ltr" autocomplete="off" placeholder="مخرج"></div></div><p class="fnote">اگر جواب عدد صحیح است، مخرج را خالی بگذار.</p>'; };
+    var FIN = function () { return '<div class="fin"><div class="fr2">' + window.MathLite.num.group({ sm: true, cls: 'nn', ph: 'صورت' }) + '<span class="bar"></span><input class="dd" type="text" inputmode="text" dir="ltr" autocomplete="off" placeholder="مخرج"></div></div><p class="fnote">اگر جواب عدد صحیح است، مخرج را خالی بگذار.</p>'; };
     function readF(root) { var n = parse(root.querySelector('.nn').value), dv = root.querySelector('.dd').value.trim(), d = dv === '' ? 1 : parse(dv); return n === null || d === null || d === 0 ? null : { n: n, d: d }; }
     function wireF(root, submit, noFocus) {
       var nn = root.querySelector('.nn'); if (!nn) { return; }
-      root.querySelector('.pm').onclick = function () { nn.value = /^[-−]/.test(nn.value) ? nn.value.replace(/^[-−]/, '') : '-' + nn.value; nn.focus({ preventScroll: true }); };
       [nn, root.querySelector('.dd')].forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Enter') { submit(); } }); });
       if (!noFocus) { nn.focus({ preventScroll: true }); }
     }

@@ -252,7 +252,7 @@
         } else { ghost.remove(); root.classList.remove('e02-transfer-in-flight'); paint(); }
       }
       function errorProblem() {
-        var x = nz(-6, 6), a = choose([-4, -3, -2, 2, 3, 4]), b = nz(-5, 5), rhs = a * (x + b), bad = rand(1, 3), correct = [coef(a) + '(x' + signed(b) + ')=' + rhs, lin(a, a * b) + '=' + rhs, ax(a) + '=' + (rhs - a * b), 'x=' + x];
+        var x = nz(-6, 6), a = choose([-4, -3, -2, 2, 3, 4]), b = nz(-5, 5), rhs = a * (x + b), bad = rand(1, 2), correct = [coef(a) + '(x' + signed(b) + ')=' + rhs, lin(a, a * b) + '=' + rhs, ax(a) + '=' + (rhs - a * b), 'x=' + x];
         function quotient(num, den) { return num % den === 0 ? String(num / den) : '\\frac{' + num + '}{' + den + '}'; }
         var lines = correct.slice();
         if (bad === 1) { lines[1] = lin(a, b) + '=' + rhs; lines[2] = ax(a) + '=' + (rhs - b); lines[3] = 'x=' + quotient(rhs - b, a); }

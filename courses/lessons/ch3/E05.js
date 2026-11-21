@@ -109,12 +109,12 @@ window.LESSONS.E05 = {
           body = '<div class="e01-answer-grid">' + it.opts.map(function (op, k) { return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (a === k ? ' e01-wrong' : '')) : '') + '" data-choice="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>';
         } else if (it.type === 'multi') {
           var cur = frozen ? a : (s.sel[s.pos] || []);
-          body = '<div class="e01-answer-grid">' + it.opts.map(function (op, k) { var on = cur.indexOf(k) > -1; return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (on ? ' e01-wrong' : '')) : (on ? ' is-sel' : '')) + '" data-toggle="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>' ; needs = !frozen; canSub = cur.length > 0;
+          body = '<div class="e01-answer-grid">' + it.opts.map(function (op, k) { var on = cur.indexOf(k) > -1; return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (on ? ' e01-wrong' : '')) : (on ? ' is-sel' : '')) + '" data-toggle="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>'; needs = !frozen; canSub = cur.length > 0;
         } else if (it.type === 'num') {
-          body = '<div class="e3-numrow"><span class="lbl">' + M(it.lbl || 'x=') + '</span><input class="numin" id="fin-num" type="text" inputmode="decimal" autocomplete="off" aria-label="پاسخ"' + (frozen ? ' disabled' : '') + '></div>' ; needs = !frozen; canSub = false;
+          body = '<div class="e3-numrow"><span class="lbl">' + M(it.lbl || 'x=') + '</span><input class="numin" id="fin-num" type="text" inputmode="decimal" autocomplete="off" aria-label="پاسخ"' + (frozen ? ' disabled' : '') + 'placeholder="؟"></div>'; needs = !frozen; canSub = false;
         } else if (it.type === 'match') {
           var cur2 = frozen ? a : (s.sel[s.pos] || []);
-          body = it.left.map(function (l, r) { var cl = frozen ? (a[r] === it.key[r] ? ' right' : ' wrong') : ''; return '<div class="e3-match-row' + cl + '"><span class="l">' + l + '</span><select data-row="' + r + '"' + (frozen ? ' disabled' : '') + '><option value="">انتخاب کن…</option>' + it.right.map(function (rt, k) { return '<option value="' + k + '"' + (cur2[r] === k ? ' selected' : '') + '>' + rt + '</option>'; }).join('') + '</select></div>'; }).join('') ; needs = !frozen; canSub = cur2.filter(function (v) { return v !== undefined && v !== null; }).length === it.left.length;
+          body = it.left.map(function (l, r) { var cl = frozen ? (a[r] === it.key[r] ? ' right' : ' wrong') : ''; return '<div class="e3-match-row' + cl + '"><span class="l">' + l + '</span><select data-row="' + r + '"' + (frozen ? ' disabled' : '') + '><option value="">انتخاب کن…</option>' + it.right.map(function (rt, k) { return '<option value="' + k + '"' + (cur2[r] === k ? ' selected' : '') + '>' + rt + '</option>'; }).join('') + '</select></div>'; }).join(''); needs = !frozen; canSub = cur2.filter(function (v) { return v !== undefined && v !== null; }).length === it.left.length;
         }
         h = '<div class="e01-progress stg" aria-label="پیشرفت آزمون">' + s.q.map(function (q, k) { return '<span class="' + (k === s.pos ? 'cu' : s.res[k] === null ? '' : s.res[k] ? 'dn' : 'wr') + '" aria-label="سؤال ' + F(k + 1) + '">' + F(k + 1) + '</span>'; }).join('') + '</div><p class="ask e01-question">' + it.ask + '</p>' + (it.fig || '') + body;
         if (frozen) { h += fbx(s.res[s.pos], s.res[s.pos] || (it.type !== 'num' && it.type !== 'match') ? '' : (it.wrongText ? it.wrongText(a) : 'پاسخ درست: ' + (it.show || (it.opts ? it.opts.filter(function (op) { return op.ok; }).map(function (op) { return op.h; }).join('، ') : '')) + '.') + ' ', it.why); }
@@ -228,12 +228,12 @@ window.LESSONS.E05 = {
         st.innerHTML = rr(
           '<div class="e02-problem-head"><span class="e02-problem-chip">' + M(dfr(sides()[0].tag, den) + '=' + dfr(sides()[1].tag, den)) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="عدد دیگر" aria-label="عدد دیگر">' + REFRESH + '</button></div>' +
           '<div class="e01-compare">' +
-            '<div class="e01-compare-control graduated-range">' +
-              '<div class="e01-compare-head"><span>عدد آزمایشی ' + M('x') + '</span><strong data-z-x></strong></div>' +
-              '<input type="range" id="z-x" min="' + MIN + '" max="' + MAX + '" step="1" value="' + x + '" aria-label="عدد آزمایشی">' +
-              '<div class="e01-compare-ticks graduated-ticks" aria-hidden="true">' + ticksHtml() + '</div>' +
-            '</div>' +
-            '<div class="e01-pairs">' + card('L', 'سمت چپ') + card('R', 'سمت راست') + '</div>' +
+          '<div class="e01-compare-control graduated-range">' +
+          '<div class="e01-compare-head"><span>عدد آزمایشی ' + M('x') + '</span><strong data-z-x></strong></div>' +
+          '<input type="range" id="z-x" min="' + MIN + '" max="' + MAX + '" step="1" value="' + x + '" aria-label="عدد آزمایشی">' +
+          '<div class="e01-compare-ticks graduated-ticks" aria-hidden="true">' + ticksHtml() + '</div>' +
+          '</div>' +
+          '<div class="e01-pairs">' + card('L', 'سمت چپ') + card('R', 'سمت راست') + '</div>' +
           '</div>' +
           '<div id="z-note"></div>'
         );

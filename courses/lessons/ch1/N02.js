@@ -78,7 +78,7 @@ window.LESSONS.N02 = {
               bad: 'صورت و مخرج را با عدد صحیح بنویس؛ مخرج نباید صفر باشد.',
               raw: function (r) { return [r.querySelector('.nn').value, r.querySelector('.dd').value]; },
               judge: function (u) { var j = judge(q, u); if (j === 'ok') { return { ok: true }; } if (j === 'unsimple') { return { retry: true, m: 'مقدارش درست است، ولی کسر ساده نشده؛ ساده‌ترش کن. (این بار اشتباه حساب نمی‌شود.)' }; } return { ok: false, m: j.m || 'جواب درست نیست؛ دوباره محاسبه کن.' }; },
-              fill: function (r, v, lock) { r.querySelector('.nn').value = v[0]; r.querySelector('.dd').value = v[1]; if (lock) { [].forEach.call(r.querySelectorAll('.nn,.dd,.pm'), function (e) { e.disabled = true; }); } },
+              fill: function (r, v, lock) { r.querySelector('.nn').value = v[0]; r.querySelector('.dd').value = v[1]; if (lock) { [].forEach.call(r.querySelectorAll('.nn,.dd,.ngpm'), function (e) { e.disabled = true; }); } },
               correct: 'جواب درست: ' + M(ft(q.ans))
             }
           };

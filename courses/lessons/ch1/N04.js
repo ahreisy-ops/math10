@@ -87,7 +87,7 @@ window.LESSONS.N04 = {
         '.chip.on{background:var(--mark)}',
         '.chip.put{background:#f3f6fa;box-shadow:none;color:var(--ink-soft)}',
         '.chip .dtag{display:block;font-size:.7rem;color:var(--ink-soft)}',
-        '.lad4{display:flex;gap:6px;justify-content:center;direction:ltr;margin:10px 0 4px}',
+        '.lad4{display:flex;gap:6px;justify-content:center;direction:ltr;margin:25px 0 4px}',
         '.lad4 .sl{flex:1;max-width:96px;min-height:70px;border:2px dashed #9aa6b8;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;position:relative}',
         '.lad4 .sl .no{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#fff;border:2px solid var(--line);border-radius:999px;font:bold .7rem Tahoma;padding:0 7px;color:var(--ink-soft)}',
         '.lad4 .sl.fill{background:#fbe4ec;border-style:solid;border-color:var(--ink);box-shadow:2px 2px 0 var(--ink)}',

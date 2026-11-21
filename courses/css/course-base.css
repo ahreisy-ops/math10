@@ -1015,6 +1015,10 @@
 }
 
 /* درسنامه: وسط‌چین و کوچک‌تر؛ ظاهر پایه از .numin در style.css */
+:where(.page.wide) .numgrp:not(.sm):not(.ng-e) {
+    width: min(240px, 70%)
+}
+
 :where(.page.wide) .numin {
     width: min(220px, 60%);
     min-height: 44px;
@@ -1612,4 +1616,34 @@
     background: #eef2ff;
     border: 1.5px solid #4c5fd5;
     color: #22306a
+}
+
+/* کسر: گروهِ صورت (± ۳۶ + کادر ۹۴) هم‌عرضِ خط کسر و مخرج (۱۳۰) */
+.fr2 .dd {
+    width: 130px
+}
+
+.fr2 .dd::placeholder {
+    color: #8b98ad;
+}
+
+.fr2 .numgrp.numgrp>.numin {
+    width: 94px;
+    min-height: 40px;
+    font: bold 1.1rem Tahoma, sans-serif;
+    text-align: center
+}
+
+/* ردیف‌های سه‌دکمه‌ایِ N03/N04 روی گوشی از کادر بیرون نمی‌زنند */
+@media (max-width: 420px) {
+
+    .n3-actions-44>.btn,
+    .n4-act3>.btn {
+        min-width: 0;
+        flex: 1 1 auto;
+        padding-left: 6px;
+        padding-right: 6px;
+        font-size: .85rem;
+        white-space: nowrap
+    }
 }

@@ -141,19 +141,14 @@
     };
 
     /* ---------- ورودی زوج مرتب: ( [x] ، [y] ) با دکمهٔ ± ---------- */
-    C.numBox = function (key) { return '<span style="display:inline-flex;flex-direction:column;align-items:center;gap:3px"><input type="text" inputmode="text" dir="ltr" autocomplete="off" data-k="' + key + '" aria-label="مقدار ' + key + '"><button type="button" class="cd-pm" data-pm="' + key + '" aria-label="تغییر علامت">±</button></span>'; };
-    C.numRow = function (key) { return '<span class="cd-nb"><button type="button" class="cd-pm" data-pm="' + key + '" aria-label="تغییر علامت">±</button><input type="text" inputmode="text" dir="ltr" autocomplete="off" data-k="' + key + '" aria-label="مقدار ' + key + '"></span>'; };
-    C.pairIn = function () { return '<div class="cd-pi"><span>(</span>' + C.numRow('x') + '<span>\u060C</span>' + C.numRow('y') + '<span>)</span></div>'; };   /* ± دقیقاً قبل هر کادر، داخل پرانتز */
+    C.numBox = function (key, ph) { return window.MathLite.num.group({ tight: true, ph: ph || '', label: 'مقدار ' + key, attrs: 'data-k="' + key + '"' }); };
+    C.numRow = function (key, ph) { return window.MathLite.num.group({ sm: true, ph: ph || '', label: 'مقدار ' + key, attrs: 'data-k="' + key + '"' }); };
+    C.pairIn = function (px, py) { return '<div class="cd-pi"><span>(</span>' + C.numRow('x', px) + '<span>\u060C</span>' + C.numRow('y', py) + '<span>)</span></div>'; };   /* ± دقیقاً قبل هر کادر، داخل پرانتز */
     C.parseInt0 = function (s) {
       s = String(s || '').replace(/[۰-۹]/g, function (d) { return d.charCodeAt(0) - 1776; }).replace(/[٠-٩]/g, function (d) { return d.charCodeAt(0) - 1632; }).replace(/[−–—﹣‐]/g, '-').replace(/\s/g, '');
       return /^-?\d+$/.test(s) ? +s : null;
     };
-    C.wirePm = function (root) {                                                                   /* دکمه‌های ± داخل root */
-      root.addEventListener('click', function (e) {
-        var b = e.target.closest('.cd-pm'); if (!b) { return; }
-        var inp = root.querySelector('input[data-k="' + b.dataset.pm + '"]'); inp.value = /^[-−]/.test(inp.value) ? inp.value.replace(/^[-−]/, '') : '-' + inp.value; inp.focus({ preventScroll: true });
-      });
-    };
+    C.wirePm = function () { };                                                                     /* ± حالا با شنوندهٔ مشترک MathLite.num کار می‌کند */
 
     /* ---------- پروب لمسی: روی نقطه‌ای از صفحه بزن، توضیحش را ببین ---------- */
     C.probe = function (host, o, info) {

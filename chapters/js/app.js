@@ -318,12 +318,7 @@
    به \text{...} تبدیل نمی‌کند و KaTeX رقم را با فونت ریاضی رندر می‌کند — با
    «پاسخ درست» فرق می‌کند. پس قبل از رندر، رقم و منفی را به ASCII نرمال می‌کنیم. */
       case 'numeric': {
-        var raw = String(r.v).replace(/[$\\{}]/g, '');
-        raw = raw
-          .replace(/[۰-۹]/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); })
-          .replace(/[٠-٩]/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); })
-          .replace(/[−–—]/g, '-');
-        return '$' + raw + '$';
+        return '$' + ML.num.norm(r.v) + '$';
       }
       case 'numberline': return 'نقطهٔ «' + LET[r.v] + '»';
       case 'order': return r.v.map(function (i) { return q.items[i]; }).join(' ، ');
@@ -482,8 +477,7 @@
       }
       h += '</div>';
     } else if (q.type === 'numeric') {
-      h += '<div class="numwrap"><input id="numIn" class="numin" type="text" dir="ltr" autocomplete="off" ' +
-        'placeholder="جواب را اینجا بنویس" value="' + (r.unsure ? '' : esc(r.v || '')) + '">' +
+      h += '<div class="numwrap">' + ML.num.group({ id: 'numIn', ph: 'جواب را اینجا بنویس', value: r.unsure ? '' : (r.v || '') }) +
         '<div class="hint">' + faHtml('عدد صحیح، اعشاری (مثل \u20660.5\u2069) یا کسر (مثل \u20663/4\u2069 و \u2066−2/5\u2069) بنویس. ماشین‌حساب لازم نیست.') + '</div></div>';
     } else if (q.type === 'order') {
       var seq = r.unsure ? [] : (r.v || []);

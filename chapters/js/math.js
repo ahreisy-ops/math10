@@ -124,5 +124,50 @@
     return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  window.MathLite = { renderRich: renderRich, plainRich: plainRich, faHtml: faHtml, fa: fa, esc: esc };
+  /* کادر عدد مشترک (آزمون و درسنامه): Input Group با دکمهٔ ± چسبیده به سمت چپ، و نرمال‌ساز ورودی برای نمایش */
+  var NUM = {
+    /* o: {id, cls, ph, label, value, disabled, sm, signed:false (بدون ±), im (inputmode)} */
+    group: function (o) {
+      o = o || {};
+      var inp = '<input' + (o.id ? ' id="' + o.id + '"' : '') + ' class="numin' + (o.cls ? ' ' + o.cls : '') + '" type="text" inputmode="' + (o.im || 'text') + '" dir="ltr" autocomplete="off"' + (o.label ? ' aria-label="' + o.label + '"' : '') + ' placeholder="' + (o.ph == null ? 'جواب' : o.ph) + '"' + (o.value ? ' value="' + esc(o.value) + '"' : '') + (o.disabled ? ' disabled' : '') + (o.attrs ? ' ' + o.attrs : '') + (o.signed === false ? ' data-nosign="1"' : '') + '>';
+      if (o.signed === false) { return inp; }
+      return '<span class="numgrp' + (o.sm || o.tight ? ' sm' : '') + (o.tight ? ' tight' : '') + (o.gcls ? ' ' + o.gcls : '') + '"><button type="button" class="ngpm" aria-label="تغییر علامت"' + (o.disabled ? ' disabled' : '') + (o.pm ? ' ' + o.pm : '') + '>±</button>' + inp + '</span>';
+    },
+    /* عدد خام کاربر ← رشتهٔ ASCII (رقم فارسی/عربی، انواع منفی و «٫»)؛ برای قراردادن داخل $...$ و نمایش با KaTeX */
+    norm: function (raw) {
+      return String(raw).replace(/[$\\{}]/g, '')
+        .replace(/[۰-۹]/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); })
+        .replace(/[٠-٩]/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); })
+        .replace(/[−–—]/g, '-').replace(/٫/g, '.');
+    }
+  };
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.numgrp>.ngpm'); if (!b || b.disabled) { return; }
+    var i = b.parentNode.querySelector('input'); if (!i || i.disabled) { return; }
+    i.value = /^[-−]/.test(i.value) ? i.value.replace(/^[-−]/, '') : '-' + i.value;
+    i.dispatchEvent(new Event('input', { bubbles: true })); i.focus({ preventScroll: true });
+  });
+
+  /* ارتقای خودکار: هر کادر عددِ .numin که هنوز گروه نیست، Input Group با ± می‌شود (مگر data-nosign یا type≠text یا ± اختصاصی دارد) */
+  function enhanceNum(i) {
+    if (i.type === 'number' && !i.hasAttribute('min') && i.dataset.nosign === undefined) {   /* type=number کیبورد موبایل منفی ندارد؛ متنی می‌شود و ورودی در جا نرمال می‌شود */
+      i.type = 'text'; i.setAttribute('dir', 'ltr'); i.setAttribute('autocomplete', 'off');
+      i.addEventListener('input', function () { var n = NUM.norm(i.value); if (n !== i.value) { i.value = n; } });
+    }
+    if (i.type !== 'text' || i.dataset.nosign !== undefined || i.closest('.numgrp,.fin,.cd-nb,.fr2')) { return; }
+    var had = document.activeElement === i, a = i.selectionStart, z = i.selectionEnd, w0 = i.getBoundingClientRect().width;
+    var g = document.createElement('span'), b = document.createElement('button');
+    g.className = 'numgrp ng-e'; b.type = 'button'; b.className = 'ngpm'; b.setAttribute('aria-label', 'تغییر علامت'); b.textContent = '±';
+    if (i.disabled) { b.disabled = true; }
+    i.parentNode.insertBefore(g, i); g.appendChild(b); g.appendChild(i);
+    if (w0 > 0 && g.getBoundingClientRect().width > w0 + 40) { g.style.width = Math.round(w0) + 'px'; }   /* کادرِ بی‌عرضِ خاص: همان ردپای قبلی (± از خودِ عرض کم می‌شود) */
+    if (had) { i.focus({ preventScroll: true }); try { i.setSelectionRange(a, z); } catch (e) { } }
+  }
+  function enhanceAll(root) { (root.querySelectorAll ? root.querySelectorAll('input.numin') : []).forEach(enhanceNum); if (root.matches && root.matches('input.numin')) { enhanceNum(root); } }
+  var busy = false;
+  new MutationObserver(function (ms) { if (busy) { return; } busy = true; ms.forEach(function (m) { m.addedNodes.forEach(function (n) { if (n.nodeType === 1) { enhanceAll(n); } }); }); busy = false; }).observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener('DOMContentLoaded', function () { enhanceAll(document); });
+  NUM.enhance = enhanceAll;
+
+  window.MathLite = { renderRich: renderRich, plainRich: plainRich, faHtml: faHtml, fa: fa, esc: esc, num: NUM };
 })();

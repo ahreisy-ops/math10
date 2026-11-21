@@ -129,6 +129,10 @@
     font-weight: 700
 }
 
+.cd-tab tr:first-child th:first-child {
+    border-bottom: 2px solid var(--card);
+}
+
 .cd-tab td.hl {
     background: var(--mark)
 }
@@ -760,6 +764,7 @@
         transform: none
     }
 }
+
 /* C03 — هم‌اندازهٔ دکمه‌های C01/C02 و README */
 .lesson .lk-line>.lk-chip {
     min-height: 40px;
@@ -785,4 +790,15 @@
         padding: 5px 4px;
         font-size: .85rem
     }
+}
+
+/* C03: کادر عددِ داخل خانهٔ جدول وسط‌چین */
+td:has(>.numgrp),
+th:has(>.numgrp) {
+    text-align: center;
+}
+
+#c2b input::placeholder,
+#c3d input::placeholder {
+    text-align: center
 }

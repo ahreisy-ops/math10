@@ -2784,6 +2784,10 @@
   background: transparent;
 }
 
+#A05-explore input::placeholder {
+  text-align: center
+}
+
 #A08-factor-check.chapter-one-frame>.a78-panel,
 #A08-domain-check.chapter-one-frame>.a78-panel,
 #A08-explore.chapter-one-frame>.a78-panel,
@@ -2986,4 +2990,14 @@
 
 .alg2-options .btn:disabled:not(.choice-correct):not(.choice-wrong) {
   opacity: .55;
+}
+
+/* a01: کادر عددِ داخل کارت وسط‌چین (Input Group) */
+.a01-card-entry {
+  display: flex;
+  justify-content: center;
+}
+
+.a01-card-entry .numgrp {
+  width: min(250px, 100%);
 }

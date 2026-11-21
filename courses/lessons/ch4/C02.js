@@ -91,12 +91,12 @@ window.LESSONS.C02 = {
         make: function () { var l = []; while (l.length < 5) { l.push({ p: rpt(Math.random() < 0.2), g: false, vx: '', vy: '' }); } return l; },
         ask: function () { return 'مختصات نقطهٔ ' + M('P') + ' را بنویس (مؤلفهٔ اول، سپس مؤلفهٔ دوم):'; },
         fig: function (it, s) { var p = pairOf(it); return C.plane({ pts: [{ x: p[0], y: p[1], l: 'P', c: C.PINK, r: 7 }], guides: it.g || s.done ? [{ x: p[0], y: p[1] }] : [] }); },
-        ctl: function (it, s) { return (s.done ? '' : '<div class="lk-line"><button type="button" class="btn" data-g="1">' + (it.g ? 'پنهان‌کردن راهنما' : 'نمایش خط‌های راهنما') + '</button></div>') + '<div style="text-align:center">' + C.pairIn() + '</div>'; },
+        ctl: function (it, s) { return (s.done ? '' : '<div class="lk-line"><button type="button" class="btn" data-g="1">' + (it.g ? 'پنهان‌کردن راهنما' : 'نمایش خط‌های راهنما') + '</button></div>') + '<div style="text-align:center">' + C.pairIn('x', 'y') + '</div>'; },
         chk: function () { return true; },
         ready: function () { return true; },
         after: function (h, it, s) {
           var a = h.querySelector('input[data-k="x"]'), b = h.querySelector('input[data-k="y"]'); a.value = it.vx; b.value = it.vy;
-          if (s.done) { a.disabled = b.disabled = true; a.className = b.className = s.first ? 'ok' : 'no'; h.querySelectorAll('.cd-pm').forEach(function (z) { z.disabled = true; }); }
+          if (s.done) { a.disabled = b.disabled = true;[a, b].forEach(function (z) { z.classList.add(s.first ? 'ok' : 'no'); }); h.querySelectorAll('.ngpm').forEach(function (z) { z.disabled = true; }); }
         },
         input: function (e, it) { if (e.target.dataset.k) { keep(it); } },
         check: function (it) {
@@ -108,7 +108,6 @@ window.LESSONS.C02 = {
         act: function (e, it) { var b = e.target.closest('button'); if (b && b.dataset.g) { keep(it); it.g = !it.g; return 1; } return null; }
       });
       C.wirePm(host);
-      host.addEventListener('click', function (e) { if (e.target.closest('.cd-pm')) { var s = host.querySelector('input[data-k="x"]'); if (s) { s.dispatchEvent(new Event('input', { bubbles: true })); } } });
       host.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { var b = host.querySelector('[data-nx]'); if (b && !b.disabled) { b.click(); } } });
     };
 

@@ -5503,6 +5503,7 @@
 
 .e3-numrow {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -6064,7 +6065,7 @@
 }
 
 .e3x .e4-ros:not(.live) :is(.e4-sa, .e4-sb, .e4-flipc) {
-   animation-play-state: paused
+  animation-play-state: paused
 }
 
 .e3x .e4-hl {
@@ -6162,19 +6163,44 @@
 }
 
 @keyframes e4-pulse {
-  0% { transform: scale(1); opacity: .9 }
-  100% { transform: scale(2.6); opacity: 0 }
+  0% {
+    transform: scale(1);
+    opacity: .9
+  }
+
+  100% {
+    transform: scale(2.6);
+    opacity: 0
+  }
 }
 
 @keyframes e4-grow {
-  0% { transform: scaleX(0); opacity: 1 }
-  55%, 85% { transform: scaleX(1); opacity: 1 }
-  100% { transform: scaleX(1); opacity: 0 }
+  0% {
+    transform: scaleX(0);
+    opacity: 1
+  }
+
+  55%,
+  85% {
+    transform: scaleX(1);
+    opacity: 1
+  }
+
+  100% {
+    transform: scaleX(1);
+    opacity: 0
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .e3x .e4-pulse { animation: none; opacity: 0 }
-  .e3x .e4-grow { animation: none }
+  .e3x .e4-pulse {
+    animation: none;
+    opacity: 0
+  }
+
+  .e3x .e4-grow {
+    animation: none
+  }
 }
 
 /* E05: نوار ترتیب حرکت‌ها در «ماشین حل» */
@@ -6194,55 +6220,377 @@
   box-shadow: 4px 4px 0 #b4463c;
   transform: translateY(-3px) scale(1.015);
 }
-.e01-lesson .e01-compare .e01-pair.is-undefined .e01-pair-eval,
-.e01-lesson .e01-compare .e01-pair.is-undefined > small { color: #8a2f2a; }
-@media (prefers-reduced-motion: reduce) {
-  .e01-lesson .e01-compare .e01-pair { transition: none; transform: none; }
-}.e3x .e5-tag { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0 12px; font-size: .84rem; color: var(--ink-soft) }
-.e3x .e5-tag > span { padding: 3px 10px; border: 1.5px solid var(--line); border-radius: 999px; background: #f3f6fa }
-.e3x .e5-tag > span.on { background: var(--sc, var(--ink)); border-color: var(--ink); color: #fff; font-weight: 700; box-shadow: 2px 2px 0 var(--ink) }
-.e3x .e5-tag > i { font-style: normal; opacity: .5 }
-.e3x .e5-rules { display: grid; gap: 12px; margin: 12px 0 }
-.e3x .e5-rule { display: grid; gap: 0; padding: 0; border: 1.5px solid var(--ink); border-radius: 14px; background: #fff; box-shadow: 3px 3px 0 var(--sc, #0e8f7e); overflow: hidden }
-.e3x .e5-mach { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin: 10px 0 }
-.e3x .e5-stn { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border: 1.5px solid var(--ink); border-radius: 12px; background: #fff; box-shadow: 3px 3px 0 var(--sc) }
-.e3x .e5-stn-h { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .92rem }
-.e3x .e5-stn-h i { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--sc); color: #fff; font-style: normal; font-size: .8rem; display: inline-flex; align-items: center; justify-content: center; box-shadow: none }
-.e3x .e5-stn-c { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: center }
-.e3x .e5-stn-c .btn { flex: none; padding: 8px 4px; font-size: .86rem; width: 100%; min-width: 0; white-space: nowrap; text-align: center }
-.e3x .e5-stn-c .btn.on { background: var(--sc); color: #fff; border-color: var(--ink) }
-.e3x .e5-belt { margin: 12px 0; padding: 10px 12px; border: 1.5px solid var(--ink); border-radius: 14px; background: #fff; display: grid; gap: 8px }
-.e3x .e5-belt-row { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; align-items: center; padding: 6px 8px; border-radius: 10px; border: 1.5px solid var(--sc, #0e8f7e); background: color-mix(in srgb, var(--sc, #0e8f7e) 9%, #fff); animation: e5-belt-in .45s both; position: relative }
-.e3x .e5-belt-row.off { border-color: var(--line); background: #f3f6fa; color: var(--ink-soft) }
-.e3x .e5-belt-row .n { grid-row: span 2; width: 24px; height: 24px; border-radius: 50%; background: var(--sc, #0e8f7e); color: #fff; font-size: .8rem; display: inline-flex; align-items: center; justify-content: center }
-.e3x .e5-belt-row.off .n { background: var(--line); color: var(--ink-soft) }
-.e3x .e5-belt-row b { font-size: .9rem }
-.e3x .e5-belt-row .eqs { grid-column: 2; text-align: center }
-@keyframes e5-belt-in { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }
-.e3x .e5-rule .eq { padding: 12px 10px; text-align: center; font-size: 1.25rem; overflow-x: auto; overflow-y: hidden; background: color-mix(in srgb, var(--sc, #0e8f7e) 9%, #fff); border-bottom: 1.5px dashed color-mix(in srgb, var(--sc, #0e8f7e) 55%, #fff) }
-.e3x .e5-rule p { display: flex; gap: 9px; align-items: baseline; margin: 0; padding: 8px 14px 9px; font-size: .9rem; line-height: 1.8; color: var(--ink); text-align: right }
-.e3x .e5-rule p::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 3px; background: var(--sc, #0e8f7e); transform: translateY(1px) }
-.e3x .e5-err { display: grid; margin: 4px 0 6px }
-.e3x .e5-er { display: grid; grid-template-columns: 1fr; gap: 2px; align-items: center; padding: 10px 2px }
-.e3x .e5-er + .e5-er { border-top: 1.5px dashed rgba(138, 90, 0, .45) }
-.e3x .e5-er .mk { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: #fff; font-weight: 800; box-shadow: 2px 2px 0 rgba(20, 33, 61, .25); flex: none }
-.e3x .e5-er.bad .mk { background: #c0392b }
-.e3x .e5-er.ok .mk { background: #0b7a5a }
-.e3x .e5-er .what { font-size: .88rem; font-weight: 700; color: #6b4a00 }
-.e3x .e5-er .eq { text-align: center; font-size: 1.15rem; flex: none; max-width: 100% }
-.e3x .e5-always { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0; padding: 9px 12px; border: 1.5px dashed var(--line); border-radius: 12px; font-size: .88rem; color: var(--ink-soft) }
-.e3x .e5-always b { padding: 2px 11px; border-radius: 999px; background: var(--sc); color: #fff; font-size: .84rem }
-.e3x .e5-always i { font-style: normal; opacity: .55 }
-.e3x .e5-belt-row + .e5-belt-row::before { content: ""; position: absolute; inset-inline-end: 19px; top: -9px; height: 9px; border-inline-end: 2px solid var(--line) }
-.e3x .e5-cur { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 6px; padding: 7px 12px; border: 1.5px solid var(--ink); border-radius: 12px; background: var(--ink) }
-.e3x .e5-cur > span { font-size: .84rem; font-weight: 700; color: var(--amber) }
-.e3x .e5-cur > div { direction: ltr; color: var(--amber) }
-.e3x .e5-er .line { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap }
-.e3x .e5-ov { margin: 0 0 12px; padding: 10px 14px; border-radius: 10px; border-inline-start: 4px solid #0e8f7e; background: #eefaf7; line-height: 1.9 }
-#e05-final .e3-match-row select,
-#e06-final .e3-match-row select { direction: rtl; text-align: right }
 
-@media (prefers-reduced-motion: reduce) { .e3x .e5-belt-row { animation: none } }
+.e01-lesson .e01-compare .e01-pair.is-undefined .e01-pair-eval,
+.e01-lesson .e01-compare .e01-pair.is-undefined>small {
+  color: #8a2f2a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .e01-lesson .e01-compare .e01-pair {
+    transition: none;
+    transform: none;
+  }
+}
+
+.e3x .e5-tag {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 12px;
+  font-size: .84rem;
+  color: var(--ink-soft)
+}
+
+.e3x .e5-tag>span {
+  padding: 3px 10px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: #f3f6fa
+}
+
+.e3x .e5-tag>span.on {
+  background: var(--sc, var(--ink));
+  border-color: var(--ink);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 2px 2px 0 var(--ink)
+}
+
+.e3x .e5-tag>i {
+  font-style: normal;
+  opacity: .5
+}
+
+.e3x .e5-rules {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0
+}
+
+.e3x .e5-rule {
+  display: grid;
+  gap: 0;
+  padding: 0;
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 3px 3px 0 var(--sc, #0e8f7e);
+  overflow: hidden
+}
+
+.e3x .e5-mach {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+  margin: 10px 0
+}
+
+.e3x .e5-stn {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 3px 3px 0 var(--sc)
+}
+
+.e3x .e5-stn-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: .92rem
+}
+
+.e3x .e5-stn-h i {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--sc);
+  color: #fff;
+  font-style: normal;
+  font-size: .8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none
+}
+
+.e3x .e5-stn-c {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  align-items: center
+}
+
+.e3x .e5-stn-c .btn {
+  flex: none;
+  padding: 8px 4px;
+  font-size: .86rem;
+  width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+  text-align: center
+}
+
+.e3x .e5-stn-c .btn.on {
+  background: var(--sc);
+  color: #fff;
+  border-color: var(--ink)
+}
+
+.e3x .e5-belt {
+  margin: 12px 0;
+  padding: 10px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  background: #fff;
+  display: grid;
+  gap: 8px
+}
+
+.e3x .e5-belt-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 10px;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1.5px solid var(--sc, #0e8f7e);
+  background: color-mix(in srgb, var(--sc, #0e8f7e) 9%, #fff);
+  animation: e5-belt-in .45s both;
+  position: relative
+}
+
+.e3x .e5-belt-row.off {
+  border-color: var(--line);
+  background: #f3f6fa;
+  color: var(--ink-soft)
+}
+
+.e3x .e5-belt-row .n {
+  grid-row: span 2;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--sc, #0e8f7e);
+  color: #fff;
+  font-size: .8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center
+}
+
+.e3x .e5-belt-row.off .n {
+  background: var(--line);
+  color: var(--ink-soft)
+}
+
+.e3x .e5-belt-row b {
+  font-size: .9rem
+}
+
+.e3x .e5-belt-row .eqs {
+  grid-column: 2;
+  text-align: center
+}
+
+@keyframes e5-belt-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px)
+  }
+
+  to {
+    opacity: 1;
+    transform: none
+  }
+}
+
+.e3x .e5-rule .eq {
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 1.1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: color-mix(in srgb, var(--sc, #0e8f7e) 9%, #fff);
+  border-bottom: 1.5px dashed color-mix(in srgb, var(--sc, #0e8f7e) 55%, #fff)
+}
+
+.e3x .e5-rule p {
+  display: flex;
+  gap: 9px;
+  align-items: baseline;
+  margin: 0;
+  padding: 8px 14px 9px;
+  font-size: .9rem;
+  line-height: 1.8;
+  color: var(--ink);
+  text-align: right
+}
+
+.e3x .e5-rule p::before {
+  content: "";
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  background: var(--sc, #0e8f7e);
+  transform: translateY(1px)
+}
+
+.e3x .e5-err {
+  display: grid;
+  margin: 4px 0 6px
+}
+
+.e3x .e5-er {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  align-items: center;
+  padding: 10px 2px
+}
+
+.e3x .e5-er+.e5-er {
+  border-top: 1.5px dashed rgba(138, 90, 0, .45)
+}
+
+.e3x .e5-er .mk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 2px 2px 0 rgba(20, 33, 61, .25);
+  flex: none
+}
+
+.e3x .e5-er.bad .mk {
+  background: #c0392b
+}
+
+.e3x .e5-er.ok .mk {
+  background: #0b7a5a
+}
+
+.e3x .e5-er .what {
+  font-size: .88rem;
+  font-weight: 700;
+  color: #6b4a00
+}
+
+.e3x .e5-er .eq {
+  text-align: center;
+  font-size: 1.15rem;
+  flex: none;
+  max-width: 100%
+}
+
+.e3x .e5-always {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 9px 12px;
+  border: 1.5px dashed var(--line);
+  border-radius: 12px;
+  font-size: .88rem;
+  color: var(--ink-soft)
+}
+
+.e3x .e5-always b {
+  padding: 2px 11px;
+  border-radius: 999px;
+  background: var(--sc);
+  color: #fff;
+  font-size: .84rem
+}
+
+.e3x .e5-always i {
+  font-style: normal;
+  opacity: .55
+}
+
+.e3x .e5-belt-row+.e5-belt-row::before {
+  content: "";
+  position: absolute;
+  inset-inline-end: 19px;
+  top: -9px;
+  height: 9px;
+  border-inline-end: 2px solid var(--line)
+}
+
+.e3x .e5-cur {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 6px;
+  padding: 7px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  background: var(--ink)
+}
+
+.e3x .e5-cur>span {
+  font-size: .84rem;
+  font-weight: 700;
+  color: var(--amber)
+}
+
+.e3x .e5-cur>div {
+  direction: ltr;
+  color: var(--amber)
+}
+
+.e3x .e5-er .line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap
+}
+
+.e3x .e5-ov {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border-inline-start: 4px solid #0e8f7e;
+  background: #eefaf7;
+  line-height: 1.9
+}
+
+#e05-final .e3-match-row select,
+#e06-final .e3-match-row select {
+  direction: rtl;
+  text-align: right
+}
+
+#e05-final #fin-num::placeholder,
+#e06-roots #r-1::placeholder,
+#e06-roots #r-2::placeholder {
+  text-align: center
+}
+
+#e06-roots .lbl {
+  margin-left: 25px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .e3x .e5-belt-row {
+    animation: none
+  }
+}
 
 @media (max-width:620px) {
   .e3-svg {
@@ -6253,7 +6601,41 @@
     max-width: 100%;
   }
 
-  .e3-svg.mir, .e3-svg.axs{
+  .e3-svg.mir,
+  .e3-svg.axs {
     max-width: 100%;
   }
+}
+
+@media (max-width:480px) {
+  .e02-lesson .e3-numrow .numin {
+    width: 60px
+  }
+}
+
+/* سؤال وصل‌کردن: روی گوشی select زیر معادله می‌رود و از کادر بیرون نمی‌زند */
+.e3-match-row {
+  flex-wrap: wrap;
+}
+
+.e3-match-row select {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width:480px) {
+  .e3-numrow {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    gap: 8px 10px;
+  }
+}
+
+/* E02: کادر اصلاح/جواب عددی عرض کوچکِ ثابت می‌گیرد (گروه ± کنارش بیرون از کارت نمی‌زند) */
+.e02-lesson .e02-repair-math .numin,
+.e02-lesson .e02-tile-solve .numin {
+  width: 100px;
+  max-width: 100%;
 }

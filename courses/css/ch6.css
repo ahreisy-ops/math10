@@ -29,3 +29,22 @@
 /* S02 — خلاصهٔ تصویری: ۲×۲ روی صفحهٔ عریض، تک‌ستونی روی گوشی */
 .s2-vg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;max-width:860px;margin:auto}
 @media(max-width:600px){.s2-vg{grid-template-columns:minmax(0,1fr);max-width:480px}}
+
+/* S03: واگنِ خالیِ «قطار الگو» (گروه ± داخل واگن) فشرده، هم‌اندازهٔ واگن‌های دیگر */
+.s3-wg.q:has(.numgrp) {
+  padding: 3px 5px;
+  min-width: 0;
+}
+
+.s3-wg.q .numgrp>.ngpm {
+  width: 28px;
+  font-size: 1rem;
+}
+
+.s3-wg.q .numgrp.numgrp>.numin {
+  width: 2.5em;
+  min-width: 0;
+  padding: 0 2px;
+  min-height: 38px;
+  font-size: 1rem;
+}

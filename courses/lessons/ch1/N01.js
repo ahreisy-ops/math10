@@ -162,7 +162,7 @@ window.LESSONS.N01 = {
               raw: function (r) { return r.querySelector('.numin').value; },
               read: function (r) { return parse(r.querySelector('.numin').value); },
               judge: function (v) { var e = q.errs.filter(function (x) { return x.v === v; })[0]; return v === q.ans ? { ok: true } : { ok: false, m: e ? e.m : 'جواب درست نیست؛ دوباره محاسبه کن.' }; },
-              fill: function (r, v, lock) { r.querySelector('.numin').value = v; if (lock) { [].forEach.call(r.querySelectorAll('.numin,.pm'), function (e) { e.disabled = true; }); } },
+              fill: function (r, v, lock) { r.querySelector('.numin').value = v; if (lock) { [].forEach.call(r.querySelectorAll('.numin,.ngpm'), function (e) { e.disabled = true; }); } },
               correct: 'جواب درست: <b>' + SG(q.ans) + '</b>'
             }
           };
