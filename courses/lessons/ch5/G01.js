@@ -83,24 +83,30 @@ window.LESSONS.G01 = {
     /* مثلث با زاویه‌های a در رأس 0 و b در رأس 1 (مختصات ریاضی) */
     /* مثلث با ضلع‌های AB=a ، BC=b ، CA=c (مختصات ریاضی) */
 
-    K.stepRun = function (host, stages, o) {
-      o = o || {}; var si = 0, ok = 0, q, pick = null, fin = false;
-      function nw() { q = stages[si].gen(); pick = null; }
-      function paint() {
-        var h = '<div class="stg">' + stages.map(function (s, i) { return '<span class="' + (i < si || fin ? 'dn' : i === si ? 'cu' : '') + '">' + (i < si || fin ? '✓ ' : '') + s.n + '</span>'; }).join('') + '</div>', oh = '', op, last = stages.length - 1;
-        if (fin) { host.innerHTML = rr(h + '<div class="fb ok"><b>✓ همهٔ مرحله‌ها را گذراندی!</b> ' + (o.done || '') + '</div><div class="opts"><button type="button" class="btn primary" data-r="1" data-scroll>از اول، با مسئله‌های جدید</button></div>'); return; }
-        h += '<p class="stage-progress-meta">مرحلهٔ ' + fa(si + 1) + ' — پاسخ‌های درست: ' + fa(ok) + ' از ۲</p><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + (q.cls || 'm2') + '" id="smc"></div>';
-        q.opts.forEach(function (x, k) { var c = pick === null ? '' : x.ok ? ' right' : k === pick ? ' wrong' : ''; oh += '<button type="button" class="btn opt' + c + '" data-o="' + k + '"' + (pick === null ? '' : ' disabled') + '>' + x.h + '</button>'; });
-        if (pick !== null) { op = q.opts[pick]; h += '<div class="fb ' + (op.ok ? 'ok' : 'bad') + '">' + (op.ok ? '✓ درست است!' : op.m || 'این گزینه درست نیست.') + '</div><div class="ex">' + q.expl() + '</div><div class="opts"><button type="button" class="btn primary" data-n="1" data-scroll>' + (op.ok && ok >= 2 && si === last ? 'پایان' : 'مرحلهٔ بعدی') + '</button></div>'; }
-        host.innerHTML = rr(h); host.querySelector('#smc').innerHTML = rr(oh);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o !== undefined) { if (pick !== null) { return; } pick = +b.dataset.o; if (q.opts[pick].ok) { ok++; } paint(); }
-        else if (b.dataset.n) { if (ok >= 2) { ok = 0; si++; if (si >= stages.length) { fin = true; paint(); return; } } nw(); paint(); }
-        else if (b.dataset.r) { si = 0; ok = 0; fin = false; nw(); paint(); }
-      }); nw(); paint();
-    };
+    /* ---------- مثال حل‌شده (ساختار E03؛ هر گام = یک مثال کامل) ---------- */
+    var EX = [
+      { title: 'مثال اول: خواندن نقاله', q: 'ضلع پایه روی صفر سمت چپ است و ضلع دوم روی عدد ' + M('50') + ' مقیاس درونی افتاده. اندازهٔ زاویه:', lines: ['50^\\circ\\lt90^\\circ'], note: 'پس زاویه <b>تند</b> است.' },
+      { title: 'مثال دوم: روی خط راست', q: 'اگر یک زاویه ' + M('65^\\circ') + ' باشد، زاویهٔ کنارش روی خط راست:', lines: ['180-65=115^\\circ'], note: 'و آن ' + M('115^\\circ') + ' یک زاویهٔ <b>باز</b> است.' },
+      { title: 'مثال سوم: ساعت ' + M('4'), q: 'هر ساعت ' + M('30^\\circ') + ' است؛ پس در ساعت ' + M('4') + ':', lines: ['4\\times30=120^\\circ'], note: M('120^\\circ') + ' یعنی زاویهٔ <b>باز</b>.' }
+    ];
+    function exampleBlock(id, dlgTitle) {
+      var dots = ''; for (var i = 0; i < EX.length; i++) { dots += '<i' + (i === 0 ? ' class="current"' : '') + '></i>'; }
+      return '<div class="ex e02-example-steps" id="' + id + '" aria-label="سه مسئله، سه حل"><div class="e02-example-top"><strong>سه مسئله، سه حل</strong><span data-ex-count>مثال ۱ از ' + fa(EX.length) + '</span></div><div class="e02-example-progress" aria-hidden="true">' + dots + '</div><div class="e02-example-body" data-ex-body aria-live="polite"></div><div class="e02-example-actions end-actions"><button type="button" class="btn" data-ex-prev data-scroll disabled>مثال قبلی</button><button type="button" class="btn primary" data-ex-next data-scroll>مثال بعدی</button><button type="button" class="btn primary" data-ex-all hidden>مشاهدهٔ همهٔ حل‌ها</button></div></div>' +
+        '<dialog class="e02-example-dialog" id="' + id + '-dialog" aria-labelledby="' + id + '-dt"><div class="e02-example-dialog-header"><strong id="' + id + '-dt">' + dlgTitle + '</strong><button type="button" class="btn primary" data-ex-close aria-label="بستن پنجره">بستن</button></div><div class="e02-example-dialog-content" data-ex-full></div></dialog>';
+    }
+    function exampleBind(id) {
+      var box = document.getElementById(id), dlg = document.getElementById(id + '-dialog'); if (!box || !dlg) { return; }
+      var index = 0, prev = box.querySelector('[data-ex-prev]'), next = box.querySelector('[data-ex-next]'), all = box.querySelector('[data-ex-all]');
+      function content(step) { return '<section class="e02-example-step"><div class="e02-example-heading"><strong>' + step.title + '</strong></div><p class="e02-example-note">' + step.q + '</p><div class="e02-example-lines">' + step.lines.map(function (l) { return '<div dir="ltr">' + M(l) + '</div>'; }).join('') + '</div><p class="e02-example-note">' + step.note + '</p></section>'; }
+      function render() { box.querySelector('[data-ex-count]').textContent = 'مثال ' + fa(index + 1) + ' از ' + fa(EX.length); box.querySelector('[data-ex-body]').innerHTML = rr(content(EX[index])); box.querySelectorAll('.e02-example-progress i').forEach(function (el, i) { el.classList.toggle('current', i <= index); }); prev.disabled = index === 0; next.hidden = index === EX.length - 1; all.hidden = index !== EX.length - 1; }
+      box.addEventListener('click', function (e) { if (e.target.closest('[data-ex-prev], [data-ex-next], [data-ex-all]')) { e.stopPropagation(); } });
+      prev.addEventListener('click', function () { if (index > 0) { index--; render(); } });
+      next.addEventListener('click', function () { if (index < EX.length - 1) { index++; render(); } });
+      all.addEventListener('click', function () { dlg.querySelector('[data-ex-full]').innerHTML = rr(EX.map(content).join('')); dlg.showModal(); });
+      dlg.querySelector('[data-ex-close]').addEventListener('click', function () { dlg.close(); });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) { dlg.close(); } });
+      render();
+    }
     /* gens: آرایه‌ای از ۵ تابع (هر کدام یک سؤال می‌دهد) */
     K.finalRun = function (host, gens, msgs) {
       msgs = msgs || {}; var qs, i, ans;
@@ -345,15 +351,13 @@ window.LESSONS.G01 = {
           '<p>برای مقایسهٔ دو زاویه، یکی را روی دیگری می‌گذاریم: رأس‌ها و یک ضلع روی هم، و ضلع دوم هر کدام بازتر باشد، زاویه‌اش بزرگ‌تر است:</p><div class="cover g-act" id="ov" style="animation:none"></div>',
 
           K.sn('۵', 'مسئله‌های کامل'),
-          '<h4>مثال اول: خواندن نقاله</h4><p>ضلع پایه روی صفر سمت چپ است و ضلع دوم روی عدد ' + M('50') + ' مقیاس درونی افتاده. اندازهٔ زاویه:</p>', K.dm('50^\\circ\\lt90^\\circ'), '<p>پس زاویه <b>تند</b> است.</p>',
-          '<h4>مثال دوم: روی خط راست</h4><p>اگر یک زاویه ' + M('65^\\circ') + ' باشد، زاویهٔ کنارش روی خط راست:</p>', K.dm('180-65=115'), '<p>و آن ' + M('115^\\circ') + ' یک زاویهٔ باز است.</p>',
-          '<h4>مثال سوم: ساعت ' + M('4') + '</h4><p>هر ساعت ' + M('30^\\circ') + ' است؛ پس در ساعت ' + M('4') + ':</p>', K.dm('4\\times30=120'), '<p>' + M('120^\\circ') + ' یعنی زاویهٔ باز.</p>',
+          exampleBlock('g01-ex', 'حل کامل مثال‌ها'),
 
           K.sn('۶', 'کارت مرجع'),
           refs([{ c: 'r1', t: 'تند', r: 'کوچک‌تر از قائمه.', e: '0^\\circ\\lt x\\lt90^\\circ' }, { c: 'r2', t: 'قائمه', r: 'گوشهٔ کاغذ، با مربع کوچک.', e: 'x=90^\\circ' }, { c: 'r3', t: 'باز', r: 'بازتر از قائمه، کم‌تر از خط راست.', e: '90^\\circ\\lt x\\lt180^\\circ' }, { c: 'r4', t: 'مستقیم', r: 'دو ضلع در یک راستا.', e: 'x=180^\\circ' }, { c: 'r1', t: 'نقاله', r: 'از مقیاسی بخوان که صفرش روی ضلع پایه است.', e: '65^\\circ\\ne115^\\circ' }, { c: 'r3', t: 'روی خط راست', r: 'مجموع دو زاویهٔ کنار هم ۱۸۰ است.', e: 'x+y=180^\\circ' }]),
 
           K.sn('۷', 'زاویه‌یاب'),
-          '<p>هر مرحله با دو پاسخ درست تمام می‌شود. بعد از هر پاسخ، دلیلش را می‌بینی.</p><div class="cover g-act" id="ss" style="animation:none"></div>',
+          '<p>شش سؤال در سه مرحله: نوع زاویه، خواندن نقاله، مقایسه و خط راست. بعد از هر پاسخ، دلیلش را می‌بینی.</p><div class="cover g-act" id="ss" style="animation:none"></div>',
           K.sn('۸', 'درست یا نادرست؟'),
           '<p>شش جمله را بسنج. به تله‌ها دقت کن.</p><div class="cover g-act" id="tf" style="animation:none"></div>',
           K.sn('۹', 'تمرین پایانی'),
@@ -363,7 +367,8 @@ window.LESSONS.G01 = {
       },
       init: function (panel) {
         K.angLab(panel.querySelector('#am')); K.clockLab(panel.querySelector('#ck')); K.protLab(panel.querySelector('#pl')); K.overLab(panel.querySelector('#ov'));
-        K.stepRun(panel.querySelector('#ss'), [{ n: 'نوع زاویه', gen: genA1 }, { n: 'خواندن نقاله', gen: genA2 }, { n: 'مقایسه و خط راست', gen: genA3 }], { done: 'حالا برو سراغ تله‌ها.' });
+        K.finalRun(panel.querySelector('#ss'), [genA1, genA1, genA2, genA2, genA3, genA3]);
+        exampleBind('g01-ex');
         K.tfRun(panel.querySelector('#tf'), TFP);
         K.finalRun(panel.querySelector('#fn'), [genA1, genA2, genA2, genA3, genA3], { top: 'عالی بود! زاویه‌ها را کاملاً می‌شناسی.' });
       }

@@ -19,7 +19,8 @@
 .g5-scope .legend{text-align:center;font-size:.9rem;color:var(--ink-soft);margin:4px 0 8px;line-height:1.85}
 .g5-scope .legend b{color:var(--ink)}
 .g5-scope .sgnrow{display:flex;gap:12px;justify-content:center;margin:10px 0;direction:ltr}
-.g5-scope .sgnrow .btn{min-width:84px;min-height:54px;font-size:1.1rem;font-weight:bold}
+.g5-scope .sgnrow .btn{min-width:84px;min-height:54px;font-size:1.1rem;font-weight:bold;border-color:var(--line)}
+.g5-scope .sgnrow .btn:hover:not(:disabled){border-color:var(--ink)}
 .g5-scope .sgnrow .btn.right{background:#d2f0e9;border-color:var(--accent)}
 .g5-scope .sgnrow .btn.wrong{background:#fbd5d5;border-color:#b23a3a}
 .g5-scope .sgnrow .btn:disabled{opacity:1}
