@@ -75,7 +75,8 @@
 
 .g5-scope .g-act svg.gsv {
     display: block;
-    margin: 6px auto;
+    /* margin: 6px auto; */
+    margin: 6px auto 0 auto;
     max-width: 100%;
     height: auto;
     max-height: clamp(200px, calc(100vh - 380px), 560px);
@@ -393,5 +394,71 @@
 
     .g5-scope .e02-example-actions {
         gap: 6px
+    }
+}
+
+/* مربع‌های گام‌به‌گام در G03 (پیداکردن وتر / ضلع قائم) */
+.g5-scope .g-act .pyc {
+    transition: transform .9s cubic-bezier(.4, 0, .2, 1), fill .9s
+}
+
+.g5-scope .g-act .pyo {
+    opacity: 0;
+    transition: opacity .5s
+}
+
+.g5-scope .g-act .pyo.on {
+    opacity: 1
+}
+
+.g5-scope .g-act .pycap,
+.g5-scope .g-act .pyls {
+    display: grid
+}
+
+.g5-scope .g-act .pycap {
+    text-align: center;
+    margin: 0;
+    line-height: 1.8
+}
+
+.g5-scope .g-act .pycap>span,
+.g5-scope .g-act .pyg {
+    grid-area: 1/1;
+    visibility: hidden
+}
+
+.g5-scope .g-act .pycap>span.on {
+    visibility: visible
+}
+
+.g5-scope .g-act .pyg.on {
+    visibility: visible;
+    animation: pyin .5s
+}
+
+.g5-scope .g-act .pyg .dm {
+    overflow: visible
+}
+
+.g5-scope .g-act .pyg .dm .katex {
+    font-size: clamp(.85em, 4.6vw, 1.08em)
+}
+
+@keyframes pyin {
+    from {
+        opacity: 0
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+
+    .g5-scope .g-act .pyc,
+    .g5-scope .g-act .pyo {
+        transition: none
+    }
+
+    .g5-scope .g-act .pyg.on {
+        animation: none
     }
 }
