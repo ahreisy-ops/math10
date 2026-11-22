@@ -208,7 +208,7 @@ window.LESSONS.G03 = {
     /* ---------- آزمایشگاه ۱: مربع روی ضلع‌ها ---------- */
     K.sqLab = function (host) {
       var TR = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [4, 5, 6]], idx = 0;
-      host.innerHTML = rr('<p class="ask">یک مثلث را انتخاب کن و مساحت مربع‌های روی ضلع‌هایش را ببین:</p><div class="chips" id="sqc"></div><div id="sqf"></div><div class="gval" id="sqv"></div><p class="legend" id="sql"></p>');
+      host.innerHTML = rr('<p class="ask">روی یکی از مثلث‌ها بزن و مساحت مربع‌های روی ضلع‌هایش را ببین:</p><div class="chips" id="sqc"></div><div id="sqf"></div><div class="gval" id="sqv"></div><p class="legend" id="sql"></p>');
       function geom(t) { var a = t[0], b = t[1], c = t[2], x = (a * a + b * b - c * c) / (2 * a), y = Math.sqrt(Math.max(0, b * b - x * x)); return [[0, 0], [a, 0], [x, y]]; }
       function paint() {
         var t = TR[idx], a = t[0], b = t[1], c = t[2], P = geom(t), sides = [[0, 1, 2], [0, 2, 1], [1, 2, 0]], fills = ['#e6f6f3', '#fde7ef', '#fff1bd'], lens = [a, b, c], sq = [], all = P.slice(), i;
@@ -230,9 +230,12 @@ window.LESSONS.G03 = {
         s += '<polygon points="' + PS.map(function (p) { return f2(p[0]) + ',' + f2(p[1]); }).join(' ') + '" fill="#fff" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>';
         if (isR) { s += rmark(PS[0], PS[1], PS[2], 12, INK); }
         host.querySelector('#sqf').innerHTML = s + '</svg>';
-        host.querySelector('#sqc').innerHTML = TR.map(function (z, j) { return '<button type="button" class="chip' + (j === idx ? ' on' : '') + '" data-i="' + j + '">' + fa(z[0]) + '، ' + fa(z[1]) + '، ' + fa(z[2]) + '</button>'; }).join('');
-        host.querySelector('#sqv').innerHTML = isR ? '<i class="g">' + fa(a * a) + '</i> + <i class="p">' + fa(b * b) + '</i> = <i class="y">' + fa(c * c) + '</i>' : '<i class="g">' + fa(a * a) + '</i> + <i class="p">' + fa(b * b) + '</i> = ' + fa(a * a + b * b) + ' ≠ <i class="y">' + fa(c * c) + '</i>';
-        host.querySelector('#sql').innerHTML = isR ? 'مثلث قائم‌الزاویه است و مجموع مساحتِ دو مربعِ کوچک‌تر دقیقاً برابر مساحتِ مربعِ روی وتر شد.' : 'این مثلث قائم‌الزاویه نیست؛ پس مجموع دو مربع کوچک‌تر با مربع بزرگ برابر نشد.';
+        host.querySelector('#sqc').innerHTML = TR.map(function (z, j) {
+          return '<button type="button" class="chip' + (j === idx ? ' on' : '') + '" data-i="' + j + '">' + fa(z[0]) + '، ' + fa(z[1]) + '، ' + fa(z[2]) + '</button>';
+        }).join('');
+        var bx = function (j, v, bad) { return '<i style="background:' + fills[j] + (bad ? ';outline-color:#c62f2f;color:#c62f2f' : '') + '">' + fa(v) + '</i>'; };
+        host.querySelector('#sqv').innerHTML = bx(0, a * a) + ' + ' + bx(1, b * b) + ' = ' + (isR ? bx(2, c * c) : fa(a * a + b * b) + ' <b style="color:#c62f2f">≠</b> ' + bx(2, c * c, 1));
+        host.querySelector('#sql').innerHTML = (isR ? 'مثلث قائم‌الزاویه است و مجموع مساحتِ دو مربعِ کوچک‌تر دقیقاً برابر مساحتِ مربعِ روی وتر شد.' : 'این مثلث قائم‌الزاویه نیست؛ پس مجموع دو مربع کوچک‌تر با مربع بزرگ برابر نشد.') + (c <= 6 ? ' هر خانهٔ شبکه ۱ واحد مربع است.' : '');
       }
       host.addEventListener('click', function (e) { var b = e.target.closest('.chip'); if (!b) { return; } idx = +b.dataset.i; paint(); });
       paint();
