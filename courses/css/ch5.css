@@ -31,7 +31,7 @@
 }
 
 .g5-scope .g-act .opts.g-ops>.btn:not(.primary) {
-    box-shadow: 2px 2px 0 var(--ink);
+    /* box-shadow: 2px 2px 0 var(--ink); */
     transition: transform .10s ease, box-shadow .10s ease
 }
 
@@ -103,10 +103,10 @@
     justify-content: center;
     min-height: 36px;
     padding: 3px 12px;
-    border: 2px solid var(--ink);
+    outline: 2px dashed var(--ink);
     border-radius: 10px;
     background: #fff;
-    box-shadow: 2px 2px 0 var(--ink)
+    /* box-shadow: 2px 2px 0 var(--ink) */
 }
 
 .g5-scope .g-act .gval i.y {
