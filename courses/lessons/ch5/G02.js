@@ -2,11 +2,12 @@
 window.LESSONS = window.LESSONS || {};
 /* بدنهٔ درس داخل setup است تا فقط بعد از لود شدن ماژول‌های needs اجرا شود */
 window.LESSONS.G02 = {
-  needs: ['utils'],
+  needs: ['utils', 'exsteps', 'kit'],
   setup: function (K0) {
     var ML = window.MathLite, fa = ML.fa, rr = ML.renderRich, abs = Math.abs, df = K0.df;
     var _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var K = Object.create(K0);   // K0 = هستهٔ مشترک؛ K = همان + ابزارهای اختصاصی این درس
+    var H = K0.lk(K);
     var T = String.raw;
     var INK = '#14213d', TEAL = '#0e8f7e', PINK = '#d6457a', BLUE = '#4c5fd5', AMB = '#e08a00', YEL = '#ffc233', MINT = '#7fd0c3', RED = '#c62f2f', GREY = '#5a6a85';
     var D2R = Math.PI / 180;
@@ -70,10 +71,13 @@ window.LESSONS.G02 = {
         if (o.al && o.al[i]) { var u2 = unit(P[i], C); s += stx(o.al[i], P[i][0] + u2[0] * 34, P[i][1] + u2[1] * 34, { fs: 11.5, b: 1, c: PINK }); }
         if (o.sl && o.sl[i]) {
           var a1 = P[i], b1 = P[(i + 1) % 3], mid = [(a1[0] + b1[0]) / 2, (a1[1] + b1[1]) / 2], dd = unit(a1, b1), nr = [-dd[1], dd[0]], sg = ((mid[0] - C[0]) * nr[0] + (mid[1] - C[1]) * nr[1]) >= 0 ? 1 : -1;
-          s += stx(o.sl[i], mid[0] + nr[0] * sg * 14, mid[1] + nr[1] * sg * 14, { fs: 13, b: 1, c: o.slc || INK });
+          // s += stx(o.sl[i], mid[0] + nr[0] * sg * 14, mid[1] + nr[1] * sg * 14, { fs: 13, b: 1, c: o.slc || INK });
+          var so = (o.so && o.so[i]) || [0, 0];
+          s += stx(o.sl[i], mid[0] + nr[0] * sg * 14 + so[0], mid[1] + nr[1] * sg * 14 + so[1], { fs: 13, b: 1, c: o.slc || INK });
         }
       }
-      if (o.hit) { for (i = 0; i < 3; i++) { var hp = P[i], hq = P[(i + 1) % 3]; s += '<line class="hitline" data-s="' + i + '" x1="' + f2(hp[0]) + '" y1="' + f2(hp[1]) + '" x2="' + f2(hq[0]) + '" y2="' + f2(hq[1]) + '" stroke="rgba(0,0,0,0.001)" stroke-width="24" stroke-linecap="round" tabindex="0" role="button" aria-label="ضلع ' + (i + 1) + '"/>'; } }
+      // if (o.hit) { for (i = 0; i < 3; i++) { var hp = P[i], hq = P[(i + 1) % 3]; s += '<line class="hitline" data-s="' + i + '" x1="' + f2(hp[0]) + '" y1="' + f2(hp[1]) + '" x2="' + f2(hq[0]) + '" y2="' + f2(hq[1]) + '" stroke="rgba(0,0,0,0.001)" stroke-width="24" stroke-linecap="round" tabindex="0" role="button" aria-label="ضلع ' + (i + 1) + '"/>'; } }
+      if (o.hit) { for (i = 0; i < 3; i++) { var hp = P[i], hq = P[(i + 1) % 3], hl = dist(hp, hq), ha = Math.atan2(hq[1] - hp[1], hq[0] - hp[0]) / D2R, hm = [(hp[0] + hq[0]) / 2, (hp[1] + hq[1]) / 2]; s += '<g class="hitg"><rect class="hov" x="' + f2(hm[0] - hl / 2 - 12) + '" y="' + f2(hm[1] - 12) + '" width="' + f2(hl + 24) + '" height="24" rx="12" transform="rotate(' + f2(ha) + ' ' + f2(hm[0]) + ' ' + f2(hm[1]) + ')"/><line class="hitline" data-s="' + i + '" x1="' + f2(hp[0]) + '" y1="' + f2(hp[1]) + '" x2="' + f2(hq[0]) + '" y2="' + f2(hq[1]) + '" stroke="rgba(0,0,0,0.001)" stroke-width="24" stroke-linecap="round" tabindex="0" role="button" aria-label="ضلع ' + (i + 1) + '"/></g>'; } }
       return s + '</svg>';
     }
     function rotPts(pts, deg) { var c = Math.cos(deg * D2R), s = Math.sin(deg * D2R); return pts.map(function (p) { return [p[0] * c - p[1] * s, p[0] * s + p[1] * c]; }); }
@@ -160,6 +164,12 @@ window.LESSONS.G02 = {
       }); nw(); paint();
     };
 
+    /* ---------- مثال‌های حل‌شده (مثل G01؛ هر گام = یک مثال کامل) ---------- */
+    var EX = [
+      { title: 'مثال اول: ضلع روبه‌رو', q: 'در مثلث ' + M('KLM') + ' ، ضلع روبه‌رو به رأس ' + M('L') + ' کدام است؟ ضلعی که به ' + M('L') + ' نمی‌رسد:', lines: ['KM'], note: 'پس ضلع روبه‌رو به ' + M('L') + ' ، ضلع ' + M('KM') + ' است.' },
+      { title: 'مثال دوم: وتر', q: 'زاویهٔ قائمه در رأس ' + M('P') + ' است. وتر ضلع روبه‌رو به ' + M('P') + ' ، یعنی:', lines: ['QR'], note: 'پس وتر ' + M('QR') + ' است.' },
+      { title: 'مثال سوم: زاویهٔ سوم', q: 'دو زاویهٔ ' + M('35^\\circ') + ' و ' + M('55^\\circ') + ' داریم:', lines: ['180-35-55=90^\\circ'], note: 'پس مثلث <b>قائم‌الزاویه</b> است.' }
+    ];
     /* ---------- گزینه‌ساز مشترک ---------- */
     /* correct/wrongs: {t, m} — t: عبارت TeX (یا HTML وقتی raw=true) */
     function mkO(correct, wrongs, raw) {
@@ -230,25 +240,50 @@ window.LESSONS.G02 = {
     /* ---------- آزمایشگاه ۲: مثلثِ زنده (مجموع زاویه‌ها) ---------- */
     K.liveTri = function (host) {
       var A = [40, 168], B = [260, 168], C = [112, 60];
-      host.innerHTML = rr('<p class="ask">رأس بالایی (C) را بکش یا با کلیدهای جهت‌نما حرکت بده:</p><div id="ltf"></div><div class="gval" id="ltv"></div><p class="legend" id="ltl"></p><div class="opts g-ops"><button type="button" class="btn" data-sn="1">قائمه‌اش کن</button><button type="button" class="btn primary" data-nw="1" data-scroll>مثلث دیگر</button></div>');
+      host.innerHTML = rr('<p class="ask">روی رأس بالایی (C) بزن؛ بعد آن را بکش یا با کلیدهای جهت‌نما حرکت بده:</p><div id="ltf"></div><div class="gval" id="ltv"></div><p class="legend" id="ltl"></p><div class="opts g-ops"><button type="button" class="btn" data-sn="1">قائمه‌اش کن</button><button type="button" class="btn primary" data-nw="1" data-scroll>مثلث دیگر</button></div>');
       var box = host.querySelector('#ltf');
       function ang(P, Q, S) { var u = unit(P, Q), w = unit(P, S); return Math.acos(Math.max(-1, Math.min(1, u[0] * w[0] + u[1] * w[1]))) / D2R; }
       function paint() {
-        var a = Math.round(ang(A, B, C)), b = Math.round(ang(B, C, A)), c = 180 - a - b, cc = ang(C, A, B), isR = abs(cc - 90) < 1.6 || abs(ang(A, B, C) - 90) < 1.6 || abs(ang(B, C, A) - 90) < 1.6, s = sv(300, 200), ctr = [(A[0] + B[0] + C[0]) / 3, (A[1] + B[1] + C[1]) / 3];
+        apprx = 0.3;
+        var a = Math.round(ang(A, B, C)), b = Math.round(ang(B, C, A)), c = 180 - a - b, cc = ang(C, A, B), isR = abs(cc - 90) < apprx || abs(ang(A, B, C) - 90) < apprx || abs(ang(B, C, A) - 90) < apprx, s = sv(300, 200), ctr = [(A[0] + B[0] + C[0]) / 3, (A[1] + B[1] + C[1]) / 3];
         s += '<polygon points="' + [A, B, C].map(function (p) { return p.join(','); }).join(' ') + '" fill="' + (isR ? '#d2f0e9' : '#eef4ff') + '" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>';
         [[A, B, C, a, 'A'], [B, C, A, b, 'B'], [C, A, B, c, 'C']].forEach(function (z) {
-          var P = z[0], Q = z[1], S = z[2], u = unit(P, ctr), isr = abs(ang(P, Q, S) - 90) < 1.6;
+          var P = z[0], Q = z[1], S = z[2], u = unit(P, ctr), isr = abs(ang(P, Q, S) - 90) < apprx;
           s += isr ? rmark(P, Q, S, 13, INK) : arcP(P, Q, S, 18, PINK);
           s += stx(fa(z[3]) + '°', P[0] + u[0] * 40, P[1] + u[1] * 40, { fs: 12, b: 1, c: PINK }) + stx(z[4], P[0] - u[0] * 27, P[1] - u[1] * 27, { fs: 14, b: 1 });
         });
         s += '<circle id="ltc" cx="' + C[0] + '" cy="' + C[1] + '" r="13" fill="rgba(255,194,51,.55)" stroke="' + INK + '" stroke-width="2" tabindex="0" role="slider" aria-label="رأس C" style="cursor:grab;touch-action:none"/>';
         box.innerHTML = s + '</svg>';
+        if (sel) { box.querySelector('#ltc').focus({ preventScroll: true }); }
         host.querySelector('#ltv').innerHTML = '<i>A: ' + dg(a) + '</i><i>B: ' + dg(b) + '</i><i>C: ' + dg(c) + '</i><i class="' + (isR ? 'g' : 'y') + '">مجموع: ' + dg(a + b + c) + '</i>';
         host.querySelector('#ltl').innerHTML = rr(isR ? 'یکی از زاویه‌ها ' + M('90^\\circ') + ' شد؛ مثلث <b>قائم‌الزاویه</b> است.' : 'هر جا ببری، مجموع سه زاویه ' + M('180^\\circ') + ' می‌ماند.');
       }
-      function setC(x, y) { C = [Math.max(24, Math.min(276, x)), Math.max(30, Math.min(150, y))]; var d = dist(C, A); if (d < 30 || dist(C, B) < 30) { return; } paint(); }
+      function setC(x, y) {
+        C = [Math.max(24, Math.min(276, x)), Math.max(30, Math.min(150, y))];
+        var mx = (A[0] + B[0]) / 2, rad = dist(A, B) / 2;
+        snap = 1.5;
+        if (abs(C[0] - A[0]) < snap) {
+          C[0] = A[0];
+        }
+        else if (abs(C[0] - B[0]) < snap) {
+          C[0] = B[0];
+        }
+        else {
+          var dd = dist(C, [mx, A[1]]); if (abs(dd - rad) < snap) {
+            C = [mx + (C[0] - mx) * rad / dd, A[1] + (C[1] - A[1]) * rad / dd];
+          }
+        }
+        var d = dist(C, A);
+
+        if (d < 30 || dist(C, B) < 30) {
+          return;
+        }
+        paint();
+      }
       var drag = false;
-      host.addEventListener('pointerdown', function (e) { if (e.target.id === 'ltc') { drag = true; e.target.setPointerCapture && e.target.setPointerCapture(e.pointerId); e.preventDefault(); } });
+      var sel = false;
+      document.addEventListener('pointerdown', function (e) { if (e.target.id !== 'ltc') { sel = false; } });
+      host.addEventListener('pointerdown', function (e) { if (e.target.id === 'ltc') { sel = true; drag = true; e.target.setPointerCapture && e.target.setPointerCapture(e.pointerId); e.preventDefault(); } });
       host.addEventListener('pointermove', function (e) { if (!drag) { return; } var r = box.querySelector('svg').getBoundingClientRect(), k = 300 / r.width; setC((e.clientX - r.left) * k, (e.clientY - r.top) * k); });
       host.addEventListener('pointerup', function () { drag = false; }); host.addEventListener('pointercancel', function () { drag = false; });
       host.addEventListener('keydown', function (e) { var d = { ArrowLeft: [-5, 0], ArrowRight: [5, 0], ArrowUp: [0, -5], ArrowDown: [0, 5] }[e.key]; if (d && e.target.id === 'ltc') { e.preventDefault(); setC(C[0] + d[0], C[1] + d[1]); box.querySelector('#ltc').focus(); } });
@@ -266,7 +301,7 @@ window.LESSONS.G02 = {
       function paint() {
         var hy = oppIdx(q.r), col = [INK, INK, INK], ok = picked === hy, h = '<p class="ask">روی ضلعِ «وتر» بزن:</p>';
         if (picked !== null) { col[hy] = TEAL; if (!ok) { col[picked] = RED; } }
-        h += triSVG({ pts: q.P, names: q.nm, right: q.r, col: col, hit: picked === null, hl: picked !== null ? { side: hy, c: TEAL } : null, sl: picked !== null ? [0, 1, 2].map(function (i) { return sideNm(q.nm, i); }) : null });
+        h += triSVG({ pts: q.P, fill: '#f2d6bb', names: q.nm, right: q.r, col: col, hit: picked === null, hl: picked !== null ? { side: hy, c: TEAL } : null, sl: picked !== null ? [0, 1, 2].map(function (i) { return sideNm(q.nm, i); }) : null });
         if (picked !== null) {
           h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? '✓ درست است!' : 'این ضلع وتر نیست.') + '</div><div class="ex"><p>وتر روبه‌روی زاویهٔ قائمه است؛ اینجا قائمه در رأس ' + q.nm[q.r] + ' است، پس وتر ' + M(sideNm(q.nm, hy)) + ' است. دو ضلع دیگر «ضلع قائم» نام دارند.</p></div>';
         }
@@ -279,12 +314,12 @@ window.LESSONS.G02 = {
     };
     /* ---------- آزمایشگاه ۴: زاویهٔ سوم ---------- */
     K.thirdLab = function (host) {
-      host.innerHTML = rr('<p class="ask">دو زاویه را تنظیم کن؛ زاویهٔ سوم را مثلث خودش حساب می‌کند:</p><div id="tkf"></div><div class="gval" id="tkv"></div><p class="legend" id="tkl"></p>' + gslider('tka', 10, 85, 40, 5, [10, 25, 40, 55, 70, 85].map(function (v) { return { v: v }; }), 'زاویهٔ A') + gslider('tkb', 10, 85, 50, 5, [10, 25, 40, 55, 70, 85].map(function (v) { return { v: v }; }), 'زاویهٔ B'));
+      host.innerHTML = rr('<p class="ask">زاویه‌های A و B را با نوارها تنظیم کن؛ زاویهٔ C از ۱۸۰ کم می‌شود و خودکار نشان داده می‌شود:</p><div id="tkf"></div><div class="gval two" id="tkv"></div><p class="legend" id="tkl"></p>' + gslider('tka', 10, 85, 40, 5, [10, 25, 40, 55, 70, 85].map(function (v) { return { v: v }; }), 'زاویهٔ A') + gslider('tkb', 10, 85, 50, 5, [10, 25, 40, 55, 70, 85].map(function (v) { return { v: v }; }), 'زاویهٔ B'));
       var ia = host.querySelector('#tka'), ib = host.querySelector('#tkb');
       function paint() {
         var a = +ia.value, b = +ib.value, c = 180 - a - b, r = a === 90 || b === 90 || c === 90, ri = c === 90 ? 2 : -1;
         host.querySelector('#tkf').innerHTML = triSVG({ pts: triFromAng(a, b, 100), names: ['A', 'B', 'C'], al: [fa(a) + '°', fa(b) + '°', fa(c) + '°'], right: ri < 0 ? undefined : ri, arcs: ri < 0, fill: r ? '#d2f0e9' : '#eef4ff', W: 300, H: 200 });
-        host.querySelector('#tkv').innerHTML = '<i>' + dg(a) + ' + ' + dg(b) + ' = ' + dg(a + b) + '</i><i class="' + (r ? 'g' : 'y') + '">زاویهٔ سوم: ' + dg(c) + '</i>';
+        host.querySelector('#tkv').innerHTML = '<i><small>مجموع A و B</small><span>' + dg(a) + ' + ' + dg(b) + ' = ' + dg(a + b) + '</span></i><i class="' + (r ? 'g' : 'y') + '"><small>زاویهٔ C (۱۸۰ − مجموع)</small><span>' + dg(c) + '</span></i>';
         host.querySelector('#tkl').innerHTML = rr(r ? 'مجموع دو زاویه ' + M('90^\\circ') + ' است؛ پس زاویهٔ سوم ' + M('90^\\circ') + ' می‌شود و مثلث <b>قائم‌الزاویه</b> است (حتی اگر علامت قائمه نکشیده باشند).' : 'زاویهٔ سوم ' + M('180-' + (a + b) + '=' + c) + ' است؛ ' + M('90^\\circ') + ' نیست، پس قائم‌الزاویه نیست.');
       }
       ia.addEventListener('input', paint); ib.addEventListener('input', paint); paint();
@@ -352,11 +387,11 @@ window.LESSONS.G02 = {
 
           K.sn('۲', 'مجموع زاویه‌ها'),
           '<p>هر شکلی که برای مثلث بکشی، مجموع سه زاویه‌اش ' + M('180^\\circ') + ' است. رأس بالایی را جابه‌جا کن و خودت ببین:</p><div class="cover g-act" id="lv" style="animation:none"></div>',
-          K.box('note', 'مجموع زاویه‌های مثلث', '<p>' + M('\\hat A+\\hat B+\\hat C=180^\\circ') + '</p>'),
+          K.box('note', 'نتیجه', '<p>مجموع سه زاویهٔ هر مثلث برابر ' + M('180^\\circ') + ' است؛ یعنی ' + M('\\hat A+\\hat B+\\hat C=180^\\circ') + '.</p>'),
 
           K.sn('۳', 'مثلث قائم‌الزاویه'),
           '<p>مثلثی که یک زاویهٔ قائمه (' + M('90^\\circ') + ') دارد «قائم‌الزاویه» است. ضلع روبه‌روی زاویهٔ قائمه «وتر» نام دارد؛ دو ضلع دیگر «ضلع‌های قائم» اند.</p>',
-          fig1(triSVG({ pts: rightPts(70, 50, 0, 0), names: ['B', 'C', 'A'], right: 0, sl: ['ضلع قائم', 'وتر', 'ضلع قائم'], hl: { side: 1, c: TEAL }, W: 300, H: 190 }), 'زاویهٔ قائمه در رأس B است؛ وتر روبه‌روی آن (CA).'),
+          fig1(triSVG({ pts: rightPts(70, 50, 0, 0), names: ['B', 'C', 'A'], right: 0, sl: ['ضلع قائم', 'وتر', 'ضلع قائم'], so: [null, null, [-19, null]], hl: { side: 1, c: TEAL }, W: 300, H: 190 }), 'زاویهٔ قائمه در رأس B است؛ وتر روبه‌روی آن (CA).'),
           K.box('note', 'دو زاویهٔ دیگر', '<p>در مثلث قائم‌الزاویه، دو زاویهٔ دیگر تندند و جمعشان ' + M('90^\\circ') + ' است؛ چون ' + M('180-90=90') + '. وتر هم بلندترین ضلع است.</p>'),
           '<p>وتر را فقط از روی جای زاویهٔ قائمه تشخیص بده، نه از روی افقی یا کج بودن مثلث. چند شکل چرخیده را امتحان کن:</p><div class="cover g-act" id="hy" style="animation:none"></div>',
 
@@ -365,15 +400,13 @@ window.LESSONS.G02 = {
           K.box('err', '⚠ خطای رایج: «علامت قائمه ندارد، پس قائم‌الزاویه نیست»', '<p>اگر دو زاویه ' + M('40^\\circ') + ' و ' + M('50^\\circ') + ' باشند، زاویهٔ سوم ' + M('90^\\circ') + ' می‌شود؛ حتی اگر علامتش نکشیده شده باشد. همیشه زاویهٔ سوم را حساب کن.</p>'),
 
           K.sn('۵', 'مسئله‌های کامل'),
-          '<h4>مثال اول: ضلع روبه‌رو</h4><p>در مثلث ' + M('KLM') + ' ، ضلع روبه‌رو به رأس ' + M('L') + ' کدام است؟ ضلعی که به ' + M('L') + ' نمی‌رسد:</p>', K.dm('KM'),
-          '<h4>مثال دوم: وتر</h4><p>زاویهٔ قائمه در رأس ' + M('P') + ' است. وتر ضلع روبه‌رو به ' + M('P') + ' ، یعنی:</p>', K.dm('QR'),
-          '<h4>مثال سوم: زاویهٔ سوم</h4><p>دو زاویهٔ ' + M('35^\\circ') + ' و ' + M('55^\\circ') + ' داریم:</p>', K.dm('180-35-55=90'), '<p>پس مثلث قائم‌الزاویه است.</p>',
+          K.exampleSteps.html('g02-ex', EX, 'حل کامل مثال‌ها'),
 
           K.sn('۶', 'کارت مرجع'),
           refs([{ c: 'r1', t: 'ضلع روبه‌رو', r: 'ضلعی که به آن رأس نمی‌رسد؛ مثلاً BC روبه‌روی A است.', e: 'BC' }, { c: 'r2', t: 'مجموع زاویه‌ها', r: 'در هر مثلث ۱۸۰ درجه.', e: '\\hat A+\\hat B+\\hat C=180^\\circ' }, { c: 'r3', t: 'وتر', r: 'ضلعِ روبه‌رو به زاویهٔ قائمه.', e: 'BC' }, { c: 'r4', t: 'زاویه‌های تند', r: 'در قائم‌الزاویه، دو زاویهٔ دیگر جمعشان ۹۰.', e: '\\hat B+\\hat C=90^\\circ' }, { c: 'r1', t: 'زاویهٔ سوم', r: 'از ۱۸۰ کم کن.', e: '180-a-b' }, { c: 'r3', t: 'قائم‌الزاویه؟', r: 'یا یک زاویه ۹۰، یا مجموع دو زاویه ۹۰.', e: 'a+b=90^\\circ' }]),
 
           K.sn('۷', 'مثلث‌شناس'),
-          '<p>هر مرحله با دو پاسخ درست تمام می‌شود. بعد از هر پاسخ، دلیلش را می‌بینی.</p><div class="cover g-act" id="ss" style="animation:none"></div>',
+          '<p>هر مرحله دو سؤال دارد. بعد از هر پاسخ، دلیلش را می‌بینی.</p><div class="cover g-act" id="ss" style="animation:none"></div>',
           K.sn('۸', 'درست یا نادرست؟'),
           '<p>شش جمله را بسنج. به تله‌ها دقت کن.</p><div class="cover g-act" id="tf" style="animation:none"></div>',
           K.sn('۹', 'تمرین پایانی'),
@@ -383,7 +416,13 @@ window.LESSONS.G02 = {
       },
       init: function (panel) {
         K.vertLab(panel.querySelector('#ve')); K.liveTri(panel.querySelector('#lv')); K.hypLab(panel.querySelector('#hy')); K.thirdLab(panel.querySelector('#tk'));
-        K.stepRun(panel.querySelector('#ss'), [{ n: 'ضلعِ روبه‌رو', gen: genB1 }, { n: 'وتر', gen: genB2 }, { n: 'زاویهٔ سوم', gen: genB3 }], { done: 'حالا برو سراغ تله‌ها.' });
+        // K.stepRun(panel.querySelector('#ss'), [{ n: 'ضلعِ روبه‌رو', gen: genB1 }, { n: 'وتر', gen: genB2 }, { n: 'زاویهٔ سوم', gen: genB3 }], { done: 'حالا برو سراغ تله‌ها.' });
+        var GB = [genB1, genB2, genB3];
+        H.stages(panel.querySelector('#ss'), {
+          names: ['ضلعِ روبه‌رو', 'وتر', 'زاویهٔ سوم'],
+          make: function (si) { var q = GB[si](); return { ask: q.ask, fig: q.fig, cq: q.cq, cont: 'mc ' + (q.cls || 'm2'), opts: q.opts, expl: q.expl }; }
+        });
+        K.exampleSteps.bind('g02-ex', EX);
         K.tfRun(panel.querySelector('#tf'), TFP);
         K.finalRun(panel.querySelector('#fn'), [genB1, genB2, genB2, genB3, genB3], { top: 'عالی بود! مثلث و قائم‌الزاویه را کاملاً فهمیده‌ای.' });
       }

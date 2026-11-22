@@ -125,6 +125,19 @@
     background: #eceffd
 }
 
+/* آیا قائم‌الزاویه است؟ */
+.g5-scope .g-act .gval.two i {
+    flex-direction: column;
+    gap: 2px
+}
+
+.g5-scope .g-act .gval.two i small {
+    font-size: .78rem;
+    color: var(--ink-soft)
+}
+
+/* ---end */
+
 /* .g5-scope .g-act .numrow{display:flex;justify-content:center;align-items:center;gap:10px;margin:8px 0;direction:ltr} */
 .g5-scope .g-act .numrow {
     display: flex;
@@ -183,6 +196,29 @@
     outline: none
 }
 
+/* روی ضلعِ «وتر» بزن:  */
+.g5-scope .g-act .hitg .hov {
+    fill: rgba(20, 33, 61, .08);
+    stroke: var(--ink);
+    stroke-width: 2;
+    stroke-dasharray: 4 3;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s
+}
+
+@media (hover: hover) {
+    .g5-scope .g-act .hitg:hover .hov {
+        opacity: 1
+    }
+}
+
+.g5-scope .g-act .hitg:has(.hitline:focus-visible) .hov {
+    opacity: 1
+}
+
+/* --- */
+
 .g5-scope .sv-note {
     font-size: .84rem;
     color: var(--ink-soft);
@@ -202,23 +238,162 @@
 }
 
 /* مثال حل‌شدهٔ گام‌به‌گام (همان ظاهر E03 در فصل ۳) */
-.g5-scope .e02-example-steps{min-width:0;scroll-margin-top:16px;overflow-anchor:none}
-.g5-scope .e02-example-top{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--ink)}
-.g5-scope .e02-example-top span{font-size:.84rem;color:var(--ink-soft)}
-.g5-scope .e02-example-progress{display:flex;gap:5px;margin:12px 0}
-.g5-scope .e02-example-progress i{flex:1;height:4px;border-radius:6px;background:#dbe5ec}
-.g5-scope .e02-example-progress i.current{background:#118d83}
-.g5-scope .e02-example-body{min-height:240px;display:flex;flex-direction:column;justify-content:center}
-.g5-scope .e02-example-heading{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 12px;color:var(--ink)}
-.g5-scope .e02-example-chip{border-radius:18px;padding:3px 12px;background:#def2ed;color:#075e58;font-size:.84rem;white-space:nowrap}
-.g5-scope .e02-example-lines{padding:12px 8px;background:#f3f6fa;border-radius:10px;display:grid;gap:13px;justify-items:center;overflow-x:auto;max-width:100%;font-size:1.15rem}
-.g5-scope .e02-example-lines>div{max-width:100%;white-space:nowrap}
-.g5-scope .e02-example-note{font-size:.91rem;color:var(--ink-soft);line-height:1.9;margin:12px 0 !important}
-.g5-scope .e02-example-actions{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap}
-.g5-scope .e02-example-dialog{position:fixed;inset:0;margin:auto;border:1px solid var(--line);border-radius:15px;background:#fff;color:var(--ink);padding:0;width:min(640px,calc(100vw - 24px));max-width:calc(100vw - 24px);max-height:85dvh;overflow:hidden;direction:rtl;box-shadow:0 15px 55px #07183145}
-.g5-scope .e02-example-dialog[open]{display:flex;flex-direction:column}
-.g5-scope .e02-example-dialog::backdrop{background:rgba(5,18,40,.65)}
-.g5-scope .e02-example-dialog-header{flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:14px 17px;background:#f2f7fb}
-.g5-scope .e02-example-dialog-content{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:14px 18px 24px}
-.g5-scope .e02-example-dialog-content .e02-example-step+.e02-example-step{border-top:1px solid var(--line);margin-top:19px;padding-top:16px}
-@media(max-width:420px){.g5-scope .e02-example-body{min-height:225px}.g5-scope .e02-example-dialog-content{padding:12px}.g5-scope .e02-example-heading{font-size:.95rem}.g5-scope .e02-example-actions{gap:6px}}
+.g5-scope .e02-example-steps {
+    min-width: 0;
+    scroll-margin-top: 16px;
+    overflow-anchor: none
+}
+
+.g5-scope .e02-example-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--ink)
+}
+
+.g5-scope .e02-example-top span {
+    font-size: .84rem;
+    color: var(--ink-soft)
+}
+
+.g5-scope .e02-example-progress {
+    display: flex;
+    gap: 5px;
+    margin: 12px 0
+}
+
+.g5-scope .e02-example-progress i {
+    flex: 1;
+    height: 4px;
+    border-radius: 6px;
+    background: #dbe5ec
+}
+
+.g5-scope .e02-example-progress i.current {
+    background: #118d83
+}
+
+.g5-scope .e02-example-body {
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center
+}
+
+.g5-scope .e02-example-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0 12px;
+    color: var(--ink)
+}
+
+.g5-scope .e02-example-chip {
+    border-radius: 18px;
+    padding: 3px 12px;
+    background: #def2ed;
+    color: #075e58;
+    font-size: .84rem;
+    white-space: nowrap
+}
+
+.g5-scope .e02-example-lines {
+    padding: 12px 8px;
+    background: #f3f6fa;
+    border-radius: 10px;
+    display: grid;
+    gap: 13px;
+    justify-items: center;
+    overflow-x: auto;
+    max-width: 100%;
+    font-size: 1.15rem
+}
+
+.g5-scope .e02-example-lines>div {
+    max-width: 100%;
+    white-space: nowrap
+}
+
+.g5-scope .e02-example-note {
+    font-size: .91rem;
+    color: var(--ink-soft);
+    line-height: 1.9;
+    margin: 12px 0 !important
+}
+
+.g5-scope .e02-example-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap
+}
+
+.g5-scope .e02-example-dialog {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    background: #fff;
+    color: var(--ink);
+    padding: 0;
+    width: min(640px, calc(100vw - 24px));
+    max-width: calc(100vw - 24px);
+    max-height: 85dvh;
+    overflow: hidden;
+    direction: rtl;
+    box-shadow: 0 15px 55px #07183145
+}
+
+.g5-scope .e02-example-dialog[open] {
+    display: flex;
+    flex-direction: column
+}
+
+.g5-scope .e02-example-dialog::backdrop {
+    background: rgba(5, 18, 40, .65)
+}
+
+.g5-scope .e02-example-dialog-header {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--line);
+    padding: 14px 17px;
+    background: #f2f7fb
+}
+
+.g5-scope .e02-example-dialog-content {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 14px 18px 24px
+}
+
+.g5-scope .e02-example-dialog-content .e02-example-step+.e02-example-step {
+    border-top: 1px solid var(--line);
+    margin-top: 19px;
+    padding-top: 16px
+}
+
+@media(max-width:420px) {
+    .g5-scope .e02-example-body {
+        min-height: 225px
+    }
+
+    .g5-scope .e02-example-dialog-content {
+        padding: 12px
+    }
+
+    .g5-scope .e02-example-heading {
+        font-size: .95rem
+    }
+
+    .g5-scope .e02-example-actions {
+        gap: 6px
+    }
+}

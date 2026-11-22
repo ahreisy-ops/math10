@@ -16,16 +16,16 @@
   K.dm = function (t, k) { return '<div class="dm' + (k ? ' k' : '') + '">$' + df(t) + '$</div>'; };;
   K.box = function (cls, title, body) { return '<div class="box ' + cls + '"><b class="t">' + title + '</b>' + body + '</div>'; };;
   K.tbl = function (head, rows, cls) {
-      var h = '<div class="tw"><table><tr>' + head.map(function (x) { return '<th>' + x + '</th>'; }).join('') + '</tr>';
-      rows.forEach(function (r) { h += '<tr>' + r.map(function (x, i) { return '<td' + (cls && cls[i] ? ' class="' + cls[i] + '"' : '') + '>' + x + '</td>'; }).join('') + '</tr>'; });
-      return h + '</table></div>';
-    };;
-    /* مراحل رنگی حل عبارت: lines=[[ 'tex' | {t,l,c} ,...],...] — برچسب‌ها متن معمولی‌اند، نه داخل KaTeX */
+    var h = '<div class="tw"><table><tr>' + head.map(function (x) { return '<th>' + x + '</th>'; }).join('') + '</tr>';
+    rows.forEach(function (r) { h += '<tr>' + r.map(function (x, i) { return '<td' + (cls && cls[i] ? ' class="' + cls[i] + '"' : '') + '>' + x + '</td>'; }).join('') + '</tr>'; });
+    return h + '</table></div>';
+  };;
+  /* مراحل رنگی حل عبارت: lines=[[ 'tex' | {t,l,c} ,...],...] — برچسب‌ها متن معمولی‌اند، نه داخل KaTeX */
   K.ord = function (lines) {
-      return '<div class="ord">' + lines.map(function (l) {
-        return '<div class="ol">' + l.map(function (x) { return typeof x === 'string' ? '<span class="ot">$' + df(x) + '$</span>' : '<span class="og c' + x.c + '"><span class="ot">$' + df(x.t) + '$</span>' + (x.l ? '<i>' + x.l + '</i>' : '') + '</span>'; }).join('') + '</div>';
-      }).join('') + '</div>';
-    };;
+    return '<div class="ord">' + lines.map(function (l) {
+      return '<div class="ol">' + l.map(function (x) { return typeof x === 'string' ? '<span class="ot">$' + df(x) + '$</span>' : '<span class="og c' + x.c + '"><span class="ot">$' + df(x.t) + '$</span>' + (x.l ? '<i>' + x.l + '</i>' : '') + '</span>'; }).join('') + '</div>';
+    }).join('') + '</div>';
+  };;
 
   /* ---- آیکون i با دیالوگ توضیح (مثل منوی اصلی) ---- */
   var TIPS = {}, modal;
@@ -145,18 +145,19 @@
   var load = window.Loader.load;
   /* ماژول‌های مشترک: برای افزودن ماژول جدید فقط یک خط اینجا اضافه کن */
   var MODULES = {
-    utils:      { src: 'js/shared/utils.js' },
-    inputs:     { src: 'js/shared/inputs.js' },
+    utils: { src: 'js/shared/utils.js' },
+    inputs: { src: 'js/shared/inputs.js' },
     numberline: { src: 'js/shared/numberline.js' },
-    kit:        { src: 'js/shared/lessonkit.js', needs: ['utils', 'inputs'] },
-    coord:      { src: 'js/shared/coord.js', needs: ['kit'] },
-    frac:       { src: 'js/shared/frac.js', needs: ['utils'] },
-    algebra2:   { src: 'js/shared/algebra2.js' },
-    linearvalues:{ src: 'js/shared/linear-values.js' },
-    a01lab:     { src: 'js/shared/a01-lab.js', needs: ['linearvalues'] },
-    a06lab:     { src: 'js/shared/a06-lab.js' },
-    a78lab:     { src: 'js/shared/a07a08-labs.js' },
-    a05lab:     { src: 'js/shared/a05-lab.js' }
+    kit: { src: 'js/shared/lessonkit.js', needs: ['utils', 'inputs'] },
+    coord: { src: 'js/shared/coord.js', needs: ['kit'] },
+    frac: { src: 'js/shared/frac.js', needs: ['utils'] },
+    algebra2: { src: 'js/shared/algebra2.js' },
+    linearvalues: { src: 'js/shared/linear-values.js' },
+    a01lab: { src: 'js/shared/a01-lab.js', needs: ['linearvalues'] },
+    a06lab: { src: 'js/shared/a06-lab.js' },
+    a78lab: { src: 'js/shared/a07a08-labs.js' },
+    a05lab: { src: 'js/shared/a05-lab.js' },
+    exsteps: { src: 'js/shared/example-steps.js', needs: ['utils'] }
   };
   function need(names) {
     return Promise.all((names || []).map(function (n) {
@@ -300,7 +301,7 @@
       var el = button.parentElement;
       while (el && el !== box) {
         if (el.id && !/^(?:sk-|p-)/.test(el.id) &&
-            /(?:lab|quiz|practice|final|work|exercise|game|mc|stage|test|radar|step|qz|fn|pk|sr|pl|lr|sd|A0|N0|E0)/i.test(el.id)) {
+          /(?:lab|quiz|practice|final|work|exercise|game|mc|stage|test|radar|step|qz|fn|pk|sr|pl|lr|sd|A0|N0|E0)/i.test(el.id)) {
           return el;
         }
         el = el.parentElement;
@@ -331,16 +332,16 @@
         done = true;
         observer.disconnect();
         /*window.scrollTo({top:Math.max(0,window.scrollY+target.getBoundingClientRect().top-offset),behavior:'smooth'});*/
-        window.scrollTo({top:Math.max(0,window.scrollY+target.getBoundingClientRect().top-offset),behavior:'smooth'});
+        window.scrollTo({ top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset), behavior: 'smooth' });
       }
-      observer = new MutationObserver(function(records) {
-        if (records.some(function(r){return r.type==='childList'||r.type==='characterData';})) {
-          requestAnimationFrame(function(){requestAnimationFrame(move);});
+      observer = new MutationObserver(function (records) {
+        if (records.some(function (r) { return r.type === 'childList' || r.type === 'characterData'; })) {
+          requestAnimationFrame(function () { requestAnimationFrame(move); });
         }
       });
-      observer.observe(root,{childList:true,characterData:true,subtree:true});
-      requestAnimationFrame(function(){requestAnimationFrame(move);});
-      setTimeout(function(){observer.disconnect();},2500);
+      observer.observe(root, { childList: true, characterData: true, subtree: true });
+      requestAnimationFrame(function () { requestAnimationFrame(move); });
+      setTimeout(function () { observer.disconnect(); }, 2500);
       return true;
     }
     box.addEventListener('click', function (e) {
