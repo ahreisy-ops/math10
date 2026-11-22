@@ -192,3 +192,11 @@
 #gin::placeholder {
     text-align: center;
 }
+
+.g5-scope .sg.sg4 svg {
+    display: block;
+    width: 100%;
+    max-width: 110px;
+    height: auto;
+    margin: 0 auto
+}
