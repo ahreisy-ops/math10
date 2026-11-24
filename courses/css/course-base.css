@@ -704,7 +704,6 @@
 }
 
 .nlinfo>div {
-    /* border: 2px solid var(--ink); */
     outline: 1.75px dashed var(--ink);
     border-radius: 10px;
     padding: 4px 6px;
@@ -745,9 +744,7 @@
     font-style: normal;
     display: inline-block;
     padding: 0 10px;
-    /* border-radius: 8px; */
     border-radius: 6px;
-    /* border: 2px solid var(--ink) */
     outline: 1.75px dashed var(--ink)
 }
 

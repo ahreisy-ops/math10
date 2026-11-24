@@ -119,7 +119,6 @@ window.LESSONS.E04 = {
         }
         h = '<div class="e01-progress stg" aria-label="پیشرفت آزمون">' + s.q.map(function (q, k) { return '<span class="' + (k === s.pos ? 'cu' : s.res[k] === null ? '' : s.res[k] ? 'dn' : 'wr') + '" aria-label="سؤال ' + F(k + 1) + '">' + F(k + 1) + '</span>'; }).join('') + '</div><p class="ask e01-question">' + it.ask + '</p>' + (it.fig || '') + body;
         if (frozen) { h += fbx(s.res[s.pos], s.res[s.pos] || (it.type !== 'num' && it.type !== 'match') ? '' : (it.wrongText ? it.wrongText(a) : 'پاسخ درست: ' + (it.show || (it.opts ? it.opts.filter(function (op) { return op.ok; }).map(function (op) { return op.h; }).join('، ') : '')) + '.') + ' ', it.why); }
-        // h += '<div class="e01-navigation"><button type="button" class="btn" data-prev'             + (s.pos === 0 ? ' disabled' : '') + '>سؤال قبلی</button><button type="button" class="btn primary" '             + (!frozen && (it.type === 'match' || it.type === 'num') ? 'data-check' : 'data-next') + (!frozen && (it.type === 'multi' ? !(s.sel[s.pos] || []).length : !(it.type === 'match' && (s.sel[s.pos] || []).filter(function (v) { return v !== undefined && v !== null; }).length === it.left.length)) ? ' disabled' : '') + '>' + (!frozen && (it.type === 'match' || it.type === 'num') ? 'بررسی' : (s.pos === N - 1 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی')) + '</button></div>';
         h += '<div class="e01-navigation"><button type="button" class="btn" data-prev data-scroll' + (s.pos === 0 ? ' disabled' : '') + '>سؤال قبلی</button><button type="button" class="btn primary" data-scroll ' + (!frozen && (it.type === 'match' || it.type === 'num') ? 'data-check' : 'data-next') + (!frozen && (it.type === 'multi' ? !(s.sel[s.pos] || []).length : !(it.type === 'match' && (s.sel[s.pos] || []).filter(function (v) { return v !== undefined && v !== null; }).length === it.left.length)) ? ' disabled' : '') + '>' + (!frozen && (it.type === 'match' || it.type === 'num') ? 'بررسی' : (s.pos === N - 1 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی')) + '</button></div>';
         root.innerHTML = rr(h);
       }
@@ -217,7 +216,6 @@ window.LESSONS.E04 = {
       }
       function paint() {
         if (!A) { build(); }
-        // var h = '<div class="e02-problem-head"><span class="e02-problem-chip" style="font-size:.95rem">محور زیر را بخوان</span></div>' + ray({ min: -5, max: 5, v: q.v, rel: q.rel });
         var h = '<p>محور زیر را بخوان:</p>' + ray({ min: -5, max: 5, v: q.v, rel: q.rel });
         h += '<p class="ask e3-ask">۱. جواب نشان‌داده‌شده کدام نامعادله است؟</p>' + grid(A, tries1, ok1, 'data-a');
         if (ok1 !== null) { h += mark(true, '✓ درست است: ' + (q.rel === 'ge' || q.rel === 'le' ? 'دایرهٔ توپر یعنی عدد مرزی جزو جواب است.' : 'دایرهٔ توخالی یعنی عدد مرزی جزو جواب نیست.')) + '<p class="ask e3-ask e3-sep">۲. همین جواب را به‌صورت بازه بنویس.</p>' + grid(B, tries2, ok2, 'data-b'); }
@@ -243,7 +241,6 @@ window.LESSONS.E04 = {
         opts = shuffle(cand);
       }
       function paint() {
-        // var h = '<div class="e02-problem-head"><span class="e02-problem-chip" dir="ltr">' + M(q.iv) + '</span></div><p class="ask e3-ask">کدام محور این بازه را نشان می‌دهد؟</p><div class="e01-answer-grid e3-svgopts">';
         var h = '<p class="ask e3-ask">کدام محور، بازهٔ ' + M(q.iv) + ' را نشان می‌دهد؟</p><div class="e01-answer-grid e3-svgopts">';
         opts.forEach(function (o, i) { var cl = done ? (o.ok ? ' e01-right' : (picked.indexOf(i) > -1 ? ' e01-wrong' : '')) : (picked.indexOf(i) > -1 ? ' e01-wrong' : ''); h += '<button type="button" class="btn e01-answer' + cl + '" data-o="' + i + '"' + (done || picked.indexOf(i) > -1 ? ' disabled' : '') + ' aria-label="گزینه ' + F(i + 1) + '">' + ray({ min: -5, max: 5, v: o.v, rel: o.rel, W: 300, H: 62, mini: 1 }) + '</button>'; });
         h += '</div>';

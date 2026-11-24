@@ -22,8 +22,6 @@ window.LESSONS.G01 = {
     var fig1 = function (inner, cap) { return '<div class="figs one"><figure>' + inner + (cap ? '<figcaption>' + cap + '</figcaption>' : '') + '</figure></div>'; };
     var figs2 = function (a, ca, b, cb) { return '<div class="figs"><figure>' + a + '<figcaption>' + ca + '</figcaption></figure><figure>' + b + '<figcaption>' + cb + '</figcaption></figure></div>'; };
 
-
-
     /* ---------- ابزارهای SVG ---------- */
     function sv(W, H) { return '<svg class="gsv" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-hidden="true">'; }
     function stx(t, x, y, o) { o = o || {}; return '<text x="' + f2(x) + '" y="' + f2(y + (o.nf ? o.fs : Math.max(o.fs || 13, 12)) * 0.34) + '" text-anchor="' + (o.a || 'middle') + '" font-size="' + (o.nf ? o.fs : Math.max(o.fs || 13, 12)) + '"' + (o.b ? ' font-weight="bold"' : '') + ' fill="' + (o.c || INK) + '" font-family="Tahoma,sans-serif">' + t + '</text>'; }
@@ -90,53 +88,6 @@ window.LESSONS.G01 = {
       { title: 'مثال دوم: روی خط راست', q: 'اگر یک زاویه ' + M('65^\\circ') + ' باشد، زاویهٔ کنارش روی خط راست:', lines: ['180-65=115^\\circ'], note: 'و آن ' + M('115^\\circ') + ' یک زاویهٔ <b>باز</b> است.' },
       { title: 'مثال سوم: ساعت ' + M('4'), q: 'هر ساعت ' + M('30^\\circ') + ' است؛ پس در ساعت ' + M('4') + ':', lines: ['4\\times30=120^\\circ'], note: M('120^\\circ') + ' یعنی زاویهٔ <b>باز</b>.' }
     ];
-    /* gens: آرایه‌ای از ۵ تابع (هر کدام یک سؤال می‌دهد) */
-    K.finalRun = function (host, gens, msgs) {
-      msgs = msgs || {}; var qs, i, ans;
-      function build() { qs = gens.map(function (g) { return g(); }); i = 0; ans = []; }
-      var fb = function (ok, html) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + html + '</div>'; };
-      function paint() {
-        var q = qs[i], a = ans[i], h, oh = '', s, o, N = qs.length;
-        if (i === N) {
-          s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr(K.res(s, N) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
-        }
-        h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + (q.cls || 'm2') + '" id="mcx"></div>';
-        q.opts.forEach(function (op, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + op.h + '</button>'; });
-        if (a !== undefined) { o = q.opts[a]; h += fb(o.ok, o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl() + '</div>'; }
-        h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === N - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o !== undefined) { if (ans[i] !== undefined) { return; } ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { build(); paint(); }
-      }); build(); paint();
-    };
-    /* pool: [{h(html), ok(1/0), e(html), fig?}] */
-    K.tfRun = function (host, pool, msgs) {
-      msgs = msgs || {}; var L, i, answers;
-      function nw() { L = shuffle(pool.slice()).slice(0, 6); i = 0; answers = L.map(function () { return null; }); }
-      function paint() {
-        var h, q, ans = answers[i], sc;
-        if (i >= L.length) {
-          sc = answers.filter(function (x, k) { return x === L[k].ok; }).length;
-          host.innerHTML = rr(K.res(sc, L.length) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
-        }
-        q = L[i];
-        h = '<div class="stg">' + L.map(function (x, k) { return '<span class="' + (answers[k] !== null ? (answers[k] === x.ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">این جمله درست است؟</p>' + (q.fig || '') + '<div class="cq" style="font-size:1rem"><span class="snt">' + q.h + '</span></div><div class="sgnrow"><button type="button" class="btn' + (ans === null ? '' : q.ok === 1 ? ' right' : ans === 1 ? ' wrong' : '') + '" data-a="1"' + (ans === null ? '' : ' disabled') + '>درست</button><button type="button" class="btn' + (ans === null ? '' : q.ok === 0 ? ' right' : ans === 0 ? ' wrong' : '') + '" data-a="0"' + (ans === null ? '' : ' disabled') + '>نادرست</button></div>';
-        if (ans !== null) { h += '<div class="fb ' + (ans === q.ok ? 'ok' : 'bad') + '">' + (ans === q.ok ? '✓ درست است!' : 'پاسخ نادرست است.') + '</div><div class="ex">' + q.e + '</div>'; }
-        h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i === 0 ? ' disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (ans === null ? ' disabled' : '') + ' data-scroll>' + (i === L.length - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.a !== undefined) { if (answers[i] !== null) { return; } answers[i] = +b.dataset.a; paint(); }
-        else if (b.dataset.nx) { i++; paint(); }
-        else if (b.dataset.p) { i = Math.max(0, i - 1); paint(); }
-        else if (b.dataset.pv) { i = 0; paint(); }
-        else if (b.dataset.r) { nw(); paint(); }
-      }); nw(); paint();
-    };
 
     /* ---------- گزینه‌ساز مشترک ---------- */
     /* correct/wrongs: {t, m} — t: عبارت TeX (یا HTML وقتی raw=true) */
@@ -152,40 +103,6 @@ window.LESSONS.G01 = {
       while (w.length < 3 && i < offs.length) { v = ans + offs[i++]; k = nf(v); if (v > 0 && !seen[k]) { seen[k] = 1; w.push({ v: v, m: 'این عدد درست نیست؛ یک بار دیگر محاسبه کن.' }); } }
       return mkO({ t: nf(ans) + suf }, w.map(function (x) { return { t: nf(x.v) + suf, m: x.m }; }));
     }
-
-    /* ---------- تمرین عددیِ مشترک: بنویس، بررسی کن، مسئلهٔ دیگر ---------- */
-    /* gen() → {ask, fig, cq, ans, unit, hint, expl()} */
-    K.numLab = function (host, gen, o) {
-      o = o || {}; var q, done, tries, fbh, val;
-      function nw() { q = gen(); done = false; tries = 0; fbh = ''; val = ''; }
-      function parseNum(s) {
-        s = (s || '').replace(/[۰-۹]/g, function (d) { return d.charCodeAt(0) - 1776; }).replace(/[٠-٩]/g, function (d) { return d.charCodeAt(0) - 1632; }).replace(/[٫,،]/g, '.').replace(/[−–—]/g, '-').replace(/\s/g, '');
-        return /^-?\d+(\.\d+)?$/.test(s) ? +s : null;
-      }
-      function paint() {
-        var h = '<p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '');
-        h += '<div class="numrow"><input class="numin" id="gin" type="text" inputmode="decimal" autocomplete="off" aria-label="پاسخ"' + (done ? ' disabled' : '') + '><span class="unit">' + (q.unit || '') + '</span></div>' + fbh;
-        if (done) { h += '<div class="ex">' + q.expl() + '</div>'; }
-        h += done ? '<div class="opts g-ops"><button type="button" class="btn primary" data-nw="1" data-scroll>مسئلهٔ دیگر</button></div>' : '<div class="opts g-pair"><button type="button" class="btn" data-go="1">بررسی</button><button type="button" class="btn primary" data-nw="1" data-scroll>مسئلهٔ دیگر</button></div>';
-        host.innerHTML = rr(h); var inp = host.querySelector('#gin'); inp.value = val;
-      }
-      function check() {
-        var inp = host.querySelector('#gin'), v; val = inp.value; v = parseNum(val);
-        if (v === null) { fbh = '<div class="fb bad">یک عدد بنویس (فقط عدد، بدون واحد).</div>'; paint(); host.querySelector('#gin').focus(); return; }
-        tries++;
-        if (abs(v - q.ans) < 1e-6) { done = true; fbh = '<div class="fb ok">' + (o.ok || '✓ آفرین، درست حل کردی!') + '</div>'; }
-        else if (tries >= 2) { done = true; fbh = '<div class="fb bad">پاسخ درست ' + fan(q.ans) + ' است؛ راه‌حل را ببین.</div>'; }
-        else { fbh = '<div class="fb bad">' + (q.hint || 'درست نیست؛ دوباره امتحان کن.') + '</div>'; }
-        paint(); if (!done) { host.querySelector('#gin').focus(); }
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.go) { check(); } else if (b.dataset.nw) { nw(); paint(); }
-      });
-      host.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.id === 'gin' && !done) { e.preventDefault(); check(); } });
-      nw(); paint();
-    };
-
 
     /* ---------- آزمایشگاه ۱: زاویه‌ساز ---------- */
     var TYN = ['تند', 'قائمه', 'باز', 'مستقیم'];
@@ -227,7 +144,6 @@ window.LESSONS.G01 = {
         var d = +inp.value, w = 180 - d;
         host.querySelector('#plf').innerHTML = protSVG({ deg: d, base: base, hi: true, zero: true });
         host.querySelector('#plt').innerHTML = '<i class="g">مقیاس درست: ' + dg(d) + '</i><i class="p">مقیاس دیگر: ' + dg(w) + '</i>';
-        // host.querySelector('#pll').innerHTML = base === 'R' ? 'صفرِ <b>سمت راست</b> زیر ضلع پایه است؛ پس از <b>مقیاس بیرونی</b> می‌خوانیم.' : 'صفرِ <b>سمت چپ</b> زیر ضلع پایه است؛ پس از <b>مقیاس درونی</b> می‌خوانیم.';
         host.querySelector('#pll').innerHTML = base === 'R' ? 'ضلع پایه روی صفرِ <b>سمت راست</b> است؛ پس عددها را از <b>مقیاس بیرونی</b> می‌خوانیم.' : 'ضلع پایه روی صفرِ <b>سمت چپ</b> است؛ پس عددها را از <b>مقیاس درونی</b> می‌خوانیم.';
       }
       host.addEventListener('click', function (e) { var b = e.target.closest('.chip'); if (!b) { return; } base = b.dataset.b; chips(); paint(); });
@@ -356,8 +272,8 @@ window.LESSONS.G01 = {
           make: function (si) { var q = GA[si](); return { ask: q.ask, fig: q.fig, cq: q.cq, cont: 'mc ' + (q.cls || 'm2'), opts: q.opts, expl: q.expl }; }
         });
         K.exampleSteps.bind('g01-ex', EX);
-        K.tfRun(panel.querySelector('#tf'), TFP);
-        K.finalRun(panel.querySelector('#fn'), [genA1, genA2, genA2, genA3, genA3], { top: 'عالی بود! زاویه‌ها را کاملاً می‌شناسی.' });
+        H.tf(panel.querySelector('#tf'), TFP);
+        H.final(panel.querySelector('#fn'), [genA1, genA2, genA2, genA3, genA3]);
       }
     };
 

@@ -13,7 +13,6 @@ window.LESSONS.N04 = {
       if (document.getElementById('css-N04')) { return; }
       var s = document.createElement('style'); s.id = 'css-N04';
       s.textContent = [
-        // '.n4-act3{flex-wrap:nowrap;gap:8px}.n4-act3 .btn{flex:1 1 0;min-width:0;padding:5px 6px;font-size:.88rem}',
         '.n4-act3{flex-wrap:nowrap;gap:6px}.n4-act3 .btn{font-size:.9rem}',
         /* کارت‌های سه‌تایی (نمادها) */
         '.sg.sg3{grid-template-columns:repeat(3,1fr)}',
@@ -98,7 +97,6 @@ window.LESSONS.N04 = {
         '.lad4 .sl.fill{touch-action:none;cursor:grab}.lad4 .sl.fill:active{cursor:grabbing}',
         '.lad4 .sl[draggable=true]{user-select:none}',
         '.chips .chip[draggable=true]{touch-action:none;cursor:grab}.chips .chip[draggable=true]:active{cursor:grabbing}',
-        // '#ll .fb.bad, #ll .fb.ok, #ip .fb.bad, #ip .ex, #ip .fb.ok, #pk .fb.bad, #pk .ex, #pk .fb.ok{min-height:44px;font-size:1rem}',
         /* اسلایدر */
         '.rng{display:flex;align-items:center;gap:10px;direction:ltr;margin:6px 8px;font-size:.85rem;color:var(--ink-soft)}',
         '.quiz44-zoom .nl{transition:opacity .24s ease,transform .24s ease}.quiz44-zoom.changing .nl{opacity:.4;transform:scale(.97)}',
@@ -114,7 +112,6 @@ window.LESSONS.N04 = {
         '.legend{text-align:center;font-size:.84rem;color:var(--ink-soft);margin:2px 0 8px}',
         '.irow{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;direction:ltr;margin:6px 0;padding:4px 6px;border-bottom:1px dashed var(--line)}.irow:last-child{border:0}.irow b.y{color:var(--accent-dark)}.irow b.x{color:#b23a3a}.irow .v{font:bold .8rem Tahoma;padding:1px 10px;border-radius:999px;direction:rtl}.irow .v.y{background:#d2f0e9;color:var(--accent-dark)}.irow .v.x{background:#fbd5d5;color:#b23a3a}',
         '.pickr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;direction:rtl}',
-        // '.pickr .btn{min-width:0;min-height:54px;font-size:1.1rem;font-weight:bold;padding:4px 2px}.pickr .btn:disabled{opacity:1}',
         '.pickr .btn{min-width:0;font-size:1.1rem;font-weight:bold;padding:4px 2px}.pickr .btn:disabled{opacity:1}',
         '.pickr .btn.on{background:var(--mark)}@media(max-width:360px){.pickr{gap:5px}.pickr .btn{font-size:.8rem;padding:4px 0}}.pickr .btn.right{background:#d2f0e9;border-color:var(--accent)}.pickr .btn.wrong{background:#fbd5d5;border-color:#b23a3a}',
         '@media(max-width:520px){.lv{margin:6px 30px 0}.mc.m3{gap:6px}.scan .t{width:38px;height:44px;font-size:1.25rem}.scan{gap:4px}}'
@@ -650,25 +647,8 @@ window.LESSONS.N04 = {
       };
     }
     K.cmpFinal = function (host) {
-      var qs, i, ans;
-      function build() { qs = [qDec(), qMix(), qNeg(), qPi(), qSort()].map(function (q) { q.opts = shuffle(q.opts); return q; }); i = 0; ans = []; }
-      var fb = function (ok, html) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + html + '</div>'; };
-      function paint() {
-        var q = qs[i], a = ans[i], h, oh = '', s, o;
-        if (i === 5) {
-          s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr(K.res(s, 5) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
-        }
-        h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + q.cls + '" id="mcx"></div>';
-        q.opts.forEach(function (op, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + op.h + '</button>'; });
-        if (a !== undefined) { o = q.opts[a]; h += fb(o.ok, o.ok ? 'درست است! ✓' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl() + '</div>'; }
-        h += '<div class="opts" style="direction:rtl;justify-content:space-between"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === 4 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh); armScans(host);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o) { ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { build(); paint(); }
-      }); wireReplay(host); build(); paint();
+      H.final(host, [qDec, qMix, qNeg, qPi, qSort].map(function (f) { return function () { var q = f(); q.opts = shuffle(q.opts); return q; }; }), armScans);
+      wireReplay(host);
     };
     var cards3 = function (cells, cls) { return '<div class="sg ' + (cls || 'sg3') + '">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + M(c.h) + '</b><span>' + c.t + '</span>' + (c.e ? '<span>' + M(c.e) + '</span>' : '') + '</div>'; }).join('') + '</div>'; };
     var refs = function (cells) { return '<div class="sg refs">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + K.dm(c.e) + '</div>'; }).join('') + '</div>'; };

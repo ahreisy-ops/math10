@@ -56,56 +56,6 @@
   color: var(--accent-dark)
 }
 
-/* Side-by-side examples reuse the A01 comparison-card language. */
-
-.e01-lesson .e01-pairs {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 15px;
-  margin: 14px 0
-}
-
-.e01-pair {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  text-align: center;
-  border: 2px solid var(--ink);
-  border-radius: 12px;
-  background: #f7f9fc;
-  padding: 12px 10px;
-  box-shadow: 2px 2px 0 var(--ink);
-  /* transition: border-color 0.75s ease, box-shadow 0.75s ease; */
-  transform: translateY(0) scale(1);
-
-  transition:
-    transform 0.75s ease,
-    box-shadow 0.75s ease,
-    border-color 0.75s ease;
-}
-
-.e01-pair>span {
-  font-size: .91rem;
-  font-weight: 700;
-  color: var(--accent-dark)
-}
-
-.e01-pair>strong {
-  font-size: 1.12rem;
-  direction: ltr;
-  max-width: 100%;
-  overflow-x: auto
-}
-
-.e01-pair>small {
-  font-size: .84rem;
-  line-height: 1.75;
-  color: var(--ink-soft)
-}
-
 /* Cautionary question: project error/tip style, not a second bespoke palette. */
 
 .e01-thought {
@@ -341,15 +291,6 @@
   margin: 15px 0 0
 }
 
-/* .e01-inline-result {
-  margin: 11px 0;
-  padding: 8px 12px;
-  background: #e6f6f3;
-  border: 1.5px dashed var(--accent);
-  border-radius: 10px;
-  font-size: .9rem;
-  text-align: center
-} */
 
 .e01-spinner {
   display: flex;
@@ -800,10 +741,6 @@
     padding: 11px 12px
   }
 
-  .e01-lesson .e01-pairs {
-    grid-template-columns: 1fr
-  }
-
   .e01-four,
   .e01-answer-grid {
     gap: 8px
@@ -875,7 +812,6 @@
   border-color: #b23a3a;
 }
 
-.e01-lesson .e01-pair>strong,
 .e01-lesson .e01-chip {
   overflow-x: visible;
 }
@@ -1130,203 +1066,15 @@
   }
 }
 
-/* E01 — a compact graduated substitution slider, retaining the original A01-style comparison cards. */
-
-.e01-lesson .e01-compare {
-  margin: 14px 0 20px;
-  padding: 14px 14px 12px;
-  background: #fff;
-  border: 1.5px solid var(--line);
-  border-radius: 13px;
-  min-width: 0;
-}
-
-.e01-lesson .e01-compare-control {
-  max-width: 620px;
-  margin: 0 auto 12px;
-  min-width: 0;
-}
-
-.e01-lesson .e01-compare-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 5px;
-  font-size: .91rem;
-  color: var(--ink-soft);
-}
-
-.e01-lesson .e01-compare-head strong {
-  color: var(--accent-dark);
-  font-size: 1.12rem;
-  direction: ltr;
-  unicode-bidi: isolate;
-}
-
-.e01-lesson .e01-compare input[type=range] {
-  appearance: auto;
-  -webkit-appearance: auto;
-  display: block;
-  width: 100%;
-  direction: ltr;
-  writing-mode: horizontal-tb;
-  accent-color: #078b80;
-  cursor: pointer;
-}
-
-.e01-lesson .e01-compare input[type=range]:focus-visible {
-  outline: 2px solid var(--accent-dark);
-  outline-offset: 3px;
-  border-radius: 5px;
-}
-
-.e01-lesson .e01-compare-ticks {
-  position: relative;
-  height: 26px;
-  margin: 1px 9px 0;
-  direction: ltr;
-  text-align: center;
-  font-size: .75rem;
-  color: var(--ink-soft);
-}
-
-.e01-lesson .e01-compare-ticks>span {
-  position: absolute;
-  left: calc(var(--e01-step) * 100% / 12);
-  transform: translateX(-50%);
-  white-space: nowrap;
-  line-height: 1.3;
-}
-
-.e01-lesson .e01-compare-ticks i {
-  display: block;
-  height: 5px;
-  width: 1px;
-  margin: 0 auto 3px;
-  background: #9cb3c5;
-}
-
-.e01-lesson .e01-compare-ticks>span:nth-child(5) {
-  color: var(--ink);
-  font-weight: 700;
-}
-
-.e01-lesson .e01-compare .e01-pairs {
-  margin: 10px 0 0;
-}
-
-.e01-lesson .e01-compare .e01-pair {
-  justify-content: flex-start;
-  gap: 8px;
-  min-height: 152px;
-}
-
-.e01-lesson .e01-pair-eval {
-  direction: ltr;
-  unicode-bidi: isolate;
-  min-height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 1.02rem;
-  max-width: 100%;
-}
-
-.e01-lesson .e01-compare .e01-pair>small {
-  min-height: 2.8em;
-}
-
-/* .e01-lesson .e01-compare .e01-compare-match {
-  border-color: #438b6c;
-} */
-
-.e01-lesson .e01-compare .e01-compare-match>small {
-  color: #20704d;
-}
-
 /* The two pre-start instruction lines belong together and are centered. */
 
 .e01-lesson .e01-speed-start>p {
   text-align: center !important;
 }
 
-@media(max-width:490px) {
-  .e01-lesson .e01-compare {
-    padding: 12px 9px;
-  }
-
-  .e01-lesson .e01-compare-ticks {
-    font-size: .72rem;
-  }
-
-  .e01-lesson .e01-compare .e01-pair {
-    min-height: 0;
-  }
-
-  .e01-lesson .e01-compare .e01-pair>small {
-    min-height: 0;
-  }
-}
-
-/* The original E01 and A08 custom thumbs are 18px wide; their scale ends
-   must sit below the 9px-inset centers, without changing either slider. */
-
-.e01-compare-control.graduated-range {
-  --gr-half: 9px;
-}
-
-.e01-compare-control.graduated-range input[type=range] {
-  accent-color: #078b80 !important;
-}
-
-/* E01 fine tuning: formula labels and final contest feedback. */
-
-.e01-lesson .e01-formula-tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed var(--line);
-  border-radius: 10px;
-  padding: 4px 11px;
-  max-width: 100%;
-  overflow-x: auto;
-}
-
 .e01-lesson .e01-highlight-ten {
   color: #087d73;
   font-weight: 700;
-}
-
-/* E01 — equal neutral comparison cards; mint only when the equation is true. */
-
-.e01-lesson .e01-compare .e01-pair {
-  background: #f7f9fc;
-}
-
-.e01-lesson .e01-compare .e01-pair.e01-compare-match {
-  background: #e6f6f3;
-  box-shadow: 4px 4px 0 #438b6c;
-  border-color: #438b6c;
-  /* transition: border-color 0.75s ease, box-shadow 0.75s ease; */
-  transform: translateY(0) scale(1);
-
-  transition:
-    transform 0.75s ease,
-    box-shadow 0.75s ease,
-    border-color 0.75s ease;
-
-  transform: translateY(-3px) scale(1.01);
-}
-
-.e01-lesson .e01-compare-ticks .e01-target-tick {
-  font-weight: 800;
-  color: var(--ink);
-}
-
-.e01-lesson .e01-compare-ticks .e01-target-tick .katex {
-  font-weight: 800;
 }
 
 /* E01 — prediction laboratory, using existing project colours. */
@@ -1468,9 +1216,6 @@
   }
 }
 
-/* .e01-lesson .e01-compare .e01-pair.e01-compare-match {
-  border-color: var(--ink);
-} */
 
 /* E01 — compact answer laboratory: preserve chapter typography and spacing. */
 
@@ -1669,89 +1414,6 @@
 .e01-lesson #e01-values .e01-visited .e01-record .e01-record-mark {
   font-size: 1rem;
   font-weight: 700;
-}
-
-/* E01 — shared comparison layout for identity versus equation */
-
-.e01-lesson .e01-identity-compare .e01-pair {
-  min-height: 180px;
-}
-
-.e01-lesson .e01-identity-compare .e01-pair-eval {
-  max-width: 100%;
-  overflow-x: auto;
-}
-
-.e01-lesson .e01-identity-subvalue {
-  margin-top: 3px;
-}
-
-.e01-lesson .e01-identity-compare .e01-formula-tag {
-  max-width: 100%;
-}
-
-@media(max-width:600px) {
-  .e01-lesson .e01-identity-compare .e01-pair {
-    min-height: 0;
-  }
-
-  .e01-lesson .e01-identity-compare .e01-pair-eval .katex {
-    font-size: .92em;
-  }
-}
-
-/* E01: the identity comparison must wrap into two readable mathematical lines;
-   never show browser scrollbars for these short, noninteractive calculations. */
-
-.e01-lesson .e01-identity-compare .e01-pair-eval {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  width: 100%;
-  min-width: 0;
-  overflow: visible;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.e01-lesson .e01-identity-compare .e01-identity-subvalue {
-  max-width: 100%;
-  margin: 0;
-  text-align: center;
-}
-
-.e01-lesson .e01-identity-compare .e01-pair-eval .katex {
-  font-size: .83em;
-}
-
-@media (min-width:601px) and (max-width:860px) {
-  .e01-lesson .e01-identity-compare .e01-pairs {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* E01: unobtrusive labels before the two sides of the identity calculation. */
-
-.e01-lesson .e01-identity-compare .e01-identity-subvalue {
-  display: flex;
-  direction: rtl;
-  align-items: baseline;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.e01-lesson .e01-identity-side-label {
-  display: inline-block;
-  direction: rtl;
-  font-size: .78rem;
-  font-weight: 400;
-  color: var(--muted);
-  margin: 0;
-  white-space: nowrap;
-  text-align: right;
 }
 
 .e01-lab-groups .e01-mode-choice {
@@ -5571,7 +5233,6 @@
   font-size: .82rem;
   font-weight: 700;
   padding: 3px 11px 5px 11px;
-  /* border: 1.5px solid var(--ink); */
   border-radius: 999px;
   background: var(--ink);
   color: var(--card);
@@ -6213,26 +5874,6 @@
   color: var(--ink-soft)
 }
 
-/* E05 — کارگاه مخرج صفر: کارت‌ها همان e01-pair هستند؛ فقط حالت «تعریف‌نشده» تازه است. */
-.e01-lesson .e01-compare .e01-pair.is-undefined {
-  background: #fdeceb;
-  border-color: #b4463c;
-  box-shadow: 4px 4px 0 #b4463c;
-  transform: translateY(-3px) scale(1.015);
-}
-
-.e01-lesson .e01-compare .e01-pair.is-undefined .e01-pair-eval,
-.e01-lesson .e01-compare .e01-pair.is-undefined>small {
-  color: #8a2f2a;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .e01-lesson .e01-compare .e01-pair {
-    transition: none;
-    transform: none;
-  }
-}
-
 .e3x .e5-tag {
   display: flex;
   flex-wrap: wrap;
@@ -6638,4 +6279,145 @@
 .e02-lesson .e02-tile-solve .numin {
   width: 100px;
   max-width: 100%;
+}
+
+/* E04: زنجیرهٔ «دومینو» در ستون دوم جدول سه‌زبانه */
+.e3x .e4-ros> :nth-child(7) {
+  --d: 0s;
+}
+
+.e3x .e4-ros> :nth-child(11) {
+  --d: .45s;
+}
+
+.e3x .e4-ros> :nth-child(15) {
+  --d: .9s;
+}
+
+.e3x .e4-ros> :is(:nth-child(7), :nth-child(11), :nth-child(15)) {
+  position: relative;
+  animation: e4-cell 5s ease-in-out infinite;
+  animation-delay: var(--d);
+}
+
+.e3x .e4-ros-c .e4-sw>.e4-sa,
+.e3x .e4-ros-c .e4-sw>.e4-sb,
+.e3x .e4-ros-c .e4-flipc {
+  animation-delay: var(--d, 0s);
+}
+
+/* سیمِ بین سلول‌ها */
+.e3x .e4-ros> :is(:nth-child(7), :nth-child(11), :nth-child(15))::before {
+  content: "";
+  position: absolute;
+  /* top: -9px; */
+  top: -7px;
+  left: 50%;
+  width: 3px;
+  height: 8px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: #0e8f7e;
+  opacity: .25;
+  animation: e4-wire 5s ease-in-out infinite;
+  animation-delay: calc(var(--d) - .3s);
+}
+
+@keyframes e4-cell {
+
+  0%,
+  40% {
+    background: #fff;
+    box-shadow: 0 0 0 0 transparent;
+  }
+
+  47% {
+    background: #fdeef3;
+    box-shadow: 0 0 0 4px rgba(194, 51, 95, .35);
+  }
+
+  58%,
+  90% {
+    background: #fff7fa;
+    box-shadow: 0 0 0 0 transparent;
+  }
+
+  96% {
+    background: #e6f6f3;
+    box-shadow: 0 0 0 4px rgba(14, 143, 126, .35);
+  }
+
+  100% {
+    background: #fff;
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@keyframes e4-wire {
+
+  0%,
+  34% {
+    opacity: .25;
+  }
+
+  40%,
+  46% {
+    opacity: 1;
+  }
+
+  54%,
+  84% {
+    opacity: .25;
+  }
+
+  90%,
+  96% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .25;
+  }
+}
+
+.e3x .e4-ros:not(.live)>.e4-ros-c,
+.e3x .e4-ros:not(.live)>.e4-ros-c::before {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .e3x .e4-ros>.e4-ros-c,
+  .e3x .e4-ros>.e4-ros-c::before {
+    animation: none;
+  }
+}
+
+/* ---end */
+
+
+.e3x .e4-ros-c {
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .e3x .e4-ros-c .katex {
+    font-size: 1.05em;
+  }
+
+  .e3x .e4-hl {
+    padding: 0 2px 3px 1px;
+  }
+}
+
+@media (max-width: 360px) {
+  .e3x .e4-ros {
+    grid-template-columns: 52px repeat(3, minmax(0, 1fr));
+    gap: 3px;
+  }
+
+  .e3x .e4-ros-c {
+    font-size: .8rem;
+    padding-inline: 0;
+  }
 }

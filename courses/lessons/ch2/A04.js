@@ -48,11 +48,7 @@ window.LESSONS.A04 = {
         h += '<p>مستطیلی را در نظر بگیر که یک ضلعش $x+2$ و ضلع دیگرش $x+3$ است. اگر هر ضلع را به دو قسمت بشکنیم، چهار ناحیه به دست می‌آید و هر ناحیه یکی از چهار ضرب را نشان می‌دهد:</p>';
         h += '<figure class="a04-figure"><div class="a04-area-model">'
           + '<div class="a04-top-total"><span class="a04-dim-label">$x+3$</span><span class="a04-dim-line a04-dim-h" aria-hidden="true"></span></div>'
-          // +'<div class="a04-top-x">$x$</div>'
-          // +'<div class="a04-top-3">$3$</div>'
           + '<div class="a04-left-total"><span class="a04-dim-label">$x+2$</span><span class="a04-dim-line a04-dim-v" aria-hidden="true"></span></div>'
-          // +'<div class="a04-left-x">$x$</div>'
-          // +'<div class="a04-left-2">$2$</div>'
           + '<div class="a04-cell a04-sq1">$x^2$</div>'
           + '<div class="a04-cell a04-sq2">$3x$</div>'
           + '<div class="a04-cell a04-sq3">$2x$</div>'
@@ -69,12 +65,6 @@ window.LESSONS.A04 = {
         h += '<h4>ضرب توان‌ها با جمع عبارت‌ها فرق دارد</h4>';
         h += '<p>اگر توان‌ها <b>در حال ضرب‌شدن</b> باشند، تعداد عامل‌های $x$ با هم جمع می‌شود. اما اگر توان‌ها با علامت جمع کنار هم آمده باشند، نمی‌توان توان‌ها را یکی کرد:</p>';
 
-        // h += '<div class="a2-responsive-formula a04-power-product"><div class="a2-formula-desktop">' +
-        //   K.dm(String.raw`x^2\times x^3=(x\times x)\times(x\times x\times x)=x^5`) +
-        //   '</div><div class="a2-formula-mobile">' + K.dm(String.raw`x^2\times x^3 =`) +
-        //   K.dm(String.raw`(x\times x)\times(x\times x\times x)=`) +
-        //   K.dm(String.raw`x^5`) +
-        //   '</div></div><br>';
 
         h += '<div class="a2-responsive-formula a04-power-product"><div class="a2-formula-desktop">' +
           K.dm(String.raw`x^2\times x^3=(x\times x)\times(x\times x\times x)=x^5`) +

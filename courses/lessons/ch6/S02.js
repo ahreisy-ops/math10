@@ -94,12 +94,12 @@ window.LESSONS.S02 = {
           var e2 = EXPRS[j]; if (ops.length >= 4 || seen[sig(e2)]) { return; } seen[sig(e2)] = 1;
           ops.push({ h: M(setTex(result(S, e2[1]))), m: 'این مجموعه حاصلِ ' + M(e2[0]) + ' است، نه ' + M(ex[0]) + '.' });
         });
-        return { ask: 'اگر مجموعه‌های زیر را داشته باشیم، حاصل ' + M(ex[0]) + ' کدام است؟', tex: defTex(S, withU), opts: ops, expl: '<p>' + M(ex[0] + '=' + setTex(good)) + '</p>' };
+        return { ask: 'اگر مجموعه‌های زیر را داشته باشیم، حاصل ' + M(ex[0]) + ' کدام است؟', fig: K.dm(defTex(S, withU)), opts: ops, expl: function () { return '<p>' + M(ex[0] + '=' + setTex(good)) + '</p>'; }};
       }
       var ALL = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-      H.seq(host, function () {
-        return [mk(ALL, [0], false), mk(ALL, [1], false), mk(ALL, [2, 3], false), mk(ALL, [4, 5], true), mk(ALL, [6, 7, 8, 9, 10, 11, 12, 13], true)].map(function (q) { q.opts = shuffle(q.opts); return q; });
-      }, function (s) { return s === 5 ? 'عالی بود! به همهٔ سؤال‌ها درست جواب دادی.' : s >= 3 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با عددهای جدید امتحان کن.'; });
+      H.final(host, [[[0], false], [[1], false], [[2, 3], false], [[4, 5], true], [[6, 7, 8, 9, 10, 11, 12, 13], true]].map(function (a) {
+        return function () { var q = mk(ALL, a[0], a[1]); q.opts = shuffle(q.opts); return q; };
+      }));
     };
 
     var UTIP = '<p>همهٔ چیزهایی که در یک مسئله مطرح‌اند را در یک مجموعهٔ بزرگ‌تر جمع می‌کنیم و آن را «مجموعهٔ مرجع» می‌نامیم و با $U$ نشان می‌دهیم. همهٔ مجموعه‌های آن مسئله زیرمجموعهٔ $U$ هستند. در نمودار ون، مجموعهٔ مرجع را با یک مستطیل نشان می‌دهیم.</p>';

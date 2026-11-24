@@ -2,11 +2,12 @@
 window.LESSONS = window.LESSONS || {};
 /* بدنهٔ درس داخل setup است تا فقط بعد از لود شدن ماژول‌های needs اجرا شود */
 window.LESSONS.G03 = {
-  needs: ['utils'],
+  needs: ['utils', 'kit'],
   setup: function (K0) {
     var ML = window.MathLite, fa = ML.fa, rr = ML.renderRich, abs = Math.abs, df = K0.df;
     var _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var K = Object.create(K0);   // K0 = هستهٔ مشترک؛ K = همان + ابزارهای اختصاصی این درس
+    var H = K0.lk(K);
     var T = String.raw;
     var INK = '#14213d', TEAL = '#0e8f7e', PINK = '#d6457a', BLUE = '#4c5fd5', AMB = '#e08a00', YEL = '#ffc233', MINT = '#7fd0c3', RED = '#c62f2f', GREY = '#5a6a85';
     var D2R = Math.PI / 180;
@@ -17,8 +18,6 @@ window.LESSONS.G03 = {
     function uniqBy(arr, key) { var s = {}; return arr.filter(function (x) { var k = key(x); if (s[k]) { return false; } s[k] = 1; return true; }); }
     var refs = function (cells) { return '<div class="sg refs">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + K.dm(c.e) + '</div>'; }).join('') + '</div>'; };
     var fig1 = function (inner, cap) { return '<div class="figs one"><figure>' + inner + (cap ? '<figcaption>' + cap + '</figcaption>' : '') + '</figure></div>'; };
-
-
 
     /* ---------- ابزارهای SVG ---------- */
     function sv(W, H) { return '<svg class="gsv" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-hidden="true">'; }
@@ -53,7 +52,6 @@ window.LESSONS.G03 = {
         var F = S(foot), V = P[o.alt.from], B0 = P[o.alt.base], B1 = P[(o.alt.base + 1) % 3];
         if (altInfo.t < -0.001 || altInfo.t > 1.001) { var far = altInfo.t < 0 ? B0 : B1; s += sln(far, F, INK, 1.8, 1); }
         s += sln(V, F, o.alt.c || PINK, 2.2, 1);
-        var ref = altInfo.t < 0 ? B1 : (altInfo.t > 1 ? B0 : B1);
         s += rmark(F, V, altInfo.t < 0 || altInfo.t > 1 ? (altInfo.t < 0 ? B0 : B1) : B1, 10, INK);
         if (o.alt.l) { var m = [(V[0] + F[0]) / 2, (V[1] + F[1]) / 2], nn = unit(V, F), nrm = [-nn[1], nn[0]], sd = ((m[0] - C[0]) * nrm[0] + (m[1] - C[1]) * nrm[1]) >= 0 ? 1 : -1; s += stx(o.alt.l, m[0] + nrm[0] * sd * 14, m[1] + nrm[1] * sd * 14, { fs: 13, b: 1, c: PINK }); }
       }
@@ -68,7 +66,10 @@ window.LESSONS.G03 = {
         if (o.al && o.al[i]) { var u2 = unit(P[i], C); s += stx(o.al[i], P[i][0] + u2[0] * 34, P[i][1] + u2[1] * 34, { fs: 11.5, b: 1, c: PINK }); }
         if (o.sl && o.sl[i]) {
           var a1 = P[i], b1 = P[(i + 1) % 3], mid = [(a1[0] + b1[0]) / 2, (a1[1] + b1[1]) / 2], dd = unit(a1, b1), nr = [-dd[1], dd[0]], sg = ((mid[0] - C[0]) * nr[0] + (mid[1] - C[1]) * nr[1]) >= 0 ? 1 : -1;
-          s += stx(o.sl[i], mid[0] + nr[0] * sg * 14, mid[1] + nr[1] * sg * 14, { fs: 13, b: 1, c: o.slc || INK });
+          var lx = mid[0] + nr[0] * sg * 14, ly = mid[1] + nr[1] * sg * 14;
+          s += o.sl[i] === 'x'
+            ? '<foreignObject x="' + f2(lx - 15) + '" y="' + f2(ly - 13) + '" width="30" height="26"><div style="display:flex;align-items:center;justify-content:center;height:26px;font-size:15px;font-weight:700;color:' + (o.slc || INK) + '">' + rr(M('x')) + '</div></foreignObject>'
+            : stx(o.sl[i], lx, ly, { fs: 13, b: 1, c: o.slc || INK });
         }
       }
       if (o.hit) { for (i = 0; i < 3; i++) { var hp = P[i], hq = P[(i + 1) % 3]; s += '<line class="hitline" data-s="' + i + '" x1="' + f2(hp[0]) + '" y1="' + f2(hp[1]) + '" x2="' + f2(hq[0]) + '" y2="' + f2(hq[1]) + '" stroke="rgba(0,0,0,0.001)" stroke-width="24" stroke-linecap="round" tabindex="0" role="button" aria-label="ضلع ' + (i + 1) + '"/>'; } }
@@ -86,72 +87,6 @@ window.LESSONS.G03 = {
     /* مثلث با زاویه‌های a در رأس 0 و b در رأس 1 (مختصات ریاضی) */
     function triFromAng(a, b, L) { var c = 180 - a - b, ac = L * Math.sin(b * D2R) / Math.sin(c * D2R); return [[0, 0], [L, 0], [ac * Math.cos(a * D2R), ac * Math.sin(a * D2R)]]; }
     /* مثلث با ضلع‌های AB=a ، BC=b ، CA=c (مختصات ریاضی) */
-
-    K.stepRun = function (host, stages, o) {
-      o = o || {}; var si = 0, ok = 0, q, pick = null, fin = false;
-      function nw() { q = stages[si].gen(); pick = null; }
-      function paint() {
-        var h = '<div class="stg">' + stages.map(function (s, i) { return '<span class="' + (i < si || fin ? 'dn' : i === si ? 'cu' : '') + '">' + (i < si || fin ? '✓ ' : '') + s.n + '</span>'; }).join('') + '</div>', oh = '', op, last = stages.length - 1;
-        if (fin) { host.innerHTML = rr(h + '<div class="fb ok"><b>✓ همهٔ مرحله‌ها را گذراندی!</b> ' + (o.done || '') + '</div><div class="opts"><button type="button" class="btn" data-r="1" data-scroll>از اول، با مسئله‌های جدید</button></div>'); return; }
-        h += '<p class="stage-progress-meta">مرحلهٔ ' + fa(si + 1) + ' — پاسخ‌های درست: ' + fa(ok) + ' از ۲</p><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + (q.cls || 'm2') + '" id="smc"></div>';
-        q.opts.forEach(function (x, k) { var c = pick === null ? '' : x.ok ? ' right' : k === pick ? ' wrong' : ''; oh += '<button type="button" class="btn opt' + c + '" data-o="' + k + '"' + (pick === null ? '' : ' disabled') + '>' + x.h + '</button>'; });
-        if (pick !== null) { op = q.opts[pick]; h += '<div class="fb ' + (op.ok ? 'ok' : 'bad') + '">' + (op.ok ? '✓ درست است!' : op.m || 'این گزینه درست نیست.') + '</div><div class="ex">' + q.expl() + '</div><div class="opts"><button type="button" class="btn primary" data-n="1" data-scroll>' + (op.ok && ok >= 2 && si === last ? 'پایان' : 'مرحلهٔ بعدی') + '</button></div>'; }
-        host.innerHTML = rr(h); host.querySelector('#smc').innerHTML = rr(oh);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o !== undefined) { if (pick !== null) { return; } pick = +b.dataset.o; if (q.opts[pick].ok) { ok++; } paint(); }
-        else if (b.dataset.n) { if (ok >= 2) { ok = 0; si++; if (si >= stages.length) { fin = true; paint(); return; } } nw(); paint(); }
-        else if (b.dataset.r) { si = 0; ok = 0; fin = false; nw(); paint(); }
-      }); nw(); paint();
-    };
-    /* gens: آرایه‌ای از ۵ تابع (هر کدام یک سؤال می‌دهد) */
-    K.finalRun = function (host, gens, msgs) {
-      msgs = msgs || {}; var qs, i, ans;
-      function build() { qs = gens.map(function (g) { return g(); }); i = 0; ans = []; }
-      var fb = function (ok, html) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + html + '</div>'; };
-      function paint() {
-        var q = qs[i], a = ans[i], h, oh = '', s, o, N = qs.length;
-        if (i === N) {
-          s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr('<div class="fb ' + (s >= N - 1 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(s) + ' از ' + fa(N) + '</b><br>' + (s === N ? (msgs.top || 'عالی بود!') : s >= 3 ? 'خوب بود. بخش‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با سؤال‌های جدید امتحان کن.') + '</div><div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
-        }
-        h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + (q.cls || 'm2') + '" id="mcx"></div>';
-        q.opts.forEach(function (op, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + op.h + '</button>'; });
-        if (a !== undefined) { o = q.opts[a]; h += fb(o.ok, o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl() + '</div>'; }
-        h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === N - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o !== undefined) { if (ans[i] !== undefined) { return; } ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { build(); paint(); }
-      }); build(); paint();
-    };
-    /* pool: [{h(html), ok(1/0), e(html), fig?}] */
-    K.tfRun = function (host, pool, msgs) {
-      msgs = msgs || {}; var L, i, answers;
-      function nw() { L = shuffle(pool.slice()).slice(0, 6); i = 0; answers = L.map(function () { return null; }); }
-      function paint() {
-        var h, q, ans = answers[i], sc;
-        if (i >= L.length) {
-          sc = answers.filter(function (x, k) { return x === L[k].ok; }).length;
-          host.innerHTML = rr('<div class="fb ' + (sc >= 5 ? 'ok' : 'bad') + '"><b>نتیجه: ' + fa(sc) + ' از ' + fa(L.length) + '</b><br>' + (sc === L.length ? 'عالی! از هیچ تله‌ای رد نشدی.' : (msgs.bad || 'پیش از جواب‌دادن، جمله را با دقت با داده‌ها بسنج.')) + '</div><div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
-        }
-        q = L[i];
-        h = '<div class="stg">' + L.map(function (x, k) { return '<span class="' + (answers[k] !== null ? (answers[k] === x.ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">این جمله درست است؟</p>' + (q.fig || '') + '<div class="cq" style="font-size:1rem"><span class="snt">' + q.h + '</span></div><div class="sgnrow"><button type="button" class="btn' + (ans === null ? '' : q.ok === 1 ? ' right' : ans === 1 ? ' wrong' : '') + '" data-a="1"' + (ans === null ? '' : ' disabled') + '>درست</button><button type="button" class="btn' + (ans === null ? '' : q.ok === 0 ? ' right' : ans === 0 ? ' wrong' : '') + '" data-a="0"' + (ans === null ? '' : ' disabled') + '>نادرست</button></div>';
-        if (ans !== null) { h += '<div class="fb ' + (ans === q.ok ? 'ok' : 'bad') + '">' + (ans === q.ok ? '✓ درست است!' : 'پاسخ نادرست است.') + '</div><div class="ex">' + q.e + '</div>'; }
-        h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i === 0 ? ' disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (ans === null ? ' disabled' : '') + ' data-scroll>' + (i === L.length - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.a !== undefined) { if (answers[i] !== null) { return; } answers[i] = +b.dataset.a; paint(); }
-        else if (b.dataset.nx) { i++; paint(); }
-        else if (b.dataset.p) { i = Math.max(0, i - 1); paint(); }
-        else if (b.dataset.pv) { i = 0; paint(); }
-        else if (b.dataset.r) { nw(); paint(); }
-      }); nw(); paint();
-    };
 
     /* ---------- گزینه‌ساز مشترک ---------- */
     /* correct/wrongs: {t, m} — t: عبارت TeX (یا HTML وقتی raw=true) */
@@ -181,7 +116,7 @@ window.LESSONS.G03 = {
         var h = '<p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '');
         h += '<div class="numrow"><input class="numin" data-nosign="1" id="gin" type="text" inputmode="decimal" autocomplete="off" aria-label="پاسخ"' + (done ? ' disabled' : '') + 'placeholder="?"><span class="unit">' + (q.unit || '') + '</span></div>' + fbh;
         if (done) { h += '<div class="ex">' + q.expl() + '</div>'; }
-        h += done ? '<div class="opts g-ops"><button type="button" class="btn" data-nw="1" data-scroll>مسئلهٔ دیگر</button></div>' : '<div class="opts g-pair"><button type="button" class="btn primary" data-go="1">بررسی</button><button type="button" class="btn" data-nw="1" data-scroll>مسئلهٔ دیگر</button></div>';
+        h += done ? '<div class="opts g-ops"><button type="button" class="btn primary" data-nw="1" data-scroll>مسئلهٔ دیگر</button></div>' : '<div class="opts g-pair"><button type="button" class="btn" data-go="1">بررسی</button><button type="button" class="btn primary" data-nw="1" data-scroll>مسئلهٔ دیگر</button></div>';
         host.innerHTML = rr(h); var inp = host.querySelector('#gin'); inp.value = val;
       }
       function check() {
@@ -200,7 +135,6 @@ window.LESSONS.G03 = {
       host.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.id === 'gin' && !done) { e.preventDefault(); check(); } });
       nw(); paint();
     };
-
 
     var TRP = [[3, 4, 5], [6, 8, 10], [9, 12, 15], [12, 16, 20], [5, 12, 13], [10, 24, 26], [8, 15, 17], [7, 24, 25], [15, 20, 25]];
     var NAMES = [['A', 'B', 'C'], ['K', 'L', 'M'], ['P', 'Q', 'R'], ['D', 'E', 'F']];
@@ -255,7 +189,7 @@ window.LESSONS.G03 = {
         if ((Wd[0] - U[0]) * n[0] + (Wd[1] - U[1]) * n[1] > 0) { n = [-n[0], -n[1]]; }
         var q = [U, V, [V[0] + n[0], V[1] + n[1]], [U[0] + n[0], U[1] + n[1]]]; sq.push(q); all = all.concat(q);
       });
-      var xs = all.map(function (p) { return p[0]; }), ys = all.map(function (p) { return p[1]; }), x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys), W = 300, H = 280, pd = 30, k = Math.min((W - 2 * pd) / (x1 - x0), (H - 2 * pd) / (y1 - y0)), ox = (W - (x1 - x0) * k) / 2, oy = (H - (y1 - y0) * k) / 2;
+      var xs = all.map(function (p) { return p[0]; }), ys = all.map(function (p) { return p[1]; }), x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys), W = 230, H = 214, pd = 24, k = Math.min((W - 2 * pd) / (x1 - x0), (H - 2 * pd) / (y1 - y0)), ox = (W - (x1 - x0) * k) / 2, oy = (H - (y1 - y0) * k) / 2;
       var S = function (p) { return [ox + (p[0] - x0) * k, oy + (y1 - p[1]) * k]; }, Q = sq.map(function (q) { return q.map(S); }), PS = P.map(S);
       function cells(j) {
         var q = Q[j], L = lens[j], U = q[0], V = q[1], Un = q[3], r = Math.atan2(V[1] - U[1], V[0] - U[0]) / D2R, out = [], i, m;
@@ -295,26 +229,35 @@ window.LESSONS.G03 = {
       var s = sv(W, H), pts = function (A) { return A.map(function (p) { return f2(p[0]) + ',' + f2(p[1]); }).join(' '); };
       Q.forEach(function (q, j) { s += '<polygon points="' + pts(q) + '" fill="' + fills[j] + '" stroke="' + INK + '" stroke-width="2"/>'; });
       st.forEach(function (z) { s += '<rect x="' + f2(-k / 2) + '" y="' + f2(-k / 2) + '" width="' + f2(k) + '" height="' + f2(k) + '" rx="1" stroke="#fff" stroke-width="1" fill="' + dark[0] + '" transform="translate(' + f2(z.x) + ' ' + f2(z.y) + ') rotate(' + f2(z.r) + ')"/>'; });
-      mv.forEach(function (m) { s += '<rect class="pyc" x="' + f2(-k / 2) + '" y="' + f2(-k / 2) + '" width="' + f2(k) + '" height="' + f2(k) + '" rx="1" stroke="#fff" stroke-width="1" style="fill:' + fillAt(m, 0) + ';transform:' + tf(posAt(m, 0).x, posAt(m, 0).y, posAt(m, 0).r) + '"/>'; });
       s += '<polygon points="' + pts(PS) + '" fill="#fff" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>' + rmark(PS[0], PS[1], PS[2], 12, INK);
+      mv.forEach(function (m) { s += '<rect class="pyc" x="' + f2(-k / 2) + '" y="' + f2(-k / 2) + '" width="' + f2(k) + '" height="' + f2(k) + '" rx="1" stroke="#fff" stroke-width="1" style="fill:' + fillAt(m, 0) + ';transform:' + tf(posAt(m, 0).x, posAt(m, 0).y, posAt(m, 0).r) + '"/>'; });
       s += '<polygon class="pyo" points="' + pts(Q[uj]) + '" fill="none" stroke="' + AMB + '" stroke-width="4.5" stroke-linejoin="round"/>';
       Q.forEach(function (q, j) {
         var cx = (q[0][0] + q[2][0]) / 2, cy = (q[0][1] + q[2][1]) / 2, mx = (q[2][0] + q[3][0]) / 2, my = (q[2][1] + q[3][1]) / 2, u = unit([cx, cy], [mx, my]), an = u[0] > .5 ? 'start' : u[0] < -.5 ? 'end' : 'middle', off = an === 'middle' ? 13 : 9;
-        s += '<g class="pyt" data-j="' + j + '"><rect x="' + f2(cx - 17) + '" y="' + f2(cy - 11) + '" width="34" height="22" rx="6" fill="#fff" stroke="' + INK + '" stroke-width="1.5"/>' + stx('', cx, cy, { fs: 13, b: 1 }) + '</g>';
-        s += '<g class="pyd" data-j="' + j + '">' + stx(dims[j], mx + u[0] * off, my + u[1] * off, { fs: 14, b: 1, a: an, c: j === uj ? RED : INK }) + '</g>';
+        s += '<g class="pyt" data-j="' + j + '"><rect x="' + f2(cx - 17) + '" y="' + f2(cy - 11) + '" width="34" height="22" rx="6" fill="#fff" stroke="' + INK + '" stroke-width="1.5"/>' + stx('', cx, cy, { fs: 13, b: 1 }) + '<foreignObject class="pyk" style="display:none" x="' + f2(cx - 17) + '" y="' + f2(cy - 11) + '" width="34" height="22"><div style="display:flex;align-items:center;justify-content:center;height:22px;font-size:13px;font-weight:700;color:' + INK + '"></div></foreignObject>' + '</g>';
+        var dx = mx + u[0] * off, dy = my + u[1] * off;
+        s += '<g class="pyd" data-j="' + j + '">' + (j === uj
+          ? '<foreignObject x="' + f2(an === 'start' ? dx : an === 'end' ? dx - 60 : dx - 30) + '" y="' + f2(dy - 13) + '" width="60" height="26"><div style="display:flex;align-items:center;justify-content:' + (an === 'start' ? 'flex-start' : an === 'end' ? 'flex-end' : 'center') + ';height:26px;font-size:15px;font-weight:700;color:' + RED + '">' + rr(M('x')) + '</div></foreignObject>'
+          : stx(dims[j], dx, dy, { fs: 14, b: 1, a: an, c: INK })) + '</g>';
       });
       s += '</svg>';
       var i, bars = '';
       for (i = 0; i < N; i++) { bars += '<i></i>'; }
-      host.innerHTML = rr('<div class="e02-example-top"><strong>' + (hyp ? 'پیداکردن وتر' : 'پیداکردن ضلع قائم') + '</strong><span class="pyn"></span></div><div class="e02-example-progress">' + bars + '</div><div class="pyf"></div><p class="pycap" aria-live="polite">' + caps.map(function (x) { return '<span>' + x + '</span>'; }).join('') + '</p><div class="pyls">' + eq.map(function (g) { return '<div class="pyg">' + g.map(function (t) { return K.dm(t); }).join('') + '</div>'; }).join('') + '</div><div class="e02-example-actions end-actions"><button type="button" class="btn" data-pv="1" data-scroll=".e02-example-top">گام قبلی</button><button type="button" class="btn primary" data-nx="1" data-scroll=".e02-example-top">گام بعدی</button></div>');
+      host.innerHTML = rr('<div class="e02-example-top"><strong>' + (hyp ? 'حل گام‌به‌گام: مجهول، وتر است' : 'حل گام‌به‌گام: مجهول، ضلع قائم است') + '</strong><span class="pyn"></span></div><div class="e02-example-progress">' + bars + '</div><div class="pyf"></div><p class="pycap" aria-live="polite">' + caps.map(function (x) { return '<span>' + x + '</span>'; }).join('') + '</p><div class="pyls">' + eq.map(function (g) { return '<div class="pyg">' + g.map(function (t) { return K.dm(t); }).join('') + '</div>'; }).join('') + '</div><div class="e02-example-actions end-actions"><button type="button" class="btn" data-pv="1" data-scroll=".e02-example-top">گام قبلی</button><button type="button" class="btn primary" data-nx="1" data-scroll=".e02-example-top">گام بعدی</button></div>');
       host.querySelector('.pyf').innerHTML = s;
       var rc = host.querySelectorAll('.pyc'), ls = host.querySelectorAll('.pyg'), tg = host.querySelectorAll('.pyt'), dg = host.querySelectorAll('.pyd'), pr = host.querySelectorAll('.e02-example-progress i'), ov = host.querySelector('.pyo'), cs = host.querySelectorAll('.pycap span'), num = host.querySelector('.pyn'), pv = host.querySelector('[data-pv]'), nx = host.querySelector('[data-nx]');
       var cur = mv.map(function (m) { return m.f.r; }), step = 0, busy = false, timer = 0;
       var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      function setLab(j, txt) { var g = tg[j]; if (txt === null) { g.style.display = 'none'; } else { g.style.display = ''; g.querySelector('text').textContent = txt; } }
+      function setLab(j, txt) {
+        var g = tg[j], t = g.querySelector('text'), k = g.querySelector('.pyk');
+        if (txt === null) { g.style.display = 'none'; return; }
+        g.style.display = '';
+        if (txt === 'x²') { t.style.display = 'none'; k.style.display = ''; k.firstChild.innerHTML = rr(M('x^2')); }
+        else { k.style.display = 'none'; t.style.display = ''; t.textContent = txt; }
+      }
       function settle(to) {
         labs[to].forEach(function (t, j) { setLab(j, t); });
-        dg[uj].querySelector('text').textContent = to === N - 1 ? dimEnd : dims[uj];
+        dg[uj].querySelector('div').innerHTML = rr(M(to === N - 1 ? 'x=' + (hyp ? 5 : 8) : 'x'));
         ov.classList.toggle('on', to === N - 1);
         Array.prototype.forEach.call(ls, function (l, n) { l.classList.toggle('on', n === to); });
         pv.disabled = to === 0; nx.disabled = false; nx.textContent = to === N - 1 ? 'از اول' : 'گام بعدی'; busy = false;
@@ -415,12 +358,26 @@ window.LESSONS.G03 = {
     ];
     return {
       html: function () {
-        var ladder = (function () { var s = sv(280, 200); s += '<rect x="30" y="170" width="230" height="10" fill="#e6f6f3" stroke="' + INK + '" stroke-width="2"/><rect x="30" y="10" width="14" height="170" fill="#eceffd" stroke="' + INK + '" stroke-width="2"/>'; s += sln([84, 170], [44, 50], BLUE, 6) + rmark([44, 170], [44, 90], [150, 170], 14, INK); s += stx('نردبان ' + fa(10), 78, 104, { fs: 12, b: 1, c: BLUE }) + stx(fa(6) + ' (پای نردبان)', 130, 195, { fs: 12 }) + stx('؟', 60, 130, { fs: 18, b: 1, c: PINK }); return s + '</svg>'; })();
+        var ladder = (function () {
+          function br(A, B, n, d) {
+            var L = Math.hypot(B[0] - A[0], B[1] - A[1]), u = [(B[0] - A[0]) / L, (B[1] - A[1]) / L];
+            function P(s, t) { return f2(A[0] + u[0] * s + n[0] * t) + ' ' + f2(A[1] + u[1] * s + n[1] * t); }
+            return '<path d="M' + P(0, 0) + ' Q' + P(0, d / 2) + ' ' + P(d / 2, d / 2) + ' L' + P(L / 2 - d / 2, d / 2) + ' Q' + P(L / 2, d / 2) + ' ' + P(L / 2, d) + ' Q' + P(L / 2, d / 2) + ' ' + P(L / 2 + d / 2, d / 2) + ' L' + P(L - d / 2, d / 2) + ' Q' + P(L, d / 2) + ' ' + P(L, 0) + '" fill="none" stroke="' + INK + '" stroke-width="1.8" stroke-linecap="round"/>';
+          }
+          var s = sv(300, 228);
+          s += '<rect x="56" y="180" width="230" height="10" fill="#e6f6f3" stroke="' + INK + '" stroke-width="2"/><rect x="56" y="10" width="16" height="170" fill="#eceffd" stroke="' + INK + '" stroke-width="2"/>';
+          s += sln([156, 180], [72, 68], BLUE, 6) + rmark([72, 180], [72, 100], [160, 180], 14, INK);
+          s += br([50, 68], [50, 180], [-1, 0], 12) + stx('؟', 24, 124, { fs: 22, b: 1, c: PINK });
+          s += br([72, 197], [156, 197], [0, 1], 12) + stx(fa(6), 114, 221, { fs: 15, b: 1 });
+          s += stx('نردبان ' + fa(10), 128, 112, { fs: 13, b: 1, c: BLUE, a: 'start' });
+          return s + '</svg>';
+        })();
         return [
           K.sn('۱', 'مربع روی ضلع‌های مثلث قائم‌الزاویه'),
           '<p>روی هر ضلع مثلث یک مربع می‌سازیم. در مثلث قائم‌الزاویه، مجموعِ مساحتِ دو مربعِ روی ضلع‌های قائم دقیقاً برابر مساحتِ مربعِ روی وتر است. باور نمی‌کنی؟ سه مثلث قائم‌الزاویه و یک مثلث دیگر را امتحان کن:</p><div class="cover g-act" id="sq" style="animation:none"></div>',
-          K.box('note', 'رابطهٔ فیثاغورس', '<p>در مثلث قائم‌الزاویه با ضلع‌های قائم ' + M('a') + ' و ' + M('b') + ' و وتر ' + M('c') + ':</p>' + K.dm('c^2=a^2+b^2')),
+          K.box('note', 'رابطهٔ فیثاغورس', '<p>آنچه در مربع‌های بالا دیدی، «رابطهٔ فیثاغورس» نام دارد. اگر ضلع‌های قائمِ مثلث قائم‌الزاویه ' + M('a') + ' و ' + M('b') + ' و وتر ' + M('c') + ' باشد، آن‎گاه داریم:</p>' + K.dm('c^2=a^2+b^2')),
 
+          '<p>این رابطه سه طول را به هم گره می‌زند؛ پس اگر دو ضلعِ مثلث قائم‌الزاویه معلوم باشد، ضلع سوم از آن به دست می‌آید. بسته به اینکه مجهول، وتر باشد یا یکی از ضلع‌های قائم، مسئله دو حالت دارد و هر کدام را جداگانه بررسی می‌کنیم.</p>',
           K.sn('۲', 'پیداکردن وتر'),
           '<p>ضلع‌های قائم ' + M('3') + ' و ' + M('4') + ' است؛ وتر چقدر است؟</p><div class="cover g-act" id="pa" style="animation:none"></div>',
           K.box('err', '⚠ دو خطای رایج', '<p><ol><li>جمع‌کردن خودِ طول‌ها: ' + M('3+4=7') + ' وتر نیست.</li><li>ناتمام رها کردن جواب: وقتی به ' + M('x^2=25') + ' رسیدی، هنوز ' + M('x') + ' را پیدا نکرده‌ای. جذر بگیر: ' + M('x=5') + ' (نه ' + M('25') + '؛ یعنی جذر را فراموش نکن).</li></ol></p>'),
@@ -431,17 +388,17 @@ window.LESSONS.G03 = {
           '<p>خودت حل کن؛ هر بار یک مثلث چرخیده و عددهای تازه می‌آید:</p><div class="cover g-act" id="fd" style="animation:none"></div>',
 
           K.sn('۴', 'فقط برای مثلث قائم‌الزاویه'),
-          '<p>رابطهٔ فیثاغورس فقط وقتی کار می‌کند که یکی از زاویه‌ها قائمه باشد. اگر مثلثی ' + M('70^\\circ') + ' و ' + M('60^\\circ') + ' و ' + M('50^\\circ') + ' داشته باشد، خبری از رابطه نیست. برعکسش هم درست است: اگر سه ضلع در رابطهٔ ' + M('a^2+b^2=c^2') + ' صدق کنند (با ' + M('c') + ' بلندترین)، مثلث قائم‌الزاویه است:</p>', K.dm('5^2+12^2=25+144=169=13^2', 1), '<p>پس مثلث <b>قائم‌الزاویه</b> است.</p>', K.dm('4^2+5^2=41\\ne6^2=36', 1), '<p>پس مثلث <b>قائم‌الزاویه نیست</b>.</p>',
+          '<p>رابطهٔ فیثاغورس فقط وقتی کار می‌کند که یکی از زاویه‌ها قائمه باشد. اگر مثلثی ' + M('70^\\circ') + ' و ' + M('60^\\circ') + ' و ' + M('50^\\circ') + ' داشته باشد، خبری از رابطه نیست. برعکسش هم درست است: اگر سه ضلع در رابطهٔ ' + M('a^2+b^2=c^2') + ' صدق کنند (با ' + M('c') + ' بلندترین)، مثلث قائم‌الزاویه است:</p>', K.dm('5^2+12^2=25+144=169=13^2', 1), '<p>پس مثلثی با اضلاع 5 و 12 و 13، یک مثلث <b>قائم‌الزاویه</b> است.</p>', K.dm('4^2+5^2=41\\ne6^2=36', 1), '<p>ولی مثلثی با اضلاع 4 و 5 و 6، یک مثلث <b>قائم‌الزاویه نیست</b>.</p>',
 
           K.sn('۵', 'کاربرد: نردبان و مستطیل'),
           '<p>نردبانی به طول ' + M('10') + ' متر به دیوار تکیه داده و پایش ' + M('6') + ' متر از دیوار فاصله دارد. نوک نردبان تا زمین چند متر است؟ دیوار و زمین زاویهٔ قائمه می‌سازند و نردبان وتر است:</p>', fig1(ladder), K.dm('x^2=10^2-6^2=64\\ \\Rightarrow\\ x=8'),
-          '<p>قطر مستطیلی به ابعاد ' + M('12') + ' و ' + M('5') + ' هم وتر یک مثلث قائم‌الزاویه است:</p>', K.dm('d^2=12^2+5^2=169\\ \\Rightarrow\\ d=13'),
+          '<p>قطر مستطیلی به ابعاد ' + M('12') + ' و ' + M('5') + ' هم، وتر یک مثلث قائم‌الزاویه است:</p>', K.dm('d^2=12^2+5^2=169\\ \\Rightarrow\\ d=13'),
 
           K.sn('۶', 'کارت مرجع'),
           refs([{ c: 'r1', t: 'رابطهٔ فیثاغورس', r: 'فقط برای مثلث قائم‌الزاویه.', e: 'c^2=a^2+b^2' }, { c: 'r2', t: 'پیداکردن وتر', r: 'مربع‌ها را جمع کن، جذر بگیر.', e: 'c=\\sqrt{a^2+b^2}' }, { c: 'r3', t: 'پیداکردن ضلع قائم', r: 'مربع‌ها را از هم کم کن، جذر بگیر.', e: 'a=\\sqrt{c^2-b^2}' }, { c: 'r4', t: 'سه‌تایی‌های آشنا', r: 'ضلع‌های درست و سرراست.', e: '3,4,5\\quad 5,12,13' }, { c: 'r1', t: 'بررسی قائمه‌بودن', r: 'بلندترین ضلع را وتر بگیر.', e: 'a^2+b^2\\overset{?}{=}c^2' }, { c: 'r3', t: 'جذر را فراموش نکن', r: 'x^2 = 25 یعنی x = 5.', e: 'x=\\sqrt{25}=5' }]),
 
           K.sn('۷', 'ضلع‌یاب'),
-          '<p>هر مرحله با دو پاسخ درست تمام می‌شود. بعد از هر پاسخ، دلیلش را می‌بینی.</p><div class="cover g-act" id="ss" style="animation:none"></div>',
+          '<p>هر مرحله دو سؤال دارد. بعد از هر پاسخ، دلیلش را می‌بینی.</p><div class="cover g-act" id="ss" style="animation:none"></div>',
           K.sn('۸', 'درست یا نادرست؟'),
           '<p>شش جمله را بسنج. به تله‌ها دقت کن.</p><div class="cover g-act" id="tf" style="animation:none"></div>',
           K.sn('۹', 'تمرین پایانی'),
@@ -451,9 +408,13 @@ window.LESSONS.G03 = {
       },
       init: function (panel) {
         K.sqLab(panel.querySelector('#sq')); K.pyAnim(panel.querySelector('#pa'), 'c'); K.pyAnim(panel.querySelector('#pb'), 'a'); K.numLab(panel.querySelector('#fd'), genFD);
-        K.stepRun(panel.querySelector('#ss'), [{ n: 'پیداکردن وتر', gen: genC1 }, { n: 'پیداکردن ضلع قائم', gen: genC2 }, { n: 'رابطه و شرط آن', gen: genC3 }], { done: 'حالا برو سراغ تله‌ها.' });
-        K.tfRun(panel.querySelector('#tf'), TFP);
-        K.finalRun(panel.querySelector('#fn'), [genC1, genC1, genC2, genC3, genC3], { top: 'عالی بود! فیثاغورس را کاملاً فهمیده‌ای.' });
+        var GC = [genC1, genC2, genC3];
+        H.stages(panel.querySelector('#ss'), {
+          names: ['پیداکردن وتر', 'پیداکردن ضلع قائم', 'رابطه و شرط آن'],
+          make: function (si) { var q = GC[si](); return { ask: q.ask, fig: q.fig, cq: q.cq, cont: 'mc ' + (q.cls || 'm2'), opts: q.opts, expl: q.expl }; }
+        });
+        H.tf(panel.querySelector('#tf'), TFP);
+        H.final(panel.querySelector('#fn'), [genC1, genC1, genC2, genC3, genC3]);
       }
     };
 

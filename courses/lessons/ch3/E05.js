@@ -1,7 +1,7 @@
 /* درس مهارت E05 — معادله‌های دارای کسر و عبارت جبری (فصل ۳) */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.E05 = {
-  needs: ['utils'],
+  needs: ['utils', 'gslider'],
   setup: function (K0) {
     var ML = window.MathLite, F = ML.fa, rr = ML.renderRich, abs = Math.abs, _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var M0 = _u.M, K = Object.create(K0), T = String.raw;
@@ -213,52 +213,34 @@ window.LESSONS.E05 = {
         return sw ? [w[1], w[0]] : w;
       }
       function texNum(v) { return String(Math.round(v * 100) / 100); }
-      function ticksHtml() {
-        var h = '', i, n;
-        for (i = 0; i <= TOTAL; i++) {
-          n = MIN + i;
-          h += '<span class="' + (n === k ? 'e01-target-tick' : '') + '" style="--gr-step:' + i + ';--gr-total:' + TOTAL + '"><i></i>' + M(String(n)) + '</span>';
-        }
-        return h;
-      }
-      function card(side, label) {
-        return '<div class="e01-pair" data-side="' + side + '"><span>' + label + '</span><strong class="e01-formula-tag" data-tag></strong><div class="e01-pair-eval" data-eval></div><small data-sub></small></div>';
-      }
       function draw() {
+        var S = sides();
         st.innerHTML = rr(
           '<div class="e02-problem-head"><span class="e02-problem-chip">' + M(dfr(sides()[0].tag, den) + '=' + dfr(sides()[1].tag, den)) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="عدد دیگر" aria-label="عدد دیگر">' + REFRESH + '</button></div>' +
-          '<div class="e01-compare">' +
-          '<div class="e01-compare-control graduated-range">' +
-          '<div class="e01-compare-head"><span>عدد آزمایشی ' + M('x') + '</span><strong data-z-x></strong></div>' +
-          '<input type="range" id="z-x" min="' + MIN + '" max="' + MAX + '" step="1" value="' + x + '" aria-label="عدد آزمایشی">' +
-          '<div class="e01-compare-ticks graduated-ticks" aria-hidden="true">' + ticksHtml() + '</div>' +
-          '</div>' +
-          '<div class="e01-pairs">' + card('L', 'سمت چپ') + card('R', 'سمت راست') + '</div>' +
-          '</div>' +
-          '<div id="z-note"></div>'
+          '<div id="z-gs"></div><div id="z-note"></div>'
         );
-        upd();
-      }
-      function upd() {
-        var x2 = +st.querySelector('#z-x').value, d = x2 - k, bad = d === 0;
-        x = x2;
-        st.querySelector('[data-z-x]').innerHTML = rr(M('x=' + x2));
-        var note = st.querySelector('#z-note');
-        var S = sides();
-        ['L', 'R'].forEach(function (id, i) {
-          var el = st.querySelector('[data-side="' + id + '"]'), q = S[i], dn = pv(x2) + (k > 0 ? '-' + k : '+' + (-k)), nv = q.num(x2);
-          el.querySelector('[data-tag]').innerHTML = rr(M(dfr(q.tag, den)));
-          el.querySelector('[data-eval]').innerHTML = bad ? '<span dir="rtl">تعریف‌نشده</span>'
-            : rr(M(dfr(q.sub(x2), dn) + '=' + dfr(nv, d) + '=' + texNum(nv / d)));
-          el.querySelector('[data-sub]').innerHTML = bad ? 'مخرج صفر است' : rr('با جایگذاری ' + M('x=' + x2));
-          el.classList.toggle('is-undefined', bad);
+        GSlider.build(st.querySelector('#z-gs'), {
+          min: MIN, max: MAX, value: x, target: k, label: 'عدد آزمایشی ' + M('x'), aria: 'عدد آزمایشی',
+          cards: [{ name: 'سمت چپ', tag: M(dfr(S[0].tag, den)) }, { name: 'سمت راست', tag: M(dfr(S[1].tag, den)) }],
+          paint: upd
         });
-        note.innerHTML = bad ? rr(
+      }
+      function upd(x2) {
+        var d = x2 - k, bad = d === 0, S = sides(), dn = pv(x2) + (k > 0 ? '-' + k : '+' + (-k));
+        x = x2;
+        st.querySelector('#z-note').innerHTML = bad ? rr(
           '<div class="fb bad" role="status">مخرج برابر صفر است؛ این عدد قابل‌قبول نیست.</div>' +
           '<div class="ex">اگر دو طرف را در ' + M(den) + ' ضرب کنیم به ' + M('x=' + k) + ' می‌رسیم، اما همین مقدار مخرج را صفر می‌کند؛ پس معادله <b>جواب ندارد</b>. همیشه بعد از حل، جواب را در مخرج‌ها بررسی کن.</div>'
         ) : rr('<div class="e3-row"><span class="e3-pill bad">سمت چپ و راست برابر نیستند؛ پس این عدد جواب نیست.</span></div>');
+        return { cards: S.map(function (q) {
+          var nv = q.num(x2);
+          return {
+            ev: bad ? '<span class="gs-undef">تعریف‌نشده</span>' : rr(M(dfr(q.sub(x2), dn) + '=' + dfr(nv, d) + '=' + texNum(nv / d))),
+            status: bad ? 'مخرج صفر است' : 'با جایگذاری ' + M('x=' + x2),
+            state: bad ? 'bad' : ''
+          };
+        }) };
       }
-      root.addEventListener('input', function (e) { if (e.target.id === 'z-x') { upd(); } });
       root.addEventListener('click', function (e) {
         var b = e.target.closest('button');
         if (!b || b.disabled) { return; }

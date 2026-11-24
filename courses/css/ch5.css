@@ -31,7 +31,6 @@
 }
 
 .g5-scope .g-act .opts.g-ops>.btn:not(.primary) {
-    /* box-shadow: 2px 2px 0 var(--ink); */
     transition: transform .10s ease, box-shadow .10s ease
 }
 
@@ -67,15 +66,8 @@
     }
 }
 
-@media(max-width:520px) {
-    .g5-scope .mc.m2:has(.pcard) {
-        grid-template-columns: 1fr
-    }
-}
-
 .g5-scope .g-act svg.gsv {
     display: block;
-    /* margin: 6px auto; */
     margin: 6px auto 0 auto;
     max-width: 100%;
     height: auto;
@@ -84,7 +76,9 @@
 }
 
 .g5-scope .g-act #shf svg.gsv {
-    max-height: clamp(120px, calc((100vh - 380px)*.55), 320px)
+    /* max-height: clamp(120px, calc((100vh - 380px)*.55), 320px) */
+    max-height: none;
+    max-width: 360px
 }
 
 .g5-scope .g-act .gval {
@@ -93,7 +87,7 @@
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
-    margin: 6px 0;
+    margin: 8px 0;
     font-size: 1rem
 }
 
@@ -107,7 +101,6 @@
     outline: 2px dashed var(--ink);
     border-radius: 10px;
     background: #fff;
-    /* box-shadow: 2px 2px 0 var(--ink) */
 }
 
 .g5-scope .g-act .gval i.y {
@@ -139,7 +132,6 @@
 
 /* ---end */
 
-/* .g5-scope .g-act .numrow{display:flex;justify-content:center;align-items:center;gap:10px;margin:8px 0;direction:ltr} */
 .g5-scope .g-act .numrow {
     display: flex;
     flex-direction: row-reverse;
@@ -234,6 +226,10 @@
     max-width: 110px;
     height: auto;
     margin: 0 auto
+}
+
+#c3-g4-t4 .dm {
+    padding-top: 5px;
 }
 
 /* مثال حل‌شدهٔ گام‌به‌گام (همان ظاهر E03 در فصل ۳) */

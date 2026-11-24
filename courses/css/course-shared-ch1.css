@@ -147,3 +147,10 @@
         font-size: .5rem !important;
     }
 }
+
+/* درست/نادرست مشترک (H.tf) در فصل ۱ */
+.sgnrow .btn.right { background: #d2f0e9; border-color: var(--accent) }
+.sgnrow .btn.wrong { background: #fbd5d5; border-color: #b23a3a }
+.sgnrow .btn:disabled { opacity: 1 }
+.snt { display: block; direction: rtl; font-size: 1rem; line-height: 1.9; text-align: center }
+.snt .katex { font-size: 1.1em }

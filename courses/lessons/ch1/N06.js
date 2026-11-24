@@ -2,20 +2,19 @@
    تمام تمرین‌ها اعداد تصادفی می‌سازند و پاسخ را با محاسبهٔ دقیق (کسری) می‌سنجند. */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.N06 = {
-  needs: ['utils', 'inputs'],
+  needs: ['utils', 'inputs', 'kit'],
   /* بدنهٔ درس داخل setup است تا فقط بعد از لود شدن ماژول‌های needs اجرا شود */
   setup: function (K0) {
     var ML = window.MathLite, fa = ML.fa, rr0 = ML.renderRich;
     var _u = K0._u, R = _u.R, shuffle = _u.shuffle;
     var fb = K0._i.fb;
-    var K = Object.create(K0);
+    var K = Object.create(K0), H = K0.lk(K);
     var T = String.raw, NL = '\\\\', tm = '\\times', dv = '\\div';
 
     /* ---------- استایل مخصوص این درس (فقط یک بار) ---------- */
     if (!document.getElementById('n6css')) {
       var st = document.createElement('style'); st.id = 'n6css';
       st.textContent = [
-        // '.n6-w{font-size:.95em}.n6-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n6-w .ask{font-size:.95rem}.n6-w .opts{gap:6px}.n6-w .fb,.n6-w .ex{font-size:1em}',
         '.n6-w{font-size:.95em}.n6-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n6-w .ask{font-size:.95rem}.n6-w .opts{gap:6px}',
         '.n6-w .mc .opt{min-height:44px;font-size:1rem}',
         '#n6d,#n6e{font-size:1em}.n6-w .end-actions>.btn{min-width:120px;min-height:36px;padding:6px 14px;font-size:.9rem}',
@@ -275,26 +274,26 @@ window.LESSONS.N06 = {
         [simp(a.n * n, a.d), 'توان یعنی ضرب تکراریِ پایه در خودش، نه ضرب پایه در توان.'], [rpow(a, n - 1), 'تعداد عامل‌ها را یکی کم گرفته‌ای.'], [rpow(a, n + 1), 'یک عامل اضافه گرفته‌ای؛ فقط ' + fa(n) + ' عامل داریم.'], [neg(simp(a.n * n, a.d)), 'توان یعنی ضرب تکراری، نه ضرب پایه در توان.']];
         var out = [{ h: M(rt(c)), ok: true }], seen = {}; seen[rt(c)] = 1;
         cands.forEach(function (x) { var k = rt(x[0]); if (!seen[k] && out.length < 4) { seen[k] = 1; out.push(mk(k, x[1])); } });
-        return { ask: 'مقدار ' + M(ex) + ' کدام است؟', expl: '<p>' + M(ex + '=' + Array(n + 1).join(bt(a) + tm).slice(0, -tm.length) + '=' + rt(c)) + '</p>', opts: out };
+        return { ask: 'مقدار ' + M(ex) + ' کدام است؟', expl: function () { return '<p>' + M(ex + '=' + Array(n + 1).join(bt(a) + tm).slice(0, -tm.length) + '=' + rt(c)) + '</p>'; }, opts: out };
       }
       function qProduct() {
         var a = pick([2, 3, 4, 5]), m, n, t = 0; do { m = R(2, 5); n = R(2, 5); } while ((m * n === m + n || m === n) && t++ < 100);
         return {
-          ask: 'حاصل ' + M(P2(a, m) + tm + P2(a, n)) + ' را به‌صورت یک توان بنویس:', expl: '<p>' + M(P2(a, m) + tm + P2(a, n) + '=' + P2(a, m + '+' + n) + '=' + P2(a, m + n)) + '</p>', opts: [{ h: M(P2(a, m + n)), ok: true },
+          ask: 'حاصل ' + M(P2(a, m) + tm + P2(a, n)) + ' را به‌صورت یک توان بنویس:', expl: function () { return '<p>' + M(P2(a, m) + tm + P2(a, n) + '=' + P2(a, m + '+' + n) + '=' + P2(a, m + n)) + '</p>'; }, opts: [{ h: M(P2(a, m + n)), ok: true },
           mk(P2(a, m * n), 'توان‌ها را در هم ضرب کرده‌ای؛ باید جمع کنی.'), mk('(' + a + tm + a + ')^{' + (m + n) + '}', 'پایه عوض نمی‌شود؛ همان ' + fa(a) + ' می‌ماند.'), mk(P2(a, m - n), 'تفریق مال تقسیم است؛ در ضرب توان‌ها جمع می‌شوند.')]
         };
       }
       function qQuot() {
         var a = pick([2, 3, 4, 5]), m = R(1, 6), n = R(1, 6); while (m === n) { n = R(1, 6); }
         return {
-          ask: 'حاصل ' + M(P2(a, m) + dv + P2(a, n)) + ' را به‌صورت یک توان بنویس:', expl: '<p>' + M(P2(a, m) + dv + P2(a, n) + '=' + P2(a, m + '-' + n) + '=' + P2(a, m - n)) + (m < n ? '</p><p>توان منفی شد، یعنی جواب یک کسر است: ' + M(P2(a, m - n) + '=\\frac{1}{' + Math.pow(a, n - m) + '}') : '') + '</p>', opts: [{ h: M(P2(a, m - n)), ok: true },
+          ask: 'حاصل ' + M(P2(a, m) + dv + P2(a, n)) + ' را به‌صورت یک توان بنویس:', expl: function () { return '<p>' + M(P2(a, m) + dv + P2(a, n) + '=' + P2(a, m + '-' + n) + '=' + P2(a, m - n)) + (m < n ? '</p><p>توان منفی شد، یعنی جواب یک کسر است: ' + M(P2(a, m - n) + '=\\frac{1}{' + Math.pow(a, n - m) + '}') : '') + '</p>'; }, opts: [{ h: M(P2(a, m - n)), ok: true },
           mk(P2(a, n - m), 'ترتیب تفریق را برعکس کرده‌ای: توانِ صورت منهای توانِ مخرج.'), mk(P2(a, m + n), 'در تقسیم توان‌ها کم می‌شوند، نه جمع.'), mk(P2(a, m * n), 'توان‌ها در هم ضرب نمی‌شوند؛ در تقسیم کم می‌شوند.')]
         };
       }
       function qNeg() {
         var a = pick([Z(2), Z(3), Z(4), Z(5), Z(10), simp(2, 3), simp(3, 2)]), n = R(1, 3), c = rpow(a, -n), neg = function (r) { return simp(-r.n, r.d); };
         return {
-          ask: 'مقدار ' + M(pt(a, -n)) + ' کدام است؟', expl: '<p>' + M(pt(a, -n) + '=\\frac{1}{' + pt(a, n) + '}=' + rt(c)) + '</p>', opts: [{ h: M(rt(c)), ok: true },
+          ask: 'مقدار ' + M(pt(a, -n)) + ' کدام است؟', expl: function () { return '<p>' + M(pt(a, -n) + '=\\frac{1}{' + pt(a, n) + '}=' + rt(c)) + '</p>'; }, opts: [{ h: M(rt(c)), ok: true },
           mk(rt(neg(c)), 'توان منفی عدد را منفی نمی‌کند.'), mk(rt(rpow(a, n)), 'علامت توان را نادیده گرفته‌ای؛ توان منفی یعنی «یک تقسیم بر ...» (وارونه).'), mk(rt(neg(rpow(a, n))), 'توان منفی عدد را منفی نمی‌کند؛ فقط وارونه‌اش می‌کند.')]
         };
       }
@@ -312,9 +311,9 @@ window.LESSONS.N06 = {
             m: 'این برابری نادرست است.' + w.why
           });
         });
-        return { ask: 'کدام برابری درست است؟', expl: g.why, opts: opts };
+        return { ask: 'کدام برابری درست است؟', expl: function () { return g.why; }, opts: opts };
       }
-      seq(host, function () { return [qValue, qProduct, qQuot, qNeg, qWhich].map(function (f) { var q, tries = 0; do { q = f(); tries++; } while (uniq(q.opts).length !== 4 && tries < 150); q.opts = shuffle(uniq(q.opts)); return q; }); });
+      H.final(host, [qValue, qProduct, qQuot, qNeg, qWhich].map(function (f) { return function () { var q, tries = 0; do { q = f(); tries++; } while (uniq(q.opts).length !== 4 && tries < 150); q.opts = shuffle(uniq(q.opts)); return H.fixQ(q); }; }));
     };
 
     /* ---------- دیالوگ‌های i و شکل مربع/مکعب ---------- */

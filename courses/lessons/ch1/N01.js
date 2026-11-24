@@ -173,35 +173,14 @@ window.LESSONS.N01 = {
 
     /* ---- آزمون پایانی ۵ سؤالی، چهارگزینه‌ای با اعداد تصادفی ---- */
     K.final = function (host) {
-      var qs, i, ans;
-      function build() {
-        qs = ['add', 'sub', 'mul', 'div', 'ord'].map(function (k) {
+      H.final(host, ['add', 'sub', 'mul', 'div', 'ord'].map(function (k) {
+        return function () {
           var q = gen(k, false, k === 'div' && Math.random() < 0.3), opts = [{ v: q.ans, ok: true }], seen = {}, t;
           seen[q.ans] = 1; q.errs.forEach(function (e) { if (!seen[e.v] && opts.length < 4) { seen[e.v] = 1; opts.push({ v: e.v, m: e.m }); } });
           while (opts.length < 4) { t = q.ans === 'U' ? R(-9, 9) : q.ans + NZ(-4, 4); if (!seen[t]) { seen[t] = 1; opts.push({ v: t }); } }
-          q.opts = shuffle(opts); return q;
-        });
-        i = 0; ans = [];
-      }
-      function paint() {
-        var q = qs[i], a = ans[i], h, last = i === 4;
-        if (i === 5) {
-          var s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr(K.res(s, 5) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
-        }
-        h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">حاصل کدام است؟</p><div class="dm k">' + M(q.tex) + '</div><div class="mc">';
-        q.opts.forEach(function (o, k) { h += '<button type="button" class="btn opt' + (a !== undefined ? (o.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '><bdi dir="ltr">' + SG(o.v) + '</bdi></button>'; });
-        h += '</div>';
-        if (a !== undefined) { var o = q.opts[a]; h += fb(o.ok, o.ok ? 'درست است! ✓' : (o.m || 'این گزینه درست نیست.')) + '<p class="ex">' + q.expl + '</p>'; }
-        h += '<div class="opts n01-final-nav"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (last ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o) { ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); }
-        else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { build(); paint(); }
-      });
-      build(); paint();
+          return { ask: 'حاصل کدام است؟', fig: K.dm(q.tex, 1), expl: function () { return q.expl; }, opts: shuffle(opts).map(function (o) { return { h: '<bdi dir="ltr">' + SG(o.v) + '</bdi>', ok: o.ok, m: o.m }; }) };
+        };
+      }));
     };
 
 

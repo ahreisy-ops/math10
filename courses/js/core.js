@@ -155,8 +155,9 @@
     linearvalues: { src: 'js/shared/linear-values.js' },
     a01lab: { src: 'js/shared/a01-lab.js', needs: ['linearvalues'] },
     a06lab: { src: 'js/shared/a06-lab.js' },
-    a78lab: { src: 'js/shared/a07a08-labs.js' },
+    a78lab: { src: 'js/shared/a07a08-labs.js', needs: ['gslider'] },
     a05lab: { src: 'js/shared/a05-lab.js' },
+    gslider: { src: 'js/shared/gslider.js' },
     exsteps: { src: 'js/shared/example-steps.js', needs: ['utils'] }
   };
   function need(names) {
@@ -320,7 +321,6 @@
       if (!root || !root.isConnected) { return false; }
       var offsetAttr = button.getAttribute('data-scroll-offset');
       var offset = offsetAttr === null ? 80 : Number(offsetAttr);
-      /*if (!Number.isFinite(offset) || offset < 0) { offset = 80; }*/
       if (!Number.isFinite(offset)) { offset = 80; }
       var observer, done = false;
       function move() {
@@ -331,7 +331,6 @@
         if (!target || !target.getClientRects().length) { return; }
         done = true;
         observer.disconnect();
-        /*window.scrollTo({top:Math.max(0,window.scrollY+target.getBoundingClientRect().top-offset),behavior:'smooth'});*/
         window.scrollTo({ top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset), behavior: 'smooth' });
       }
       observer = new MutationObserver(function (records) {

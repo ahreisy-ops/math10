@@ -48,14 +48,11 @@ window.LESSONS.N07 = {
         '.hist>span{border:2px solid var(--line);border-radius:10px;padding:2px 10px;font-size:.9rem;background:#fff}.hist>span.lo{background:#d2f0e9;border-color:var(--accent)}.hist>span.hi{background:#fde7ef;border-color:var(--pink)}',
         '.step6{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;direction:ltr;margin:8px 0}.step6 .btn{min-height:44px;font-weight:bold;padding:2px}',
         '.sgnrow{display:flex;gap:12px;justify-content:center;margin:10px 0;direction:ltr}.sgnrow .btn{min-width:84px;min-height:54px;font-size:1.3rem;font-weight:bold}',
-        '.sgnrow .btn.right{background:#d2f0e9;border-color:var(--accent)}.sgnrow .btn.wrong{background:#fbd5d5;border-color:#b23a3a}.sgnrow .btn:disabled{opacity:1}', '.n7-bet{max-width:300px;margin:8px auto 10px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;row-gap:2px;column-gap:6px;direction:ltr;align-items:center}', '.n7-bet .tag{justify-self:center;display:inline-flex;align-items:center;justify-content:center;min-width:60px;height:26px;padding:0 10px;border-radius:999px;background:#4c5fd5;color:#fff;font:bold .84rem Tahoma,sans-serif;box-shadow:1px 1px 0 var(--ink)}', '.n7-bet .tag .katex{font-size:1em;color:#fff}', '.n7-bet .bar{justify-self:center;color:#8091aa;font:bold 1.15rem/1 Tahoma,sans-serif;letter-spacing:-1px}', '.n7-bet .num{justify-self:center;font:bold 1.15rem Tahoma,sans-serif}', '.n7-bet .mid{justify-self:center;font:bold 1.15rem Tahoma,sans-serif;white-space:nowrap}', '.n7-rel{display:flex;justify-content:center;align-items:center;gap:4px;flex-wrap:wrap;direction:ltr;margin:8px 0 10px}', '.n7-rel i{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:2px 10px;border:2px solid var(--ink);border-radius:10px;font-style:normal;background:#fff}', '.n7-rel i.g{background:var(--accent);color:#fff}', '.n7-rel i.y{background:var(--mark);color:var(--ink)}', '.n7-rel i.p{background:var(--pink);color:#fff}', '.n7-rel i.w{background:#fff}', '.n7-rel.sm i{min-height:30px;padding:2px 8px}',
+        '.n7-bet{max-width:300px;margin:8px auto 10px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;row-gap:2px;column-gap:6px;direction:ltr;align-items:center}', '.n7-bet .tag{justify-self:center;display:inline-flex;align-items:center;justify-content:center;min-width:60px;height:26px;padding:0 10px;border-radius:999px;background:#4c5fd5;color:#fff;font:bold .84rem Tahoma,sans-serif;box-shadow:1px 1px 0 var(--ink)}', '.n7-bet .tag .katex{font-size:1em;color:#fff}', '.n7-bet .bar{justify-self:center;color:#8091aa;font:bold 1.15rem/1 Tahoma,sans-serif;letter-spacing:-1px}', '.n7-bet .num{justify-self:center;font:bold 1.15rem Tahoma,sans-serif}', '.n7-bet .mid{justify-self:center;font:bold 1.15rem Tahoma,sans-serif;white-space:nowrap}', '.n7-rel{display:flex;justify-content:center;align-items:center;gap:4px;flex-wrap:wrap;direction:ltr;margin:8px 0 10px}', '.n7-rel i{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:2px 10px;border:2px solid var(--ink);border-radius:10px;font-style:normal;background:#fff}', '.n7-rel i.g{background:var(--accent);color:#fff}', '.n7-rel i.y{background:var(--mark);color:var(--ink)}', '.n7-rel i.p{background:var(--pink);color:#fff}', '.n7-rel i.w{background:#fff}', '.n7-rel.sm i{min-height:30px;padding:2px 8px}',
         '.n7-hunt-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:400px;margin:10px auto;direction:ltr}', '.n7-hunt-controls .btn{min-height:44px;font-size:1rem;padding:5px 8px;box-shadow:2px 2px 0 var(--ink)}', '.n7-hunt-controls .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n7-hunt-new{display:flex;justify-content:center;margin:12px auto 0}', '.standard-n6-10 .n7-hunt-new .btn{min-width:120px;min-height:36px;font-size:.88rem;padding:5px 12px}', '.n7-axis-cap .katex{margin:0!important}', '.n7-hunt-modes{display:flex;gap:8px;justify-content:center;margin:10px 0}', '.n7-hunt-visual{max-width:520px;margin:10px auto 18px;text-align:center}', '.n7-hunt-grid{display:grid;grid-template-columns:auto 26px max-content 26px auto;justify-content:center;column-gap:10px;row-gap:4px;align-items:center}', '.n7-hunt-grid .cap{display:inline-flex;align-items:center;justify-content:center;border:1.75px dashed #c8d4e6;border-radius:10px;padding:4px 10px;background:#fff;min-height:30px;box-sizing:border-box;justify-self:center;white-space:nowrap}', '.n7-hunt-grid .arrow{color:#71809b;line-height:1;justify-self:center;font-size:1.18rem}', '.n7-hunt-box{min-width:104px;box-sizing:border-box;outline:1.75px dashed var(--ink);border-radius:10px;padding:7px 10px;background:var(--mark);font-weight:bold;transition:background .15s,opacity .15s;text-align:center;justify-self:center}', '.n7-hunt-box.dim{background:#edf0f4;color:#526177;border-color:#8a98a9}', '.n7-hunt-box.solved{background:#bfe8e0!important;border-color:#15947e!important;color:var(--ink)!important;opacity:1}', '.n7-hunt-less{color:var(--ink)}', '.n7-hunt-radicand{font-size:1.2rem}', '.n7-hunt-feedback{max-width:460px;margin:10px auto}', '.n7-hunt-result{max-width:460px;margin:10px auto;border:2px dashed #c8d4e6;border-radius:12px;padding:10px}', '.n7-hunt-controls{grid-template-columns:repeat(2,minmax(0,92px));justify-content:center;max-width:210px}',
         '#rs .mc .opt{min-height:44px;height:auto;font-size:1rem;padding:5px 10px;font-weight:600;white-space:normal;overflow-wrap:anywhere}',
         '#tf .sgnrow .btn{min-width:120px;min-height:36px;height:auto;font-size:.88rem;font-weight:600;padding:5px 12px;box-shadow:2px 2px 0 var(--ink)}',
         '#tf .sgnrow .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}',
-        '#tf .n7-tf-nav{display:flex;direction:rtl;justify-content:space-between;width:100%;gap:12px}',
-        '#tf .n7-tf-nav .btn{min-width:120px;min-height:36px;height:auto;font-size:.88rem;padding:5px 12px}',
-        // '#rh .fb.bad, #rh .ex, #rh .fb.ok, #rf .fb.bad, #rf .ex, #rf .fb.ok{min-height:44px;font-size:1rem}',
         '@media(max-width:520px){.lv{margin:6px 30px 0}.mc.m3{gap:6px}}', '.n7-scale{max-width:390px;margin:10px auto;direction:ltr}', '.n7-scale .row,.n7-scale .step{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,.75fr) minmax(0,.9fr);gap:8px;align-items:center}', '.n7-scale .row{margin:0 auto 6px}', '.n7-scale .step{margin:-2px auto 6px}', '.n7-scale .c{border:2px dashed #c8d4e6;border-radius:16px;min-height:42px;padding:8px 12px;background:#fff;display:flex;align-items:center;justify-content:center;text-align:center}', '.n7-scale .tag{display:inline-flex;align-items:center;justify-content:center;min-width:58px;height:26px;padding:0 10px;border-radius:999px;background:var(--accent);color:#fff;font:bold .82rem Tahoma,sans-serif;justify-self:center}', '.n7-scale .skip{min-height:1px}', '@media(max-width:400px){.n7-hunt-grid{grid-template-columns:auto 18px max-content 18px auto;column-gap:5px}.n7-hunt-box{min-width:0;padding:7px 6px}.n7-hunt-grid .cap{font-size:.86em;padding:4px 3px}.n7-hunt-grid .cap{padding:4px 6px}}', '@media(max-width:380px){.n7-scale .row,.n7-scale .step{gap:5px}.n7-scale .c{padding:6px 3px;border-radius:12px;font-size:.92em}.n7-scale .tag{min-width:0;padding:0 6px}}'
       ].join('\n');
       document.head.appendChild(s);
@@ -275,29 +272,7 @@ window.LESSONS.N07 = {
       { t: '\\left(\\sqrt{7}\\right)^2=7', ok: 1, e: '<p>مربع‌کردن و جذر یکدیگر را خنثی می‌کنند؛ پس حاصل ' + '$7$' + ' است.</p>' },
       { t: '\\sqrt{3^2}=3', ok: 1, e: '<p>' + '$3^2=9$' + ' و ' + '$\\sqrt{9}=3$' + ' است.</p>' }
     ];
-    K.tfTraps = function (host) {
-      var L, i, answers;
-      function nw() { L = shuffle(TF.slice()).slice(0, 6); i = 0; answers = Array(L.length).fill(null); }
-      function paint() {
-        var h, q, ans = answers[i], score = answers.reduce(function (n, a, k) { return n + (a !== null && a === L[k].ok ? 1 : 0); }, 0);
-        if (i >= L.length) {
-          host.innerHTML = rr(K.res(score, L.length) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
-        }
-        q = L[i];
-        h = '<div class="stg">' + L.map(function (x, k) { return '<span class="' + (answers[k] !== null ? 'dn' : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">این تساوی (یا نامساوی) درست است؟</p><div class="cq N04-Ex01-P01">' + M(q.t) + '</div><div class="sgnrow mc"><button type="button" class="btn opt' + (ans === null ? '' : q.ok === 1 ? ' right' : ans === 1 ? ' wrong' : '') + '" data-a="1"' + (ans === null ? '' : ' disabled') + '>درست</button><button type="button" class="btn opt' + (ans === null ? '' : q.ok === 0 ? ' right' : ans === 0 ? ' wrong' : '') + '" data-a="0"' + (ans === null ? '' : ' disabled') + '>نادرست</button></div>';
-        if (ans !== null) { h += '<div class="fb ' + (ans === q.ok ? 'ok' : 'bad') + '">' + (ans === q.ok ? '✓ درست است!' : 'پاسخ نادرست است.') + '</div><div class="ex">' + q.e + '</div>'; }
-        h += '<div class="opts n7-tf-nav"><button type="button" class="btn" data-p="1"' + (i === 0 ? ' disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-n="1"' + (ans === null ? ' disabled' : '') + ' data-scroll>' + (i === L.length - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) return;
-        if (b.dataset.a !== undefined) { if (answers[i] === null) answers[i] = +b.dataset.a; paint(); }
-        else if (b.dataset.n) { i++; paint(); }
-        else if (b.dataset.p) { i = Math.max(0, i - 1); paint(); }
-        else if (b.dataset.pv) { i = 0; paint(); }
-        else if (b.dataset.r) { nw(); paint(); }
-      }); nw(); paint();
-    };
+    K.tfTraps = function (host) { H.tf(host, TF.map(function (q) { return { h: M(q.t), ok: q.ok, e: q.e }; })); };
 
     /* ---- آزمون پایانی ---- */
     function qCompare() {
@@ -320,28 +295,10 @@ window.LESSONS.N07 = {
       };
     }
     K.rootFinal = function (host) {
-      var qs, i, ans;
       function mk1() { var g = genS1(); return { ask: 'جذر عدد زیر چند است؟', cls: 'm2', cq: M(SQ(g.v)), opts: g.opts, expl: function () { return K.dm(g.n + '\\times' + g.n + '=' + g.v) + verdict([['a', SQ(g.v)], ['b', '='], ['m', String(g.n)]]); } }; }
       function mk2() { var s = genS2(); return { ask: 'جذر عدد زیر چند است؟', cls: 'm2', cq: M(s.q), opts: shuffle([{ h: M(s.ok), ok: true, m: '' }].concat(s.d.map(function (d, i) { return { h: M(d), ok: false, m: s.notes[i] }; }))), expl: function () { return s.expl + verdict([['a', s.q], ['b', '='], ['m', s.ok]]); } }; }
       function mk3() { var t = genS3(); return { ask: 'جذر عدد زیر بین کدام دو عدد صحیحِ پشت‌سرهم است؟', cls: 'm2', cq: M(SQ(t.N)), opts: t.opts, expl: function () { return exS3(t); } }; }
-      function build() { qs = [mk1(), mk2(), mk3(), qCompare(), qTrue()]; i = 0; ans = []; }
-      var fb = function (ok, html) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + html + '</div>'; };
-      function paint() {
-        var q = qs[i], a = ans[i], h, oh = '', s, o;
-        if (i === 5) {
-          s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr(K.res(s, 5) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
-        }
-        h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + q.cls + '" id="mcx"></div>';
-        q.opts.forEach(function (op, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + op.h + '</button>'; });
-        if (a !== undefined) { o = q.opts[a]; h += fb(o.ok, o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl() + '</div>'; }
-        h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === 4 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh); fixK(host);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o) { ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { build(); paint(); }
-      }); build(); paint();
+      H.final(host, [mk1, mk2, mk3, qCompare, qTrue], fixK);
     };
     var cards2 = function (cells) { return '<div class="sg">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + (c.e ? K.dm(c.e) : '') + '</div>'; }).join('') + '</div>'; };
     var refs = function (cells) { return '<div class="sg refs">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + K.dm(c.e) + '</div>'; }).join('') + '</div>'; };

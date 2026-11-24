@@ -182,10 +182,6 @@
   }
 }
 
-.a08-domain-control.graduated-range {
-  --gr-half: 9px;
-}
-
 /* Preserve A05's original control width; the shared tick class must not
    override the slider box's existing minimum width. */
 .a05-slider-box.graduated-range {
@@ -195,7 +191,212 @@
 /* Slider colour alignment, restricted to the four already graduated activities.
    Native Firefox thumb states match the N07 reference; tick layouts are untouched. */
 .a05-slider-box.graduated-range input[type=range],
-.a78-control.graduated-range input[type=range],
-.a08-domain-control.graduated-range input[type=range] {
+.a78-control.graduated-range input[type=range] {
   accent-color: #078b80 !important;
+}
+
+/* ===== GSlider: نوار مدرج + دو کارت نتیجه (js/shared/gslider.js) =====
+   قاب بیرونی مثل «یادآوری: عبارت جبری و معادله…»؛ کارت‌ها همان کارت‌های E01 (کادر ink، پس‌زمینهٔ خنثی؛
+   سبز = برقرار، قرمز = تعریف‌نشده) با انیمیشن نرم. */
+.gs.graduated-range {
+  --gr-half: 9px;
+  margin: 14px 0 20px;
+  padding: 14px 14px 12px;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 13px;
+}
+
+.gs-control {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.gs-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 5px;
+  font-size: .91rem;
+  color: var(--ink-soft);
+}
+
+.gs-x {
+  color: var(--accent-dark);
+  font-size: 1.12rem;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.gs input[type=range] {
+  appearance: auto;
+  -webkit-appearance: auto;
+  display: block;
+  width: 100%;
+  margin: 0;
+  direction: ltr;
+  writing-mode: horizontal-tb;
+  accent-color: #078b80;
+  cursor: pointer;
+}
+
+.gs input[type=range]:focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 3px;
+  border-radius: 5px;
+}
+
+.gs-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+  margin: 10px 0 0;
+}
+
+.gs-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 10px;
+  text-align: center;
+  background: #f7f9fc;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: transform .75s ease, box-shadow .75s ease, border-color .75s ease, background-color .75s ease;
+}
+
+.gs-card.is-ok {
+  background: #e6f6f3;
+  border-color: #438b6c;
+  box-shadow: 4px 4px 0 #438b6c;
+  transform: translateY(-3px) scale(1.01);
+}
+
+.gs-card.is-bad {
+  background: #fdeceb;
+  border-color: #b4463c;
+  box-shadow: 4px 4px 0 #b4463c;
+  transform: translateY(-3px) scale(1.01);
+}
+
+.gs-name {
+  font-size: .91rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+}
+
+.gs-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  padding: 4px 11px;
+  border: 2px dashed var(--line);
+  border-radius: 10px;
+  direction: ltr;
+  font-size: 1.12rem;
+  overflow: visible;
+}
+
+.gs-eval {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem .5rem;
+  min-height: 28px;
+  max-width: 100%;
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-weight: 600;
+  font-size: 1.02rem;
+}
+
+.gs-line {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.gs-line .katex {
+  font-size: 1.05em;
+}
+
+.gs-side {
+  display: block;
+  direction: rtl;
+  font-size: .78rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.gs-undef {
+  direction: rtl;
+  unicode-bidi: isolate;
+  color: #a13a3a;
+  white-space: nowrap;
+}
+
+.gs-sub {
+  font-size: .84rem;
+  line-height: 1.75;
+  color: var(--ink-soft);
+  min-height: 2.8em;
+}
+
+.gs-compact .gs-sub {
+  min-height: 0;
+}
+
+.gs-card.is-ok .gs-sub {
+  color: #20704d;
+}
+
+.gs-card.is-bad .gs-eval,
+.gs-card.is-bad .gs-sub {
+  color: #8a2f2a;
+}
+
+.gs-after:empty {
+  display: none;
+}
+
+.gs-after {
+  margin-top: 12px;
+}
+
+@media (max-width: 600px) {
+  .gs.graduated-range {
+    padding: 12px 9px;
+  }
+
+  .gs-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .gs-sub {
+    min-height: 0;
+  }
+
+  .gs-line .katex {
+    font-size: .92em;
+  }
+
+  .gs-tag {
+    font-size: .95rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .gs-card,
+  .gs-card.is-ok,
+  .gs-card.is-bad {
+    transition: none;
+    transform: none;
+  }
 }

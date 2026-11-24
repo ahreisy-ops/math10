@@ -2,21 +2,20 @@
    تمام تمرین‌ها اعداد تصادفی می‌سازند و پاسخ را با محاسبهٔ دقیق (کسری) می‌سنجند. */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.N09 = {
-  needs: ['utils', 'inputs', 'frac'],
+  needs: ['utils', 'inputs', 'frac', 'kit'],
   /* بدنهٔ درس داخل setup است تا فقط بعد از لود شدن ماژول‌های needs اجرا شود */
   setup: function (K0) {
     var ML = window.MathLite, fa = ML.fa, rr0 = ML.renderRich;
     var _u = K0._u, R = _u.R, shuffle = _u.shuffle;
     var fb = K0._i.fb;
     var gcd = K0._f.gcd, simp = K0._f.F, divisors = K0._f.divisors, lcm2 = K0._f.lcm;
-    var K = Object.create(K0);
+    var K = Object.create(K0), H = K0.lk(K);
     var T = String.raw, NL = '\\\\', tm = '\\times', dv = '\\div', CL = '\\mathbin{:}';
 
     /* ---------- استایل مخصوص این درس (فقط یک بار) ---------- */
     if (!document.getElementById('n9css')) {
       var st = document.createElement('style'); st.id = 'n9css';
       st.textContent = [
-        // '.n9-w{font-size:.95em}.n9-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n9-w .ask{font-size:.95rem}.n9-w .opts{gap:6px}.n9-w .fb,.n9-w .ex{font-size:1em}',
         '.n9-w{font-size:.95em}.n9-w .btn{min-height:34px;min-width:0;padding:2px 14px;font-size:.88rem}.n9-w .ask{font-size:.95rem}.n9-w .opts{gap:6px}',
         '.n9-responsive-proof .n9-proof-mobile{display:none}.n9-responsive-proof .n9-proof-desktop .dm{white-space:nowrap;overflow:visible;padding:10px 0 12px;line-height:1.6}.n9-responsive-proof .n9-proof-mobile .dm{overflow:visible;padding:12px 0 10px;box-sizing:content-box;line-height:1.6;white-space:nowrap}.n9-responsive-proof .n9-proof-mobile .katex{font-size:1.22em}.n9-proof-intro{white-space:nowrap}',
         '@media(max-width:767px){.n9-proof-intro{white-space:normal}.n9-responsive-proof .n9-proof-desktop{display:none}.n9-responsive-proof .n9-proof-mobile{display:block}.n9-responsive-proof .n9-proof-mobile .dm{margin:6px auto}}',
@@ -34,9 +33,9 @@ window.LESSONS.N09 = {
         '.n9-chip{padding:2px 12px;border:2px solid var(--ink);border-radius:99px;background:#fff;font:inherit;font-size:.95rem;cursor:pointer}',
         '.n9-mixer .n9-line{display:grid;grid-template-columns:110px 110px;gap:9px;justify-content:center;align-items:start;direction:rtl}.n9-mixer .n9-line>div{width:110px;min-width:110px;display:flex;flex-direction:column;align-items:center}.n9-mixer .n9-sw{width:110px;height:78px;box-sizing:border-box;flex:0 0 78px}.n9-mixer .n9-cap{width:100%;min-height:38px;line-height:1.55}.n9-mixer .n9-dots{display:flex;flex-direction:column;align-items:center;gap:3px;margin:8px auto 4px}.n9-mixer .n9-dotrow{display:flex;justify-content:center;align-items:center;gap:2px;flex-wrap:nowrap;height:16px;min-height:16px}.n9-mixer .n9-stp{display:grid;grid-template-columns:repeat(2,54px) 44px repeat(2,54px);gap:7px;align-items:center;justify-content:center;width:max-content;max-width:100%;margin:8px auto;direction:ltr}.n9-mixer .n9-stp .btn{width:54px;min-width:54px;height:36px;min-height:36px;padding:2px;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;line-height:1;box-shadow:2px 2px 0 var(--ink)}.n9-mixer .n9-stp .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}.n9-mixer .n9-stp b{min-width:44px}.n9-mixer .n9-next{display:flex;justify-content:center;margin:12px 0}.n9-mixer .n9-next .btn{min-height:36px;min-width:120px;font-size:.88rem;padding:5px 14px}.n9-mixer .n9-next .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}.n9-mixer .n9-next .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}',
         '.n9-bal-svg{width:100%;max-width:500px;position:relative;margin:6px auto 0;direction:ltr}.n9-bal-lab,.n9-bal-val{position:absolute;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;line-height:1}.n9-bal-lab{font-size:.95rem}.n9-bal-val{font-size:1.18rem;font-weight:bold}.n9-bal-ctrl .n9-stp{display:grid;grid-template-columns:repeat(2,54px) 74px repeat(2,54px);gap:7px;justify-content:center;align-items:center}.n9-bal-ctrl .btn{width:54px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 var(--ink)}.n9-bal-ctrl .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}@media(max-width:400px){.n9-stp,.n9-bal-ctrl .n9-stp,.n9-mixer .n9-stp{grid-template-columns:repeat(2,44px) 54px repeat(2,44px);gap:5px}.n9-stp .btn,.n9-bal-ctrl .btn,.n9-mixer .n9-stp .btn{width:44px;min-width:44px;height:40px;min-height:40px}.n9-mixer .n9-stp b{min-width:0}.n9-mixer .n9-dotrow{height:auto;min-height:16px;max-width:100%}.n9-mixer .n9-dotrow .n9-dot{flex:0 1 12px;min-width:3px;height:auto;aspect-ratio:1/1;margin:0}}@media(max-width:400px){.n9-bal-ctrl .n9-stp{grid-template-columns:repeat(2,54px);grid-template-rows:auto auto auto;gap:7px 10px}.n9-bal-ctrl .n9-stp .btn{width:54px;min-width:54px;height:40px;min-height:40px}.n9-bal-ctrl .n9-stp b{grid-column:1/-1;grid-row:2}.n9-bal-ctrl .n9-stp [data-s="1"]{grid-column:1;grid-row:1}.n9-bal-ctrl .n9-stp [data-s="5"]{grid-column:2;grid-row:1}.n9-bal-ctrl .n9-stp [data-s="-1"]{grid-column:1;grid-row:3}.n9-bal-ctrl .n9-stp [data-s="-5"]{grid-column:2;grid-row:3}}.n9-bal-ctrl b{text-align:center;white-space:nowrap}.n9-bal-next .btn{min-height:36px;font-size:.88rem;padding:5px 12px}.n9-bal-next .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}.n9-bal-next .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}',
-        '.n9-bal-single{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:nowrap;margin:7px auto 12px;white-space:nowrap;max-width:100%;overflow-x:auto;overflow-y:visible;padding:9px 3px 12px}.n9-bal-single .katex{font-size:1em}.n9-bal-factor{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0}.n9-bal-factor>span:last-child{font-size:.73rem;line-height:1.4;direction:rtl;white-space:nowrap}.n9-price-eq{display:flex;align-items:center;justify-content:center;gap:4px;padding:13px 2px;margin:8px auto;white-space:nowrap;max-width:100%;overflow-x:auto}.n9-fa-frac{display:inline-flex;flex-direction:column;align-items:stretch;text-align:center;line-height:1.3;font-size:1rem;flex-shrink:0}.n9-fa-frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 5px 3px}.n9-fa-frac>span:last-child{padding:3px 5px 0}', '.n9-w .dm{overflow-y:visible;padding-top:14px;padding-bottom:10px}.n9-w .n9-bal-math .dm{margin:4px 0;padding:12px 2px 20px}.n9-w .n9-bal-products{display:flex;justify-content:center;gap:20px;align-items:center;flex-wrap:wrap}.n9-w .n9-bal-products .dm{min-width:0;padding-bottom:30px}.n9-w .n9-bal-svg{margin-top:8px}.n9-w .n9-persian-math .katex .mord.text{direction:rtl!important;unicode-bidi:isolate!important}.n9-w .n9-persian-math .katex .mord.text>span{direction:rtl!important;unicode-bidi:isolate!important}', '.n9-chip.sel{background:var(--mark);box-shadow:2px 2px 0 var(--ink)}', '.n9-crew .n9-chip{min-width:46px;min-height:36px;box-shadow:2px 2px 0 var(--ink);display:inline-flex;align-items:center;justify-content:center}', '.n9-crew .n9-chip:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-crew .opts .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-crew .opts .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-price-colon{display:inline-block;margin:0 2px;font-weight:bold;line-height:1}', '.n9-crew .opts .btn,.n9-lab-next .btn{min-height:36px;font-size:.88rem;padding:5px 12px;font-weight:normal}', '.n9-const .n9-line .btn,.n9-const .n9-lab-next .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-const .n9-line .btn:active,.n9-const .n9-lab-next .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-const .n9-t{table-layout:fixed;width:min(100%,440px)}.n9-const .n9-t th,.n9-const .n9-t td{width:20%;min-width:0;box-sizing:border-box;padding:5px 3px;white-space:nowrap}', '.n9-end .mc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.n9-end .opts{display:flex;justify-content:space-between;direction:rtl}.n9-end .opts .btn{min-height:36px;font-size:.88rem;padding:5px 12px}', '.n9-crew .opts .btn,.n9-const .opts .btn,.n9-final .opts .btn{min-height:36px!important;font-size:.9rem!important;padding:5px 14px!important;font-weight:normal}', '.n9-const .n9-line .btn,.n9-const .opts .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-const .n9-line .btn:active,.n9-const .opts .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-const .n9-t{table-layout:fixed;width:min(100%,390px)}.n9-const .n9-t th,.n9-const .n9-t td{width:20%;box-sizing:border-box;min-width:0;padding:5px 2px;white-space:nowrap}', '.n9-final .mc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.n9-final .opts:has([data-p="1"]):has([data-nx="1"]){display:flex;direction:rtl;justify-content:space-between;width:100%}',
-        '.n9-crew .opts .btn,.n9-const .opts .btn,.n9-final .opts .btn,.n9-end .opts .btn{font-weight:700!important}',
-        '.n9-end .opts .btn{box-shadow:none!important}.n9-end .mc .opt{box-shadow:none!important}', '.n9-const .mc{display:grid;grid-template-columns:minmax(0,300px);justify-content:center;gap:8px;margin-inline:auto}.n9-const .mc .btn{width:100%;min-height:44px;font-size:1rem}',
+        '.n9-bal-single{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:nowrap;margin:7px auto 12px;white-space:nowrap;max-width:100%;overflow-x:auto;overflow-y:visible;padding:9px 3px 12px}.n9-bal-single .katex{font-size:1em}.n9-bal-factor{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0}.n9-bal-factor>span:last-child{font-size:.73rem;line-height:1.4;direction:rtl;white-space:nowrap}.n9-price-eq{display:flex;align-items:center;justify-content:center;gap:4px;padding:13px 2px;margin:8px auto;white-space:nowrap;max-width:100%;overflow-x:auto}.n9-fa-frac{display:inline-flex;flex-direction:column;align-items:stretch;text-align:center;line-height:1.3;font-size:1rem;flex-shrink:0}.n9-fa-frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 5px 3px}.n9-fa-frac>span:last-child{padding:3px 5px 0}', '.n9-w .dm{overflow-y:visible;padding-top:14px;padding-bottom:10px}.n9-w .n9-bal-math .dm{margin:4px 0;padding:12px 2px 20px}.n9-w .n9-bal-products{display:flex;justify-content:center;gap:20px;align-items:center;flex-wrap:wrap}.n9-w .n9-bal-products .dm{min-width:0;padding-bottom:30px}.n9-w .n9-bal-svg{margin-top:8px}.n9-w .n9-persian-math .katex .mord.text{direction:rtl!important;unicode-bidi:isolate!important}.n9-w .n9-persian-math .katex .mord.text>span{direction:rtl!important;unicode-bidi:isolate!important}', '.n9-chip.sel{background:var(--mark);box-shadow:2px 2px 0 var(--ink)}', '.n9-crew .n9-chip{min-width:46px;min-height:36px;box-shadow:2px 2px 0 var(--ink);display:inline-flex;align-items:center;justify-content:center}', '.n9-crew .n9-chip:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-crew .opts .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-crew .opts .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-price-colon{display:inline-block;margin:0 2px;font-weight:bold;line-height:1}', '.n9-crew .opts .btn,.n9-lab-next .btn{min-height:36px;font-size:.88rem;padding:5px 12px;font-weight:normal}', '.n9-const .n9-line .btn,.n9-const .n9-lab-next .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-const .n9-line .btn:active,.n9-const .n9-lab-next .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-const .n9-t{table-layout:fixed;width:min(100%,440px)}.n9-const .n9-t th,.n9-const .n9-t td{width:20%;min-width:0;box-sizing:border-box;padding:5px 3px;white-space:nowrap}', '', '.n9-crew .opts .btn,.n9-const .opts .btn,.n9-final .opts .btn{min-height:36px!important;font-size:.9rem!important;padding:5px 14px!important;font-weight:normal}', '.n9-const .n9-line .btn,.n9-const .opts .btn:not(.primary){box-shadow:2px 2px 0 var(--ink)}', '.n9-const .n9-line .btn:active,.n9-const .opts .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}', '.n9-const .n9-t{table-layout:fixed;width:min(100%,390px)}.n9-const .n9-t th,.n9-const .n9-t td{width:20%;box-sizing:border-box;min-width:0;padding:5px 2px;white-space:nowrap}', '.n9-final .mc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.n9-final .opts:has([data-p="1"]):has([data-nx="1"]){display:flex;direction:rtl;justify-content:space-between;width:100%}',
+        '.n9-crew .opts .btn,.n9-const .opts .btn{font-weight:700!important}',
+        '.n9-const .mc{display:grid;grid-template-columns:minmax(0,300px);justify-content:center;gap:8px;margin-inline:auto}.n9-const .mc .btn{width:100%;min-height:44px;font-size:1rem}',
         '#n9c .opts{margin:20px 0 0 0;}',
       ].join('\n');
       document.head.appendChild(st);
@@ -58,30 +57,6 @@ window.LESSONS.N09 = {
     /* ---------- خواندن پاسخ دانش‌آموز (عدد صحیح، کسر یا اعشار) ---------- */
 
     /* ---------- آزمون سؤال‌به‌سؤال: «سؤال n از m»، قبلی/بعدی، نتیجه و مجموعهٔ جدید ---------- */
-    function seq(host, build) {
-      host.classList.add('n9-end');
-      var qs, i, ans;
-      function start() { qs = build(); i = 0; ans = []; }
-      function paint() {
-        var n = qs.length, q = qs[i], a = ans[i], h, oh = '', s;
-        if (i === n) {
-          s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr(K.res(s, n) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
-          return;
-        }
-        h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.extra || '') + (q.tex ? K.dm(q.tex) : '') + '<div class="mc" id="mcx"></div>';
-        q.opts.forEach(function (o, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (o.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + o.h + '</button>'; });
-        if (a !== undefined) { var o = q.opts[a]; h += fb(o.ok, o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl + '</div>'; }
-        h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o) { ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); }
-        else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { start(); paint(); }
-      });
-      start(); paint();
-    }
 
     /* ============ ۱) رنگ‌ساز: نسبت‌های هم‌ارز، رنگِ یکسان ============ */
     function mixColor(b, y) {
@@ -268,13 +243,12 @@ window.LESSONS.N09 = {
       return out;
     }
     K.finalN09 = function (host) {
-      host.classList.add('n9-final');
       function qSimp() {
         var a, b, t = 0, g; do { a = R(1, 9); b = R(1, 9); } while ((gcd(a, b) !== 1 || a === b) && t++ < 200); g = R(2, 9);
         var A = a * g, B = b * g, f = 0, i; for (i = 2; i < g; i++) { if (g % i === 0) { f = i; break; } }
         var half = f ? RT(a * (g / f), b * (g / f)) : RT(A, B);
         var opts = [{ h: M(RT(a, b)), ok: true }, { h: M(RT(b, a)), m: 'ترتیب جمله‌ها را عوض کرده‌ای؛ ' + M(RT(A, B)) + ' با ' + M(RT(B, A)) + ' فرق دارد.' }, { h: M(half), m: 'این نسبت با نسبت اصلی برابر است، اما هنوز ساده‌ترین شکل نیست.' }, { h: M(RT(a, B)), m: 'فقط یک جمله را ساده کرده‌ای؛ باید هر دو جمله را بر یک عدد تقسیم کنی.' }];
-        return { ask: 'ساده‌ترین شکل نسبت ' + M(RT(A, B)) + ' کدام است؟', expl: '<p>' + M(RC(A, B, dv, g) + '=' + RT(a, b)) + '</p>', opts: opts };
+        return { ask: 'ساده‌ترین شکل نسبت ' + M(RT(A, B)) + ' کدام است؟', expl: function () { return '<p>' + M(RC(A, B, dv, g) + '=' + RT(a, b)) + '</p>'; }, opts: opts };
       }
       function qProp() {
         var v = genProp(), hid = R(0, 3), c = hid, correct = v[hid], add, cell = function (i) { return i === hid ? CR('x') : '' + v[i]; };
@@ -283,25 +257,25 @@ window.LESSONS.N09 = {
         var other = hid === 0 ? v[1] * v[2] / v[3] : hid === 1 ? v[0] * v[3] / v[2] : hid === 2 ? v[0] * v[3] / v[1] : v[1] * v[2] / v[0];
         var P = hid === 0 || hid === 3 ? v[1] * v[2] : v[0] * v[3], f = hid === 0 ? v[3] : hid === 3 ? v[0] : hid === 1 ? v[2] : v[1];
         cands.push([P * f, 'حاصل‌ضرب ضربدری را باید بر عدد دیگر تقسیم کنی، نه اینکه در آن ضرب کنی.']);
-        return { ask: 'در تناسب زیر، مقدار ' + M(CR('x')) + ' چند است؟', tex: '\\frac{' + cell(0) + '}{' + cell(1) + '}=\\frac{' + cell(2) + '}{' + cell(3) + '}', expl: '<p>' + (hid === 0 || hid === 3 ? M(v[1] + tm + v[2] + '=' + f + tm + ' x') : M(v[0] + tm + v[3] + '=' + f + tm + ' x')) + '، پس ' + M('x=' + correct) + '.</p>', opts: numOpts(correct, cands) };
+        return { ask: 'در تناسب زیر، مقدار ' + M(CR('x')) + ' چند است؟', fig: K.dm('\\frac{' + cell(0) + '}{' + cell(1) + '}=\\frac{' + cell(2) + '}{' + cell(3) + '}'), expl: function () { return '<p>' + (hid === 0 || hid === 3 ? M(v[1] + tm + v[2] + '=' + f + tm + ' x') : M(v[0] + tm + v[3] + '=' + f + tm + ' x')) + '، پس ' + M('x=' + correct) + '.</p>'; }, opts: numOpts(correct, cands) };
       }
       function qDirect() {
         var r = R(2, 9), x1 = R(2, 9), x2 = R(2, 12), y1, correct; while (x2 === x1) { x2 = R(2, 12); }
         y1 = r * x1; correct = r * x2;
         var cands = [[y1 * x1 / x2, 'این کمیت‌ها هم‌جهت‌اند (یکی زیاد شود، دیگری هم زیاد می‌شود)؛ پس تناسب مستقیم است، نه وارون.'], [y1 + (x2 - x1), 'با جمع نمی‌شود؛ باید نرخ را در تعداد جدید ضرب کنی.'], [r, 'این فقط نرخِ یک واحد است؛ باید آن را در تعداد جدید ضرب کنی.'], [y1 * x2, 'باید بر ' + fa(x1) + ' هم تقسیم کنی.']];
-        return { ask: pick(DIRECT)(x1, y1, x2), expl: '<p>' + M('\\frac{' + x1 + '}{' + y1 + '}=\\frac{' + x2 + '}{x}') + '</p><p>' + M(y1 + '\\div' + x1 + '=' + r + '\\Rightarrow ' + r + tm + x2 + '=' + correct) + '</p>', opts: numOpts(correct, cands) };
+        return { ask: pick(DIRECT)(x1, y1, x2), expl: function () { return '<p>' + M('\\frac{' + x1 + '}{' + y1 + '}=\\frac{' + x2 + '}{x}') + '</p><p>' + M(y1 + '\\div' + x1 + '=' + r + '\\Rightarrow ' + r + tm + x2 + '=' + correct) + '</p>'; }, opts: numOpts(correct, cands) };
       }
       function qInverse() {
         var T0 = pick([24, 30, 36, 40, 48, 60, 72]), ds = divisors(T0).filter(function (d) { return d >= 2 && d <= 20; }), x1 = pick(ds), x2 = pick(ds), y1, correct; while (x2 === x1) { x2 = pick(ds); }
         y1 = T0 / x1; correct = T0 / x2;
         var cands = [[y1 * x2 / x1, 'این کمیت‌ها خلاف‌جهت‌اند (یکی زیاد شود، دیگری کم می‌شود)؛ پس تناسب وارون است، نه مستقیم.'], [y1 - (x2 - x1), 'با تفریق نمی‌شود؛ حاصل‌ضرب دو کمیت ثابت است.'], [T0, 'این همان حاصل‌ضرب (کار کل) است؛ باید آن را بر تعداد جدید تقسیم کنی.'], [y1 * x2, 'در تناسب وارون باید حاصل‌ضرب ثابت بماند و بر تعداد جدید تقسیم شود.']];
-        return { ask: pick(INVERSE)(x1, y1, x2), expl: '<p>' + M(x1 + tm + y1 + '=' + T0) + '، پس ' + M(T0 + dv + x2 + '=' + correct) + '.</p>', opts: numOpts(correct, cands) };
+        return { ask: pick(INVERSE)(x1, y1, x2), expl: function () { return '<p>' + M(x1 + tm + y1 + '=' + T0) + '، پس ' + M(T0 + dv + x2 + '=' + correct) + '.</p>'; }, opts: numOpts(correct, cands) };
       }
       function qClass() {
         var g = genTable();
-        return { ask: 'جدول زیر چه رابطه‌ای بین x و y دارد؟', extra: tableHtml(g, false, false), expl: tableExplain(g), opts: [{ h: 'تناسب مستقیم', ok: g.kind === 'd', m: 'در تناسب مستقیم ' + M(T`\frac{y}{x}`) + ' ثابت است؛ این‌جا ثابت نیست.' }, { h: 'تناسب وارون', ok: g.kind === 'i', m: 'در تناسب وارون ' + M(T`x\times y`) + ' ثابت است؛ این‌جا ثابت نیست.' }, { h: 'هیچ‌کدام', ok: g.kind === 'n', m: 'یکی از این دو مقدار ثابت است؛ آن را پیدا کن.' }, { h: 'هم مستقیم، هم وارون', m: 'در یک جدول، نسبت و حاصل‌ضرب با هم ثابت نمی‌مانند؛ فقط یکی از آن‌ها می‌تواند ثابت باشد.' }] };
+        return { ask: 'جدول زیر چه رابطه‌ای بین x و y دارد؟', fig: tableHtml(g, false, false), expl: function () { return tableExplain(g); }, opts: [{ h: 'تناسب مستقیم', ok: g.kind === 'd', m: 'در تناسب مستقیم ' + M(T`\frac{y}{x}`) + ' ثابت است؛ این‌جا ثابت نیست.' }, { h: 'تناسب وارون', ok: g.kind === 'i', m: 'در تناسب وارون ' + M(T`x\times y`) + ' ثابت است؛ این‌جا ثابت نیست.' }, { h: 'هیچ‌کدام', ok: g.kind === 'n', m: 'یکی از این دو مقدار ثابت است؛ آن را پیدا کن.' }, { h: 'هم مستقیم، هم وارون', m: 'در یک جدول، نسبت و حاصل‌ضرب با هم ثابت نمی‌مانند؛ فقط یکی از آن‌ها می‌تواند ثابت باشد.' }] };
       }
-      seq(host, function () { return [qSimp, qProp, qDirect, qInverse, qClass].map(function (f) { var q = f(); if (q.opts.length > 3 || q.opts[0].h.indexOf('$') === 0) { q.opts = shuffle(q.opts); } return q; }); });
+      H.final(host, [qSimp, qProp, qDirect, qInverse, qClass].map(function (f) { return function () { var q = f(); if (q.opts.length > 3 || q.opts[0].h.indexOf('$') === 0) { q.opts = shuffle(q.opts); } return H.fixQ(q); }; }));
     };
 
     /* ---------- محتوای دیالوگ‌های i ---------- */

@@ -436,7 +436,6 @@
           window.requestAnimationFrame(function () {
             var target = root.querySelector('.e02-fr-workshop'); if (!target) return;
             var top = window.scrollY + target.getBoundingClientRect().top - 88;
-            // window.scrollTo({ top: Math.max(0, top), behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
           });
         }
         if (b.hasAttribute('data-fr-level')) { var lvl = Number(b.dataset.frLevel); Object.assign(s, fractionState(lvl)); paint(); scrollQuestion(); return; }

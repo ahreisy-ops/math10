@@ -40,12 +40,6 @@
   justify-content: space-between !important;
 }
 
-/* N02 final practice: previous on the right, next on the left. */
-.n02-final-nav {
-  direction: rtl !important;
-  justify-content: space-between !important;
-}
-
 /* N06–N10 scoped visual harmonization; excludes info icons and compact controls. */
 .standard-n6-10 .mc .opt {
   min-height: 44px;
@@ -167,9 +161,7 @@
 /* Quiz-3-94: mobile layout for N03 conversion lab and N07 trap cards. */
 @media(max-width:520px) {
   .n3-w .n3-row {
-    /* grid-template-columns: minmax(0, 1fr) minmax(0, 105px) 16px; */
     grid-template-columns: minmax(0, 1fr) minmax(100px, 140px) minmax(88px, 130px) minmax(0, 1fr);
-    /* column-gap: 5px; */
     column-gap: 8px;
     width: 100%;
     max-width: 100%;
@@ -179,9 +171,7 @@
   }
 
   .n3-w .n3-langmeta {
-    /* width: auto; */
     width: 100%;
-    /* max-width: 100%; */
     max-width: 130px;
     min-width: 0;
     gap: 5px;
@@ -192,7 +182,6 @@
   .n3-w .n3-row .n3-inbox {
     width: 100%;
     min-width: 0;
-    /* max-width: 150px; */
     max-width: 140px
   }
 
@@ -509,8 +498,7 @@
   font-weight: 400
 }
 
-.n4-neg-nav,
-.n10-tf-nav {
+.n4-neg-nav {
   display: flex;
   direction: rtl;
   justify-content: space-between;
@@ -518,9 +506,7 @@
   width: 100%
 }
 
-.n4-neg-nav .btn,
-.n10-tf-nav .btn,
-.n9-end .opts:has(> [data-p="1"]):has(> [data-nx="1"])>.btn {
+.n4-neg-nav .btn {
   min-width: 120px;
   min-height: 36px;
   font-size: .9rem;

@@ -140,11 +140,11 @@ window.LESSONS.S03 = {
       }
       function qNext() {
         var s = genSeq(), a4 = term(s, 4), c = [[a4, 'جملهٔ آخر را تکرار کرده‌ای؛ باید اختلافِ ثابت را به آن اضافه کنی.'], [radd(a4, radd(s.d, Z(1))), 'اختلافِ دو جملهٔ پشت‌سرهم را دوباره حساب کن.'], [radd(a4, radd(s.d, Z(-1))), 'اختلافِ دو جملهٔ پشت‌سرهم را دوباره حساب کن.'], [radd(a4, rmul(Z(2), s.d)), 'فقط یک بار اختلاف را اضافه کن، نه دو بار.']];
-        return { ask: 'جملهٔ بعدی این الگو چیست؟', tex: seqTex(s, 4), expl: '<p>' + M('t_2-t_1=' + rt(radd(term(s, 2), rneg(term(s, 1)))) + '\\Rightarrow t_5=' + rt(radd(a4, s.d))) + '</p>', opts: rvOpts(term(s, 5), c) };
+        return { ask: 'جملهٔ بعدی این الگو چیست؟', fig: K.dm(seqTex(s, 4)), expl: function () { return '<p>' + M('t_2-t_1=' + rt(radd(term(s, 2), rneg(term(s, 1)))) + '\\Rightarrow t_5=' + rt(radd(a4, s.d))) + '</p>'; }, opts: rvOpts(term(s, 5), c) };
       }
       function qTenth() {
         var s = genSeq(), t10 = term(s, 10), c = [[radd(s.a1, rmul(Z(10), s.d)), 'از جملهٔ اول تا جملهٔ دهم ۹ قدم داریم، نه ۱۰ قدم.'], [rmul(Z(10), s.d), 'فقط اختلاف را در ۱۰ ضرب کرده‌ای؛ جملهٔ اول را هم باید در نظر بگیری.'], [radd(t10, rneg(s.d)), 'این جملهٔ نهم است.']];
-        return { ask: 'جملهٔ دهم این الگو (' + M('t_{10}') + ') چند است؟', tex: seqTex(s, 4), expl: '<p>' + M('t_n=' + fm(s.d, s.c) + '\\Rightarrow t_{10}=' + rt(t10)) + '</p>', opts: rvOpts(t10, c) };
+        return { ask: 'جملهٔ دهم این الگو (' + M('t_{10}') + ') چند است؟', fig: K.dm(seqTex(s, 4)), expl: function () { return '<p>' + M('t_n=' + fm(s.d, s.c) + '\\Rightarrow t_{10}=' + rt(t10)) + '</p>'; }, opts: rvOpts(t10, c) };
       }
       function qFormula() {
         var s = genSeq(), good = fm(s.d, s.c), ops = [{ h: M('t_n=' + good), ok: true }], seen = {}, cands = [[s.d, s.a1], [s.c, s.d], [rneg(s.d), s.c], [s.d, rneg(s.c)], [radd(s.d, Z(1)), s.c]];
@@ -154,11 +154,11 @@ window.LESSONS.S03 = {
           var bad = [1, 2, 3, 4].filter(function (n) { return !req(radd(rmul(x[0], Z(n)), x[1]), term(s, n)); })[0];
           ops.push({ h: M('t_n=' + k), m: bad ? 'برای ' + M('n=' + bad) + ' این رابطه ' + M(rt(radd(rmul(x[0], Z(bad)), x[1]))) + ' می‌دهد، ولی ' + M('t_{' + bad + '}=' + rt(term(s, bad))) + ' است.' : 'این رابطه درست نیست.' });
         });
-        return { ask: 'کدام رابطه، جملهٔ ' + M('n') + 'ام این دنباله را می‌دهد؟', tex: seqTex(s, 4), expl: '<p>' + M('t_n=' + good + ':\\quad t_1=' + rt(term(s, 1)) + ',\\;t_2=' + rt(term(s, 2))) + '</p>', opts: ops };
+        return { ask: 'کدام رابطه، جملهٔ ' + M('n') + 'ام این دنباله را می‌دهد؟', fig: K.dm(seqTex(s, 4)), expl: function () { return '<p>' + M('t_n=' + good + ':\\quad t_1=' + rt(term(s, 1)) + ',\\;t_2=' + rt(term(s, 2))) + '</p>'; }, opts: ops };
       }
       function qMissing() {
         var s = genSeq(), k = R(2, 4), t = term(s, k), c = [[radd(t, s.d), 'این جملهٔ بعدی است.'], [radd(t, rneg(s.d)), 'این جملهٔ قبلی است.'], [radd(t, rmul(Z(2), s.d)), 'اختلافِ ثابت را دوباره حساب کن.']];
-        return { ask: 'عددِ جاافتاده کدام است؟', tex: seqTex(s, 5, k), expl: '<p>' + M('d=' + rt(s.d) + '\\Rightarrow t_{' + k + '}=' + rt(t)) + '</p>', opts: rvOpts(t, c) };
+        return { ask: 'عددِ جاافتاده کدام است؟', fig: K.dm(seqTex(s, 5, k)), expl: function () { return '<p>' + M('d=' + rt(s.d) + '\\Rightarrow t_{' + k + '}=' + rt(t)) + '</p>'; }, opts: rvOpts(t, c) };
       }
       function qWhich() {
         var s = genSeq(), good = fm(s.d, s.c), ops = [{ h: M(seqTex(s, 4).replace(/,\\;\\ldots$/, '')), ok: true }], seen = {}, cands = [[s.d, s.a1], [s.c, s.d], [rneg(s.d), s.c], [s.d, rneg(s.c)]];
@@ -167,11 +167,11 @@ window.LESSONS.S03 = {
           if (ops.length >= 4 || x[0].n === 0) { return; } var t = { d: x[0], a1: radd(x[0], x[1]), c: x[1] }, tx = M(seqTex(t, 4).replace(/,\\;\\ldots$/, '')); if (seen[tx]) { return; } seen[tx] = 1;
           ops.push({ h: tx, m: 'برای ' + M('n=1') + ' باید ' + M(rt(term(s, 1))) + ' بشود، ولی این دنباله ' + M(rt(t.a1)) + ' دارد.' });
         });
-        return { ask: 'کدام دنباله با رابطهٔ ' + M('t_n=' + good) + ' ساخته می‌شود؟', expl: '<p>' + M('t_1=' + rt(term(s, 1)) + ',\\;t_2=' + rt(term(s, 2)) + ',\\;t_3=' + rt(term(s, 3))) + '</p>', opts: ops };
+        return { ask: 'کدام دنباله با رابطهٔ ' + M('t_n=' + good) + ' ساخته می‌شود؟', expl: function () { return '<p>' + M('t_1=' + rt(term(s, 1)) + ',\\;t_2=' + rt(term(s, 2)) + ',\\;t_3=' + rt(term(s, 3))) + '</p>'; }, opts: ops };
       }
-      H.seq(host, function () {
-        return [qNext, qTenth, qFormula, qMissing, qWhich].map(function (f) { var q, tries = 0; do { q = f(); } while (q.opts.length < 4 && tries++ < 40); q.opts = shuffle(q.opts); return q; });
-      }, function (s) { return s === 5 ? 'عالی بود! به همهٔ سؤال‌ها درست جواب دادی.' : s >= 3 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با عددهای جدید امتحان کن.'; });
+      H.final(host, [qNext, qTenth, qFormula, qMissing, qWhich].map(function (f) {
+        return function () { var q, tries = 0; do { q = f(); } while (q.opts.length < 4 && tries++ < 40); q.opts = shuffle(q.opts); return q; };
+      }));
     };
 
     return {

@@ -1753,8 +1753,6 @@
   font-size: .94rem;
 }
 
-/* ===== A07-A08 - learning laboratories ===== */
-
 .a78-panel {
   margin: 16px auto;
   padding: 18px;
@@ -1907,8 +1905,6 @@
     gap: 10px;
   }
 }
-
-/* ===== A07-A08 - learning laboratories ===== */
 
 .a78-hint {
   text-align: center;
@@ -2137,7 +2133,6 @@
 
 #A07-practice .a78-options .opt:disabled,
 #A08-practice .a78-options .opt:disabled {
-  /* opacity: 1; */
   cursor: default;
 }
 
@@ -2173,147 +2168,6 @@
   margin-block-end: 0;
 }
 
-/* ===== A07-A08 - learning laboratories ===== */
-
-.a08-domain-lab {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
-.a08-domain-control {
-  padding: 14px 14px 10px;
-  margin: 10px 0 14px;
-}
-
-.a08-domain-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.a08-domain-current {
-  font-size: 1.2rem;
-  direction: ltr;
-  unicode-bidi: isolate;
-  display: inline-block;
-}
-
-.a08-domain-cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 14px 0;
-}
-
-.a08-domain-card {
-  background: #f7fafc;
-  border: 1.5px solid var(--line);
-  border-radius: 14px;
-  padding: 12px 10px;
-  text-align: center;
-}
-
-.a08-domain-card.ok {
-  background: #edf8f1;
-  border-color: #7eb08c;
-}
-
-.a08-domain-card.bad {
-  background: #fff3f3;
-  border-color: #c36b70;
-}
-
-.a08-domain-card h5 {
-  margin: 0 0 6px;
-  color: var(--ink);
-}
-
-.a08-domain-card .dm {
-  margin: 8px auto;
-}
-
-.a08-domain-undefined {
-  color: #a13a3a;
-}
-
-@media (max-width:600px) {
-  .a08-domain-cards {
-    grid-template-columns: 1fr;
-  }
-}
-
-.a08-domain-equation .katex {
-  font-size: 1.08em;
-}
-
-.a08-domain-equation {
-  padding: 8px 2px;
-  overflow-x: auto;
-  min-height: 70px;
-  direction: ltr;
-  unicode-bidi: isolate;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: .4rem;
-  flex-wrap: wrap;
-}
-
-.a08-domain-equation .a08-domain-undefined {
-  direction: rtl;
-  unicode-bidi: isolate;
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.a08-domain-ticks .target {
-  font-weight: 800;
-  color: var(--ink);
-}
-
-.a08-domain-control {
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--paper, #f7fafc);
-  --a08-thumb: 18px;
-  --a08-half: 9px;
-}
-
-.a08-domain-control input[type=range][data-domain-range] {
-  appearance: auto !important;
-  -webkit-appearance: auto !important;
-  width: 100% !important;
-  direction: ltr !important;
-  display: block !important;
-  accent-color: #078b80 !important;
-  cursor: pointer;
-}
-
-.a08-domain-control .a08-domain-ticks {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: flex-start;
-  direction: ltr !important;
-  width: 100% !important;
-  margin: 2px 0 0 !important;
-  padding: 0 var(--a08-half) !important;
-  box-sizing: border-box !important;
-  text-align: center;
-  font-size: .72rem;
-  color: var(--ink-soft);
-  gap: 0 !important;
-}
-
-.a08-domain-control .a08-domain-ticks>span {
-  flex: 0 0 auto;
-  display: flex;
-  justify-content: center;
-  min-width: 0;
-  line-height: 1.2;
-}
-
 /* ===== A04 - area model / multiplication grid ===== */
 
 @media (max-width:600px) {
@@ -2326,7 +2180,6 @@
   }
 
   .a04-area-model {
-    /* grid-template-columns: 24% 10% 42% 24% !important; */
     grid-template-columns: 16% 10% 50% 24% !important;
     width: 100%;
     max-width: 335px;
@@ -2417,7 +2270,6 @@
     width: min(100%, 320px) !important;
     max-width: 100% !important;
     margin: 10px auto 0 !important;
-    /* grid-template-columns: 24% 10% 42% 24% !important; */
     grid-template-columns: 16% 10% 50% 24% !important;
     justify-content: stretch !important;
   }
@@ -2810,8 +2662,6 @@
     padding: 12px 12px 16px;
   }
 }
-
-/* ===== A07-A08 - learning laboratories ===== */
 
 #A07-practice.a2-final .mc.a78-options,
 #A08-practice.a2-final .mc.a78-options {

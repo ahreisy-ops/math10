@@ -1,7 +1,7 @@
 /* درس مهارت E06 — معادلهٔ حاصل‌ضربی (فصل ۳) */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.E06 = {
-  needs: ['utils'],
+  needs: ['utils', 'gslider'],
   setup: function (K0) {
     var ML = window.MathLite, F = ML.fa, rr = ML.renderRich, abs = Math.abs, _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var M0 = _u.M, K = Object.create(K0), T = String.raw;
@@ -179,22 +179,23 @@ window.LESSONS.E06 = {
     function zeroLab(root) {
       var st = root.querySelector('[data-stage]'), p, found, MIN = -6, MAX = 6, TOTAL = MAX - MIN;
       function nw() { p = pairRoots(true, 5); found = []; draw(); }
-      function ticksHtml() { var h = '', i; for (i = 0; i <= TOTAL; i++) { h += '<span style="--gr-step:' + i + ';--gr-total:' + TOTAL + '"><i></i>' + M(String(MIN + i)) + '</span>'; } return h; }
-      function card(id, label) { return '<div class="e01-pair" data-side="' + id + '"><span>' + label + '</span><strong class="e01-formula-tag" data-tag></strong><div class="e01-pair-eval" data-eval></div><small data-sub></small></div>'; }
       function draw() {
-        st.innerHTML = rr(head(eqTex(p)) + '<div class="e01-compare"><div class="e01-compare-control graduated-range"><div class="e01-compare-head"><span>عدد آزمایشی ' + M('x') + '</span><strong data-z-x></strong></div><input type="range" id="zl-x" min="' + MIN + '" max="' + MAX + '" step="1" value="0" aria-label="عدد آزمایشی"><div class="e01-compare-ticks graduated-ticks" aria-hidden="true">' + ticksHtml() + '</div></div><div class="e01-pairs">' + card('A', 'عامل اول') + card('B', 'عامل دوم') + '</div></div><div id="zl-live"></div>');
-        upd();
+        st.innerHTML = rr(head(eqTex(p)) + '<div id="zl-gs"></div><div id="zl-live"></div>');
+        GSlider.build(st.querySelector('#zl-gs'), {
+          min: MIN, max: MAX, value: 0, label: 'عدد آزمایشی ' + M('x'), aria: 'عدد آزمایشی',
+          cards: [{ name: 'عامل اول', tag: M(p.f1) }, { name: 'عامل دوم', tag: M(p.f2) }],
+          paint: upd
+        });
       }
-      function upd() {
-        var x = +st.querySelector('#zl-x').value, fs = [[p.f1, p.b1], [p.f2, p.b2]], vals = [], pr, zero, h, sorted = sorted2(p);
-        st.querySelector('[data-z-x]').innerHTML = rr(M('x=' + x));
-        ['A', 'B'].forEach(function (id, i) {
-          var el = st.querySelector('[data-side="' + id + '"]'), b = fs[i][1], v = x + b;
-          vals.push(v);
-          el.querySelector('[data-tag]').innerHTML = rr(M(fs[i][0]));
-          el.querySelector('[data-eval]').innerHTML = rr(M(pv(x) + (b < 0 ? '-' + (-b) : '+' + b) + '=' + v));
-          el.querySelector('[data-sub]').innerHTML = v === 0 ? 'این عامل صفر شد' : rr('با جایگذاری ' + M('x=' + x));
-          el.classList.toggle('e01-compare-match', v === 0);
+      function upd(x) {
+        var fs = [p.b1, p.b2], vals = [], cards = [], pr, zero, h, sorted = sorted2(p);
+        fs.forEach(function (b) {
+          var v = x + b; vals.push(v);
+          cards.push({
+            ev: rr(M(pv(x) + (b < 0 ? '-' + (-b) : '+' + b) + '=' + v)),
+            status: v === 0 ? 'این عامل صفر شد' : rr('با جایگذاری ' + M('x=' + x)),
+            state: v === 0 ? 'ok' : ''
+          });
         });
         pr = vals[0] * vals[1]; zero = pr === 0;
         if (zero && found.indexOf(x) < 0) { found.push(x); }
@@ -203,8 +204,8 @@ window.LESSONS.E06 = {
         h += '<p class="e3-note">' + (zero ? 'یکی از عامل‌ها صفر شد؛ پس حاصل‌ضرب صفر است و این ' + M('x') + ' یک جواب معادله است.' : 'هیچ‌کدام از دو عامل صفر نیست؛ پس حاصل‌ضرب هم صفر نمی‌شود.') + '</p>';
         if (found.length === 2) { h += mark(true, '✓ هر دو جواب را پیدا کردی. اما نوار برای عددهای بزرگ یا کسری کند است؛ در بخش بعد جواب‌ها را مستقیم با محاسبه به دست می‌آوریم.'); }
         st.querySelector('#zl-live').innerHTML = rr(h);
+        return { cards: cards };
       }
-      root.addEventListener('input', function (e) { if (e.target.id === 'zl-x') { upd(); } });
       root.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b && !b.disabled && b.hasAttribute('data-fresh')) { nw(); } });
       nw();
     }
@@ -318,7 +319,7 @@ window.LESSONS.E06 = {
         h += K.box('err', '⚠ خطای رایج: تقسیم بر x', '<p>معادلهٔ اصلی: ' + ltr(M('x^2-5x=0')) + '</p>' + errPair('دو طرف بر ' + M('x') + ' تقسیم شد', 'x^2-5x=0\\ \\Rightarrow\\ \\textcolor{firebrick}{x-5=0}\\ \\Rightarrow\\ x=5', 'عامل مشترک گرفته شد', 'x(x-5)=0\\ \\Rightarrow\\ x=\\textcolor{seagreen}{0}' + OR + 'x=5') + '<p>راه تشخیص: ' + ltr(M('x=0')) + ' را در معادلهٔ اصلی بگذار؛ ' + ltr(M('0^2-5\\times0=0')) + ' برقرار است، پس ۰ هم جواب است و تقسیم آن را گم کرده بود.</p>');
         h += K.sn('۴', 'مسیر کامل');
         h += '<p>حالا هر سه تکه را داری. مسیر کامل همان سه مرحلهٔ نوارِ بالای هر بخش است؛ گاهی معادله از اول حاصل‌ضرب است و مرحلهٔ اول لازم نیست:</p>';
-        h += rules([['۱. عامل مشترک بگیر (به همراه ضریب) تا «حاصل‌ضرب = ۰» بسازی', '3x^2+12x=0\\ \\Rightarrow\\ 3x(x+4)=0', 0], ['۲. هر عامل را جدا برابر صفر بگذار', '3x=0' + OR + 'x+4=0', 1], ['۳. هر معادله را حل کن', 'x=0' + OR + 'x=-4', 2]]);
+        h += rules([['۱. عامل مشترک بگیر (به همراه ضریب) تا «حاصل‌ضرب برابر با صفر» بسازی', '3x^2+12x=0\\ \\Rightarrow\\ 3x(x+4)=0', 0], ['۲. هر عامل را جدا برابر صفر بگذار', '3x=0' + OR + 'x+4=0', 1], ['۳. هر معادله را حل کن', 'x=0' + OR + 'x=-4', 2]]);
         h += activity('کارگاه مسیر حل', 'e06-full', 'مسئله‌ها از چهار نوع‌اند: عامل‌های ساده، عامل با ضریب، عامل مشترک و عامل مشترک با ضریب. خودت یک معادله را از ابتدا تا انتها حل کن: در هر گام خط درست را انتخاب کن.');
         h += stepsNote('e06-sd-full');
         h += K.sn('۵', 'آزمون پایانی');

@@ -3,7 +3,7 @@
   'use strict';
   window.LESSONS = window.LESSONS || {};
   window.LESSONS.E01 = {
-    needs: ['linearvalues'],
+    needs: ['linearvalues', 'gslider'],
     setup: function (K0) {
       var K = Object.create(K0), ML = window.MathLite;
       function maths(t) { return ML.renderRich('$' + t + '$'); }
@@ -37,18 +37,7 @@
           h += "<p>به تساوی‌ای که یک یا چند مجهول داشته باشد، <b>معادله</b> می‌گویند. در $3+x=8$ فقط یک مجهول وجود دارد؛ به همین دلیل، این یک <b>معادلهٔ یک‌مجهولی</b> است. در همین معادله، مقدار $x=5$ دو طرف را برابر می‌کند. به مقداری از مجهول که با جایگذاری آن، دو طرف معادله برابر شوند، <b>جواب معادله</b> می‌گویند.</p>";
           h += "<h4>یادآوری: عبارت جبری و معادله چه فرقی دارند؟</h4>";
           h += "<p>عبارت $3+x$ به‌تنهایی مقداری را نشان می‌دهد که به $x$ بستگی دارد؛ اما در معادلهٔ $3+x=8$ این مقدار باید با ۸ برابر شود. نوار لغزنده را حرکت بده و مقدارهای دو کادر را مقایسه کن: چه اتفاقی می‌افتد که مقدار $x$ عوض می‌شود؟</p>";
-          h += '<div id="e01-compare" class="e01-compare" data-activity="compare">' +
-            '<div class="e01-compare-control graduated-range">' +
-            '<div class="e01-compare-head"><span>مقدار متغیر</span><strong data-compare-x></strong></div>' +
-            '<input id="slider1" type="range" min="-4" max="8" step="1" value="2" aria-label="مقدار متغیر x" data-compare-range>' +
-            '<div class="e01-compare-ticks graduated-ticks" aria-hidden="true">' +
-            Array.from({ length: 13 }, function (_, i) { var n = i - 4; return '<span class="' + (n === 5 ? 'e01-target-tick' : '') + '" style="--gr-step:' + i + ';--gr-total:12"><i></i>' + maths(n === 5 ? '\\mathbf{5}' : String(n)) + '</span>'; }).join('') +
-            '</div>' +
-            '</div>' +
-            '<div class="e01-pairs">' +
-            '<div class="e01-pair"><span>عبارت جبری</span><strong class="e01-formula-tag">$3+x$</strong><div class="e01-pair-eval" data-compare-expression></div><small>با هر مقدارِ $x$، حاصل عبارت به دست می‌آید.</small></div>' +
-            '<div class="e01-pair" data-compare-equation-card><span>معادله</span><strong class="e01-formula-tag">$3+x=8$</strong><div class="e01-pair-eval" data-compare-equation></div><small data-compare-status aria-live="polite"></small></div>' +
-            '</div></div>';
+          h += '<div id="e01-compare"></div>';
           h += K.sn('۲', 'بررسی جواب معادله با جایگذاری');
           h += "<p>در فعالیت قبل دیدیم که مقدار عبارت جبری با تغییر $x$ عوض می‌شود، اما معادله فقط برای بعضی مقدارها برقرار است. برای اینکه بفهمیم یک عدد جواب معادله‌ای دیگر هست یا نه، آن را به‌جای مجهول می‌گذاریم و مقدار دو طرف را با هم مقایسه می‌کنیم.</p>";
           h += '<p>برای مثال، معادلهٔ <span class="e01-inline-equation" dir="ltr">' + maths("x+4=") + '<span class="e01-highlight-ten">' + maths("10") + '</span></span> را در نظر بگیریم. اگر ' + maths("x=5") + ' باشد، طرف چپ ۹ و طرف راست <span class="e01-highlight-ten">۱۰</span> می‌شود؛ پس این عدد جواب نیست:</p>';
@@ -61,17 +50,7 @@
           h += "<div id=\"e01-values\" class=\"e01-interaction\" data-activity=\"values\"></div>";
           h += "<h4>یادآوری: اتحاد و معادله چه فرقی دارند؟</h4>";
           h += "<p>در آزمایشگاه دیدیم که یک معادله فقط با بعضی مقدارهای مجهول برقرار می‌شود. در فصل قبل، اتحادهای جبری را هم شناختیم. آیا آن‌ها نیز به یک مقدار خاص وابسته‌اند؟ برای مقایسه، اتحاد مربع دوجمله‌ای و معادلهٔ $x+4=10$ را با نوار لغزنده بررسی می‌کنیم.</p>";
-          h += '<div id="e01-identity-compare" class="e01-compare e01-identity-compare" data-activity="identity-compare">' +
-            '<div class="e01-compare-control graduated-range">' +
-            '<div class="e01-compare-head"><span>مقدار متغیر</span><strong data-identity-x></strong></div>' +
-            '<input id="slider2" type="range" min="-4" max="8" step="1" value="1" aria-label="مقدار متغیر x برای مقایسهٔ اتحاد و معادله" data-identity-range>' +
-            '<div class="e01-compare-ticks graduated-ticks" aria-hidden="true">' +
-            Array.from({ length: 13 }, function (_, i) { var n = i - 4; return '<span class="' + (n === 6 ? 'e01-target-tick' : '') + '" style="--gr-step:' + i + ';--gr-total:12"><i></i>' + maths(n === 6 ? '\\mathbf{6}' : String(n)) + '</span>'; }).join('') +
-            '</div></div>' +
-            '<div class="e01-pairs">' +
-            '<div class="e01-pair"><span>اتحاد</span><strong class="e01-formula-tag">$(x+2)^2=x^2+4x+4$</strong><div class="e01-pair-eval" data-identity-left></div><small data-identity-status>دو طرف برای هر مقدار $x$ برابرند.</small></div>' +
-            '<div class="e01-pair" data-identity-equation-card><span>معادله</span><strong class="e01-formula-tag">$x+4=10$</strong><div class="e01-pair-eval" data-identity-right></div><small data-identity-equation-status aria-live="polite"></small></div>' +
-            '</div></div>';
+          h += '<div id="e01-identity-compare"></div>';
           h += "<p>در اتحاد، با تغییر $x$ دو طرف همچنان برابر می‌مانند؛ زیرا با بازکردن پرانتزِ طرف چپ، عبارتِ طرف راست به دست می‌آید. اما معادله‌ای مثل $x+4=10$، فقط برای $x=6$ برقرار است. پس اتحاد و معادله، با اینکه هر دو علامت مساوی دارند، یکسان نیستند.</p>";
           h += "<p>البته همهٔ معادله‌ها فقط یک جواب ندارند: بعضی چند جواب دارند و بعضی هیچ جوابی ندارند. فعلاً کافی است تفاوت معادله با اتحاد را بشناسیم؛ روش‌های حل را در درس‌های بعد یاد می‌گیریم.</p>";
           h += "<h4>مسابقه: تشخیص در ده ثانیه</h4>";
@@ -113,49 +92,43 @@
       /* پیوند تعاملی همان دو کادر آشنای عبارت جبری و معادله؛ بدون تغییر درس‌های قبلی. */
       function initCompare(root) {
         if (!root) return;
-        var slider = root.querySelector('[data-compare-range]');
-        var value = root.querySelector('[data-compare-x]');
-        var expression = root.querySelector('[data-compare-expression]');
-        var equation = root.querySelector('[data-compare-equation]');
-        var status = root.querySelector('[data-compare-status]');
-        var equationCard = root.querySelector('[data-compare-equation-card]');
-        function paint() {
-          var x = Number(slider.value), total = 3 + x, equal = total === 8;
-          var shownX = x < 0 ? '(' + x + ')' : String(x);
-          var substitution = '3+' + shownX;
-          value.innerHTML = maths('x=' + x);
-          expression.innerHTML = maths(substitution + '=' + total);
-          equation.innerHTML = maths(substitution + '=' + total + (equal ? '' : '\\ne 8'));
-          status.textContent = equal ? 'دو طرف برابرند؛ این مقدار جواب معادله است.' : 'دو طرف برابر نیستند؛ این مقدار جواب معادله نیست.';
-          equationCard.classList.toggle('e01-compare-match', equal);
-          slider.setAttribute('aria-valuetext', f(x).replace('-', 'منفی '));
-        }
-        slider.addEventListener('input', paint);
-        paint();
+        GSlider.build(root, {
+          min: -4, max: 8, value: 2, target: 5, aria: 'مقدار متغیر x',
+          cards: [
+            { name: 'عبارت جبری', tag: '$3+x$', sub: 'با هر مقدارِ $x$، حاصل عبارت به دست می‌آید.' },
+            { name: 'معادله', tag: '$3+x=8$' }
+          ],
+          paint: function (x) {
+            var total = 3 + x, equal = total === 8, s = '3+' + (x < 0 ? '(' + x + ')' : String(x));
+            return { cards: [
+              { ev: maths(s + '=' + total) },
+              { ev: maths(s + '=' + total + (equal ? '' : '\\ne 8')), state: equal ? 'ok' : '',
+                status: equal ? 'دو طرف برابرند؛ این مقدار جواب معادله است.' : 'دو طرف برابر نیستند؛ این مقدار جواب معادله نیست.' }
+            ] };
+          }
+        });
       }
 
       /* مقایسهٔ پویا: یک اتحاد همیشه برقرار و معادله فقط برای جواب خودش برقرار است. */
       function initIdentityCompare(root) {
         if (!root) return;
-        var slider = root.querySelector('[data-identity-range]');
-        var value = root.querySelector('[data-identity-x]');
-        var left = root.querySelector('[data-identity-left]');
-        var right = root.querySelector('[data-identity-right]');
-        var status = root.querySelector('[data-identity-equation-status]');
-        var equationCard = root.querySelector('[data-identity-equation-card]');
-        function paint() {
-          var x = Number(slider.value), l = (x + 2) * (x + 2), r = x * x + 4 * x + 4;
-          var eqLeft = x + 4, equal = eqLeft === 10;
-          var shown = x < 0 ? '(' + x + ')' : String(x);
-          value.innerHTML = maths('x=' + x);
-          left.innerHTML = '<div class="e01-identity-subvalue"><small class="e01-identity-side-label">سمت چپ</small>' + maths('(' + shown + '+2)^2=' + l) + '</div>' + '<div class="e01-identity-subvalue"><small class="e01-identity-side-label">سمت راست</small>' + maths(shown + '^2+4\\times ' + shown + '+4=' + r) + '</div>';
-          right.innerHTML = maths(shown + '+4=' + eqLeft + (equal ? '=10' : '\\ne10'));
-          status.textContent = equal ? 'دو طرف برابرند؛ این عدد جواب معادله است.' : 'دو طرف برابر نیستند؛ این عدد جواب معادله نیست.';
-          equationCard.classList.toggle('e01-compare-match', equal);
-          slider.setAttribute('aria-valuetext', f(x).replace('-', 'منفی '));
-        }
-        slider.addEventListener('input', paint);
-        paint();
+        GSlider.build(root, {
+          min: -4, max: 8, value: 1, target: 6, aria: 'مقدار متغیر x برای مقایسهٔ اتحاد و معادله',
+          cards: [
+            { name: 'اتحاد', tag: '$(x+2)^2=x^2+4x+4$', sub: 'دو طرف برای هر مقدار $x$ برابرند.' },
+            { name: 'معادله', tag: '$x+4=10$' }
+          ],
+          paint: function (x) {
+            var l = (x + 2) * (x + 2), r = x * x + 4 * x + 4, eqLeft = x + 4, equal = eqLeft === 10;
+            var shown = x < 0 ? '(' + x + ')' : String(x);
+            return { cards: [
+              { ev: '<span class="gs-line"><small class="gs-side">سمت چپ</small>' + maths('(' + shown + '+2)^2=' + l) + '</span>' +
+                    '<span class="gs-line"><small class="gs-side">سمت راست</small>' + maths(shown + '^2+4\\times ' + shown + '+4=' + r) + '</span>' },
+              { ev: maths(shown + '+4=' + eqLeft + (equal ? '=10' : '\\ne10')), state: equal ? 'ok' : '',
+                status: equal ? 'دو طرف برابرند؛ این عدد جواب معادله است.' : 'دو طرف برابر نیستند؛ این عدد جواب معادله نیست.' }
+            ] };
+          }
+        });
       }
 
       /* مسابقهٔ ده‌ثانیه‌ای تشخیص نوع نوشته: زمان واقعی، بازخورد مستقل، مرور و دور تازه. */

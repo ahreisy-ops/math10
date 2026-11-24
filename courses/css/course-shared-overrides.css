@@ -207,13 +207,6 @@
   font-weight: 700
 }
 
-/* .cover:has(.stg) .fb,
-.cover:has(.stg) .ex,
-.a2-final:has(.stg) .fb,
-.a2-final:has(.stg) .ex {
-  font-size: 1rem;
-  line-height: 1.9
-} */
 
 .stage-progress-meta {
   font-size: .85rem;

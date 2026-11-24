@@ -219,7 +219,6 @@
         chk = !s.done && o.chk && o.chk(it);
         h = '<div class="stg">' + st.map(function (x, k) { return '<span class="' + (x.done ? (x.first ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div>';
         h += '<p class="ask"><b>' + o.ask(it) + '</b></p>' + o.fig(it, s) + (o.ctl ? o.ctl(it, s) : '') + s.msg;
-        // h += '<div class="end-actions"><button type="button" class="btn" data-p="1" data-scroll=".stg" data-scroll-offset="20"' + (i ? '' : ' disabled') + '>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (chk ? '' : ' data-scroll=".stg" data-scroll-offset="20"') + (s.done || (chk && o.ready(it)) ? '' : ' disabled') + '>' + (chk ? 'بررسی' : i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
         h += '<div class="end-actions"><button type="button" class="btn" data-p="1" data-scroll=".stg" data-scroll-offset="20"' + (i ? '' : ' disabled') + '>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (chk || i === n - 1 ? '' : ' data-scroll=".stg" data-scroll-offset="20"') + (s.done || (chk && o.ready(it)) ? '' : ' disabled') + '>' + (chk ? 'بررسی' : i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
         host.innerHTML = rr(h);
         if (o.after && !(i >= n)) { o.after(host, it, s); }

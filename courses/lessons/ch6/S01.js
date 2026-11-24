@@ -116,7 +116,7 @@ window.LESSONS.S01 = {
         var good = Math.random() < 0.5 ? o(m + '\\in A', true) : o(n + '\\notin A', true);
         var ops = [good, o(n + '\\in A', false, fa(n) + ' در فهرست ' + M('A') + ' نیست؛ پس عضو آن نیست.'), o(m2 + '\\notin A', false, fa(m2) + ' در فهرست ' + M('A') + ' هست؛ پس عضو آن است.'), Math.random() < 0.5 ? o(n2 + '\\in A', false, fa(n2) + ' در فهرست ' + M('A') + ' نیست.') : o(m + '\\notin A', false, fa(m) + ' در فهرست ' + M('A') + ' هست.')];
         if (good.h === o(m + '\\in A').h) { ops[3] = o(n2 + '\\in A', false, fa(n2) + ' در فهرست ' + M('A') + ' نیست.'); } else { ops[3] = o(m + '\\notin A', false, fa(m) + ' در فهرست ' + M('A') + ' هست.'); }
-        return { ask: 'اگر ' + asA(A) + ' باشد، کدام گزینه درست است؟', expl: '<p>برای هر عدد، فهرستِ ' + M('A') + ' را دنبال کن: اگر در آن بود «عضو است» ' + M('\\in') + '، وگرنه «عضو نیست» ' + M('\\notin') + '.</p>', opts: ops };
+        return { ask: 'اگر ' + asA(A) + ' باشد، کدام گزینه درست است؟', expl: function () { return '<p>برای هر عدد، فهرستِ ' + M('A') + ' را دنبال کن: اگر در آن بود «عضو است» ' + M('\\in') + '، وگرنه «عضو نیست» ' + M('\\notin') + '.</p>'; }, opts: ops };
       }
       function qSubset() {
         var A = sorted(sample(BIG, R(3, 5))), nonm = BIG.filter(function (x) { return A.indexOf(x) < 0; }), good = sample(A, R(1, A.length - 1)), ops = [{ h: M(setTex(shuffle(good.slice()))), ok: true }];
@@ -124,27 +124,26 @@ window.LESSONS.S01 = {
           var bad = sample(A, R(1, A.length - 1)), e = pick(nonm); if (k === 0) { bad = bad.concat([e]); } else { bad[R(0, bad.length - 1)] = e; }
           ops.push({ h: M(setTex(shuffle(bad.slice()))), m: 'عضوِ ' + M('' + e) + ' در ' + M('A') + ' نیست؛ پس این مجموعه زیرمجموعهٔ ' + M('A') + ' نیست.' });
         });
-        return { ask: 'اگر ' + asA(A) + ' باشد، کدام مجموعه زیرمجموعهٔ ' + M('A') + ' است؟', expl: '<p>زیرمجموعه یعنی همهٔ اعضایش در ' + M('A') + ' باشند. اگر حتی یک عضو بیرون از ' + M('A') + ' باشد، زیرمجموعه نیست.</p>', opts: ops };
+        return { ask: 'اگر ' + asA(A) + ' باشد، کدام مجموعه زیرمجموعهٔ ' + M('A') + ' است؟', expl: function () { return '<p>زیرمجموعه یعنی همهٔ اعضایش در ' + M('A') + ' باشند. اگر حتی یک عضو بیرون از ' + M('A') + ' باشد، زیرمجموعه نیست.</p>'; }, opts: ops };
       }
       function qEqual() {
         var A = sorted(sample(BIG, R(3, 4))), nonm = BIG.filter(function (x) { return A.indexOf(x) < 0; }), dupl = A.concat([pick(A)]), ops = [{ h: M(setTex(shuffle(dupl))), ok: true }];
         var miss = A.slice(); var dropped = miss.splice(R(0, miss.length - 1), 1)[0]; var extra = A.concat([pick(nonm)]), repl = A.slice(); var gone = repl[R(0, repl.length - 1)]; repl[repl.indexOf(gone)] = pick(nonm);
         ops.push({ h: M(setTex(shuffle(miss))), m: 'عضوِ ' + M('' + dropped) + ' از ' + M('A') + ' جا افتاده است.' }, { h: M(setTex(shuffle(extra))), m: 'این مجموعه عضوِ اضافه دارد که در ' + M('A') + ' نیست.' }, { h: M(setTex(shuffle(repl))), m: 'عضوِ ' + M('' + gone) + ' جایش عوض شده است.' });
-        return { ask: 'اگر ' + asA(A) + ' باشد، کدام مجموعه با ' + M('A') + ' برابر است؟', expl: '<p>مجموعه‌های برابر دقیقاً اعضای یکسان دارند؛ ترتیب و تکرارِ اعضا مهم نیست.</p>', opts: ops };
+        return { ask: 'اگر ' + asA(A) + ' باشد، کدام مجموعه با ' + M('A') + ' برابر است؟', expl: function () { return '<p>مجموعه‌های برابر دقیقاً اعضای یکسان دارند؛ ترتیب و تکرارِ اعضا مهم نیست.</p>'; }, opts: ops };
       }
       function qSymbol() {
         var A = sorted(sample(BIG, R(3, 5))), x = pick(A), v = Math.random() < 0.5;
         var ops = v ? [o(x + '\\in A', true), o('\\{' + x + '\\}\\in A', false, M('\\{' + x + '\\}') + ' یک مجموعه است، نه عضوِ ' + M('A') + '.'), o(x + '\\subseteq A', false, M('\\subseteq') + ' را بین دو مجموعه می‌نویسیم؛ ' + M('' + x) + ' یک عدد است.'), o(x + '\\notin A', false, fa(x) + ' عضوِ ' + M('A') + ' است.')]
           : [o('\\{' + x + '\\}\\subseteq A', true), o('\\{' + x + '\\}\\in A', false, M('\\{' + x + '\\}') + ' یک مجموعه است، نه عضوِ ' + M('A') + '.'), o(x + '\\subseteq A', false, M('\\subseteq') + ' را بین دو مجموعه می‌نویسیم؛ ' + M('' + x) + ' یک عدد است.'), o('\\{' + x + '\\}\\not\\subseteq A', false, M('\\{' + x + '\\}') + ' زیرمجموعهٔ ' + M('A') + ' است.')];
-        return { ask: 'در ' + asA(A) + '، عدد ' + M('' + x) + ' عضوِ ' + M('A') + ' است. کدام نوشتار درست است؟', expl: '<p>' + M('\\in') + ' را بین یک «عضو» و یک «مجموعه» می‌نویسیم و ' + M('\\subseteq') + ' را بین دو «مجموعه».</p>', opts: ops };
+        return { ask: 'در ' + asA(A) + '، عدد ' + M('' + x) + ' عضوِ ' + M('A') + ' است. کدام نوشتار درست است؟', expl: function () { return '<p>' + M('\\in') + ' را بین یک «عضو» و یک «مجموعه» می‌نویسیم و ' + M('\\subseteq') + ' را بین دو «مجموعه».</p>'; }, opts: ops };
       }
       function qVenn() {
         var p = genPair(), rel = relOf(p.A, p.B);
-        return { ask: 'با توجه به نمودار، کدام جمله درست است؟', extra: H.venn({ A: p.A, B: p.B, U: POOL }), tex: 'A=' + setTex(p.A) + ',\\qquad B=' + setTex(p.B), expl: '<p>' + (rel === 'sub' ? 'همهٔ اعضای ' + M('A') + ' داخل ' + M('B') + ' هستند.' : rel === 'sup' ? 'همهٔ اعضای ' + M('B') + ' داخل ' + M('A') + ' هستند.' : 'هر کدام عضوی دارد که در دیگری نیست.') + '</p>',
+        return { ask: 'با توجه به نمودار، کدام جمله درست است؟', fig: H.venn({ A: p.A, B: p.B, U: POOL }) + K.dm('A=' + setTex(p.A) + ',\\qquad B=' + setTex(p.B)), expl: function () { return '<p>' + (rel === 'sub' ? 'همهٔ اعضای ' + M('A') + ' داخل ' + M('B') + ' هستند.' : rel === 'sup' ? 'همهٔ اعضای ' + M('B') + ' داخل ' + M('A') + ' هستند.' : 'هر کدام عضوی دارد که در دیگری نیست.') + '</p>'; },
           opts: [{ h: M('A\\subseteq B'), ok: rel === 'sub', m: 'عضوی از ' + M('A') + ' هست که در ' + M('B') + ' نیست.' }, { h: M('B\\subseteq A'), ok: rel === 'sup', m: 'عضوی از ' + M('B') + ' هست که در ' + M('A') + ' نیست.' }, { h: M('A=B'), ok: false, m: 'دو مجموعه اعضای یکسان ندارند.' }, { h: 'هیچ‌کدام از این‌ها', ok: rel === 'none', m: 'یکی از دو مجموعه زیرمجموعهٔ دیگری است.' }] };
       }
-      H.seq(host, function () { return [qMember, qSubset, qEqual, qSymbol, qVenn].map(function (f) { var q, tries = 0; do { q = f(); } while (uniq(q.opts).length < q.opts.length && tries++ < 40); q.opts = q.opts.length === 4 && q.opts[3].h === 'هیچ‌کدام از این‌ها' ? q.opts : shuffle(uniq(q.opts)); return q; }); },
-        function (s) { return s === 5 ? 'عالی بود! به همهٔ سؤال‌ها درست جواب دادی.' : s >= 3 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن؛ بعد با عددهای جدید امتحان کن.'; });
+      H.final(host, [qMember, qSubset, qEqual, qSymbol, qVenn].map(function (f) { return function () { var q, tries = 0; do { q = f(); } while (uniq(q.opts).length < q.opts.length && tries++ < 40); q.opts = q.opts.length === 4 && q.opts[3].h === 'هیچ‌کدام از این‌ها' ? q.opts : shuffle(uniq(q.opts)); return q; }; }));
     };
 
     var TERMS = '<ul><li><b>مجموعه</b>: گروهی از چیزهای مشخص که زیر یک نام جمع شده‌اند.</li><li><b>عضو</b>: هر چیزی که داخل مجموعه است.</li><li><b>مجموعهٔ تهی</b> ($\\varnothing$ یا $\\{\\ \\}$): مجموعه‌ای که هیچ عضوی ندارد؛ مثل «عددهای طبیعیِ بین ۴ و ۵».</li></ul>';

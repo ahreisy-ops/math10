@@ -30,7 +30,6 @@ window.LESSONS.N10 = {
         '.standard-n6-10 .sgnrow{display:flex;gap:12px;justify-content:center;margin:10px 0;direction:rtl;flex-wrap:wrap}.standard-n6-10 .sgnrow button.btn{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:132px;min-width:132px;height:54px;min-height:54px;padding:8px 14px;font-family:inherit;font-size:1.04rem;font-weight:700;line-height:1.4;border-radius:12px;box-shadow:2px 2px 0 var(--ink);transform:none}',
         '.standard-n6-10 .sgnrow button.btn.right{background:#d2f0e9;border-color:var(--accent)}.standard-n6-10 .sgnrow button.btn.wrong{background:#fbd5d5;border-color:#b23a3a}.standard-n6-10 .sgnrow button.btn:disabled{opacity:1}',
         '.standard-n6-10 .sgnrow button.btn:not(:disabled):active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}',
-        '.snt{display:block;direction:rtl;font-size:1rem;line-height:1.9;text-align:center}.snt .katex{font-size:1.1em}',
         '.trow{display:flex;gap:10px;align-items:center;justify-content:center;margin:6px 0;direction:ltr}.trow .tm{font:bold 1.1rem Tahoma;flex:none}.trow .tm.oky{color:var(--accent-dark)}.trow .tm.nox{color:#b23a3a}',
         /* تجزیه */
         '.ftr{direction:ltr;margin:8px auto;max-width:420px}',
@@ -47,7 +46,6 @@ window.LESSONS.N10 = {
         '.n10-fact-actions,.n10-ladder-actions{display:flex;flex-direction:row;direction:rtl;justify-content:center;width:100%;gap:12px}.n10-fact-actions:has(> :nth-child(2)),.n10-ladder-actions:has(> :nth-child(2)){justify-content:space-between}.n10-fact-actions .btn,.n10-ladder-actions .btn{min-width:120px;min-height:36px;font-size:.88rem}',
         '.n10-ladder-work{text-align:center;margin:8px auto 12px;max-width:420px}.n10-ladder-work .dm{margin:4px auto}',
         '.pk{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;direction:ltr;margin:8px 0}.pk .chip{min-width:52px;height:52px;font-weight:bold}',
-        // '#ft .fb.ok, #ft .ex, #td .fb.bad, #td .fb.ok, #lt .fb.ok, #dl .fb.ok, #dl .ex{min-height:44px;font-size:1rem}',
         /* نردبان تقسیم */
         '.dv{direction:ltr;margin:8px auto;display:grid;grid-template-columns:48px 1px auto;max-width:260px;justify-content:center;align-items:center}',
         '.dv .p{grid-column:1;text-align:right;padding:2px 8px 2px 0;font-weight:bold;color:var(--pink)}',
@@ -55,8 +53,6 @@ window.LESSONS.N10 = {
         '.dv .nn{grid-column:3;display:flex;gap:26px;padding:2px 12px;font-weight:bold}',
         '.dv .nn span{min-width:44px;text-align:center}',
         '.dv .ln{grid-column:1 / span 3;height:2px;background:var(--ink);margin:2px 0}',
-        '.n10-progress{direction:rtl!important}.n10-progress span{cursor:default}',
-        '.n10-final-nav{display:flex;justify-content:space-between;direction:rtl}',
         '.n10-restart{font-weight:700;box-shadow:2px 2px 0 var(--ink)}.n10-restart:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}',
         '@media(max-width:520px){.mc.m3{gap:6px}}'
       ].join('\n');
@@ -258,7 +254,6 @@ window.LESSONS.N10 = {
     K.gcmSteps = function (host) {
       H.stages(host, {
         names: ['مضرب و مقسوم‌علیه', 'ب.م.م', 'ک.م.م', 'مخرج مشترک'],
-        stgCls: 'n10-progress',
         make: function (si) { return G[si](); }
       });
     };
@@ -280,23 +275,7 @@ window.LESSONS.N10 = {
       { h: 'برای هم‌مخرج‌کردن ' + M('\\dfrac{1}{4}') + ' و ' + M('\\dfrac{1}{6}') + ' فقط ' + M('24') + ' می‌تواند مخرج مشترک باشد.', ok: 0, e: '<p>' + M('24') + ' کار می‌کند، اما ' + M('12') + ' کوچک‌ترین مخرج مشترک است.</p>' },
       { h: 'ب.م.م ' + M('24') + ' و ' + M('36') + ' برابر ' + M('12') + ' و ک.م.م‌شان ' + M('72') + ' است.', ok: 1, e: '<p>' + M('12\\times72=864=24\\times36') + '.</p>' }
     ];
-    K.tfGcm = function (host) {
-      var L, i, ans, sc, answers;
-      function nw() { L = shuffle(TF.slice()).slice(0, 6); i = 0; ans = null; sc = 0; answers = Array(L.length).fill(null); }
-      function paint() {
-        var h, q;
-        if (i >= L.length) { host.innerHTML = rr(K.res(sc, L.length) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return; }
-        q = L[i]; ans = answers[i];
-        h = '<div class="stg n10-progress">' + L.map(function (x, k) { return '<span class="' + (answers[k] !== null ? (answers[k] === x.ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">این جمله درست است؟</p><div class="cq" style="font-size:1rem"><span class="snt">' + q.h + '</span></div><div class="sgnrow mc"><button type="button" class="btn opt' + (ans === null ? '' : q.ok === 1 ? ' right' : ans === 1 ? ' wrong' : '') + '" data-a="1"' + (ans === null ? '' : ' disabled') + '>درست</button><button type="button" class="btn opt' + (ans === null ? '' : q.ok === 0 ? ' right' : ans === 0 ? ' wrong' : '') + '" data-a="0"' + (ans === null ? '' : ' disabled') + '>نادرست</button></div>';
-        if (ans !== null) { h += '<div class="fb ' + (ans === q.ok ? 'ok' : 'bad') + '">' + (ans === q.ok ? '✓ درست است!' : 'پاسخ نادرست است.') + '</div><div class="ex">' + q.e + '</div>'; }
-        h += '<div class="opts n10-tf-nav"><button type="button" class="btn" data-p="1"' + (i === 0 ? ' disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-n="1"' + (ans === null ? ' disabled' : '') + ' data-scroll>' + (i === L.length - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.a !== undefined && answers[i] === null) { ans = +b.dataset.a; answers[i] = ans; if (ans === L[i].ok) { sc++; } paint(); } else if (b.dataset.n) { i++; paint(); } else if (b.dataset.p) { i = Math.max(0, i - 1); paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { nw(); paint(); }
-      }); nw(); paint();
-    };
+    K.tfGcm = function (host) { H.tf(host, TF); };
 
     /* ---- آزمون پایانی ---- */
     function qSimp() {
@@ -314,7 +293,6 @@ window.LESSONS.N10 = {
       return { ask: 'زمینی ' + fa(a) + ' در ' + fa(b) + ' متر را می‌خواهیم با کاشی‌های مربعی هم‌اندازه، بدون برش، فرش کنیم. ضلع بزرگ‌ترین کاشیِ ممکن چند متر است؟', cls: 'm2', cq: '', opts: mk(cand, 0), expl: function () { return exGcd(a, b); } };
     }
     K.gcmFinal = function (host) {
-      var qs, i, ans;
       function mkq(g) {
         var q = g(), ask = q.ask;
         if (q.cq) {
@@ -328,24 +306,7 @@ window.LESSONS.N10 = {
         }
         return { ask: ask, cls: 'm2', cq: '', opts: q.opts, expl: q.expl };
       }
-      function build() { qs = [mkq(genS2), mkq(genS3), qSimp(), mkq(genS4), qWord()]; i = 0; ans = []; }
-      var fb = function (ok, html) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + html + '</div>'; };
-      function paint() {
-        var q = qs[i], a = ans[i], h, oh = '', s, o;
-        if (i === 5) {
-          s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr(K.res(s, 5) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
-        }
-        h = '<div class="stg n10-progress">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + q.cls + '" id="mcx"></div>';
-        q.opts.forEach(function (op, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + op.h + '</button>'; });
-        if (a !== undefined) { o = q.opts[a]; h += fb(o.ok, o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl() + '</div>'; }
-        h += '<div class="opts n10-final-nav"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === 4 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o !== undefined && ans[i] === undefined) { ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { build(); paint(); }
-      }); build(); paint();
+      H.final(host, [function () { return mkq(genS2); }, function () { return mkq(genS3); }, qSimp, function () { return mkq(genS4); }, qWord]);
     };
     var cards2 = function (cells) { return '<div class="sg">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + (c.e ? K.dm(c.e) : '') + '</div>'; }).join('') + '</div>'; };
     var refs = function (cells) { return '<div class="sg refs">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + K.dm(c.e) + '</div>'; }).join('') + '</div>'; };

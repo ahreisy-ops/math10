@@ -65,7 +65,6 @@ window.LESSONS.N08 = {
         '.mc.m1{grid-template-columns:1fr}.mc.m3{grid-template-columns:repeat(3,1fr)}.mc.m2{grid-template-columns:repeat(2,1fr)}',
         '.n8-foldbtns .btn{min-width:120px;min-height:44px;font-size:1rem;padding:5px 12px;box-shadow:2px 2px 0 var(--ink)}.n8-foldbtns .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}',
         '.cq{direction:ltr;text-align:center;margin:8px 0}.cq .katex{font-size:1.4em}',
-        '.cq.n8-fa{direction:rtl;line-height:2.1}.cq.n8-fa .katex{font-size:1.25em}',
         '.legend{text-align:center;font-size:.84rem;color:var(--ink-soft);margin:2px 0 8px}',
         '.dgs{display:flex;gap:6px;justify-content:center;align-items:flex-end;direction:ltr;margin:8px 0}',
         '.dgs .t{width:44px;height:50px;border-radius:10px;border:2px solid var(--line);background:#f3f6fa;display:grid;place-items:center;font:bold 1.4rem Tahoma,sans-serif;color:#b9c2d0}',
@@ -86,7 +85,6 @@ window.LESSONS.N08 = {
         '.fold .tip:after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-top-color:var(--ink);border-bottom:0}',
         '.fold .side{position:absolute;top:2px;font:bold .74rem Tahoma,sans-serif;color:var(--ink-soft)}',
         '.pn{display:inline-block;direction:ltr}',
-        '.snt{display:block;direction:rtl;font-size:1rem;line-height:1.9;text-align:center}.snt .katex{font-size:1.1em}',
         '.trow{display:flex;gap:10px;align-items:center;justify-content:center;margin:6px 0;direction:ltr}.trow .tm{font:bold 1.1rem Tahoma;flex:none}.trow .tm.oky{color:var(--accent-dark)}.trow .tm.nox{color:#b23a3a}',
         '.nleq .or{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#fff;border:2px solid var(--line);font:bold .8rem Tahoma,sans-serif;direction:rtl;color:var(--ink-soft);vertical-align:middle}',
         '.fold .ghost{position:absolute;left:0;width:50%;top:0;bottom:0;border:2px dashed var(--line);border-radius:8px 0 0 8px}',
@@ -96,8 +94,6 @@ window.LESSONS.N08 = {
         '.nleq.wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 2px}.nleq.sm{font-size:1rem}.nleq.sm i{min-height:32px;padding:2px 8px}',
         '@media(max-width:520px){.lv{margin:6px 30px 0}.mc.m3{gap:6px}.dgs .t{width:38px;height:44px}}',
         '.n8-steps-options{display:grid!important;grid-template-columns:minmax(180px,300px)!important;justify-content:center;gap:8px}.n8-steps-options .opt{min-height:44px;font-size:1rem}',
-        '.n8-nav{display:flex!important;direction:rtl;justify-content:space-between!important;width:100%}.n8-nav .btn{min-width:120px;min-height:36px;height:auto;padding:5px 12px;font-size:.88rem}',
-        '.n8-tf .sgnrow .btn{min-width:120px;min-height:44px;font-size:1rem;font-weight:600;padding:5px 12px;box-shadow:2px 2px 0 var(--ink)}.n8-tf .sgnrow .btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}',
         '.n8-radar-new .btn{min-height:36px;font-size:.88rem;padding:5px 12px}',
         '.lv .hit:hover,.lvv .hit:hover{background:transparent!important}.lv .hover-dot{position:absolute;top:131px;width:22px;height:22px;border:2px dashed var(--ink);border-radius:50%;transform:translate(-50%,-2px);pointer-events:none;z-index:5;background:rgba(20,33,61,.08)}.lv .hover-tip{position:absolute;top:89px;transform:translateX(-50%);background:var(--ink);border-radius:9px;color:white;padding:3px 8px;white-space:nowrap;pointer-events:none;z-index:6;font-size:.82rem}.lv .hover-tip:after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--ink);border-bottom:0}'
       ].join('\n');
@@ -314,30 +310,7 @@ window.LESSONS.N08 = {
       { h: 'اگر ' + M('|x|=4') + ' آنگاه حتماً ' + M('x=4'), ok: 0, e: '<p>هم ' + M('4') + ' و هم ' + M('-4') + ' فاصلهٔ ' + M('4') + ' از صفر دارند.</p>' },
       { h: 'عددی مثل ' + M('x') + ' هست که ' + M('|x|=-3'), ok: 0, e: '<p>قدرمطلق نامنفی است؛ پس هیچ عددی نیست.</p>' }
     ];
-    K.tfAbs = function (host) {
-      var L, i, answers;
-      function nw() { L = shuffle(TF.slice()).slice(0, 6); i = 0; answers = Array(L.length).fill(null); }
-      function paint() {
-        var h, q, ans = answers[i], finished = answers.every(function (x) { return x !== null; });
-        if (i >= L.length) {
-          var sc = answers.filter(function (x, k) { return x === L[k].ok; }).length;
-          host.innerHTML = rr(K.res(sc, L.length) + '<div class="opts n8-nav end-actions"><button type="button" class="btn" data-p="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
-        }
-        q = L[i];
-        h = '<div class="stg">' + L.map(function (x, k) { return '<span class="' + (answers[k] !== null ? (answers[k] === x.ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">این جمله درست است؟</p><div class="cq' + (/[\u0600-\u06FF]/.test(q.h.replace(/\$[^$]*\$/g, '')) ? ' n8-fa' : '') + '">' + q.h + '</div><div class="sgnrow mc"><button type="button" class="btn opt' + (ans === null ? '' : q.ok === 1 ? ' right' : ans === 1 ? ' wrong' : '') + '" data-a="1"' + (ans === null ? '' : ' disabled') + '>درست</button><button type="button" class="btn opt' + (ans === null ? '' : q.ok === 0 ? ' right' : ans === 0 ? ' wrong' : '') + '" data-a="0"' + (ans === null ? '' : ' disabled') + '>نادرست</button></div>';
-        if (ans !== null) { h += '<div class="fb ' + (ans === q.ok ? 'ok' : 'bad') + '">' + (ans === q.ok ? '✓ درست است!' : 'پاسخ نادرست است.') + '</div><div class="ex">' + q.e + '</div>'; }
-        h += '<div class="opts n8-nav"><button type="button" class="btn" data-p="1"' + (i === 0 ? ' disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-n="1"' + (ans === null ? ' disabled' : '') + ' data-scroll>' + (i === L.length - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h);
-      }
-      host.classList.add('n8-tf');
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) return;
-        if (b.dataset.a !== undefined && answers[i] === null) { answers[i] = +b.dataset.a; paint(); }
-        else if (b.dataset.n) { i++; paint(); }
-        else if (b.dataset.p) { i = Math.max(0, i - 1); paint(); }
-        else if (b.dataset.r) { nw(); paint(); }
-      }); nw(); paint();
-    };
+    K.tfAbs = function (host) { H.tf(host, TF); };
 
     /* ---- آزمون پایانی ---- */
     function qSet() {
@@ -354,28 +327,10 @@ window.LESSONS.N08 = {
       return { ask: 'کدام جمله درست است؟', cls: 'm1', opts: all.map(function (x) { return { h: '<span class="snt">' + x.h + '</span>', ok: x === t, m: 'این جمله درست نیست.' }; }), expl: function () { return all.map(function (x) { return '<div class="trow"><span class="tm ' + (x === t ? 'oky' : 'nox') + '">' + (x === t ? '✓' : '✗') + '</span><span class="snt">' + x.h + '</span></div>'; }).join('') + t.e; } };
     }
     K.absFinal = function (host) {
-      var qs, i, ans;
       function m1() { var g = genA1(); g.opts = shuffle([g.opts.find(function (o) { return o.ok; }), g.opts.find(function (o) { return !o.ok; })]); return { ask: 'حاصل را پیدا کن:', cls: 'm2', cq: M(g.q), opts: g.opts, expl: function () { return exA1(g); } }; }
       function m2() { var g = genA2(); return { ask: 'حاصل را پیدا کن:', cls: 'm2', cq: M(g.q), opts: g.opts, expl: function () { return exA2(g); } }; }
       function m3() { var t = genA3(); return { ask: 'فاصلهٔ دو نقطهٔ ' + M(tx(t.a)) + ' و ' + M(tx(t.b)) + ' چقدر است؟', cls: 'm2', cq: '', opts: t.opts, expl: function () { return exA3(t); } }; }
-      function build() { qs = [m1(), m2(), m3(), qSet(), qTrue()]; i = 0; ans = []; }
-      var fb = function (ok, html) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + html + '</div>'; };
-      function paint() {
-        var q = qs[i], a = ans[i], h, oh = '', s, o;
-        if (i === 5) {
-          s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr(K.res(s, 5) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
-        }
-        h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + q.cls + '" id="mcx"></div>';
-        q.opts.forEach(function (op, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + op.h + '</button>'; });
-        if (a !== undefined) { o = q.opts[a]; h += fb(o.ok, o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl() + '</div>'; }
-        h += '<div class="opts n8-nav"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === 4 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh); fixK(host);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o) { ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { build(); paint(); }
-      }); build(); paint();
+      H.final(host, [m1, m2, m3, qSet, qTrue], fixK);
     };
     var cards3 = function (cells) { return '<div class="sg sg3">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.h + '</b><span>' + c.t + '</span></div>'; }).join('') + '</div>'; };
     var cards2 = function (cells) { return '<div class="sg">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + (c.e ? K.dm(c.e) : '') + '</div>'; }).join('') + '</div>'; };
