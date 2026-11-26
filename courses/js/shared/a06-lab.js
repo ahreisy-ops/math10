@@ -14,19 +14,19 @@ const goal={
  choice:'انتخاب حاصل‌ضربی که پس از بسط با عبارت اصلی برابر شود.',
  verify:'بررسی درستی تجزیه با بسط‌کردن و کنترل علامت‌ها.'
 };
-function make(type){let a,b,c,f,expr,answer,wrong=[],steps='',prompt='بزرگ‌ترین عامل مشترک کدام است؟';
- if(type==='number'){f=R(2,8);a=R(2,6);b=R(2,6);while(gcd(a,b)!==1)b=R(2,7);expr=f*a+'x+'+f*b;answer=String(f);wrong=[String(a),String(f*a),String(f*b)];steps=M(expr+'='+f+'('+a+'x+'+b+')');}
- if(type==='letter'){a=R(2,8);b=R(2,8);while(gcd(a,b)!==1)b=R(2,9);expr=a+'x^2+'+b+'x';answer='x';wrong=['x^2',String(gcd(a,b))+'x','1'];steps=M(expr+'=x('+a+'x+'+b+')');}
- if(type==='both'){f=R(2,6);a=R(2,5);b=R(2,6);while(gcd(a,b)!==1)b=R(2,7);expr=f*a+'x^2+'+f*b+'x';answer=f+'x';wrong=[String(f),'x',f+'x^2'];steps=M(expr+'='+f+'x('+a+'x+'+b+')');}
- if(type==='negative'){f=R(2,7);a=R(1,4);b=R(1,7);while(gcd(a,b)!==1)b=R(1,7);expr='-'+f*a+'x+'+f*b;answer='-'+f;wrong=[String(f),'-'+f*a, '-1'];steps=M(expr+'=-'+f+'('+a+'x-'+b+')');prompt='برای اینکه پس از خارج‌کردن بزرگ‌ترین عامل مشترک عددی، ضریب x در پرانتز مثبت باشد، کدام عامل را باید بیرون بکشیم؟';}
- if(type==='bracket'){a=R(2,6);b=R(2,6);while(gcd(a,b)!==1)b=R(2,7);c=R(1,5);expr=a+'a(x-'+c+')+'+b+'b(x-'+c+')';answer='x-'+c;wrong=['x+'+c,'a+b',String(c)];steps=M(expr+'=(x-'+c+')('+a+'a+'+b+'b)');prompt='در این عبارت کدام پرانتز به‌طور کامل مشترک است؟';}
- if(type==='complete'){f=R(2,6);a=R(2,5);b=R(2,5);while(gcd(a,b)!==1)b=R(2,7);expr=f*a+'x+'+f*b;answer=f+'('+a+'x+'+b+')';wrong=['2('+f*a/2+'x+'+f*b/2+')',f+'('+a+'x+'+f*b+')',f+'('+a+'x-'+b+')'];wrong=wrong.filter(v=>!v.includes('.'));steps=M(expr+'='+answer);prompt='کدام تجزیه کامل و درست است؟';}
- if(type==='choice'){f=R(2,7);a=R(2,5);b=R(2,6);expr=f*a+'x^2-'+f*b+'x';answer=f+'x('+a+'x-'+b+')';wrong=[f+'('+a+'x-'+b+')',f+'x('+a+'x+'+b+')',f+'x^2('+a+'x-'+b+')'];steps=M(expr+'='+answer);prompt='کدام حاصل‌ضرب با عبارت داده‌شده برابر است؟';}
- if(type==='verify'){f=R(2,6);a=R(2,5);b=R(1,6);expr='-'+f*a+'x+'+f*b;answer='-'+f+'('+a+'x-'+b+')';wrong=['-'+f+'('+a+'x+'+b+')',f+'('+a+'x-'+b+')','-'+f+'('+a+'x-'+f*b+')'];steps=M(expr+'='+answer);prompt='کدام تجزیه با بسط‌کردن به عبارت اولیه برمی‌گردد؟';}
- wrong=wrong.filter(v=>v!==answer);let opts=[answer,...wrong];for(const extra of ['1','2','x','-x','3x','x^2']){if(opts.length>=4)break;if(!opts.includes(extra))opts.push(extra)}opts=shuf(opts.slice(0,4));return{type,expr,answer,opts,prompt,steps};}
-function inlinePrompt(q){const e=M(q.expr);switch(q.type){
+function make(type){let a,b,c,f,expr,answer,wrong=[],st='',prompt='بزرگ‌ترین عامل مشترک کدام است؟';
+ if(type==='number'){f=R(2,8);a=R(2,6);b=R(2,6);while(gcd(a,b)!==1)b=R(2,7);expr=f*a+'x+'+f*b;answer=String(f);wrong=[String(a),String(f*a),String(f*b)];st=(expr+'='+f+'('+a+'x+'+b+')');}
+ if(type==='letter'){a=R(2,8);b=R(2,8);while(gcd(a,b)!==1)b=R(2,9);expr=a+'x^2+'+b+'x';answer='x';wrong=['x^2',String(gcd(a,b))+'x','1'];st=(expr+'=x('+a+'x+'+b+')');}
+ if(type==='both'){f=R(2,6);a=R(2,5);b=R(2,6);while(gcd(a,b)!==1)b=R(2,7);expr=f*a+'x^2+'+f*b+'x';answer=f+'x';wrong=[String(f),'x',f+'x^2'];st=(expr+'='+f+'x('+a+'x+'+b+')');}
+ if(type==='negative'){f=R(2,7);a=R(1,4);b=R(1,7);while(gcd(a,b)!==1)b=R(1,7);expr='-'+f*a+'x+'+f*b;answer='-'+f;wrong=[String(f),'-'+f*a, '-1'];st=(expr+'=-'+f+'('+a+'x-'+b+')');prompt='برای اینکه پس از خارج‌کردن بزرگ‌ترین عامل مشترک عددی، ضریب x در پرانتز مثبت باشد، کدام عامل را باید بیرون بکشیم؟';}
+ if(type==='bracket'){a=R(2,6);b=R(2,6);while(gcd(a,b)!==1)b=R(2,7);c=R(1,5);expr=a+'a(x-'+c+')+'+b+'b(x-'+c+')';answer='x-'+c;wrong=['x+'+c,'a+b',String(c)];st=(expr+'=(x-'+c+')('+a+'a+'+b+'b)');prompt='در این عبارت کدام پرانتز به‌طور کامل مشترک است؟';}
+ if(type==='complete'){f=R(2,6);a=R(2,5);b=R(2,5);while(gcd(a,b)!==1)b=R(2,7);expr=f*a+'x+'+f*b;answer=f+'('+a+'x+'+b+')';wrong=['2('+f*a/2+'x+'+f*b/2+')',f+'('+a+'x+'+f*b+')',f+'('+a+'x-'+b+')'];wrong=wrong.filter(v=>!v.includes('.'));st=(expr+'='+answer);prompt='کدام تجزیه کامل و درست است؟';}
+ if(type==='choice'){f=R(2,7);a=R(2,5);b=R(2,6);expr=f*a+'x^2-'+f*b+'x';answer=f+'x('+a+'x-'+b+')';wrong=[f+'('+a+'x-'+b+')',f+'x('+a+'x+'+b+')',f+'x^2('+a+'x-'+b+')'];st=(expr+'='+answer);prompt='کدام حاصل‌ضرب با عبارت داده‌شده برابر است؟';}
+ if(type==='verify'){f=R(2,6);a=R(2,5);b=R(1,6);expr='-'+f*a+'x+'+f*b;answer='-'+f+'('+a+'x-'+b+')';wrong=['-'+f+'('+a+'x+'+b+')',f+'('+a+'x-'+b+')','-'+f+'('+a+'x-'+f*b+')'];st=(expr+'='+answer);prompt='کدام تجزیه با بسط‌کردن به عبارت اولیه برمی‌گردد؟';}
+ wrong=wrong.filter(v=>v!==answer);let opts=[answer,...wrong];for(const extra of ['1','2','x','-x','3x','x^2']){if(opts.length>=4)break;if(!opts.includes(extra))opts.push(extra)}opts=shuf(opts.slice(0,4));return{type,expr,answer,opts,prompt,st,steps:M(st)};}
+function inlinePrompt(q,m=M){const e=m(q.expr);switch(q.type){
 case 'number':case 'letter':case 'both':return 'بزرگ‌ترین عامل مشترک عبارت '+e+' کدام است؟';
-case 'negative':return 'برای اینکه پس از خارج‌کردن بزرگ‌ترین عامل مشترک عددی از عبارت '+e+'، ضریب '+M('x')+' در پرانتز مثبت باشد، کدام عامل را باید بیرون بکشیم؟';
+case 'negative':return 'برای اینکه پس از خارج‌کردن بزرگ‌ترین عامل مشترک عددی از عبارت '+e+'، ضریب '+m('x')+' در پرانتز مثبت باشد، کدام عامل را باید بیرون بکشیم؟';
 case 'bracket':return 'در عبارت '+e+' کدام پرانتز به‌طور کامل مشترک است؟';
 case 'complete':return 'کدام تجزیهٔ عبارت '+e+' درست و کامل است؟';
 case 'choice':return 'کدام حاصل‌ضرب با عبارت '+e+' برابر است؟';
@@ -49,10 +49,8 @@ lab.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.dis
  else if(b.hasAttribute('data-lab-review')){labIndex=0;paintLab()}
  else if(b.hasAttribute('data-lab-restart'))newLabRound();
 });newLabRound();
-let qs=shuf(types).map(make),idx=0,answers=Array(qs.length).fill(null);
-function paintPractice(){if(idx===qs.length){const score=answers.filter((a,i)=>a!==null&&qs[i].opts[a]===qs[i].answer).length;test.innerHTML=window.CourseKit.res(score, qs.length) + '<div class="opts end-actions"><button class="btn" data-a06-review data-scroll>مرور سؤال‌ها</button><button class="btn primary" data-a06-restart data-scroll>سؤال‌های جدید</button></div>';return}
-let q=qs[idx],v=answers[idx],done=v!==null,ok=done&&q.opts[v]===q.answer;
-test.innerHTML='<div class="stg">'+qs.map((t,i)=>'<span class="'+(answers[i]!==null?(t.opts[answers[i]]===t.answer?'dn':'wr'):(i===idx?'cu':''))+'">'+fa(i+1)+'</span>').join('')+'</div><p class="ask">'+inlinePrompt(q)+'</p>'+optsHTML(q,'data-a06-pick',v)+(done?'<div class="fb '+(ok?'ok':'bad')+'">'+(ok?'درست است؛ با بسط می‌توانی پاسخ را تأیید کنی.':'این گزینه درست نیست.')+'</div><div class="ex"><div class="dm">'+q.steps+'</div><p class="a06-goal"><b>هدف این سؤال:</b> '+goal[q.type]+'</p></div>':'')+'<div class="opts"><button class="btn" data-a06-prev '+(idx===0?'disabled':'')+' data-scroll>سؤال قبلی</button><button class="btn primary" data-a06-next '+(!done?'disabled':'')+' data-scroll>'+(idx===qs.length-1?'مشاهدهٔ نتیجه':'سؤال بعدی')+'</button></div>';}
-test.addEventListener('click',e=>{let b=e.target.closest('button');if(!b||b.disabled)return;if(b.hasAttribute('data-a06-pick')&&answers[idx]===null){answers[idx]=Number(b.getAttribute('data-a06-pick'));paintPractice()}else if(b.hasAttribute('data-a06-next')){idx++;paintPractice()}else if(b.hasAttribute('data-a06-prev')){idx--;paintPractice()}else if(b.hasAttribute('data-a06-review')){idx=0;paintPractice()}else if(b.hasAttribute('data-a06-restart')){qs=shuf(types).map(make);answers=Array(qs.length).fill(null);idx=0;paintPractice()}});paintPractice();}
+const H=window.CourseKit.lk(window.CourseKit),tx=t=>'$'+t+'$';let qs=[];
+H.final(test,types.map((_,i)=>()=>{if(!i)qs=shuf(types).map(make);const q=qs[i];
+ return{ask:inlinePrompt(q,tx),opts:q.opts.map(o=>({h:tx(o),ok:o===q.answer})),expl:()=>'<div class="dm">'+tx(q.st)+'</div><p class="a06-goal"><b>هدف این سؤال:</b> '+goal[q.type]+'</p>'};}));}
 window.A06Lab={init};
 })();

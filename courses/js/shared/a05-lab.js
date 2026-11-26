@@ -3,7 +3,6 @@
     'use strict';
     const M = t => window.MathLite.renderRich('$' + t + '$'), fa = n => window.MathLite.fa(n), rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
     const sign = v => v < 0 ? String(v) : '+' + v, dm = t => '<div class="dm k">' + M(t) + '</div>';
-    const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const norm = s => String(s).trim().replace(/[۰-۹]/g, c => String(c.charCodeAt(0) - 1776)).replace(/[٠-٩]/g, c => String(c.charCodeAt(0) - 1632)).replace(/−/g, '-').replace(/\s/g, '');
     function init(root) {
         let a = rand(2, 6), neg = false, revealed = false, guess = '', feedback = '', feedbackCorrect = false, attempts = 0, correct = 0;
@@ -90,16 +89,15 @@
             errs.sort(() => Math.random() - .5).slice(0, 2).forEach(fn => fn());
             return q.sort(() => Math.random() - .5);
         }
-        let questions = fresh(), index = 0, answers = Array(10).fill(null);
-        function show() {
-            if (index === questions.length) { let score = answers.filter((v, i) => v === questions[i].ans).length; root.innerHTML = window.CourseKit.res(score, 10) + '<div class="opts end-actions"><button class="btn" data-review data-scroll>مرور سؤال‌ها</button><button class="btn primary" data-restart data-scroll>سؤال‌های جدید</button></div>'; return; }
-            let q = questions[index], sel = answers[index], done = sel !== null, ok = done && sel === q.ans; let opts = [q.ans, ...q.choices.map(String).filter((v, i, ar) => v !== q.ans && ar.indexOf(v) === i)].slice(0, 4);
+        const H = window.CourseKit.lk(window.CourseKit); let questions = [];
+        H.final(root, Array.from({ length: 10 }, (_, index) => () => {
+            if (!index) questions = fresh();
+            const q = questions[index]; let opts = [q.ans, ...q.choices.map(String).filter((v, i, ar) => v !== q.ans && ar.indexOf(v) === i)].slice(0, 4);
             if (!q.rich) for (let z of ['0', '1', '-1', '4', '9', '12']) if (opts.length < 4 && !opts.includes(z)) opts.push(z);
             // Stable, per-question permutation across navigation.
-            let salt = (index * 7 + (q.rich ? hash(q.ans) : Number(q.ans.replace('-', '')))) % 4; opts = [...opts.slice(salt), ...opts.slice(0, salt)];
-            root.innerHTML = '<div class="stg">' + answers.map((v, i) => '<span class="' + (v !== null ? (v === questions[i].ans ? 'dn' : 'wr') : i === index ? 'cu' : '') + '">' + fa(i + 1) + '</span>').join('') + '</div><p class="ask">' + (q.lead ? window.MathLite.renderRich(q.lead) : 'در عبارت ' + M(q.tex) + '، ' + window.MathLite.renderRich(q.prompt)) + '</p><div class="alg2-options">' + opts.map(v => '<button class="btn' + (done ? (v === q.ans ? ' choice-correct' : v === sel ? ' choice-wrong' : '') : '') + '" type="button" data-choice="' + esc(v) + '" ' + (done ? 'disabled' : '') + '>' + (q.rich ? window.MathLite.renderRich(v) : M(v)) + '</button>').join('') + '</div>' + (done ? '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? 'درست است.' : 'این گزینه درست نیست.') + '</div><div class="ex">' + window.MathLite.renderRich(q.why) + '</div>' : '') + '<div class="opts"><button class="btn" data-prev ' + (index === 0 ? 'disabled' : '') + ' data-scroll>سؤال قبلی</button><button class="btn primary" data-next ' + (!done ? 'disabled' : '') + ' data-scroll>' + (index === 9 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        }
-        root.addEventListener('click', e => { let bt = e.target.closest('button'); if (!bt || bt.disabled) return; if (bt.dataset.choice !== undefined && answers[index] === null) { answers[index] = bt.dataset.choice; show(); } else if (bt.hasAttribute('data-next')) { index++; show(); } else if (bt.hasAttribute('data-prev')) { index--; show(); } else if (bt.hasAttribute('data-review')) { index = 0; show(); } else if (bt.hasAttribute('data-restart')) { questions = fresh(); index = 0; answers = Array(10).fill(null); show(); } }); show();
+            const salt = (index * 7 + (q.rich ? hash(q.ans) : Number(q.ans.replace('-', '')))) % 4; opts = [...opts.slice(salt), ...opts.slice(0, salt)];
+            return { ask: q.lead ? q.lead : 'در عبارت $' + q.tex + '$، ' + q.prompt, opts: opts.map(v => ({ h: q.rich ? v : '$' + v + '$', ok: v === q.ans })), expl: () => q.why };
+        }));
     }
     window.A05Lab = { init, practice };
 })();

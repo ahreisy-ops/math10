@@ -1,7 +1,7 @@
 /* A04 — ضرب عبارت‌های جبری، نمایش تصویری و کارگاه تعاملی */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.A04 = {
-  needs: ['algebra2'], setup: function (K0) {
+  needs: ['algebra2', 'kit'], setup: function (K0) {
     var K = Object.create(K0);
     return {
       html: function () {

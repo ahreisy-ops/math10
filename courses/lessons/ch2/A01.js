@@ -1,7 +1,7 @@
 /* درس A01 — شناخت جملهٔ جبری و جایگذاری؛ بارگذاری درخواستی */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.A01 = {
-  needs: ['a01lab'],
+  needs: ['a01lab', 'kit'],
   setup: function (K0) {
     var K = Object.create(K0), ML = window.MathLite;
     return {

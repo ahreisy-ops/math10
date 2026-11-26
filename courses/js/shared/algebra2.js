@@ -23,30 +23,31 @@ function q(id, requestedPart){let a,b,c,x,answer,opts,tex,ex,mode='number',part=
  if(id==='A08'){a=N(-7,7);tex='\\frac{x^2'+plus(-a)+'x}{x'+plus(-a)+'}';answer=a;opts=[a,-a,0,a+1];ex='مخرج اولیه $x'+plus(-a)+'$ است و برای $x='+a+'$ صفر می‌شود؛ حذف عامل، این محدودیت را از بین نمی‌برد.';}
  opts=[answer,...opts.filter(v=>String(v)!==String(answer))];opts=opts.filter((v,i,ar)=>ar.findIndex(w=>String(w)===String(v))===i);let pads=mode==='choice'?['x^3','x','2x','-x^2','x+9']: [0,1,-1,2,-2,3,-3,7,-7,12,-12];for(let p of pads){if(opts.length===4)break;if(!opts.some(v=>String(v)===String(p)))opts.push(p)}opts=shuf(opts.slice(0,4));return{tex,answer,opts,ex,mode,part,a,b,kind,t,okMsg,badMsg};}
 function gcd(a,b){while(b){let t=a%b;a=b;b=t}return a;}
-function questionMarkup(p, exploration=false){
- const expr='<span class="a78-inline-math">'+math(p.tex)+'</span>';
+function qParts(p,m){
+ const expr='<span class="a78-inline-math">'+m(p.tex)+'</span>';
  const part=p.part||'x';
- if(p.id==='A02'&&p.kind==='simplify')return '<p class="ask'+(exploration?'':' a2-question')+'">'+window.MathLite.renderRich('پس از ساده‌کردن عبارت، ضریب $'+p.t+'$ چند است؟')+'</p><div class="dm">'+math(p.tex)+'</div>';
- if(p.id==='A03'&&p.part==='expand')return '<p class="ask'+(exploration?'':' a2-question')+'">'+window.MathLite.renderRich('پس از بازکردن پرانتز و ساده‌سازی، حاصل کدام است؟')+'</p><div class="dm">'+math(p.tex)+'</div>';
- if(p.id==='A03')return '<p class="ask'+(exploration?'':' a2-question')+'">'+window.MathLite.renderRich('پس از بازکردن پرانتز، ضریب $'+part+'$ چند است؟')+'</p><div class="dm">'+math(p.tex)+'</div>';
+ const dm='<div class="dm">'+m(p.tex)+'</div>';
+ if(p.id==='A02'&&p.kind==='simplify')return{ask:'پس از ساده‌کردن عبارت، ضریب '+m(p.t)+' چند است؟',fig:dm};
+ if(p.id==='A03'&&p.part==='expand')return{ask:'پس از بازکردن پرانتز و ساده‌سازی، حاصل کدام است؟',fig:dm};
+ if(p.id==='A03')return{ask:'پس از بازکردن پرانتز، ضریب '+m(part)+' چند است؟',fig:dm};
  const prompts={
  A02:'کدام‌یک از جمله‌های زیر با جملهٔ '+expr+' هم‌نوع است؟',
  A04:'حاصل ضرب عبارتِ '+expr+' کدام است؟',
- A05:'در بسط عبارتِ '+expr+'، ضریب '+math('x')+' چند است؟',
+ A05:'در بسط عبارتِ '+expr+'، ضریب '+m('x')+' چند است؟',
  A06:'بزرگ‌ترین عامل مشترک عددیِ جمله‌های عبارتِ '+expr+' چیست؟',
  A07:'برای تجزیهٔ عبارتِ '+expr+'، با توجه به عدد اول، عدد دوم چند است؟',
- A08:'در کسرِ '+expr+'، کدام مقدار برای متغیر '+math('x')+' غیرمجاز است؟'
+ A08:'در کسرِ '+expr+'، کدام مقدار برای متغیر '+m('x')+' غیرمجاز است؟'
  };
- return '<p class="ask'+(exploration?'':' a2-question')+'">'+(prompts[p.id]||window.MathLite.renderRich(desc[p.id]))+'</p>';
+ return{ask:prompts[p.id]||window.MathLite.renderRich(desc[p.id]),fig:''};
 }
+function questionMarkup(p, exploration=false){const t=qParts(p,math);return '<p class="ask'+(exploration?'':' a2-question')+'">'+t.ask+'</p>'+t.fig;}
 function choiceMark(done, selected, correct, i){return !done?'':(String(correct)===String(i)?' choice-correct':selected===i?' choice-wrong':'');}
-function drawQuestion(p,n,total,selected=null){return questionMarkup(p)+'<div class="alg2-options">'+p.opts.map((o,i)=>'<button type="button" class="btn'+choiceMark(selected!==null,selected,p.opts.findIndex(v=>String(v)===String(p.answer)),i)+'" data-select="'+i+'">'+math(String(o))+'</button>').join('')+'</div>';}
 
 function init(panel,id,options){let lab=panel.querySelector('#'+id+'-explore'),test=panel.querySelector('#'+id+'-practice');
- function practice(){let parts=id==='A03'?shuf(['x','x^2','expand','expand',['x','x^2','xy'][R(0,2)]]):id==='A04'?shuf(['mono','poly','bin','binc',['bin','binc'][R(0,1)]]):null;let qs=Array.from({length:5},(_,i)=>({...q(id,parts&&parts[i]),id})),idx=0,answers=Array(5).fill(null),review=false;
- function paint(){if(idx===5){let score=answers.filter((v,i)=>v!==null&&String(qs[i].opts[v])===String(qs[i].answer)).length;test.innerHTML=window.CourseKit.res(score, 5) + '<div class="opts end-actions"><button class="btn" data-review data-scroll>مرور سؤال‌ها</button><button class="btn primary" data-restart data-scroll>سؤال‌های جدید</button></div>';return;}
- let item=qs[idx],s=answers[idx],done=s!==null,ok=done&&String(item.opts[s])===String(item.answer);test.innerHTML='<div class="stg">'+answers.map((v,i)=>'<span class="'+(v!==null?(String(qs[i].opts[v])===String(qs[i].answer)?'dn':'wr'):i===idx?'cu':'')+'">'+fmt(i+1)+'</span>').join('')+'</div>'+drawQuestion(item,idx,5,s)+(done?'<div class="fb '+(ok?'ok':'bad')+'">'+(ok?'آفرین، درست است.':'این پاسخ درست نیست.')+'</div><div class="ex">'+window.MathLite.renderRich(item.ex)+'</div>':'')+'<div class="opts"><button class="btn" data-prev '+(idx===0?'disabled':'')+' data-scroll>سؤال قبلی</button><button class="btn primary" data-next '+(!done?'disabled':'')+' data-scroll>'+(idx===4?'مشاهدهٔ نتیجه':'سؤال بعدی')+'</button></div>';test.querySelectorAll('[data-select]').forEach((b,i)=>{if(done)b.disabled=true;});}
- test.addEventListener('click',e=>{let b=e.target.closest('button');if(!b||b.disabled)return;if(b.dataset.select!==undefined&&answers[idx]===null){answers[idx]=+b.dataset.select;paint()}else if(b.hasAttribute('data-next')){idx++;paint()}else if(b.hasAttribute('data-prev')){idx--;paint()}else if(b.hasAttribute('data-restart')){let clean=test.cloneNode(false);test.replaceWith(clean);test=clean;practice()}else if(b.hasAttribute('data-review')){idx=0;paint()}});paint();}
+function practice(){const H=window.CourseKit.lk(window.CourseKit),tx=t=>'$'+t+'$';let parts=null;
+  H.final(test,[0,1,2,3,4].map(i=>()=>{if(!i)parts=id==='A03'?shuf(['x','x^2','expand','expand',['x','x^2','xy'][R(0,2)]]):id==='A04'?shuf(['mono','poly','bin','binc',['bin','binc'][R(0,1)]]):null;
+   const it={...q(id,parts&&parts[i]),id},t=qParts(it,tx);
+   return{ask:t.ask,fig:t.fig,opts:it.opts.map(o=>({h:tx(String(o)),ok:String(o)===String(it.answer)})),expl:()=>it.ex};}));}
  // Exploration: incremental disclosure, different workbench prompt and visual model per skill
  function explore(){let item={...q(id),id},done=false,chosen=-1;function paint(){let vis='';if(id==='A04'){let qmark=math('?'),c11=done?math('x^2'):qmark,c12=done?math(item.a+'x'):qmark,c21=done?math(item.b+'x'):qmark,c22=done?math(String(item.a*item.b)):qmark,sumtxt=done?math('x^2'+(item.a+item.b===0?'':plus(item.a+item.b)+'x')+plus(item.a*item.b)):qmark;vis='<div class="a04-workbench"><p class="a04-caption">هر خانه = سطر × ستون</p><div class="a04-grid"><div class="a04-head">'+math('\\times')+'</div><div class="a04-head">'+math('x')+'</div><div class="a04-head">'+math(String(item.a))+'</div><div class="a04-head">'+math('x')+'</div><div class="a04-cell">'+c11+'</div><div class="a04-cell">'+c12+'</div><div class="a04-head">'+math(String(item.b))+'</div><div class="a04-cell">'+c21+'</div><div class="a04-cell">'+c22+'</div></div><p class="a04-caption">جمع چهار خانه: '+sumtxt+'</p></div>'; }
  if(id==='A05')vis='<div class="alg2-area"><span>'+math('x^2')+'</span><span>'+math('ax')+'</span><span>'+math('ax')+'</span><span>'+math('a^2')+'</span></div>';

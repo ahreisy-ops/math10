@@ -1819,30 +1819,6 @@
   font-size: 1.3rem;
 }
 
-.a78-options {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  max-width: 580px;
-  margin: 16px auto;
-}
-
-.a78-options .btn {
-  min-height: 53px;
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-
-.a78-options .a78-correct {
-  border-color: #408c62;
-  background: #e6f5eb;
-}
-
-.a78-options .a78-wrong {
-  border-color: #af4a4a;
-  background: #fdecec;
-}
-
 .a78-goal {
   border-top: 1px solid var(--line);
   padding-top: 10px;
@@ -1860,10 +1836,6 @@
 
   .a78-chip {
     min-width: 30px;
-  }
-
-  .a78-options {
-    gap: 7px;
   }
 }
 
@@ -2093,49 +2065,6 @@
   white-space: nowrap;
 }
 
-#A07-practice .a78-options,
-#A08-practice .a78-options,
-#A08-explore .a78-options {
-  direction: ltr;
-  max-width: none;
-  gap: 10px;
-  margin: 10px 0;
-}
-
-#A07-practice .a78-options .opt,
-#A08-practice .a78-options .opt,
-#A08-explore .a78-options .opt {
-  box-sizing: border-box;
-  min-height: 52px;
-  padding: 8px 12px;
-  font-weight: normal;
-  justify-content: center;
-  text-align: center;
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-
-#A07-practice .a78-options .opt.a78-correct,
-#A08-practice .a78-options .opt.a78-correct {
-  background: #d2f0e9;
-  border-color: var(--accent);
-  color: var(--ink);
-  opacity: 1;
-}
-
-#A07-practice .a78-options .opt.a78-wrong,
-#A08-practice .a78-options .opt.a78-wrong {
-  background: #fbd5d5;
-  border-color: #b23a3a;
-  color: var(--ink);
-  opacity: 1;
-}
-
-#A07-practice .a78-options .opt:disabled,
-#A08-practice .a78-options .opt:disabled {
-  cursor: default;
-}
-
 #A07-practice .a78-panel,
 #A08-practice .a78-panel,
 #A08-explore .a78-panel {
@@ -2145,15 +2074,6 @@
   padding: 0;
   margin: 0;
   max-width: none;
-}
-
-@media (max-width:520px) {
-
-  #A07-practice .a78-options,
-  #A08-practice .a78-options,
-  #A08-explore .a78-options {
-    grid-template-columns: 1fr;
-  }
 }
 
 .solved-example-work {
@@ -2561,8 +2481,7 @@
   margin: 12px 0;
 }
 
-.a2-final .alg2-options .btn,
-.a2-final .a78-options .opt {
+.a2-final .alg2-options .btn{
   box-sizing: border-box;
   min-width: 0;
   width: 100%;
@@ -2603,8 +2522,7 @@
   line-height: 1.85;
 }
 
-.a2-final:has(.stg) .alg2-options .btn,
-.a2-final:has(.stg) .a78-options .opt {
+.a2-final:has(.stg) .alg2-options .btn{
   font-size: 1rem;
   line-height: 1.7;
   font-weight: 400;
@@ -2663,34 +2581,6 @@
   }
 }
 
-#A07-practice.a2-final .mc.a78-options,
-#A08-practice.a2-final .mc.a78-options {
-  display: grid;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  justify-content: stretch;
-  margin-inline: 0;
-}
-
-#A07-practice.a2-final .mc.a78-options>.opt,
-#A08-practice.a2-final .mc.a78-options>.opt {
-  width: 100%;
-  min-width: 0;
-  max-width: none;
-  box-sizing: border-box;
-}
-
-@media (max-width:520px) {
-
-  #A07-practice.a2-final .mc.a78-options,
-  #A08-practice.a2-final .mc.a78-options {
-    grid-template-columns: 1fr;
-  }
-}
-
 #A07-explore .a78-predict .btn,
 #A08-factor-check .a78-predict .btn,
 #A08-explore .a78-predict .btn {
@@ -2707,18 +2597,6 @@
 #A08-explore .a78-predict .btn:active:not(:disabled) {
   transform: translate(1px, 1px) !important;
   box-shadow: 1px 1px 0 var(--ink);
-}
-
-#A07-practice .a78-options .opt,
-#A08-practice .a78-options .opt {
-  font-size: 1rem;
-  font-weight: 400;
-  min-height: 44px;
-  height: auto;
-  padding: 5px 10px;
-  width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
 }
 
 #A07-practice .a78-ask,
@@ -2795,9 +2673,7 @@
 }
 
 .a2-final .alg2-options,
-#A01-quiz .mc.a01-constant-choices,
-#A07-practice.a2-final .mc.a78-options,
-#A08-practice.a2-final .mc.a78-options {
+#A01-quiz .mc.a01-constant-choices{
   gap: 8px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -2819,12 +2695,6 @@
   height: auto;
   font-size: .88rem;
   padding: 5px 12px;
-}
-
-#A07-practice .a78-options .opt .katex,
-#A08-practice .a78-options .opt .katex,
-#A08-explore .a78-options .opt .katex {
-  font-size: 1.1em;
 }
 
 .a04-left-total .a04-dim-label {

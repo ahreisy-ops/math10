@@ -1,6 +1,6 @@
 /* A08 — کسرهای جبری: عامل، مخرج مشترک و دامنهٔ تعریف */
 window.LESSONS=window.LESSONS||{};
-window.LESSONS.A08={needs:['a78lab'],setup:function(K0){
+window.LESSONS.A08={needs:['a78lab','kit'],setup:function(K0){
  const K=Object.create(K0);
  return {html:function(){let h='';
  h+='<div class="lesson-bridge"><span class="lesson-bridge-title">وقتی کسرها وارد دنیای جبر می‌شوند</span><p>در فصل اول ساده‌کردن کسر و مخرج مشترک را یاد گرفتی؛ در همین فصل هم تجزیهٔ عبارت‌ها به عامل را تمرین کردی. اکنون این مهارت‌ها به هم می‌رسند: در یک کسرِ دارای متغیر، <b>کدام عامل را می‌توان ساده کرد</b> و چه مقدارهایی برای متغیر مجاز نیستند؟</p><div class="lesson-bridge-route" aria-label="مسیر این درس"><span>یادآوری کسرها</span><i aria-hidden="true">←</i><span>تجزیهٔ عبارت</span><i aria-hidden="true">←</i><span>عامل مشترک</span><i aria-hidden="true">←</i><span>مقدارهای مجاز</span></div></div>';

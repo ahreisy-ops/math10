@@ -82,32 +82,18 @@
     }
 
     function A08(panelEl) {
-        const el = panelEl.querySelector('#A08-explore'); let a, b, phase = 0, answers = [null, null, null], vals = [], choiceKeys = [];
-        function next() { a = nz(-6, 6); do { b = nz(-6, 6) } while (b === a || b === -a); phase = 0; answers = [null, null, null]; vals = shuffle([a, b, -a, 0]).filter((v, i, arr) => arr.indexOf(v) === i); while (vals.length < 4) { let x = R(-8, 8); if (!vals.includes(x)) vals.push(x) } draw() }
-        function draw() {
-            const f = 'x' + sign(-a), g = 'x' + sign(b), original = '\\frac{(' + f + ')(' + g + ')}{' + f + '}';
-            const steps = ['۱. مقدار ممنوعِ مخرج اصلی', '۲. عامل مشترکِ واقعی', '۳. آیا محدودیت از بین می‌رود؟'];
-            const okAt = i => i === 0 ? Number(answers[0]) === a : i === 1 ? answers[1] === 'yes' : answers[2] === 'no';
-            let h;
-            if (phase === 3) {
-                const score = [0, 1, 2].filter(i => answers[i] !== null && okAt(i)).length;
-                h = window.CourseKit.res(score, 3) + '<div class=\"opts end-actions\"><button class=\"btn\" data-review data-scroll=\".a78-mini\">مرور سؤال‌ها</button><button class=\"btn primary\" data-new data-scroll=\".a78-mini\">سؤال‌های جدید</button></div>'; el.innerHTML = h; return;
+        const el = panelEl.querySelector('#A08-explore'), H = window.CourseKit.lk(window.CourseKit), tx = t => '$' + t + '$'; let a, b, vals = [];
+        const names = ['۱. مقدار ممنوعِ مخرج اصلی', '۲. عامل مشترکِ واقعی', '۳. آیا محدودیت از بین می‌رود؟'];
+        H.stages(el, {
+            names, per: 1, make: phase => {
+                if (phase === 0) { a = nz(-6, 6); do { b = nz(-6, 6) } while (b === a || b === -a); vals = shuffle([a, b, -a, 0]).filter((v, i, arr) => arr.indexOf(v) === i); while (vals.length < 4) { let x = R(-8, 8); if (!vals.includes(x)) vals.push(x) } }
+                const f = 'x' + sign(-a), g = 'x' + sign(b), original = '\\frac{(' + f + ')(' + g + ')}{' + f + '}';
+                const opts = phase === 0 ? vals.map(n => ({ h: tx('x=' + n), ok: n === a })) : phase === 1 ? [{ h: tx(f), ok: true }, { h: tx(g), ok: false }] : [{ h: 'نه؛ مخرج اصلی صفر می‌شود', ok: true }, { h: 'بله؛ چون مخرج حذف شده است', ok: false }];
+                const prompt = phase === 0 ? 'مخرجِ کسر اصلی در کدام مقدار صفر می‌شود؟ معادلهٔ ' + tx(f + '=0') + ' را حل کن.' : phase === 1 ? 'صورت به‌شکل ضربِ دو پرانتز نوشته شده است. <b>کدام عامل هم در تمام صورت هست و هم در مخرج؟</b>' : 'بعد از حذفِ عامل، عبارت ' + tx(g) + ' می‌ماند. آیا می‌توان در <b>کسر اصلی</b> مقدار ' + tx('x=' + a) + ' را قرار داد؟';
+                const explanation = phase === 0 ? 'مخرج وقتی صفر می‌شود که ' + tx('x=' + a) + '؛ بنابراین این مقدار ممنوع است.' : phase === 1 ? 'عامل ' + tx(f) + ' در صورت و مخرج مشترک است و می‌توان آن را فقط با حفظ شرط مخرج حذف کرد.' : 'مقدار ' + tx('x=' + a) + ' همچنان برای کسر اولیه ممنوع است، حتی اگر عامل مشترک حذف شود.';
+                return { ask: prompt, fig: '<div class="dm">' + tx(original) + '</div>', opts, expl: () => explanation };
             }
-            let done = answers[phase] !== null;
-            h = '<div class=\"stg\">' + steps.map((t, i) => '<span class=\"' + (i === phase ? 'cu' : answers[i] !== null ? (okAt(i) ? 'dn' : 'wr') : '') + '\">' + (i !== phase && answers[i] !== null && okAt(i) ? '✓ ' : '') + t + '</span>').join('') + '</div>';
-            h += '<p class=\"a78-mini stage-progress-meta\">سؤال ' + fa(phase + 1) + ' از ' + fa(3) + '</p><div class=\"dm\">' + M(original) + '</div>';
-            const opts = phase === 0 ? vals.map(n => ({ label: M('x=' + n), key: String(n), correct: n === a })) : phase === 1 ? [{ label: M(f), key: 'yes', correct: true }, { label: M(g), key: 'no', correct: false }] : [{ label: 'نه؛ مخرج اصلی صفر می‌شود', key: 'no', correct: true }, { label: 'بله؛ چون مخرج حذف شده است', key: 'yes', correct: false }];
-            const prompt = phase === 0 ? 'مخرجِ کسر اصلی در کدام مقدار صفر می‌شود؟ معادلهٔ ' + M(f + '=0') + ' را حل کن.' : phase === 1 ? 'صورت به‌شکل ضربِ دو پرانتز نوشته شده است. <b>کدام عامل هم در تمام صورت هست و هم در مخرج؟</b>' : 'بعد از حذفِ عامل، عبارت ' + M(g) + ' می‌ماند. آیا می‌توان در <b>کسر اصلی</b> مقدار ' + M('x=' + a) + ' را قرار داد؟';
-            const selected = answers[phase]; const ok = done && okAt(phase);
-            h += '<p class=\"ask\">' + prompt + '</p><div class=\"mc a78-options\">' + opts.map(o => '<button class=\"opt ' + (done ? (o.correct ? 'a78-correct' : o.key === selected ? 'a78-wrong' : '') : '') + '\" data-gate-choice=\"' + o.key + '\" ' + (done ? 'disabled' : '') + '>' + o.label + '</button>').join('') + '</div>';
-            if (done) {
-                const explanation = phase === 0 ? 'مخرج وقتی صفر می‌شود که ' + M('x=' + a) + '؛ بنابراین این مقدار ممنوع است.' : phase === 1 ? 'عامل ' + M(f) + ' در صورت و مخرج مشترک است و می‌توان آن را فقط با حفظ شرط مخرج حذف کرد.' : 'مقدار ' + M('x=' + a) + ' همچنان برای کسر اولیه ممنوع است، حتی اگر عامل مشترک حذف شود.';
-                h += '<div class=\"fb ' + (ok ? 'ok' : 'bad') + '\">' + (ok ? 'پاسخ درست است.' : 'پاسخ درست با رنگ سبز مشخص شده است.') + '</div><div class=\"ex\">' + explanation + '</div>';
-            }
-            h += '<div class=\"a78-actions\"><button class=\"btn\" data-prev ' + (phase === 0 ? 'disabled' : '') + ' data-scroll>سؤال قبلی</button><button class=\"btn primary\" data-next ' + (!done ? 'disabled' : '') + ' data-scroll>' + (phase === 2 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-            el.innerHTML = h;
-        }
-        el.addEventListener('click', e => { const t = e.target.closest('button'); if (!t || t.disabled) return; if (t.hasAttribute('data-new')) next(); else if (t.hasAttribute('data-review')) { phase = 0; draw() } else if (t.hasAttribute('data-prev') && phase > 0) { phase--; draw() } else if (t.hasAttribute('data-gate-choice') && phase < 3 && answers[phase] === null) { answers[phase] = t.dataset.gateChoice; draw() } else if (t.hasAttribute('data-next') && answers[phase] !== null) { phase++; draw() } }); next();
+        });
     }
     const q07 = [
         () => { let a = R(2, 6), b = R(2, 6); return Q('پیداکردن دو عدد', 'کدام تجزیه برای عبارت {expr} درست است؟', expression(a, b), factors(a, b), [factors(-a, b), factors(a, -b), factors(-a, -b)], 'بر اساس <b>اتحاد جملهٔ مشترک</b>، جمع دو عدد باید ' + M(String(a + b)) + ' و ضربشان ' + M(String(a * b)) + ' باشد.') },
@@ -133,15 +119,15 @@
     function Q(goal, prompt, tex, answer, distractors, reason, kind = 'tex') { const canonical = x => { const p = /^\((-?\d+),(-?\d+)\)$/.exec(x); if (p) return 'pair:' + ([+p[1], +p[2]].sort((a, b) => a - b).join(',')); const f = /^\(x([+-]\d+)\)\(x([+-]\d+)\)$/.exec(x); return f ? 'factors:' + ([+f[1], +f[2]].sort((a, b) => a - b).join(',')) : x; }; const seen = new Set([canonical(answer)]); const unique = []; for (const x of distractors) { const k = canonical(x); if (!seen.has(k)) { unique.push(x); seen.add(k) } } const opts = [answer, ...unique]; let backups = ['0', '1', '-1', 'x', 'x+1', 'x-1', '2']; for (const x of backups) { if (opts.length >= 4) break; if (!seen.has(canonical(x))) { opts.push(x); seen.add(canonical(x)) } } return { goal, prompt, tex, answer, opts: shuffle(opts.slice(0, 4)), reason, kind }; }
     function isCorrect(item, option) { if (option === item.answer) return true; const pair = s => /^\((-?\d+),(-?\d+)\)$/.exec(s); if (item.goal === 'تشخیص دو عدد مناسب') { const x = pair(option), y = pair(item.answer); return !!(x && y && x[1] === y[2] && x[2] === y[1]); } return false; }
     function practice(panelEl, id) {
-        let target = panelEl.querySelector('#' + id + '-practice'), items, idx, answers;
-        function restart() { items = shuffle((id === 'A07' ? q07 : q08).map(f => f())); idx = 0; answers = Array(items.length).fill(null); draw() }
-        function draw() {
-            if (idx === items.length) { const good = answers.filter((v, i) => v !== null && isCorrect(items[i], items[i].opts[v])).length; target.innerHTML = window.CourseKit.res(good, items.length) + '<div class="a78-actions end-actions"><button class="btn" data-review data-scroll>مرور سؤال‌ها</button><button class="btn primary" data-restart data-scroll>سؤال‌های جدید</button></div>'; return }
-            let item = items[idx], choice = answers[idx], done = choice !== null, ok = done && isCorrect(item, item.opts[choice]);
-            let progress = '<div class="stg">' + items.map((q, i) => '<span class="' + (answers[i] === null ? (i === idx ? 'cu' : '') : (isCorrect(q, q.opts[answers[i]]) ? 'dn' : 'wr')) + '">' + fa(i + 1) + '</span>').join('') + '</div>';
-            target.innerHTML = progress + '<p class="a78-ask">' + (item.prompt.includes('{expr}') ? item.prompt.replace('{expr}', '<span class="a78-inline-math">' + M(item.tex) + '</span>') : item.prompt + ' <span class="a78-inline-math">' + M(item.tex) + '</span>') + '</p><div class="mc a78-options">' + item.opts.map((o, i) => '<button class="opt ' + (done ? (isCorrect(item, o) ? 'a78-correct' : i === choice ? 'a78-wrong' : '') : '') + '" data-pick="' + i + '" ' + (done ? 'disabled' : '') + '>' + M(item.kind === 'number' ? String(o) : o) + '</button>').join('') + '</div>' + (done ? '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? 'پاسخ درست است.' : 'این گزینه درست نیست.') + '</div><div class="ex">' + window.MathLite.renderRich(item.reason) + '</div>' : '') + '<div class="a78-actions"><button class="btn" data-prev ' + (idx === 0 ? 'disabled' : '') + ' data-scroll>سؤال قبلی</button><button class="btn primary" data-next ' + (!done ? 'disabled' : '') + ' data-scroll>' + (idx === items.length - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        }
-        target.addEventListener('click', e => { let b = e.target.closest('button'); if (!b || b.disabled) return; if (b.hasAttribute('data-restart')) restart(); else if (b.hasAttribute('data-review')) { idx = 0; draw() } else if (b.hasAttribute('data-prev')) { idx--; draw() } else if (b.hasAttribute('data-next')) { idx++; draw() } else if (b.hasAttribute('data-pick') && answers[idx] === null) { answers[idx] = +b.dataset.pick; draw() } }); restart()
+        const H = window.CourseKit.lk(window.CourseKit), tx = t => '$' + t + '$', target = panelEl.querySelector('#' + id + '-practice'), list = id === 'A07' ? q07 : q08; let items = [];
+        H.final(target, list.map((_, i) => () => {
+            if (!i) items = shuffle(list.map(f => f()));
+            const item = items[i];
+            return {
+                ask: item.prompt.includes('{expr}') ? item.prompt.replace('{expr}', '<span class="a78-inline-math">' + tx(item.tex) + '</span>') : item.prompt + ' <span class="a78-inline-math">' + tx(item.tex) + '</span>',
+                opts: item.opts.map(o => ({ h: tx(item.kind === 'number' ? String(o) : o), ok: isCorrect(item, o) })), expl: () => item.reason
+            };
+        }));
     }
     window.A78Lab = { init: function (panelEl, id) { if (id === 'A07') A07(panelEl); else { A08(panelEl); extra08(panelEl) } practice(panelEl, id) } };
 })();

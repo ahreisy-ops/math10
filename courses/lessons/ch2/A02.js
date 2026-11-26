@@ -1,6 +1,6 @@
 /* A02 — بازطراحی مستقل آموزشی؛ تنها هنگام بازکردن درس بارگذاری می‌شود */
 window.LESSONS=window.LESSONS||{};
-window.LESSONS.A02={needs:['algebra2'],setup:function(K0){
+window.LESSONS.A02={needs:['algebra2','kit'],setup:function(K0){
  var K=Object.create(K0),ML=window.MathLite;
  return {html:function(){var h='';
  h+=K.sn('۱','جمله‌های هم‌نوع را چگونه پیدا کنیم؟');

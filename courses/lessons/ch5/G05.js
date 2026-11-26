@@ -2,7 +2,7 @@
 window.LESSONS = window.LESSONS || {};
 /* بدنهٔ درس داخل setup است تا فقط بعد از لود شدن ماژول‌های needs اجرا شود */
 window.LESSONS.G05 = {
-  needs: ['utils', 'kit'],
+  needs: ['utils', 'exsteps', 'kit'],
   setup: function (K0) {
     var ML = window.MathLite, fa = ML.fa, rr = ML.renderRich, abs = Math.abs, df = K0.df;
     var _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
@@ -52,7 +52,12 @@ window.LESSONS.G05 = {
         if (altInfo.t < -0.001 || altInfo.t > 1.001) { var far = altInfo.t < 0 ? B0 : B1; s += sln(far, F, INK, 1.8, 1); }
         s += sln(V, F, o.alt.c || PINK, 2.2, 1);
         s += rmark(F, V, altInfo.t < 0 || altInfo.t > 1 ? (altInfo.t < 0 ? B0 : B1) : B1, 10, INK);
-        if (o.alt.l) { var m = [(V[0] + F[0]) / 2, (V[1] + F[1]) / 2], nn = unit(V, F), nrm = [-nn[1], nn[0]], sd = ((m[0] - C[0]) * nrm[0] + (m[1] - C[1]) * nrm[1]) >= 0 ? 1 : -1; s += stx(o.alt.l, m[0] + nrm[0] * sd * 14, m[1] + nrm[1] * sd * 14, { fs: 13, b: 1, c: PINK }); }
+        if (o.alt.l) {
+          var m = [(V[0] + F[0]) / 2, (V[1] + F[1]) / 2],
+            nn = unit(V, F), nrm = [-nn[1], nn[0]],
+            sd = (altInfo.t > 0.001 && altInfo.t < 0.999) ? (((B1[0] - B0[0]) * nrm[0] + (B1[1] - B0[1]) * nrm[1]) * (altInfo.t < 0.5 ? 1 : -1) >= 0 ? 1 : -1) : (((m[0] - C[0]) * nrm[0] + (m[1] - C[1]) * nrm[1]) >= 0 ? 1 : -1);
+          s += stx(o.alt.l, m[0] + nrm[0] * sd * 14, m[1] + nrm[1] * sd * 14, { fs: 13, b: 1, c: PINK });
+        }
       }
       for (i = 0; i < 3; i++) { var a = P[i], b = P[(i + 1) % 3], isH = o.hl && o.hl.side === i; s += sln(a, b, isH ? o.hl.c : (o.col && o.col[i]) || INK, isH ? 4.5 : 2.6); }
       if (typeof o.right === 'number') { s += rmark(P[o.right], P[(o.right + 1) % 3], P[(o.right + 2) % 3], 12, INK); }
@@ -110,7 +115,7 @@ window.LESSONS.G05 = {
         var h = '<p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '');
         h += '<div class="numrow"><input class="numin" data-nosign="1" id="gin" type="text" inputmode="decimal" autocomplete="off" aria-label="پاسخ"' + (done ? ' disabled' : '') + 'placeholder="?"><span class="unit">' + (q.unit || '') + '</span></div>' + fbh;
         if (done) { h += '<div class="ex">' + q.expl() + '</div>'; }
-        h += done ? '<div class="opts g-ops"><button type="button" class="btn" data-nw="1" data-scroll>مسئلهٔ دیگر</button></div>' : '<div class="opts g-pair"><button type="button" class="btn primary" data-go="1">بررسی</button><button type="button" class="btn" data-nw="1" data-scroll>مسئلهٔ دیگر</button></div>';
+        h += done ? '<div class="opts g-ops"><button type="button" class="btn primary" data-nw="1" data-scroll>مسئلهٔ دیگر</button></div>' : '<div class="opts g-pair"><button type="button" class="btn" data-go="1">بررسی</button><button type="button" class="btn primary" data-nw="1" data-scroll>مسئلهٔ دیگر</button></div>';
         host.innerHTML = rr(h); var inp = host.querySelector('#gin'); inp.value = val;
       }
       function check() {
@@ -137,22 +142,22 @@ window.LESSONS.G05 = {
         '<p class="legend" id="apl" style="margin-top:15px"></p><div class="gval" id="apv" style="gap:6px;align-items:flex-start;direction:ltr"></div>');
       var inp = host.querySelector('#apr');
       function paint() {
-        var x = +inp.value, u = 24, B = [92, 188], C = [92 + 6 * u, 188], A = [92 + x * u, 188 - 4 * u], F = [A[0], 188], out = x < 0 || x > 6, edge = x === 0 || x === 6, s = sv(340, 220), BL = '#d8dcf7', PK = '#f6d6e2';
+        var x = +inp.value, u = 26, B = [98, 188], C = [98 + 6 * u, 188], A = [98 + x * u, 188 - 4 * u], F = [A[0], 188], out = x < 0 || x > 6, edge = x === 0 || x === 6, s = s = sv(360, 220), BL = '#c0c7f0', PK = '#f6d6e2';
         var P = function (a, b, c, col) { return '<polygon points="' + [a, b, c].map(function (p) { return p.join(','); }).join(' ') + '" fill="' + col + '" stroke="none"/>'; };
         var LT = 'direction:ltr;unicode-bidi:isolate;', tx = function (b) { return fa(1) + '/' + fa(2) + ' × ' + fa(b) + ' × ' + fa(4); };
         var cell = function (inner, col, val) { return '<span style="display:inline-flex;flex-direction:column;align-items:center;gap:9px"><i style="' + LT + 'background:' + col + ';padding:3px 8px;font-size:.92rem">' + inner + '</i><b style="' + LT + 'position:relative;padding:6px 10px 2px;border:1.5px solid var(--ink);border-radius:12px;background:' + col + ';font-size:.88rem"><u style="position:absolute;top:-5px;left:50%;margin-left:-4px;width:8px;height:8px;background:' + col + ';border-left:1.5px solid var(--ink);border-top:1.5px solid var(--ink);transform:rotate(45deg)"></u>= ' + fa(val) + '</b></span>'; };
         var op = function (c) { return '<span style="align-self:flex-start;line-height:44px">' + c + '</span>'; };
         var b1 = x > 6 ? x : 6 - x, b2 = x > 6 ? x - 6 : -x, lx = x < 0 ? -14 : x > 6 ? 14 : (x < 3 ? 14 : -14);
-        s += '<line x1="6" y1="' + A[1] + '" x2="334" y2="' + A[1] + '" stroke="#9aa9c0" stroke-width="1.5" stroke-dasharray="2 5"/>';
+        s += '<line x1="6" y1="' + A[1] + '" x2="354" y2="' + A[1] + '" stroke="#9aa9c0" stroke-width="1.5" stroke-dasharray="2 5"/>';
         s += edge ? P(A, B, C, BL) : !out ? P(A, B, F, BL) + P(A, F, C, PK) : x > 6 ? P(A, B, F, BL) + P(A, C, F, PK) : P(A, C, F, BL) + P(A, B, F, PK);
         if (out) { s += sln(x < 0 ? B : C, F, INK, 1.8, 1); }
         s += sln(A, F, PINK, 2.4, 1) + rmark(F, A, x < 0 ? B : (x > 6 ? C : C), 10, INK);
         s += sln(A, B, INK, 3) + sln(B, C, TEAL, 5) + sln(A, C, INK, 3);
-        s += '<circle cx="' + A[0] + '" cy="' + A[1] + '" r="5" fill="' + INK + '"/>' + stx('B', B[0] - 14, B[1] + 6, { b: 1, fs: 14 }) + stx('C', C[0] + 14, C[1] + 6, { b: 1, fs: 14 }) + stx('A', A[0], A[1] - 14, { b: 1, fs: 14 });
+        s += '<circle cx="' + A[0] + '" cy="' + A[1] + '" r="5" fill="' + INK + '"/>' + stx('B', B[0] - 14, B[1] + 20, { b: 1, fs: 14 }) + stx('C', C[0] + 14, C[1] + 20, { b: 1, fs: 14 }) + stx('A', A[0], A[1] - 14, { b: 1, fs: 14 });
         s += stx(fa(6), (B[0] + C[0]) / 2, 208, { fs: 13, b: 1, c: TEAL }) + stx(fa(4), A[0] + lx, (A[1] + 188) / 2, { fs: 13, b: 1, c: PINK });
         host.querySelector('#apf').innerHTML = s + '</svg>';
-        host.querySelector('#apv').innerHTML = edge ? cell(tx(6), BL, 12) : !out ? cell(tx(x), BL, 2 * x) + op('+') + cell(tx(6 - x), PK, 2 * (6 - x)) + op('=') + cell(fa(2 * x) + ' + ' + fa(2 * (6 - x)), 'var(--mark)', 12) : cell(tx(b1), BL, 2 * b1) + op('\u2212') + cell(tx(b2), PK, 2 * b2) + op('=') + cell(fa(2 * b1) + ' \u2212 ' + fa(2 * b2), 'var(--mark)', 12);
-        host.querySelector('#apl').innerHTML = edge ? 'رأس بالای یکی از دو سرِ قاعده است؛ مثلث قائم‌الزاویه شد و مساحتش باز هم ' + fa(12) + ' است.' : !out ? 'ارتفاع، مثلث را به دو مثلثِ قائم‌الزاویه تقسیم کرده. هر کدام نصفِ مستطیلِ خودش است و جمعشان ' + fa(12) + ' می‌شود.' : 'پای ارتفاع <b>بیرون از قاعده</b> افتاد. مثلثِ بزرگ (آبی) منهای مثلثِ کوچک (صورتی) همان مثلثِ ماست، و حاصل باز هم ' + fa(12) + ' است.';
+        host.querySelector('#apv').innerHTML = edge ? cell(tx(6), BL, 12) : !out ? cell(tx(x), BL, 2 * x) + op('+') + cell(tx(6 - x), PK, 2 * (6 - x)) + op('=') + cell(fa(2 * x) + ' + ' + fa(2 * (6 - x)), 'var(--mark)', 12) : cell(tx(b1), 'linear-gradient(135deg,' + BL + ' 50%,' + PK + ' 50%)', 2 * b1) + op('\u2212') + cell(tx(b2), PK, 2 * b2) + op('=') + cell(fa(2 * b1) + ' \u2212 ' + fa(2 * b2), BL, 12);
+        host.querySelector('#apl').innerHTML = edge ? 'رأس بالای یکی از دو سرِ قاعده است؛ مثلث قائم‌الزاویه شد و مساحتش باز هم ' + fa(12) + ' است.' : !out ? 'ارتفاع، مثلث را به دو مثلثِ قائم‌الزاویه تقسیم کرده. مساحتِ هر کدام نصفِ «قاعده × ارتفاعِ» خودش است (کادرهای پایین) و جمعشان ' + fa(12) + ' می‌شود.' : 'پای ارتفاع <b>بیرون از قاعده</b> افتاد؛ پس مثلثِ ما «باقی‌مانده» است. مثلثِ بزرگ (آبی + صورتی) را در نظر بگیر و تکهٔ صورتیِ اضافه را کم کن. آنچه می‌ماند همان مثلثِ آبیِ ماست، و مساحتش باز هم ' + fa(12) + ' است.';
       }
       inp.addEventListener('input', paint); paint();
     };
@@ -165,15 +170,14 @@ window.LESSONS.G05 = {
         '<p class="legend" id="hfl" style="margin-top:15px"></p><div class="gval" id="hfv"></div>');
       var inp = host.querySelector('#hfr');
       function paint() {
-        var a = +inp.value, done = a === 180, s = sv(300, 170);
-        s += '<g transform="translate(150 85) scale(.88) translate(-150 -85)">';
-        s += '<rect x="40" y="30" width="220" height="110" fill="none" stroke="' + INK + '" stroke-width="2.5"/>';
-        s += '<polygon points="40,140 260,140 120,30" fill="rgba(214,69,122,.30)" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>';
-        s += sln([120, 30], [120, 140], PINK, 2.2, 1);
-        s += '<polygon points="40,140 40,30 120,30" transform="rotate(' + a + ' 80 85)" fill="rgba(76,95,213,.35)" stroke="' + BLUE + '" stroke-width="2"/>';
-        s += '<polygon points="260,140 260,30 120,30" transform="rotate(' + a + ' 190 85)" fill="rgba(76,95,213,.35)" stroke="' + BLUE + '" stroke-width="2"/>';
-        s += stx(fa(6), 150, 156, { fs: 12, b: 1, c: TEAL }) + stx(fa(4), 112, 85, { fs: 12, b: 1, c: PINK, a: 'end' });
-        host.querySelector('#hff').innerHTML = s + '</g></svg>';
+        var a = +inp.value, done = a === 180, s = sv(360, 220);
+        s += '<rect x="98" y="84" width="156" height="104" fill="none" stroke="' + INK + '" stroke-width="2.5"/>';
+        s += '<polygon points="98,188 254,188 150,84" fill="rgba(214,69,122,.30)" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>';
+        s += sln([150, 84], [150, 188], PINK, 2.2, 1);
+        s += '<polygon points="98,188 98,84 150,84" transform="rotate(' + a + ' 124 136)" fill="rgba(76,95,213,.35)" stroke="' + BLUE + '" stroke-width="2"/>';
+        s += '<polygon points="254,188 254,84 150,84" transform="rotate(' + a + ' 202 136)" fill="rgba(76,95,213,.35)" stroke="' + BLUE + '" stroke-width="2"/>';
+        s += stx(fa(6), 176, 208, { fs: 12, b: 1, c: TEAL }) + stx(fa(4), 142, 136, { fs: 12, b: 1, c: PINK, a: 'end' });
+        host.querySelector('#hff').innerHTML = s + '</svg>';
         host.querySelector('#hfv').innerHTML = done ? '<i class="y">' + fa(24) + ' ÷ ' + fa(2) + ' = ' + fa(12) + '</i>' : '';
         host.querySelector('#hfl').innerHTML = done ? 'هر قطعهٔ آبی دقیقاً روی نیمهٔ صورتیِ کنار خودش نشست؛ پس <b>مثلث نصفِ مستطیل است</b>.' : 'دو قطعهٔ آبی بیرونِ مثلث‌اند. بچرخانشان و ببین کجا می‌نشینند.';
       }
@@ -187,13 +191,19 @@ window.LESSONS.G05 = {
         var from = (s + 2) % 3, h = HT[s], l = LN[s], sl = ['', '', ''];
         host.querySelector('#bsc').innerHTML = [0, 1, 2].map(function (i) { return '<button type="button" class="chip' + (i === s ? ' on' : '') + '" data-s="' + i + '">' + NM[i] + '</button>'; }).join('');
         sl[s] = fa(l);
-        host.querySelector('#bsf').innerHTML = triSVG({ pts: P, names: ['A', 'B', 'C'], right: 1, hl: { side: s, c: TEAL }, alt: { from: from, base: s, c: PINK, l: fan(h) }, sl: sl, slc: TEAL, W: 300, H: 210 });
+        host.querySelector('#bsf').innerHTML = triSVG({ pts: P, names: ['A', 'B', 'C'], right: s === 1 ? null : 1, hl: { side: s, c: TEAL }, alt: { from: from, base: s, c: PINK, l: fan(h) }, sl: sl, slc: TEAL, W: 300, H: 210 });
         host.querySelector('#bsv').innerHTML = '<i class="g">قاعده: ' + fa(l) + '</i><i class="p">ارتفاع: ' + fan(h) + '</i><i class="y">' + fa(1) + '/' + fa(2) + ' × ' + fa(l) + ' × ' + fan(h) + ' = ' + fa(24) + '</i>';
         host.querySelector('#bsl').innerHTML = 'ارتفاعِ مربوط به قاعدهٔ ' + NM[s] + '، پاره‌خطی است از رأسِ روبه‌رو که بر این قاعده عمود می‌شود. با هر سه قاعده مساحت یکی می‌شود: ' + fa(24) + '.';
       }
       host.addEventListener('click', function (e) { var b = e.target.closest('.chip'); if (!b) { return; } s = +b.dataset.s; paint(); });
       paint();
     };
+    /* ---------- مسئله‌های کامل ---------- */
+    var EX = [
+      { title: 'مثال اول: مثلث تند', q: 'قاعده ' + M('6') + ' و ارتفاع ' + M('4') + ':', lines: ['S=\\dfrac{1}{2}\\times6\\times4=12'], note: 'پس مساحت ' + M('12') + ' است.' },
+      { title: 'مثال دوم: ارتفاع روی امتداد', q: 'قاعدهٔ ' + M('BC=6') + ' است و ارتفاعِ ' + M('AD=4') + ' روی امتدادِ ' + M('BC') + ' فرود آمده (مثل شکل بخش ۳). ضلعِ کج، ' + M('AB=5') + '، ارتفاع نیست:', lines: ['S=\\dfrac{1}{2}\\times6\\times4=12'], note: 'فقط پاره‌خطِ عمود بر قاعده ارتفاع است؛ ' + M('5') + ' در فرمول نمی‌آید.' },
+      { title: 'مثال سوم: ارتفاع نامعلوم', q: 'مساحت مثلثی ' + M('20') + ' و قاعده‌اش ' + M('5') + ' است. برای یافتن ارتفاع داریم:', lines: ['20=\\dfrac{1}{2}\\times5\\times h', 'h=\\dfrac{20\\times2}{5}=8'], note: 'پس ارتفاع ' + M('8') + ' است.' }
+    ];
     /* ---------- ساخت شکل ---------- */
     function areaFig(kind, d) {
       var pts, o = { names: ['A', 'B', 'C'], W: 300, H: 200, slc: BLUE };
@@ -272,11 +282,11 @@ window.LESSONS.G05 = {
           '<p><b>نتیجه:</b> مساحت فقط به قاعده و ارتفاع بستگی دارد، نه به جای رأس یا شکلِ مثلث. برای همین در فرمول فقط ' + M('b') + ' و ' + M('h') + ' آمده است.</p>',
 
           K.sn('۲', 'ارتفاع کدام است؟'),
-          '<p>«ارتفاع» پاره‌خطی است که از یک رأس بر ضلعِ روبه‌رو (یا امتدادِ آن) عمود می‌شود؛ زاویهٔ ' + M('90^\\circ') + ' می‌سازد. هر ضلعی را می‌شود قاعده گرفت و هر بار ارتفاعِ مربوط به همان قاعده را به کار برد. یک مثلث قائم‌الزاویه را با هر سه قاعده امتحان کن:</p><div class="cover g-act" id="bs" style="animation:none"></div>',
+          '<p>«ارتفاع»، پاره‌خطی است که از یک رأس بر ضلعِ روبه‌رو (یا امتدادِ آن) عمود می‌شود. قاعده را خودت انتخاب می‌کنی، اما ارتفاع باید همان قاعده را هدف بگیرد: هر قاعدهٔ تازه، ارتفاعِ تازه. با هر سه قاعده، یک مثلث قائم‌الزاویه را امتحان کن و ببین مساحت تغییر نمی‌کند:</p><div class="cover g-act" id="bs" style="animation:none"></div>',
           K.box('err', '⚠ خطای رایج: ضلعِ کج را ارتفاع گرفتن', '<p>اگر مثلث کج است، ضلع‌های کج ارتفاع نیستند. ارتفاع همیشه بر قاعده <b>عمود</b> است و علامت قائمه دارد.</p>'),
 
           K.sn('۳', 'وقتی ارتفاع بیرون می‌افتد'),
-          '<p>در مثلثی که یک زاویهٔ باز دارد، اگر قاعده را ضلعِ کنارِ آن زاویه بگیری، ارتفاع بیرون از مثلث و روی امتدادِ قاعده فرود می‌آید. فرمول عوض نمی‌شود؛ فقط قاعده و ارتفاع را درست بخوان:</p>', fig1(triSVG({ pts: [[-3, 4], [0, 0], [6, 0]], names: ['A', 'B', 'C'], alt: { from: 0, base: 1, c: PINK, l: fa(4) }, sl: ['', fa(6), ''], slc: TEAL, W: 300, H: 190 }), 'قاعدهٔ BC برابر ' + '۶' + ' و ارتفاعِ AD برابر ' + '۴'),
+          '<p>در مثلثی که یک زاویهٔ باز دارد، اگر قاعده را ضلعِ کنارِ آن زاویه بگیری، ارتفاع بیرون از مثلث و روی امتدادِ قاعده فرود می‌آید. فرمول عوض نمی‌شود؛ فقط قاعده و ارتفاع را درست بخوان:</p>', fig1(triSVG({ pts: [[-3, 4], [0, 0], [6, 0]], names: ['A', 'B', 'C'], alt: { from: 0, base: 1, c: PINK, l: fa(4) }, sl: ['', fa(6), ''], slc: TEAL, dots: [{ p: [-3, 0], n: 'D', dx: 0, dy: 17 }], W: 300, H: 190 }), 'قاعدهٔ BC برابر ' + '۶' + ' و ارتفاعِ AD برابر ' + '۴'),
           K.dm('S=\\dfrac{1}{2}\\times6\\times4=12'),
 
           K.sn('۴', 'مثلث قائم‌الزاویه'),
@@ -284,9 +294,7 @@ window.LESSONS.G05 = {
           K.box('note', 'وتر را به کار نبر', '<p>در مثلث قائم‌الزاویه، قاعده و ارتفاعِ ساده دو ضلع قائم‌اند؛ وتر برای مساحت لازم نیست.</p>'),
 
           K.sn('۵', 'مسئله‌های کامل'),
-          '<h4>مثال اول: مثلث تند</h4><p>قاعده ' + M('6') + ' و ارتفاع ' + M('4') + ':</p>', K.dm('S=\\dfrac{1}{2}\\times6\\times4=12'),
-          '<h4>مثال دوم: ارتفاع روی امتداد</h4><p>قاعده ' + M('BC=6') + ' و ارتفاعِ AD برابر ' + M('4') + ' روی امتداد ' + M('BC') + ' (مثل شکل بالا). ضلعِ کج را به کار نمی‌بریم:</p>', K.dm('S=\\dfrac{1}{2}\\times6\\times4=12'),
-          '<h4>مثال سوم: ارتفاع نامعلوم</h4><p>مساحت مثلثی ' + M('20') + ' و قاعده‌اش ' + M('5') + ' است. ارتفاع:</p>', K.dm('20=\\dfrac{1}{2}\\times5\\times h\\ \\Rightarrow\\ h=\\dfrac{20\\times2}{5}=8'),
+          K.exampleSteps.html('g05-ex', EX, 'حل کامل مثال‌ها'),
           '<p>خودت حل کن؛ هر بار شکل و عددها تازه‌اند:</p><div class="cover g-act" id="ar" style="animation:none"></div>',
 
           K.sn('۶', 'کارت مرجع'),
@@ -302,7 +310,7 @@ window.LESSONS.G05 = {
         ].join('');
       },
       init: function (panel) {
-        K.halfLab(panel.querySelector('#hf')); K.apexLab(panel.querySelector('#ap'));
+        K.halfLab(panel.querySelector('#hf')); K.apexLab(panel.querySelector('#ap')); K.exampleSteps.bind('g05-ex', EX);
         K.baseLab(panel.querySelector('#bs'));
         K.numLab(panel.querySelector('#ar'), genAR);
         var GS = [genE1, genE2, genE3];

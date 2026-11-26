@@ -65,32 +65,17 @@
     const out = [q1, q2]; for (let k = 0; k < 3; k++) { const q = make(k), bad = distract(q.answer); out.push(opts({ kind: 'choice', label: 'مقدار عبارت $' + notation(q) + '$ را حساب کن:', tex: null, solution: notation(q) + '=' + q.calc, calc: q.calc, answer: q.answer, correct: 'آفرین، درست محاسبه کردی.', wrong: 'محاسبهٔ درست: $' + notation(q) + '=' + q.calc + '$.' }, bad)); } return out;
   }
   function quiz(host) {
-    let qs = [], i = 0, answers = [], ended = false;
-    function reset() { qs = finalQuestions(); i = 0; answers = []; ended = false; paint(); }
-    function isRight(j) { const q = qs[j]; return answers[j] !== undefined && (q.kind === 'number' ? Number(norm(answers[j])) === q.answer : (j <= 1 ? answers[j] === q.answer : q.options[answers[j]] === q.answer)); }
-    function paint() {
-      if (ended) { const s = qs.filter((_, j) => isRight(j)).length; host.innerHTML = window.CourseKit.res(s, 5) + '<div class="opts end-actions"><button class="btn" data-action="review" data-scroll>مرور سؤال‌ها</button><button class="btn primary" data-action="new" data-scroll>سؤال‌های جدید</button></div>'; return; }
-      const q = qs[i], has = answers[i] !== undefined; let h = '<div class="stg">' + qs.map((_, j) => '<span class="' + (j === i ? 'cu' : answers[j] !== undefined ? (isRight(j) ? 'dn' : 'wr') : '') + '">' + fa(j + 1) + '</span>').join('') + '</div><p class="ask a2-question">' + R(q.label) + '</p>';
-      if (q.expressions) { h += '<ol class="steps a01-expression-list">' + q.expressions.map(o => '<li>' + M(o.tex) + '</li>').join('') + '</ol>'; }
-      else if (q.tex) { h += '<div class="dm">' + M(q.tex) + '</div>'; }
-      if (q.kind === 'number') { h += '<div class="a01-card-entry">' + input('a01-final-input') + '</div>'; }
-      else { h += '<div class="mc ' + (i <= 1 ? 'a01-constant-choices' : '') + '">' + q.options.map((v, j) => '<button type="button" class="btn opt ' + (has ? ((i <= 1 ? j === q.answer : v === q.answer) ? 'right' : answers[i] === j ? 'wrong' : '') : '') + '" data-opt="' + j + '" ' + (has ? 'disabled' : '') + '>' + (i <= 1 ? v : M(String(v))) + '</button>').join('') + '</div>'; }
-      if (has) {
-        const ok = isRight(i);
-        h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '">' + (ok ? '✓ ' + R(q.correct) : 'پاسخت درست نیست؛ راه‌حل را در کادر زیر بررسی کن.') + '</div>';
-        const explanation = i >= 2 ? '<p>برای به‌دست‌آوردن مقدار عبارت، عدد داده‌شده را جای متغیر می‌گذاریم:</p><div class="dm" dir="ltr" style="direction:ltr;text-align:center">' + M(q.solution) + '</div>' : '<p>' + R(q.wrong) + '</p>';
-        h += '<div class="ex" style="border-style:dashed">' + explanation + '</div>';
-      }
-      h += '<div class="opts"><button class="btn" data-action="prev" ' + (i === 0 ? 'disabled' : '') + ' data-scroll>سؤال قبلی</button><button class="btn primary" data-action="next" ' + (!has ? 'disabled' : '') + ' data-scroll>' + (i === 4 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-      if (q.kind === 'number' && !has) h = h.replace('<div class="opts"><button', '<div class="opts"><button');
-      host.innerHTML = h;
-      if (q.kind === 'number') { const el = host.querySelector('#a01-final-input'); if (has) { el.value = answers[i]; el.disabled = true; } else { const btn = host.querySelector('[data-action="next"]'); btn.disabled = false; btn.textContent = 'ثبت پاسخ'; } }
-    }
-    host.addEventListener('click', e => {
-      let b = e.target.closest('button'); if (!b || !host.contains(b) || b.disabled) return;
-      if (b.dataset.opt !== undefined) { answers[i] = Number(b.dataset.opt); paint(); return; }
-      switch (b.dataset.action) { case 'next': if (qs[i].kind === 'number' && answers[i] === undefined) { let el = host.querySelector('#a01-final-input'), v = norm(el.value); if (v === '' || !Number.isFinite(Number(v))) { el.focus(); return; } answers[i] = v; paint(); return; } if (i === 4) ended = true; else i++; paint(); break; case 'prev': i--; paint(); break; case 'review': i = 0; ended = false; paint(); break; case 'new': reset(); break; }
-    }); host.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'a01-final-input') { e.preventDefault(); host.querySelector('[data-action="next"]').click(); } }); reset();
+    const H = window.CourseKit.lk(window.CourseKit), tx = t => '$' + t + '$'; let qs = [];
+    H.final(host, [0, 1, 2, 3, 4].map(i => () => {
+      if (!i) qs = finalQuestions();
+      const q = qs[i], low = i <= 1;
+      return {
+        ask: q.label, cls: low ? 'a01-constant-choices' : '',
+        fig: q.expressions ? '<ol class="steps a01-expression-list">' + q.expressions.map(o => '<li>' + tx(o.tex) + '</li>').join('') + '</ol>' : q.tex ? '<div class="dm">' + tx(q.tex) + '</div>' : '',
+        opts: q.options.map((v, j) => ({ h: low ? v : tx(String(v)), ok: low ? j === q.answer : v === q.answer })),
+        expl: () => i >= 2 ? '<p>برای به‌دست‌آوردن مقدار عبارت، عدد داده‌شده را جای متغیر می‌گذاریم:</p><div class="dm" dir="ltr">' + tx(q.solution) + '</div>' : '<p>' + q.wrong + '</p>'
+      };
+    }));
   }
   window.A01Lab = { start: (a, b) => { lab(a); quiz(b); } };
 })();

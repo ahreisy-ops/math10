@@ -1,6 +1,6 @@
 /* A07 — آموزش تجزیهٔ درجه دوم و آزمایشگاه دو عدد */
 window.LESSONS=window.LESSONS||{};
-window.LESSONS.A07={needs:['a78lab'],setup:function(K0){
+window.LESSONS.A07={needs:['a78lab','kit'],setup:function(K0){
  const K=Object.create(K0);
  return {html:function(){let h='';
  h+=K.sn('۱','از اتحاد جملهٔ مشترک تا تجزیه');
