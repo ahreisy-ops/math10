@@ -3,9 +3,9 @@
   'use strict';
   window.LESSONS = window.LESSONS || {};
   window.LESSONS.E01 = {
-    needs: ['linearvalues', 'gslider'],
+    needs: ['linearvalues', 'gslider', 'kit'],
     setup: function (K0) {
-      var K = Object.create(K0), ML = window.MathLite;
+      var K = Object.create(K0), H = K0.lk(K), ML = window.MathLite;
       function maths(t) { return ML.renderRich('$' + t + '$'); }
       function rich(s) { return ML.renderRich(s); }
       function f(n) { return ML.fa(n); }
@@ -531,59 +531,25 @@
             return mc('در تساوی $' + a + '=' + a + '$، اگر هر دو طرف را در $' + k + '$ ضرب کنیم چه می‌شود؟', ['$' + p + '=' + a + '$', '$' + a + '=' + p + '$', '$' + p + '=' + p + '$', '$' + (p + 1) + '=' + (p + 1) + '$'], 2, 'هر دو طرف برابر $' + p + '$ می‌شوند؛ پس تساوی جدید $' + p + '=' + p + '$ است.');
           }
         ];
-        var q = [], answers = [], pos = 0, finished = false, reviewing = false, seen = '';
         function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
-        function nextSet() {
-          var chosen, keys, attempt = 0;
+        var seen = '', keys = [];
+        function pickKeys() {
+          var chosen, ks, attempt = 0;
           /* در هر دور: دو سؤال شناخت، دو سؤال معنای جواب، دو سؤال حفظ تساوی. */
           var groups = [[0, 1, 9], [2, 3, 8], [4, 5, 6, 7, 10, 11]];
           do {
-            keys = [];
-            groups.forEach(function (group) { keys = keys.concat(shuffle(group.slice()).slice(0, 2)); });
-            keys = shuffle(keys); chosen = keys.join(','); attempt++;
+            ks = [];
+            groups.forEach(function (group) { ks = ks.concat(shuffle(group.slice()).slice(0, 2)); });
+            ks = shuffle(ks); chosen = ks.join(','); attempt++;
           } while (chosen === seen && attempt < 6);
-          seen = chosen;
-          q = keys.map(function (k) { return makers[k](); }); answers = q.map(function () { return null; }); pos = 0; finished = false; reviewing = false; paint();
+          seen = chosen; return ks;
         }
-        function paint() {
-          if (finished && !reviewing) {
-            var score = answers.reduce(function (s, a, i) { return s + (a === q[i].a ? 1 : 0); }, 0);
-            root.innerHTML = window.CourseKit.res(score, q.length) +
-              '<div class="opts end-actions"><button type="button" class="btn" data-review data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-new-set data-scroll>سؤال‌های جدید</button></div>';
-            return;
-          }
-          var item = q[pos], choice = answers[pos];
-          root.innerHTML =
-            '<div class="e01-progress stg" aria-label="پیشرفت تمرین">' + q.map(function (v, i) { return '<span class="' + (i === pos ? 'cu' : (answers[i] !== null ? (answers[i] === v.a ? 'dn' : 'wr') : '')) + '" aria-label="سؤال ' + f(i + 1) + '">' + f(i + 1) + '</span>'; }).join('') + '</div>' +
-            '<p class="ask e01-question">' + rich(item.q) + '</p>' +
-            '<div class="e01-answer-grid">' + item.o.map(function (t, i) { return '<button type="button" class="btn e01-answer' + (choice !== null ? (i === item.a ? ' e01-right' : i === choice ? ' e01-wrong' : '') : '') + '" data-answer="' + i + '" ' + (choice !== null ? 'disabled' : '') + '>' + rich(t) + '</button>'; }).join('') + '</div>' +
-            (choice === null ? '' : feedback(choice === item.a, 'پاسخ ' + (choice === item.a ? 'درست است.' : 'درست نیست.'), item.why)) +
-            // (reviewing ? '<div class="e01-inline-result">در حالت مرور، پاسخ‌های این دور تغییر نمی‌کنند.</div>' : '') +
-            '<div class="e01-navigation"><button type="button" class="btn" data-final-prev ' + (pos === 0 ? 'disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-final-next ' + (choice === null ? 'disabled' : '') + ' data-scroll>' + (pos === q.length - 1 ? (reviewing ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی') + '</button></div>';
-        }
-        root.addEventListener('click', function (e) {
-          var b = e.target.closest('button'); if (!b || b.disabled) return;
-          if (b.hasAttribute('data-answer') && !finished) { if (answers[pos] === null) { answers[pos] = +b.dataset.answer; paint(); } return; }
-          if (b.hasAttribute('data-final-prev')) { pos = Math.max(0, pos - 1); paint(); scroll(); return; }
-          if (b.hasAttribute('data-final-next')) {
-            if (pos < q.length - 1) { pos++; paint(); scroll(); }
-            else { finished = true; reviewing = false; paint(); scroll(); }
-            return;
-          }
-          if (b.hasAttribute('data-review')) { reviewing = true; pos = 0; paint(); scroll(); return; }
-          if (b.hasAttribute('data-new-set')) { nextSet(); scroll(); }
-        });
-        function scroll() {
-          /* مقصد اختصاصی و پایدار؛ پیمایش پس از بازسازی کامل DOM همان فعالیت. */
-          window.requestAnimationFrame(function () {
-            window.requestAnimationFrame(function () {
-              var target = root.querySelector('.e01-progress') || root.querySelector('.fb') || root.querySelector('.e01-station-head');
-              if (!target || !root.contains(target) || !target.getClientRects().length) return;
-              window.scrollTo({ top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - 80), behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-            });
-          });
-        }
-        nextSet();
+        H.final(root, [0, 1, 2, 3, 4, 5].map(function (i) {
+          return function () {
+            var m; if (i === 0) { keys = pickKeys(); } m = makers[keys[i]]();
+            return { ask: m.q, opts: m.o.map(function (t, k) { return { h: t, ok: k === m.a }; }), expl: function () { return m.why; } };
+          };
+        }));
       }
     }
   };

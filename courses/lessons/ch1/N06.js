@@ -46,8 +46,7 @@ window.LESSONS.N06 = {
         '#n6c .btn[data-ck],#n6c .btn[data-nx]{box-sizing:border-box;min-height:44px;height:44px;font-size:1rem;line-height:1.3;padding:8px 16px}',
         '#n6d .mc{grid-template-columns:1fr;justify-items:center;gap:8px}#n6d .mc .opt{width:min(100%,300px);max-width:300px;min-height:44px;padding:5px 10px;text-align:initial}',
         '#n6d .n6-inspect-option{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%}#n6d .n6-sl{flex:0 0 auto;font-size:.82rem;color:#5b6675;margin:0;white-space:nowrap}#n6d .n6-inspect-math{flex:1;min-width:0;text-align:center}',
-        '#n6d .n01-final-nav .btn,#n6e .n01-final-nav .btn{min-width:120px;min-height:36px;height:auto;font-size:.88rem;padding:5px 12px}',
-        '#n6a{overflow-anchor:none}',
+                '#n6a{overflow-anchor:none}',
         '.n6-mk{min-width:1.2em;font-weight:bold}.n6-msg{text-align:center;font-size:1rem;color:#9b2c2c;min-height:1em}',
         '.n06-division-examples .n06-division-examples-desktop .dm{padding-top: 5px;}'
       ].join('\n');
@@ -185,29 +184,6 @@ window.LESSONS.N06 = {
     };
 
     /* ---------- آزمون سؤال‌به‌سؤال: «سؤال n از m»، قبلی/بعدی، نتیجه و مجموعهٔ جدید ---------- */
-    function seq(host, build) {
-      var qs, i, ans;
-      function start() { qs = build(); i = 0; ans = []; }
-      function paint() {
-        var n = qs.length, q = qs[i], a = ans[i], h, oh = '', s;
-        if (i === n) {
-          s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr(K.res(s, n) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
-          return;
-        }
-        h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.tex ? K.dm(q.tex) : '') + '<div class="mc" id="mcx"></div>';
-        q.opts.forEach(function (o, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (o.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + o.h + '</button>'; });
-        if (a !== undefined) { var o = q.opts[a]; h += fb(o.ok, o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl + '</div>'; }
-        h += '<div class="opts n01-final-nav"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh); if (a !== undefined) { var note = host.querySelector('.fb'); if (note && !note.textContent.trim()) note.textContent = q.opts[a].ok ? 'درست است!' : 'این برابری درست نیست؛ قوانین توان‌ها را دوباره بررسی کن.'; }
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o) { ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); }
-        else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { start(); paint(); }
-      });
-      start(); paint();
-    }
     var pick = function (arr) { return arr[R(0, arr.length - 1)]; };
     var P2 = function (a, e) { return a + '^{' + e + '}'; };                       /* a^{e} با پایهٔ صحیح مثبت */
 
@@ -248,11 +224,14 @@ window.LESSONS.N06 = {
       }
     ];
     K.inspect = function (host) {
-      seq(host, function () {
-        return shuffle(INSPECT.slice()).map(function (g) {
-          var q = g(); return { ask: 'عبارت ' + M(q.ex) + ' را ساده کرده‌ایم، ولی <b>یکی از سه مرحله اشتباه</b> است. آن را پیدا کن و روی آن بزن.', expl: '<p>' + q.why + '</p>', opts: q.lines.map(function (l, k) { return { h: '<span class="n6-inspect-option" dir="rtl"><span class="n6-sl">مرحلهٔ ' + fa(k + 1) + '</span><span class="n6-inspect-math" dir="ltr">' + M(l) + '</span></span>', ok: k === q.w, m: 'این مرحله درست است. مرحلهٔ اشتباه را پیدا کن.' }; }) };
-        });
-      });
+      var order;
+      H.final(host, INSPECT.map(function (_, k) {
+        return function () {
+          if (k === 0) { order = shuffle(INSPECT.slice()); }
+          var g = order[k];
+          var q = g(); return H.fixQ({ ask: 'عبارت ' + M(q.ex) + ' را ساده کرده‌ایم، ولی <b>یکی از سه مرحله اشتباه</b> است. آن را پیدا کن و روی آن بزن.', expl: function () { return '<p>' + q.why + '</p>'; }, opts: q.lines.map(function (l, k) { return { h: '<span class="n6-inspect-option" dir="rtl"><span class="n6-sl">مرحلهٔ ' + fa(k + 1) + '</span><span class="n6-inspect-math" dir="ltr">' + M(l) + '</span></span>', ok: k === q.w, m: 'این مرحله درست است. مرحلهٔ اشتباه را پیدا کن.' }; }) });
+        };
+      }));
     };
 
     /* ============ آزمون پایانی (۵ سؤال تصادفی) ============ */

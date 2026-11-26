@@ -3,8 +3,8 @@
   'use strict';
   window.LESSONS = window.LESSONS || {};
   window.LESSONS.E02 = {
-    needs: [], setup: function (K) {
-      var ML = window.MathLite;
+    needs: ['kit'], setup: function (K) {
+      var ML = window.MathLite, H = window.CourseKit.lk(K);
       if (!document.getElementById('css-E2detect-frame')) {
         var st0 = document.createElement('style');
         st0.id = 'css-E2detect-frame';
@@ -31,7 +31,6 @@
       function equation(a, b, c, d) { return lin(a, b) + '=' + lin(c, d); }
       function mathpanel(s) { return '<div class="e02-formula" dir="ltr">' + M(s) + '</div>'; }
       function mark(ok, s) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + s + '</div>'; }
-      function fbx(ok, wrong, why) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + (ok ? '✓ پاسخ درست است.' : 'پاسخ درست نیست.') + '</div><div class="ex">' + (wrong ? wrong + ' ' : '') + why + '</div>'; }
       var refreshSvg = '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.4-4.8L3 9"/><path d="M3 4v5h5"/><path d="M4 13a8 8 0 0 0 14.4 4.8L21 15"/><path d="M21 20v-5h-5"/></svg>';
       function activity(title, id, lead) { return '<h4 class="e02-activity-title">' + title + '</h4><p class="e02-activity-lead">' + lead + '</p><div class="e01-interaction e02-activity" id="' + id + '"><div data-stage></div></div>'; }
       function problemHead(tex) { return '<div class="e02-problem-head"><span class="e02-problem-chip">' + M(tex) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="مسئلهٔ جدید" aria-label="تغییر مسئله">' + refreshSvg + '</button></div>'; }
@@ -314,39 +313,21 @@
         }
         return { kind: kind, x: options.findIndex(function (o) { return o.ok; }), tex: tex, options: options, why: why, solution: kind === 5 ? trace.lines : null };
       }
-      function finalSet() { return { q: shuffle([0, 1, 2, 3, 4, 5]).map(makeFinal), pos: 0, answers: [null, null, null, null, null, null], finished: false, review: false }; }
-      function finalRender(s) {
-        if (s.finished && !s.review) {
-          var score = s.answers.reduce(function (v, a, i) { return v + (a === s.q[i].x ? 1 : 0); }, 0);
-          return window.CourseKit.res(score, 6) + '<div class="opts end-actions"><button type="button" class="btn" data-review data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-final-new data-scroll>سؤال‌های جدید</button></div>';
-        }
-        var item = s.q[s.pos], given = s.answers[s.pos], frozen = given !== null;
-        var instruction = item.kind === 5 ? 'دانش‌آموزی معادلهٔ ' + M(item.solution[0]) + ' را مرحله‌به‌مرحله حل کرده است. نخستین مرحلهٔ نادرست کدام است؟' :
-          item.kind === 2 ? 'در معادلهٔ ' + M(item.tex) + '، کدام گام جملهٔ ثابت را درست حذف می‌کند؟' :
-            item.kind === 4 ? 'ساده‌سازی درستِ طرف چپ معادلهٔ ' + M(item.tex) + ' کدام است؟' :
-              'مقدار مجهول را در معادلهٔ <span class="e02-inline-equation">' + M(item.tex) + '</span> پیدا کن.';
-        var tracePanel = item.kind === 5 ? '<ol class="e02-final-worked-steps steps" aria-label="مراحل حل نوشته‌شده">' + item.solution.map(function (line) { return '<li>' + M(line) + '</li>'; }).join('') + '</ol>' : '';
-        var body = '<div class="e01-answer-grid">' + item.options.map(function (opt, i) {
-          var optionLabel = item.kind === 5 ? 'مرحلهٔ ' + F(i + 1) : M(opt.tex);
-          return '<button type="button" class="btn e01-answer' + (frozen ? (opt.ok ? ' e01-right' : given === i ? ' e01-wrong' : '') : '') + '" data-final-choice="' + i + '" ' + (frozen ? 'disabled' : '') + '>' + optionLabel + '</button>';
-        }).join('') + '</div>';
-        return '<div class="e01-progress stg" aria-label="پیشرفت تمرین">' + s.q.map(function (q, i) { return '<span class="' + (i === s.pos ? 'cu' : s.answers[i] === null ? '' : s.answers[i] === s.q[i].x ? 'dn' : 'wr') + '" aria-label="سؤال ' + F(i + 1) + '">' + F(i + 1) + '</span>'; }).join('') + '</div>' +
-          '<p class="ask e01-question">' + instruction + '</p>' + tracePanel + body +
-          (frozen ? fbx(given === item.x, '', item.why) : '') +
-          '<div class="e01-navigation"><button type="button" class="btn" data-prev ' + (s.pos === 0 ? 'disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-next ' + (!frozen ? 'disabled' : '') + ' data-scroll>' + (s.pos === 5 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی') + '</button></div>';
-      }
       function finalBind() {
-        var root = document.getElementById('e02-final'); if (!root) return; var state = finalSet();
-        function paint() { root.innerHTML = finalRender(state); }
-        function scroll() { if (window.requestAnimationFrame) { window.requestAnimationFrame(function () { var p = root.querySelector('.e01-progress') || root.querySelector('.e01-result'); if (p && p.scrollIntoView) p.scrollIntoView({ block: 'nearest', behavior: 'auto' }); }); } }
-        root.addEventListener('click', function (e) {
-          var b = e.target.closest('button'); if (!b || b.disabled) return;
-          if (b.hasAttribute('data-final-choice')) { if (state.answers[state.pos] === null) { state.answers[state.pos] = Number(b.dataset.finalChoice); paint(); } return; }
-          if (b.hasAttribute('data-prev')) { state.pos--; paint(); scroll(); }
-          if (b.hasAttribute('data-next')) { if (state.pos < 5) state.pos++; else { state.finished = true; state.review = false; } paint(); scroll(); }
-          if (b.hasAttribute('data-review')) { state.review = true; state.pos = 0; paint(); scroll(); }
-          if (b.hasAttribute('data-final-new')) { state = finalSet(); paint(); scroll(); }
-        }); paint();
+        var root = document.getElementById('e02-final'), order = []; if (!root) return;
+        H.final(root, [0, 1, 2, 3, 4, 5].map(function (i) {
+          return function () {
+            var item, instruction, trace;
+            if (i === 0) { order = shuffle([0, 1, 2, 3, 4, 5]); }
+            item = makeFinal(order[i]);
+            instruction = item.kind === 5 ? 'دانش‌آموزی معادلهٔ ' + H.M(item.solution[0]) + ' را مرحله‌به‌مرحله حل کرده است. نخستین مرحلهٔ نادرست کدام است؟' :
+              item.kind === 2 ? 'در معادلهٔ ' + H.M(item.tex) + '، کدام گام جملهٔ ثابت را درست حذف می‌کند؟' :
+                item.kind === 4 ? 'ساده‌سازی درستِ طرف چپ معادلهٔ ' + H.M(item.tex) + ' کدام است؟' :
+                  'مقدار مجهول را در معادلهٔ <span class="e02-inline-equation">' + H.M(item.tex) + '</span> پیدا کن.';
+            trace = item.kind === 5 ? '<ol class="e02-final-worked-steps steps" aria-label="مراحل حل نوشته‌شده">' + item.solution.map(function (line) { return '<li>' + H.M(line) + '</li>'; }).join('') + '</ol>' : '';
+            return { ask: instruction, fig: trace, opts: item.options.map(function (opt, k) { return { h: item.kind === 5 ? 'مرحلهٔ ' + F(k + 1) : H.M(opt.tex), ok: opt.ok }; }), expl: function () { return item.why; } };
+          };
+        }));
       }
       /* Fraction Workshop — independent, three-stage exploration; all problems generated. */
       var fractionLevelNames = ['کسر ساده', 'ضریب کسری', 'صورتِ چندجمله‌ای'];

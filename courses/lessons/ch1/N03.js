@@ -46,7 +46,7 @@ window.LESSONS.N03 = {
         '.n3-longdiv{display:inline-grid;grid-template-columns:auto auto;direction:ltr;align-items:start;margin:4px auto 0;font-size:1.25em}.n3-longdiv .lhs{display:grid;grid-template-rows:auto auto auto;justify-items:center;min-width:78px}.n3-longdiv .top,.n3-longdiv .sub,.n3-longdiv .rem{padding:2px 10px;min-width:72px;text-align:center}.n3-longdiv .sub{border-bottom:2px solid var(--ink)}.n3-longdiv .rhs{display:grid;grid-template-rows:auto auto;min-width:44px}.n3-longdiv .divisor{display:grid;place-items:center;min-height:30px;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:0 10px}.n3-longdiv .quot{display:grid;place-items:center;min-height:30px;border-left:2px solid var(--ink);padding:0 10px}.n3-longdiv .katex{font-size:1em}',
         '.n3-place-den .btn{border:2px solid #162947;border-radius:11px;box-shadow:3px 4px 0 #162947;background:#fff;font-weight:700;min-width:63px}.n3-place-den .btn:active{box-shadow:1px 1px 0 #162947;transform:translate(2px,3px)}.n3-place-answer{display:flex!important;grid-template-columns:none!important;justify-content:center!important;align-items:center;gap:4px!important;max-width:none!important;direction:rtl}.n3-place-answer .n3-in{grid-column:auto;margin:0}.n3-pm-controls{display:flex;flex-direction:column;align-items:center;gap:8px;margin:12px auto;width:min(100%,290px)}.n3-pm-entry{display:flex;direction:ltr;align-items:center;gap:8px;width:100%}.n3-pm-entry{align-items:stretch}.n3-pm-entry .numgrp{flex:1 1 auto;min-width:0;width:auto}.n3-pm-entry .n3-in{flex:1 1 auto;width:auto;min-width:0;height:44px;box-sizing:border-box}.n3-pm-controls>[data-go]{width:100%}.n3-pm-rnd{display:grid;place-items:center;color:#fff!important;background:#19a7a0!important;min-width:44px;height:auto;min-height:44px;padding:0;border-radius:9px;font-size:1rem;line-height:1}.n3-pm-rnd svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}',
         '.n3-actions-44{display:flex;direction:rtl;justify-content:center;gap:8px;flex-wrap:nowrap}.n3-actions-44 .btn{font-size:.9rem}',
-        '.opts.n3-seqnav{display:flex;direction:rtl!important;justify-content:space-between!important;gap:12px;flex-wrap: nowrap}.opts.n3-seqnav [data-p]{order:0}.opts.n3-seqnav [data-nx]{order:1}.n3-dv .b{border-bottom:2px solid var(--ink)}.tipg{cursor:pointer}.tipg:hover rect{fill:#f3f6fa}.trifig.n3-compact,.n3-tiplist{display:none!important}.n3-tipbtn{min-height:44px;border:2px solid;border-radius:12px;background:#fff;font:inherit;font-weight:700;font-size:.85rem;padding:4px 4px;white-space:nowrap}.n3-tipbtn .n3-i{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-size:.78rem;font-style:italic}@media(max-width:560px){.trifig.n3-wide{display:none!important}.trifig.n3-compact{display:block!important}.n3-tiplist{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:8px 0}.n3-tipbtn{padding:4px 2px;font-size:.82rem}}'
+        '.n3-dv .b{border-bottom:2px solid var(--ink)}.tipg{cursor:pointer}.tipg:hover rect{fill:#f3f6fa}.trifig.n3-compact,.n3-tiplist{display:none!important}.n3-tipbtn{min-height:44px;border:2px solid;border-radius:12px;background:#fff;font:inherit;font-weight:700;font-size:.85rem;padding:4px 4px;white-space:nowrap}.n3-tipbtn .n3-i{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-size:.78rem;font-style:italic}@media(max-width:560px){.trifig.n3-wide{display:none!important}.trifig.n3-compact{display:block!important}.n3-tiplist{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:8px 0}.n3-tipbtn{padding:4px 2px;font-size:.82rem}}'
       ].join('\n');
       document.head.appendChild(st);
     }
@@ -381,39 +381,18 @@ window.LESSONS.N03 = {
     }
 
     /* ---------- آزمون سؤال‌به‌سؤال: «سؤال n از m»، قبلی/بعدی، نتیجه و مجموعهٔ جدید ---------- */
-    function seq(host, build) {
-      var qs, i, ans;
-      function start() { qs = build(); i = 0; ans = []; }
-      function paint() {
-        var n = qs.length, q = qs[i], a = ans[i], h, oh = '', s;
-        if (i === n) {
-          s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
-          host.innerHTML = rr(K.res(s, n) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
-          return;
-        }
-        h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.tex ? K.dm(q.tex) : '') + '<div class="mc" id="mcx"></div>';
-        q.opts.forEach(function (o, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (o.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + o.h + '</button>'; });
-        if (a !== undefined) { var o = q.opts[a]; h += fb(o.ok, o.ok ? 'درست است! ✓' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl + '</div>'; }
-        h += '<div class="opts n3-seqnav"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h); host.querySelector('#mcx').innerHTML = rr(oh);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o) { ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); }
-        else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { start(); paint(); }
-      });
-      start(); paint();
-    }
 
     /* ============ ۴) شکار خطا ============ */
     K.errHunt = function (host) {
-      seq(host, function () {
-        var flags = shuffle(Math.random() < 0.5 ? [true, true, false, false, false] : [true, true, true, false, false]), types = shuffle([0, 1, 2, 3, 4, 5]).slice(0, 5);
-        return flags.map(function (ok, k) {
-          var it = mkItem(types[k], ok);
-          return { ask: 'این برابری درست است یا نادرست؟', tex: it.tex, expl: it.why, opts: [{ h: 'درست', ok: ok, m: 'این برابری نادرست است.' }, { h: 'نادرست', ok: !ok, m: 'این برابری درست است.' }] };
-        });
-      });
+      var plan;
+      H.final(host, [0, 1, 2, 3, 4].map(function (k) {
+        return function () {
+          var it, ok;
+          if (k === 0) { plan = { flags: shuffle(Math.random() < 0.5 ? [true, true, false, false, false] : [true, true, true, false, false]), types: shuffle([0, 1, 2, 3, 4, 5]).slice(0, 5) }; }
+          ok = plan.flags[k]; it = mkItem(plan.types[k], ok);
+          return H.fixQ({ ask: 'این برابری درست است یا نادرست؟', fig: K.dm(it.tex), expl: function () { return it.why; }, opts: [{ h: 'درست', ok: ok, m: 'این برابری نادرست است.' }, { h: 'نادرست', ok: !ok, m: 'این برابری درست است.' }] });
+        };
+      }));
     };
 
     /* ============ ۵) پایان‌پذیر یا متناوب؟ — بازی دسته‌بندی: کارت را بردار، در سینی بگذار ============ */

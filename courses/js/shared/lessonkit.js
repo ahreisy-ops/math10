@@ -14,7 +14,10 @@
     '.lk-card{padding:6px 12px;border:2px solid var(--ink);border-radius:12px;background:#fff;cursor:pointer;font:inherit;min-width:6em}',
     '.lk-card.sel{background:var(--mark);box-shadow:3px 3px 0 var(--ink)}.lk-card.done{background:#d9f2e3;border-color:green;cursor:default}',
     '.lk-vn{display:block;margin:6px auto;width:100%;max-width:480px;font-family:inherit;direction:ltr}.lk-vn .vr{cursor:pointer}',
-    '.lk-dots{display:flex;gap:5px;justify-content:center;direction:ltr;margin:6px 0}.lk-dots i{width:12px;height:12px;border-radius:50%;background:#d6dce4}.lk-dots i.ok{background:green}.lk-dots i.no{background:crimson}.lk-dots i.cu{outline:2px solid var(--ink)}'
+    '.lk-dots{display:flex;gap:5px;justify-content:center;direction:ltr;margin:6px 0}.lk-dots i{width:12px;height:12px;border-radius:50%;background:#d6dce4}.lk-dots i.ok{background:green}.lk-dots i.no{background:crimson}.lk-dots i.cu{outline:2px solid var(--ink)}',
+    '.lk-numrow{display:flex;gap:10px;align-items:center;justify-content:center;margin:10px 0;direction:ltr}.lk-numrow .numin{width:88px;max-width:105px;min-height:42px}',
+    '.lk-mrow{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:8px 0;padding:6px 10px;border:2px solid var(--ink);border-radius:12px;background:#fff}.lk-mrow select{font:inherit;min-height:38px;max-width:55%}.lk-mrow.right{background:#d2f0e9;border-color:var(--accent)}.lk-mrow.wrong{background:#fbd5d5;border-color:#b23a3a}',
+    '.mc .opt.sel{background:var(--mark);box-shadow:2px 2px 0 var(--ink)}',
   ].join('\n');
 
   K0.lk = function (K) {
@@ -27,7 +30,7 @@
       M: function (s) { return '$' + s + '$'; },
       fixQ: function (q) {   // اعمال fix روی همهٔ متن‌های یک سؤال H.final (ممیز و درصد فارسی)
         var e = q.expl; q.ask = fix(q.ask); if (q.fig) { q.fig = fix(q.fig); } if (q.cq) { q.cq = fix(q.cq); }
-        q.opts.forEach(function (o) { o.h = fix(o.h); if (o.m) { o.m = fix(o.m); } });
+        (q.opts || []).forEach(function (o) { o.h = fix(o.h); if (o.m) { o.m = fix(o.m); } });
         q.expl = function () { return fix(typeof e === 'function' ? e() : e); }; return q;
       },
       W: function (h) { return '<div class="dm wf">' + h + '</div>'; },
@@ -127,30 +130,70 @@
 
     /* ---------- نمودار ون: دو مجموعه در مجموعهٔ مرجع. نواحی: o بیرون، a فقط A، ab اشتراک، b فقط B ----------
        o: {A, B, U, fill:{o,a,ab,b}, reg:true (ناحیه‌ها کلیک‌پذیر), tok:function(x,region)->{bg,fg}, names:['A','B']} */
-    /* ---------- آزمون پایانی: سؤال‌های چندگزینه‌ایِ تصادفی، با قبلی/بعدی و مرور ----------
-       gens: آرایه‌ای از تابع‌ها؛ هر تابع یک سؤال می‌دهد: {ask, fig?, cq?, cls?, raw?, opts:[{h,ok,m}], expl()}
+    /* ---------- آزمون پایانی: سؤال‌های تصادفی، با قبلی/بعدی و مرور ----------
+       gens: آرایه‌ای از تابع‌ها؛ هر تابع یک سؤال می‌دهد: {ask, fig?, cq?, cls?, raw?, type?, expl() أو why (متن آماده)}
+       type پیش‌فرض چندگزینه‌ای است: opts:[{h,ok,m}]
+       type:'multi'  چندانتخابی: opts:[{h,ok}] (همهٔ گزینه‌های درست باید انتخاب شوند)
+       type:'num'    پاسخ عددی: ans (عدد)، lbl (برچسب TeX، پیش‌فرض x=)، show? / wrongText(a)? برای پیام پاسخ درست
+       type:'match'  تطبیقی: left:[html]، گزینه‌ها یا مشترک (right:[html]) یا جدا برای هر ردیف (rows:[{opts:[{t}]}])، key:[شمارهٔ گزینهٔ درست هر ردیف]
+       type:'custom' نوع دلخواه (مثلاً انتخاب نقطه روی صفحه): body(a, sel)→html، hit(e)→انتخاب یا null، grade(sel)→{ok,...}، bad(a)→پیام
        raw: اگر true باشد گزینه‌ها آمادهٔ نمایش‌اند و از rr0 رد نمی‌شوند (مثلاً کسرهای ساخته‌شده با fh)
        after (اختیاری): تابعی که پس از رسم هر سؤال با host صدا زده می‌شود (مثلاً برای تنظیم اندازهٔ شکل‌ها) */
     H.final = function (host, gens, after) {
-      var qs, i, ans;
-      function build() { qs = gens.map(function (g) { return g(); }); i = 0; ans = []; }
+      var qs, i, ans, res, sel;
+      function build() { qs = gens.map(function (g) { return g(); }); i = 0; ans = []; res = []; sel = {}; }
+      function parseNum(v) { v = (v || '').replace(/[۰-۹]/g, function (d) { return d.charCodeAt(0) - 1776; }).replace(/[٫,،]/g, '.').replace(/[−–—]/g, '-').replace(/\s/g, ''); return /^-?\d+(\.\d+)?$/.test(v) ? +v : null; }
+      function ready(q) {
+        var c = sel[i] || [];
+        if (q.type === 'multi') { return c.length > 0; }
+        if (q.type === 'custom') { return !!sel[i]; }
+        if (q.type === 'match') { return c.filter(function (v) { return v !== undefined && v !== null; }).length === q.left.length && c.length === q.left.length; }
+        var f = host.querySelector('.lk-num'); return !!f && parseNum(f.value) !== null;
+      }
+      function grade() {
+        var q = qs[i], c, f, v;
+        if (q.type === 'multi') { c = (sel[i] || []).slice().sort(function (x, y) { return x - y; }); ans[i] = c; res[i] = JSON.stringify(c) === JSON.stringify(q.opts.map(function (op, k) { return op.ok ? k : -1; }).filter(function (k) { return k >= 0; })); }
+        else if (q.type === 'num') { f = host.querySelector('.lk-num'); v = parseNum(f.value); if (v === null) { f.focus(); return false; } ans[i] = v; res[i] = Math.abs(v - q.ans) < 1e-9; }
+        else if (q.type === 'custom') { ans[i] = q.grade(sel[i]); res[i] = !!ans[i].ok; sel[i] = undefined; }
+        else if (q.type === 'match') { c = (sel[i] || []).slice(); ans[i] = c; res[i] = q.key.every(function (kk, r) { return c[r] === kk; }); }
+        return true;
+      }
       function paint() {
-        var q = qs[i], a = ans[i], h, oh = '', s, o, N = qs.length;
+        var q = qs[i], a = ans[i], h, oh = '', s, o, N = qs.length, ty = q ? q.type || 'mc' : 'mc', done = a !== undefined, cur, msg, pre = '';
         if (i === N) {
-          s = ans.filter(function (x, k) { return qs[k].opts[x].ok; }).length;
+          s = res.filter(function (x) { return x; }).length;
           host.innerHTML = rr0(K0.res(s, N) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return;
         }
-        h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (ans[k] !== undefined ? (qs[k].opts[ans[k]].ok ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + '<div class="mc ' + (q.cls || 'm2') + '" id="mcx"></div>';
-        q.opts.forEach(function (op, k) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (a !== undefined ? ' disabled' : '') + '>' + op.h + '</button>'; });
-        if (a !== undefined) { o = q.opts[a]; h += fb(o.ok, o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.')) + '<div class="ex">' + q.expl() + '</div>'; }
-        h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1"' + (a === undefined ? ' disabled' : '') + ' data-scroll>' + (i === N - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
+        h = '<div class="stg">' + qs.map(function (x, k) { return '<span class="' + (res[k] !== undefined ? (res[k] ? 'dn' : 'wr') : k === i ? 'cu' : '') + '">' + fa(k + 1) + '</span>'; }).join('') + '</div><p class="ask">' + q.ask + '</p>' + (q.fig || '') + (q.cq ? '<div class="cq">' + q.cq + '</div>' : '') + (ty === 'mc' || ty === 'multi' ? '<div class="mc ' + (q.cls || 'm2') + '" id="mcx"></div>' : '<div class="lk-body" id="mcx"></div>');
+        cur = done ? a : (ty === 'custom' ? sel[i] : (sel[i] || []));
+        if (ty === 'mc') { q.opts.forEach(function (op, k) { oh += '<button type="button" class="btn opt' + (done ? (op.ok ? ' right' : k === a ? ' wrong' : '') : '') + '" data-o="' + k + '"' + (done ? ' disabled' : '') + '>' + op.h + '</button>'; }); }
+        else if (ty === 'multi') { q.opts.forEach(function (op, k) { var on = cur.indexOf(k) > -1; oh += '<button type="button" class="btn opt' + (done ? (op.ok ? ' right' : on ? ' wrong' : '') : on ? ' sel' : '') + '" data-t="' + k + '"' + (done ? ' disabled' : '') + '>' + op.h + '</button>'; }); }
+        else if (ty === 'custom') { oh = q.body(a, cur); }
+        else if (ty === 'num') { oh = '<div class="lk-numrow"><span class="lbl">' + H.M(q.lbl || 'x=') + '</span><input class="numin lk-num" type="text" inputmode="decimal" autocomplete="off" aria-label="پاسخ"' + (done ? ' disabled value="' + (a < 0 ? '−' : '') + fa(Math.abs(a)) + '"' : '') + '></div>'; }
+        else { oh = q.left.map(function (l, r) { return '<div class="lk-mrow' + (done ? (a[r] === q.key[r] ? ' right' : ' wrong') : '') + '"><span class="l">' + l + '</span><select data-row="' + r + '"' + (done ? ' disabled' : '') + '><option value="">انتخاب کن…</option>' + (q.rows ? q.rows[r].opts.map(function (rt) { return rt.t; }) : q.right).map(function (rt, k) { return '<option value="' + k + '"' + (cur[r] === k ? ' selected' : '') + '>' + rt + '</option>'; }).join('') + '</select></div>'; }).join(''); }
+        if (done) {
+          if (ty === 'mc') { o = q.opts[a]; msg = o.ok ? '✓ درست است!' : (o.m || 'این گزینه درست نیست.'); }
+          else if (ty === 'custom') { msg = res[i] ? '✓ درست است!' : (q.bad ? q.bad(a) : 'این پاسخ درست نیست.'); }
+          else { msg = res[i] ? '✓ درست است!' : 'پاسخ درست نیست.'; if (!res[i] && (ty === 'num' || ty === 'match')) { pre = (q.wrongText ? q.wrongText(a) : 'پاسخ درست: ' + (q.show || '') + '.') + ' '; } }
+          h += fb(ty === 'mc' ? o.ok : res[i], msg) + '<div class="ex">' + pre + (q.expl ? q.expl() : q.why) + '</div>';
+        }
+        h += '<div class="opts"><button type="button" class="btn" data-p="1"' + (i ? '' : ' disabled') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" ' + (!done && ty !== 'mc' ? 'data-ck="1"' : 'data-nx="1"') + (!done && (ty === 'mc' || !ready(q)) ? ' disabled' : '') + ' data-scroll>' + (!done && ty !== 'mc' ? 'بررسی' : (i === N - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی')) + '</button></div>';
         host.innerHTML = rr0(h); host.querySelector('#mcx').innerHTML = q.raw ? oh : rr0(oh);
         if (after) { after(host); }
       }
       host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o !== undefined) { if (ans[i] !== undefined) { return; } ans[i] = +b.dataset.o; paint(); } else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { build(); paint(); }
-      }); build(); paint();
+        var b, c, ix, t, hit;
+        if (qs[i] && qs[i].type === 'custom' && ans[i] === undefined && qs[i].hit) { hit = qs[i].hit(e); if (hit) { sel[i] = hit; paint(); return; } }
+        b = e.target.closest('button'); if (!b || b.disabled) { return; }
+        if (b.dataset.o !== undefined) { if (ans[i] !== undefined) { return; } ans[i] = +b.dataset.o; res[i] = !!qs[i].opts[ans[i]].ok; paint(); }
+        else if (b.dataset.t !== undefined) { t = +b.dataset.t; c = (sel[i] || []).slice(); ix = c.indexOf(t); if (ix > -1) { c.splice(ix, 1); } else { c.push(t); } sel[i] = c; paint(); }
+        else if (b.dataset.ck) { if (grade()) { paint(); } }
+        else if (b.dataset.nx) { i++; paint(); } else if (b.dataset.p) { i--; paint(); } else if (b.dataset.pv) { i = 0; paint(); } else if (b.dataset.r) { build(); paint(); }
+      });
+      host.addEventListener('change', function (e) { var s = e.target.closest('select[data-row]'), c; if (!s) { return; } c = (sel[i] || []).slice(); c[+s.dataset.row] = s.value === '' ? undefined : +s.value; sel[i] = c; paint(); });
+      host.addEventListener('input', function (e) { var nb; if (!e.target.classList.contains('lk-num')) { return; } nb = host.querySelector('[data-ck]'); if (nb) { nb.disabled = parseNum(e.target.value) === null; } });
+      host.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.classList.contains('lk-num')) { e.preventDefault(); if (ans[i] === undefined) { if (grade()) { paint(); } } } });
+      build(); paint();
     };
     /* ---------- درست یا نادرست؟ شش جمله از مجموعهٔ سؤال‌ها ----------
        pool: [{h(html), ok(1/0), e(html), fig?}]؛ after مثل H.final اختیاری است */

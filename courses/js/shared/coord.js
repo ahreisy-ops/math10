@@ -161,46 +161,30 @@
       paint();
     };
 
-    /* ---------- آزمون سؤال‌به‌سؤال: سؤال‌های mcq و pick (انتخاب نقطه روی صفحه) ----------
-       q = {kind:'mcq'|'pick', ask, fig, tex, opts:[{h,ok,m}] | plane:{...}, ans:[x,y], bad:function(sel)->پیام, expl} */
-    C.quiz = function (host, build, resText) {
-      var qs, i, ans, sel;
-      function start() { qs = build(); i = 0; ans = []; sel = null; }
-      function good(k) { var a = ans[k]; return a === undefined ? null : qs[k].kind === 'pick' ? a.ok : qs[k].opts[a].ok; }
-      function paint() {
-        var n = qs.length, q = qs[i], a = ans[i], h, oh = '', s = 0, k;
-        if (i === n) {
-          for (k = 0; k < n; k++) { if (good(k)) { s++; } }
-          host.innerHTML = rr(K.res(s, n) + '<div class="end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>');
-          return;
-        }
-        h = '<div class="stg">' + qs.map(function (x, k2) { var g = good(k2); return '<span class="' + (g === null ? (k2 === i ? 'cu' : '') : g ? 'dn' : 'wr') + '">' + fa(k2 + 1) + '</span>'; }).join('') + '</div><p class="ask"><b>' + q.ask + '</b></p>' + (q.fig || '') + (q.tex ? K.dm(q.tex) : '');
-        if (q.kind === 'pick') {
-          var po = Object.assign({}, q.plane);
-          if (a === undefined) { po.pick = true; po.sel = sel; }
-          else { po.pts = (po.pts || []).concat(q.ans ? [{ x: q.ans[0], y: q.ans[1], c: GREEN, r: 7, ring: true }] : []); if (!a.ok) { po.pts.push({ x: a.x, y: a.y, c: RED, r: 6 }); } else if (!q.ans) { po.pts.push({ x: a.x, y: a.y, c: GREEN, r: 7, ring: true }); } }
-          h += C.plane(po);
-        } else {
-          oh = ''; q.opts.forEach(function (o, k2) { oh += '<button type="button" class="btn opt' + (a !== undefined ? (o.ok ? ' right' : k2 === a ? ' wrong' : '') : '') + '" data-o="' + k2 + '"' + (a !== undefined ? ' disabled' : '') + '><span class="cd-ot">' + o.h + '</span></button>'; });
-          h += '<div class="mc" id="mcx"></div>';
-        }
-        if (a !== undefined) {
-          var ok = good(i), msg = ok ? 'درست است! ✓' : q.kind === 'pick' ? (q.bad ? q.bad(a) : 'این نقطه درست نیست.') : (q.opts[a].m || 'این گزینه درست نیست.');
-          h += fb(ok, msg) + '<div class="ex">' + q.expl + '</div>';
-        }
-        var chk = q.kind === 'pick' && a === undefined; h += '<div class="end-actions"><button type="button" class="btn" data-p="1" data-scroll' + (i ? '' : ' disabled') + '>سؤال قبلی</button><button type="button" class="btn primary" data-nx="1" data-scroll' + (chk ? (sel ? '' : ' disabled') : (a === undefined ? ' disabled' : '')) + '>' + (chk ? 'بررسی' : i === n - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h); if (q.kind !== 'pick') { host.querySelector('#mcx').innerHTML = rr(oh); }
+    /* ---------- آزمون پایانی فصل ۴: سازگارکنندهٔ سؤال‌های mcq و pick با H.final ----------
+       q = {kind:'mcq'|'pick', ask, fig, tex, opts:[{h,ok,m}] | plane:{...}, ans:[x,y] یا test(x,y), bad:function(sel)->پیام, expl} */
+    function toFinalQ(q) {
+      var o = { ask: q.ask, fig: (q.fig || '') + (q.tex ? K.dm(q.tex) : ''), expl: function () { return q.expl; } };
+      if (q.kind !== 'pick') {
+        o.cls = ''; o.opts = q.opts.map(function (x) { return { h: '<span class="cd-ot">' + x.h + '</span>', ok: x.ok, m: x.m }; });
+        return H.fixQ(o);
       }
-      host.addEventListener('click', function (e) {
-        var t = C.hit(e);
-        if (t && qs[i] && qs[i].kind === 'pick' && ans[i] === undefined) { sel = [t.x, t.y]; paint(); return; }
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o) { ans[i] = +b.dataset.o; paint(); }
-        else if ((b.dataset.ck || (b.dataset.nx && qs[i].kind === 'pick' && ans[i] === undefined)) && sel) { ans[i] = { x: sel[0], y: sel[1], ok: qs[i].test ? !!qs[i].test(sel[0], sel[1]) : sel[0] === qs[i].ans[0] && sel[1] === qs[i].ans[1] }; sel = null; paint(); }
-        else if (b.dataset.nx) { i++; sel = null; paint(); } else if (b.dataset.p) { i--; sel = null; paint(); }
-        else if (b.dataset.pv) { i = 0; sel = null; paint(); } else if (b.dataset.r) { start(); paint(); }
-      });
-      start(); paint();
+      o.type = 'custom'; o.raw = true; o.bad = q.bad;
+      o.hit = function (e) { return C.hit(e); };
+      o.grade = function (s) { return { x: s.x, y: s.y, ok: q.test ? !!q.test(s.x, s.y) : s.x === q.ans[0] && s.y === q.ans[1] }; };
+      o.body = function (a, sel) {
+        var po = Object.assign({}, q.plane);
+        if (a === undefined) { po.pick = true; po.sel = sel ? [sel.x, sel.y] : null; }
+        else { po.pts = (po.pts || []).concat(q.ans ? [{ x: q.ans[0], y: q.ans[1], c: GREEN, r: 7, ring: true }] : []); if (!a.ok) { po.pts.push({ x: a.x, y: a.y, c: RED, r: 6 }); } else if (!q.ans) { po.pts.push({ x: a.x, y: a.y, c: GREEN, r: 7, ring: true }); } }
+        return C.plane(po);
+      };
+      return H.fixQ(o);
+    }
+    C.quiz = function (host, build) {
+      var cur = build();
+      H.final(host, cur.map(function (v, k) {
+        return function () { if (k === 0 && cur === null) { cur = build(); } var q = cur[k]; if (k === cur.length - 1) { cur = null; } return toFinalQ(q); };
+      }));
     };
 
     /* ---------- موتور مشترک بازی‌های سؤال‌به‌سؤال (نوار شماره‌دار، قبلی/بعدی، نتیجهٔ استاندارد، مرور) ----------

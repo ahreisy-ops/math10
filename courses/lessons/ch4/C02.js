@@ -295,8 +295,7 @@ window.LESSONS.C02 = {
           expl: '<p>فاصله تا محور ' + M('y') + ' یعنی ' + M('|x|=' + a) + ' و فاصله تا محور ' + M('x') + ' یعنی ' + M('|y|=' + b) + '. در ' + RE(k) + ' علامت‌ها ' + C.signs(sx, sy) + ' است؛ پس ' + C.pt(sx * a, sy * b) + '.</p>'
         };
       }
-      C.quiz(host, function () { return [qRead, qPlot, qAxis, qOrder, qDist, qFind].map(function (f) { var q, t = 0; do { q = f(); } while (q.opts && C.distinct(q.opts, function (x) { return x.h; }).length < q.opts.length && t++ < 40); if (q.opts) { q.opts = shuffle(q.opts.slice()); } return q; }); },
-        function (s) { return s === 6 ? 'عالی! همهٔ سؤال‌ها درست بود.' : s >= 4 ? 'خوب بود. سؤال‌هایی را که اشتباه کردی دوباره مرور کن.' : 'یک بار دیگر درس را مرور کن و با سؤال‌های جدید امتحان کن.'; });
+      C.quiz(host, function () { return [qRead, qPlot, qAxis, qOrder, qDist, qFind].map(function (f) { var q, t = 0; do { q = f(); } while (q.opts && C.distinct(q.opts, function (x) { return x.h; }).length < q.opts.length && t++ < 40); if (q.opts) { q.opts = shuffle(q.opts.slice()); } return q; }); });
     };
 
     var TIP_ORD = '<p>به این زوج «مرتب» می‌گوییم چون <b>ترتیب</b> نوشتن عددها مهم است. ' + M('(3,2)') + ' یعنی ۳ واحد افقی و ۲ واحد عمودی، ولی ' + M('(2,3)') + ' یعنی ۲ واحد افقی و ۳ واحد عمودی؛ دو نقطهٔ متفاوت.</p><p>مجموعهٔ ' + M('\\{3,2\\}') + ' و ' + M('\\{2,3\\}') + ' یکی بودند، اما زوج‌مرتب‌ها یکی نیستند.</p>';

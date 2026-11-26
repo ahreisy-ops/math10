@@ -34,12 +34,6 @@
   font-size: 1rem
 }
 
-/* N01: previous right, next left in RTL (HTML order follows reading direction). */
-.n01-final-nav {
-  direction: rtl !important;
-  justify-content: space-between !important;
-}
-
 /* N06–N10 scoped visual harmonization; excludes info icons and compact controls. */
 .standard-n6-10 .mc .opt {
   min-height: 44px;
@@ -129,13 +123,6 @@
   .standard-n6-10 .opts:has(> [data-p="1"]):has(> [data-nx="1"]) {
     flex-wrap: wrap;
   }
-}
-
-/* N03: final-exam navigation matches the shared navigation button sizing. */
-.n3-w .opts.n3-seqnav>.btn {
-  min-height: 38px;
-  padding: 5px 12px;
-  min-width: 112px
 }
 
 #n3b .scw.dm .scan.n3-scan .rl i {

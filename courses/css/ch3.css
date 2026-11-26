@@ -636,24 +636,6 @@
   font-size: .95rem
 }
 
-.e01-final .e01-progress {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  direction: rtl;
-  margin: 9px 0 16px
-}
-
-.e01-final .e01-progress span {
-  cursor: default;
-  pointer-events: none;
-  user-select: none;
-  font-size: .88rem;
-  min-width: 37px;
-  text-align: center
-}
-
 .e01-question {
   font-size: 1rem !important;
   font-weight: 700 !important;
@@ -5123,46 +5105,6 @@
   direction: ltr
 }
 
-.e3-match-row {
-  display: flex;
-  direction: rtl;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin: 7px 0;
-  padding: 6px 10px;
-  border: 1.5px solid var(--line);
-  border-radius: 10px;
-  background: #fff
-}
-
-.e3-match-row .l {
-  direction: ltr;
-  font-size: 1.1rem
-}
-
-.e3-match-row select {
-  min-height: 38px;
-  border: 2px solid var(--line);
-  border-radius: 9px;
-  padding: 2px 8px;
-  font: inherit;
-  direction: ltr;
-  background: #fff;
-  color: var(--ink);
-  max-width: 62%
-}
-
-.e3-match-row.right {
-  background: #d2f0e9;
-  border-color: #438b6c
-}
-
-.e3-match-row.wrong {
-  background: #fbd5d5;
-  border-color: #b23a3a
-}
-
 .e3-numrow {
   display: flex;
   flex-wrap: wrap;
@@ -5634,16 +5576,25 @@
   align-items: center
 }
 
+
+
 .e3x .e4-sw>.e4-sa,
 .e3x .e4-sw>.e4-sb,
 .e3x .e4-ros-st>b {
   grid-area: 1 / 1;
-  animation: e4-flip-a 5s ease-in-out infinite
+  animation: e4-flip-a 14s step-end infinite both
 }
 
-.e3x .e4-sw>.e4-sb,
-.e3x .e4-ros-st>.e4-sb {
+.e3x .e4-sw>.e4-sb {
   animation-name: e4-flip-b
+}
+
+.e3x .e4-ros-st>b {
+  animation-name: e4-hd-a
+}
+
+.e3x .e4-ros-st>.e4-sb {
+  animation-name: e4-hd-b
 }
 
 .e3x .e4-ros-st {
@@ -5659,58 +5610,7 @@
 }
 
 .e3x .e4-flipc {
-  animation: e4-flip-fill 5s ease-in-out infinite
-}
-
-@keyframes e4-flip-a {
-
-  0%,
-  42% {
-    opacity: 1
-  }
-
-  52%,
-  92% {
-    opacity: 0
-  }
-
-  100% {
-    opacity: 1
-  }
-}
-
-@keyframes e4-flip-b {
-
-  0%,
-  42% {
-    opacity: 0
-  }
-
-  52%,
-  92% {
-    opacity: 1
-  }
-
-  100% {
-    opacity: 0
-  }
-}
-
-@keyframes e4-flip-fill {
-
-  0%,
-  42% {
-    fill: #0e8f7e
-  }
-
-  52%,
-  92% {
-    fill: #fff
-  }
-
-  100% {
-    fill: #0e8f7e
-  }
+  animation: e4-flip-fill 14s step-end infinite both
 }
 
 /* کاهش حرکت: همان جابه‌جایی، ولی بی‌محو‌شدن و آهسته‌تر (هر چند ثانیه یک‌بار) */
@@ -5720,7 +5620,7 @@
   .e3x .e4-sw>.e4-sb,
   .e3x .e4-ros-st>b,
   .e3x .e4-flipc {
-    animation-duration: 5s;
+    animation-duration: 14s;
     animation-timing-function: step-end
   }
 }
@@ -6211,12 +6111,6 @@
   line-height: 1.9
 }
 
-#e05-final .e3-match-row select,
-#e06-final .e3-match-row select {
-  direction: rtl;
-  text-align: right
-}
-
 #e05-final #fin-num::placeholder,
 #e06-roots #r-1::placeholder,
 #e06-roots #r-2::placeholder {
@@ -6254,17 +6148,6 @@
   }
 }
 
-/* سؤال وصل‌کردن: روی گوشی select زیر معادله می‌رود و از کادر بیرون نمی‌زند */
-.e3-match-row {
-  flex-wrap: wrap;
-}
-
-.e3-match-row select {
-  flex: 0 1 auto;
-  min-width: 0;
-  max-width: 100%;
-}
-
 @media (max-width:480px) {
   .e3-numrow {
     display: grid;
@@ -6287,16 +6170,16 @@
 }
 
 .e3x .e4-ros> :nth-child(11) {
-  --d: .45s;
+  --d: 1.6s;
 }
 
 .e3x .e4-ros> :nth-child(15) {
-  --d: .9s;
+  --d: 3.2s;
 }
 
 .e3x .e4-ros> :is(:nth-child(7), :nth-child(11), :nth-child(15)) {
   position: relative;
-  animation: e4-cell 5s ease-in-out infinite;
+  animation: e4-cell 14s ease-in-out infinite both;
   animation-delay: var(--d);
 }
 
@@ -6319,64 +6202,158 @@
   border-radius: 2px;
   background: #0e8f7e;
   opacity: .25;
-  animation: e4-wire 5s ease-in-out infinite;
-  animation-delay: calc(var(--d) - .3s);
+  animation: e4-wire 14s ease-in-out infinite both;
+  animation-delay: var(--d);
+}
+
+@keyframes e4-flip-a {
+  0% {
+    opacity: 1
+  }
+
+  19.29% {
+    opacity: 0
+  }
+
+  69.29% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
+@keyframes e4-flip-b {
+  0% {
+    opacity: 0
+  }
+
+  19.29% {
+    opacity: 1
+  }
+
+  69.29% {
+    opacity: 0
+  }
+
+  100% {
+    opacity: 0
+  }
+}
+
+@keyframes e4-hd-a {
+  0% {
+    opacity: 1
+  }
+
+  5.71% {
+    opacity: 0
+  }
+
+  55.71% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
+@keyframes e4-hd-b {
+  0% {
+    opacity: 0
+  }
+
+  5.71% {
+    opacity: 1
+  }
+
+  55.71% {
+    opacity: 0
+  }
+
+  100% {
+    opacity: 0
+  }
+}
+
+@keyframes e4-flip-fill {
+  0% {
+    fill: #0e8f7e
+  }
+
+  19.29% {
+    fill: #fff
+  }
+
+  69.29% {
+    fill: #0e8f7e
+  }
+
+  100% {
+    fill: #0e8f7e
+  }
 }
 
 @keyframes e4-cell {
 
   0%,
-  40% {
+  15% {
     background: #fff;
-    box-shadow: 0 0 0 0 transparent;
+    box-shadow: 0 0 0 0 transparent
   }
 
-  47% {
+  17.14%,
+  22.86% {
     background: #fdeef3;
-    box-shadow: 0 0 0 4px rgba(194, 51, 95, .35);
+    box-shadow: 0 0 0 4px rgba(194, 51, 95, .35)
   }
 
-  58%,
-  90% {
+  25.71%,
+  65% {
     background: #fff7fa;
-    box-shadow: 0 0 0 0 transparent;
+    box-shadow: 0 0 0 0 transparent
   }
 
-  96% {
+  67.14%,
+  72.86% {
     background: #e6f6f3;
-    box-shadow: 0 0 0 4px rgba(14, 143, 126, .35);
+    box-shadow: 0 0 0 4px rgba(14, 143, 126, .35)
   }
 
+  75.71%,
   100% {
     background: #fff;
-    box-shadow: 0 0 0 0 transparent;
+    box-shadow: 0 0 0 0 transparent
   }
 }
 
 @keyframes e4-wire {
 
   0%,
-  34% {
-    opacity: .25;
+  11.43% {
+    opacity: .25
   }
 
-  40%,
-  46% {
-    opacity: 1;
+  12.86%,
+  21.43% {
+    opacity: 1
   }
 
-  54%,
-  84% {
-    opacity: .25;
+  24.29%,
+  61.43% {
+    opacity: .25
   }
 
-  90%,
-  96% {
-    opacity: 1;
+  62.86%,
+  71.43% {
+    opacity: 1
   }
 
+  74.29%,
   100% {
-    opacity: .25;
+    opacity: .25
   }
 }
 

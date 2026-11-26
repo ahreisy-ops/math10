@@ -1,10 +1,10 @@
 /* درس مهارت E03 — حل نامعادلهٔ خطی و تغییر جهت علامت (فصل ۳) */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.E03 = {
-  needs: ['utils'],
+  needs: ['utils', 'kit'],
   setup: function (K0) {
     var ML = window.MathLite, F = ML.fa, rr = ML.renderRich, abs = Math.abs, _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
-    var M0 = _u.M, K = Object.create(K0), T = String.raw;
+    var M0 = _u.M, K = Object.create(K0), H = K0.lk(K), T = String.raw;
     var M = function (t) {
       t = String(t);
       if (!/\\text\{(یا|و)\}/.test(t)) { return M0(t); }
@@ -31,7 +31,6 @@ window.LESSONS.E03 = {
       return shuffle([list[0]].concat(w).map(function (z) { return { h: raw ? z.t : M(z.t), ok: !!z.ok, m: z.m || 'این گزینه درست نیست.' }; }));
     }
     function mark(ok, text) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + text + '</div>'; }
-    function fbx(ok, wrong, why) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + (ok ? '✓ پاسخ درست است.' : 'پاسخ درست نیست.') + '</div><div class="ex">' + (wrong ? wrong + ' ' : '') + why + '</div>'; }
     function activity(title, id, lead) { return '<h4 class="e02-activity-title">' + title + '</h4><p class="e02-activity-lead">' + lead + '</p><div class="e01-interaction e02-activity" id="' + id + '" data-activity><div data-stage></div></div>'; }
     function intro(kicker, p, route) { return '<div class="e01-intro"><span class="e01-kicker">' + kicker + '</span><p>' + p + '</p><div class="e01-route" aria-label="مسیر این درس">' + route.map(function (r) { return '<span>' + r + '</span>'; }).join('<i aria-hidden="true">←</i>') + '</div></div>'; }
     var REFRESH = '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.4-4.8L3 9"/><path d="M3 4v5h5"/><path d="M4 13a8 8 0 0 0 14.4 4.8L21 15"/><path d="M21 20v-5h-5"/></svg>';
@@ -84,33 +83,6 @@ window.LESSONS.E03 = {
 
     /* ---------- آزمون پایانی (فقط پرسش‌های چندگزینه‌ای؛ بدون دکمهٔ «ثبت پاسخ») ----------
        makers: آرایه‌ای از تابع‌ها؛ هر تابع {type:'mc', ask, fig?, opts:[{h,ok}], why} برمی‌گرداند */
-    K.final = function (root, makers) {
-      var s, N = makers.length;
-      function setup() { s = { q: makers.map(function (m) { return m(); }), pos: 0, ans: makers.map(function () { return null; }), res: makers.map(function () { return null; }), fin: false, review: false }; }
-      function paint() {
-        var h, it, a, frozen, body, sc;
-        if (s.fin && !s.review) {
-          sc = s.res.filter(function (r) { return r; }).length;
-          root.innerHTML = rr(window.CourseKit.res(sc, N) + '<div class="opts end-actions"><button type="button" class="btn" data-review data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-final-new data-scroll>سؤال‌های جدید</button></div>');
-          return;
-        }
-        it = s.q[s.pos]; a = s.ans[s.pos]; frozen = a !== null;
-        body = '<div class="e01-answer-grid">' + it.opts.map(function (op, k) { return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (a === k ? ' e01-wrong' : '')) : '') + '" data-choice="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>';
-        h = '<div class="e01-progress stg" aria-label="پیشرفت آزمون">' + s.q.map(function (q, k) { return '<span class="' + (k === s.pos ? 'cu' : s.res[k] === null ? '' : s.res[k] ? 'dn' : 'wr') + '" aria-label="سؤال ' + F(k + 1) + '">' + F(k + 1) + '</span>'; }).join('') + '</div><div class="ask e01-question">' + it.ask + '</div>' + (it.fig || '') + body;
-        if (frozen) { h += fbx(s.res[s.pos], '', it.why); }
-        h += '<div class="e01-navigation"><button type="button" class="btn" data-prev' + (s.pos === 0 ? ' disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-next' + (!frozen ? ' disabled' : '') + ' data-scroll>' + (s.pos === N - 1 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی') + '</button></div>';
-        root.innerHTML = rr(h);
-      }
-      root.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.hasAttribute('data-choice')) { if (s.ans[s.pos] === null) { var k = +b.dataset.choice; s.ans[s.pos] = k; s.res[s.pos] = !!s.q[s.pos].opts[k].ok; paint(); } return; }
-        if (b.hasAttribute('data-prev')) { s.pos--; paint(); return; }
-        if (b.hasAttribute('data-next')) { if (s.pos < N - 1) { s.pos++; } else { s.fin = true; s.review = false; } paint(); return; }
-        if (b.hasAttribute('data-review')) { s.review = true; s.pos = 0; paint(); return; }
-        if (b.hasAttribute('data-final-new')) { setup(); paint(); }
-      });
-      setup(); paint();
-    };
 
 
     /* ================= ابزارهای نامعادله ================= */
@@ -328,7 +300,7 @@ window.LESSONS.E03 = {
           { title: 'تقسیم بر ضریب منفی', lines: ['-3x\\leq 6', '\\dfrac{-3x}{-3}\\geq \\dfrac{6}{-3}', 'x\\geq -2'], note: 'دو طرف را بر ' + M('-3') + ' تقسیم می‌کنیم. چون عدد منفی است، جهت ' + M('\\leq') + ' به ' + M('\\geq') + ' برمی‌گردد.' },
           { title: 'آزمایش جواب', lines: ['x=0:\\ 7-0=7\\leq 13' + ck, 'x=-2:\\ 7+6=13\\leq 13' + ck, 'x=-3:\\ 7+9=16\\leq 13' + cx], note: 'عدد ' + M('0') + ' و عدد مرزی ' + M('-2') + ' برقرارند؛ عدد ' + M('-3') + ' که در ناحیهٔ جواب نیست، برقرار نیست.' }
         ]);
-        K.final($('e03-final'), [mkE1, mkE2, mkE3, mkE4, mkE5, mkE6]);
+        H.final($('e03-final'), [mkE1, mkE2, mkE3, mkE4, mkE5, mkE6]);
       }
     };
 

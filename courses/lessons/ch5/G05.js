@@ -132,20 +132,50 @@ window.LESSONS.G05 = {
 
     /* ---------- آزمایشگاه ۱: رأس را روی خط موازی بلغزان ---------- */
     K.apexLab = function (host) {
-      host.innerHTML = rr('<p class="ask">رأس بالایی را روی خط نقطه‌چین بلغزان؛ قاعده ' + M('6') + ' و ارتفاع ' + M('4') + ' است:</p><div id="apf"></div><div class="gval" id="apv"></div><p class="legend" id="apl"></p>' + gslider('apr', -3, 9, 2, 1, [-3, 0, 3, 6, 9].map(function (v) { return { v: v, t: M(String(v)) }; }), 'جای رأس نسبت به نقطهٔ B'));
+      host.innerHTML = rr('<p class="ask">قاعده ' + M('6') + ' و ارتفاع ' + M('4') + ' است:</p><div id="apf"></div>' +
+        gslider('apr', -3, 9, 2, 1, [-3, 0, 3, 6, 9].map(function (v) { return { v: v, t: M(String(v)) }; }), 'جای رأس نسبت به نقطهٔ B') +
+        '<p class="legend" id="apl" style="margin-top:15px"></p><div class="gval" id="apv" style="gap:6px;align-items:flex-start;direction:ltr"></div>');
       var inp = host.querySelector('#apr');
       function paint() {
-        var x = +inp.value, u = 24, B = [92, 188], C = [92 + 6 * u, 188], A = [92 + x * u, 188 - 4 * u], F = [A[0], 188], out = x < 0 || x > 6, s = sv(340, 220);
+        var x = +inp.value, u = 24, B = [92, 188], C = [92 + 6 * u, 188], A = [92 + x * u, 188 - 4 * u], F = [A[0], 188], out = x < 0 || x > 6, edge = x === 0 || x === 6, s = sv(340, 220), BL = '#d8dcf7', PK = '#f6d6e2';
+        var P = function (a, b, c, col) { return '<polygon points="' + [a, b, c].map(function (p) { return p.join(','); }).join(' ') + '" fill="' + col + '" stroke="none"/>'; };
+        var LT = 'direction:ltr;unicode-bidi:isolate;', tx = function (b) { return fa(1) + '/' + fa(2) + ' × ' + fa(b) + ' × ' + fa(4); };
+        var cell = function (inner, col, val) { return '<span style="display:inline-flex;flex-direction:column;align-items:center;gap:9px"><i style="' + LT + 'background:' + col + ';padding:3px 8px;font-size:.92rem">' + inner + '</i><b style="' + LT + 'position:relative;padding:6px 10px 2px;border:1.5px solid var(--ink);border-radius:12px;background:' + col + ';font-size:.88rem"><u style="position:absolute;top:-5px;left:50%;margin-left:-4px;width:8px;height:8px;background:' + col + ';border-left:1.5px solid var(--ink);border-top:1.5px solid var(--ink);transform:rotate(45deg)"></u>= ' + fa(val) + '</b></span>'; };
+        var op = function (c) { return '<span style="align-self:flex-start;line-height:44px">' + c + '</span>'; };
+        var b1 = x > 6 ? x : 6 - x, b2 = x > 6 ? x - 6 : -x, lx = x < 0 ? -14 : x > 6 ? 14 : (x < 3 ? 14 : -14);
         s += '<line x1="6" y1="' + A[1] + '" x2="334" y2="' + A[1] + '" stroke="#9aa9c0" stroke-width="1.5" stroke-dasharray="2 5"/>';
-        s += '<polygon points="' + [A, B, C].map(function (p) { return p.join(','); }).join(' ') + '" fill="rgba(76,95,213,.14)" stroke="none"/>';
+        s += edge ? P(A, B, C, BL) : !out ? P(A, B, F, BL) + P(A, F, C, PK) : x > 6 ? P(A, B, F, BL) + P(A, C, F, PK) : P(A, C, F, BL) + P(A, B, F, PK);
         if (out) { s += sln(x < 0 ? B : C, F, INK, 1.8, 1); }
         s += sln(A, F, PINK, 2.4, 1) + rmark(F, A, x < 0 ? B : (x > 6 ? C : C), 10, INK);
         s += sln(A, B, INK, 3) + sln(B, C, TEAL, 5) + sln(A, C, INK, 3);
         s += '<circle cx="' + A[0] + '" cy="' + A[1] + '" r="5" fill="' + INK + '"/>' + stx('B', B[0] - 14, B[1] + 6, { b: 1, fs: 14 }) + stx('C', C[0] + 14, C[1] + 6, { b: 1, fs: 14 }) + stx('A', A[0], A[1] - 14, { b: 1, fs: 14 });
-        s += stx(fa(6), (B[0] + C[0]) / 2, 208, { fs: 13, b: 1, c: TEAL }) + stx(fa(4), A[0] + (x < 3 ? 14 : -14), (A[1] + 188) / 2, { fs: 13, b: 1, c: PINK });
+        s += stx(fa(6), (B[0] + C[0]) / 2, 208, { fs: 13, b: 1, c: TEAL }) + stx(fa(4), A[0] + lx, (A[1] + 188) / 2, { fs: 13, b: 1, c: PINK });
         host.querySelector('#apf').innerHTML = s + '</svg>';
-        host.querySelector('#apv').innerHTML = '<i class="y">' + fa(1) + '/' + fa(2) + ' × ' + fa(6) + ' × ' + fa(4) + ' = ' + fa(12) + '</i>';
-        host.querySelector('#apl').innerHTML = out ? 'پای ارتفاع <b>بیرون از قاعده</b> و روی امتدادِ آن افتاد؛ ولی ارتفاع هنوز ' + fa(4) + ' و مساحت هنوز ' + fa(12) + ' است.' : 'پای ارتفاع روی قاعده افتاده. جای رأس هرجا باشد، تا وقتی روی این خط است، مساحت ' + fa(12) + ' می‌ماند.';
+        host.querySelector('#apv').innerHTML = edge ? cell(tx(6), BL, 12) : !out ? cell(tx(x), BL, 2 * x) + op('+') + cell(tx(6 - x), PK, 2 * (6 - x)) + op('=') + cell(fa(2 * x) + ' + ' + fa(2 * (6 - x)), 'var(--mark)', 12) : cell(tx(b1), BL, 2 * b1) + op('\u2212') + cell(tx(b2), PK, 2 * b2) + op('=') + cell(fa(2 * b1) + ' \u2212 ' + fa(2 * b2), 'var(--mark)', 12);
+        host.querySelector('#apl').innerHTML = edge ? 'رأس بالای یکی از دو سرِ قاعده است؛ مثلث قائم‌الزاویه شد و مساحتش باز هم ' + fa(12) + ' است.' : !out ? 'ارتفاع، مثلث را به دو مثلثِ قائم‌الزاویه تقسیم کرده. هر کدام نصفِ مستطیلِ خودش است و جمعشان ' + fa(12) + ' می‌شود.' : 'پای ارتفاع <b>بیرون از قاعده</b> افتاد. مثلثِ بزرگ (آبی) منهای مثلثِ کوچک (صورتی) همان مثلثِ ماست، و حاصل باز هم ' + fa(12) + ' است.';
+      }
+      inp.addEventListener('input', paint); paint();
+    };
+    /* ---------- آزمایشگاه ۰: چرا نصف؟ ---------- */
+    K.halfLab = function (host) {
+      host.innerHTML = rr('<p class="ask">لغزنده را به راست ببر تا دو قطعهٔ آبی بچرخند:</p><div id="hff"></div>' +
+        gslider('hfr', 0, 180, 0, 5, [0, 90, 180].map(function (v) {
+          return { v: v, t: M(v + '^\\circ') };
+        }), 'چرخشِ قطعه‌های آبی') +
+        '<p class="legend" id="hfl" style="margin-top:15px"></p><div class="gval" id="hfv"></div>');
+      var inp = host.querySelector('#hfr');
+      function paint() {
+        var a = +inp.value, done = a === 180, s = sv(300, 170);
+        s += '<g transform="translate(150 85) scale(.88) translate(-150 -85)">';
+        s += '<rect x="40" y="30" width="220" height="110" fill="none" stroke="' + INK + '" stroke-width="2.5"/>';
+        s += '<polygon points="40,140 260,140 120,30" fill="rgba(214,69,122,.30)" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>';
+        s += sln([120, 30], [120, 140], PINK, 2.2, 1);
+        s += '<polygon points="40,140 40,30 120,30" transform="rotate(' + a + ' 80 85)" fill="rgba(76,95,213,.35)" stroke="' + BLUE + '" stroke-width="2"/>';
+        s += '<polygon points="260,140 260,30 120,30" transform="rotate(' + a + ' 190 85)" fill="rgba(76,95,213,.35)" stroke="' + BLUE + '" stroke-width="2"/>';
+        s += stx(fa(6), 150, 156, { fs: 12, b: 1, c: TEAL }) + stx(fa(4), 112, 85, { fs: 12, b: 1, c: PINK, a: 'end' });
+        host.querySelector('#hff').innerHTML = s + '</g></svg>';
+        host.querySelector('#hfv').innerHTML = done ? '<i class="y">' + fa(24) + ' ÷ ' + fa(2) + ' = ' + fa(12) + '</i>' : '';
+        host.querySelector('#hfl').innerHTML = done ? 'هر قطعهٔ آبی دقیقاً روی نیمهٔ صورتیِ کنار خودش نشست؛ پس <b>مثلث نصفِ مستطیل است</b>.' : 'دو قطعهٔ آبی بیرونِ مثلث‌اند. بچرخانشان و ببین کجا می‌نشینند.';
       }
       inp.addEventListener('input', paint); paint();
     };
@@ -220,18 +250,26 @@ window.LESSONS.G05 = {
       { h: 'برای مساحت مثلث می‌توان ضلعِ کج را به‌جای ارتفاع به کار برد.', ok: 0, e: '<p>ضلع کج بر قاعده عمود نیست؛ باید ارتفاعِ عمود را به کار ببری.</p>' },
       { h: 'مساحت را بر حسب سانتی‌متر می‌نویسیم.', ok: 0, e: '<p>مساحت بر حسب سانتی‌متر مربع (' + M('\\text{cm}^2') + ') است؛ سانتی‌متر واحد طول است.</p>' },
       { h: 'هر ضلع مثلث را می‌توان قاعده گرفت؛ هر بار ارتفاعِ مربوط به همان ضلع را به کار می‌بریم.', ok: 1, e: '<p>با هر قاعده، مساحت همان عدد می‌شود.</p>' },
-      { h: 'اگر رأس بالایی را روی خطی موازی قاعده جابه‌جا کنیم، مساحتِ مثلث عوض می‌شود.', ok: 0, e: '<p>قاعده و ارتفاع ثابت می‌مانند؛ پس مساحت هم ثابت است.</p>' },
+      { h: 'اگر رأس بالایی را روی خطی موازی قاعده جاب ه‌جا کنیم، مساحتِ مثلث عوض می‌شود.', ok: 0, e: '<p>قاعده و ارتفاع ثابت می‌مانند؛ پس مساحت هم ثابت است.</p>' },
       { h: 'در مثلث قائم‌الزاویه با ضلع‌های قائم ' + M('6') + ' و ' + M('8') + ' ، مساحت ' + M('24') + ' است.', ok: 1, e: '<p>' + M('\\dfrac{1}{2}\\times6\\times8=24') + '.</p>' },
       { h: 'در مثلث قائم‌الزاویه مساحت از نصفِ حاصل‌ضربِ وتر در یک ضلع قائم به دست می‌آید.', ok: 0, e: '<p>وتر بر ضلع قائم عمود نیست؛ باید دو ضلع قائم را به کار ببری.</p>' }
     ];
     return {
       html: function () {
-        var rect = (function () { var s = sv(300, 170); s += '<rect x="40" y="30" width="220" height="110" fill="rgba(76,95,213,.10)" stroke="' + INK + '" stroke-width="2.5"/>'; s += '<polygon points="40,140 260,140 120,30" fill="rgba(214,69,122,.30)" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>' + sln([120, 30], [120, 140], PINK, 2.2, 1) + rmark([120, 140], [120, 30], [260, 140], 10, INK) + stx(fa(6) + ' (قاعده)', 150, 158, { fs: 12, b: 1 }) + stx(fa(4), 108, 85, { fs: 12, b: 1, c: PINK, a: 'end' }); return s + '</svg>'; })();
+        var rect = (function () {
+          var s = sv(300, 170);
+          s += '<rect x="40" y="30" width="220" height="110" fill="rgba(76,95,213,.10)" stroke="' + INK + '" stroke-width="2.5"/>';
+          s += '<polygon points="40,140 40,30 120,30" fill="rgba(76,95,213,.30)"/><polygon points="260,140 260,30 120,30" fill="rgba(76,95,213,.30)"/>';
+          s += '<polygon points="40,140 260,140 120,30" fill="rgba(214,69,122,.30)" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>' + sln([120, 30], [120, 140], PINK, 2.2, 1) + rmark([120, 140], [120, 30], [260, 140], 10, INK) + stx(fa(6) + ' (قاعده)', 150, 158, { fs: 12, b: 1 }) + stx(fa(4), 108, 85, { fs: 12, b: 1, c: PINK, a: 'end' });
+          return s + '</svg>';
+        })();
         return [
           K.sn('۱', 'مساحت مثلث: نصفِ مستطیل'),
-          '<p>مستطیلی به عرض ' + M('6') + ' و ارتفاع ' + M('4') + ' مساحتش ' + M('24') + ' است. هر مثلثی که قاعده‌اش همان ضلع افقی و رأسش روی ضلعِ بالای مستطیل باشد، دقیقاً نصفِ مستطیل را می‌پوشاند:</p>', fig1(rect, 'مثلث، نصفِ مستطیلِ هم‌قاعده و هم‌ارتفاع است'),
+          '<p>مستطیلی به عرض ' + M('6') + ' و ارتفاع ' + M('4') + ' مساحتش ' + M('24') + ' است (قاعده × ارتفاع). مثلثِ صورتی همان قاعده را دارد و رأسش روی ضلعِ بالای مستطیل است. چقدر از مستطیل را می‌پوشاند؟</p><div class="cover g-act" id="hf" style="animation:none"></div>',
+          '<p>دلیلش این است که ارتفاعِ مثلث، مستطیل را به دو مستطیلِ کوچک‌تر می‌شکند و ضلع‌های مثلث قطرِ هر دو مستطیل‌اند؛ هر قطر، مستطیل را به دو نیمهٔ برابر تقسیم می‌کند. پس مساحتِ مثلث، نصفِ <b>قاعده × ارتفاع</b> است.</p>',
           K.box('note', 'مساحت مثلث', '<p>مساحت = نصفِ قاعده ضرب در ارتفاع</p>' + K.dm('S=\\dfrac{1}{2}\\times b\\times h')),
-          '<p>رأس بالایی را روی خط نقطه‌چین بلغزان. جای رأس عوض می‌شود، ولی قاعده و ارتفاع نه؛ مساحت را زیر نظر بگیر (حتی وقتی رأس از بالای قاعده بیرون می‌زند):</p><div class="cover g-act" id="ap" style="animation:none"></div>',
+          '<p>شکلِ بالا فقط وقتی کار می‌کرد که رأس بالای قاعده بود. حالا بپرس: اگر رأس جابه‌جا شود، یا حتی از بالای قاعده بیرون بزند، مساحت عوض می‌شود؟ رأس را بلغزان و مساحت را زیر نظر بگیر:</p><div class="cover g-act" id="ap" style="animation:none"></div>',
+          '<p><b>نتیجه:</b> مساحت فقط به قاعده و ارتفاع بستگی دارد، نه به جای رأس یا شکلِ مثلث. برای همین در فرمول فقط ' + M('b') + ' و ' + M('h') + ' آمده است.</p>',
 
           K.sn('۲', 'ارتفاع کدام است؟'),
           '<p>«ارتفاع» پاره‌خطی است که از یک رأس بر ضلعِ روبه‌رو (یا امتدادِ آن) عمود می‌شود؛ زاویهٔ ' + M('90^\\circ') + ' می‌سازد. هر ضلعی را می‌شود قاعده گرفت و هر بار ارتفاعِ مربوط به همان قاعده را به کار برد. یک مثلث قائم‌الزاویه را با هر سه قاعده امتحان کن:</p><div class="cover g-act" id="bs" style="animation:none"></div>',
@@ -264,7 +302,9 @@ window.LESSONS.G05 = {
         ].join('');
       },
       init: function (panel) {
-        K.apexLab(panel.querySelector('#ap')); K.baseLab(panel.querySelector('#bs')); K.numLab(panel.querySelector('#ar'), genAR);
+        K.halfLab(panel.querySelector('#hf')); K.apexLab(panel.querySelector('#ap'));
+        K.baseLab(panel.querySelector('#bs'));
+        K.numLab(panel.querySelector('#ar'), genAR);
         var GS = [genE1, genE2, genE3];
         H.stages(panel.querySelector('#ss'), {
           names: ['محاسبهٔ مساحت', 'شناختن ارتفاع', 'قائمه و ارتفاع بیرونی'],

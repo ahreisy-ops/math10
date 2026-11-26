@@ -1,10 +1,10 @@
 /* درس مهارت E04 — نمایش جواب روی محور و بازه (فصل ۳) */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.E04 = {
-  needs: ['utils'],
+  needs: ['utils', 'kit'],
   setup: function (K0) {
     var ML = window.MathLite, F = ML.fa, rr = ML.renderRich, abs = Math.abs, _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
-    var M0 = _u.M, K = Object.create(K0), T = String.raw;
+    var M0 = _u.M, K = Object.create(K0), H = K0.lk(K), T = String.raw;
     var M = function (t) {
       t = String(t);
       if (!/\\text\{(یا|و)\}/.test(t)) { return M0(t); }
@@ -29,7 +29,6 @@ window.LESSONS.E04 = {
       return shuffle([list[0]].concat(w).map(function (z) { return { h: raw ? z.t : M(z.t), ok: !!z.ok, m: z.m || 'این گزینه درست نیست.' }; }));
     }
     function mark(ok, text) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + text + '</div>'; }
-    function fbx(ok, wrong, why) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + (ok ? '✓ پاسخ درست است.' : 'پاسخ درست نیست.') + '</div><div class="ex">' + (wrong ? wrong + ' ' : '') + why + '</div>'; }
     function activity(title, id, lead) { return '<h4 class="e02-activity-title">' + title + '</h4><p class="e02-activity-lead">' + lead + '</p><div class="e01-interaction e02-activity" id="' + id + '" data-activity><div data-stage></div></div>'; }
     function intro(kicker, p, route) { return '<div class="e01-intro"><span class="e01-kicker">' + kicker + '</span><p>' + p + '</p><div class="e01-route" aria-label="مسیر این درس">' + route.map(function (r) { return '<span>' + r + '</span>'; }).join('<i aria-hidden="true">←</i>') + '</div></div>'; }
     var REFRESH = '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.4-4.8L3 9"/><path d="M3 4v5h5"/><path d="M4 13a8 8 0 0 0 14.4 4.8L21 15"/><path d="M21 20v-5h-5"/></svg>';
@@ -95,57 +94,6 @@ window.LESSONS.E04 = {
     /* ---------- آزمون پایانی چندشکلی ----------
        makers: آرایه‌ای از تابع‌ها؛ هر تابع آیتمی مثل
        {type:'mc'|'multi'|'num'|'match', ask, fig?, opts:[{h,ok}], ans(num), left/right/key(match), why} برمی‌گرداند */
-    K.final = function (root, makers, o) {
-      o = o || {}; var s, N = makers.length;
-      function setup() { s = { q: makers.map(function (m) { return m(); }), pos: 0, ans: makers.map(function () { return null; }), res: makers.map(function () { return null; }), sel: {}, fin: false, review: false }; }
-      function parseNum(v) { v = (v || '').replace(/[۰-۹]/g, function (d) { return d.charCodeAt(0) - 1776; }).replace(/[٫,،]/g, '.').replace(/[−–—]/g, '-').replace(/\s/g, ''); return /^-?\d+(\.\d+)?$/.test(v) ? +v : null; }
-      function paint() {
-        var h, it, a, frozen, body = '', i, sc;
-        if (s.fin && !s.review) {
-          sc = s.res.filter(function (r) { return r; }).length;
-          root.innerHTML = rr('<div class="fb ' + (sc >= N - 2 ? 'ok' : 'bad') + '" role="status"><b>نتیجه: ' + F(sc) + ' از ' + F(N) + '</b><br>' + (sc === N ? 'همهٔ سؤال‌ها را درست پاسخ دادی.' : sc >= N - 2 ? 'سؤال‌های نادرست را مرور کن و دلیل هر اشتباه را بررسی کن.' : 'یک بار دیگر درس را مرور کن؛ سپس با سؤال‌های تازه تمرین کن.') + '</div><div class="opts end-actions"><button type="button" class="btn" data-review>مرور سؤال‌ها</button><button type="button" class="btn primary" data-final-new>سؤال‌های جدید</button></div>'); return;
-        }
-        it = s.q[s.pos]; a = s.ans[s.pos]; frozen = a !== null;
-        if (it.type === 'mc') {
-          body = '<div class="e01-answer-grid' + (/<svg/.test(it.opts[0].h) ? ' e3-svgopts' : '') + '">' + it.opts.map(function (op, k) { return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (a === k ? ' e01-wrong' : '')) : '') + '" data-choice="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>';
-        } else if (it.type === 'multi') {
-          var cur = frozen ? a : (s.sel[s.pos] || []);
-          body = '<div class="e01-answer-grid">' + it.opts.map(function (op, k) { var on = cur.indexOf(k) > -1; return '<button type="button" class="btn e01-answer' + (frozen ? (op.ok ? ' e01-right' : (on ? ' e01-wrong' : '')) : (on ? ' is-sel' : '')) + '" data-toggle="' + k + '"' + (frozen ? ' disabled' : '') + '>' + op.h + '</button>'; }).join('') + '</div>';
-        } else if (it.type === 'num') {
-          body = '<div class="e3-numrow"><span class="lbl">' + M(it.lbl || 'x=') + '</span><input class="numin" id="fin-num" type="text" inputmode="decimal" autocomplete="off" aria-label="پاسخ"' + (frozen ? ' disabled value="' + (a < 0 ? '−' : '') + F(abs(a)) + '"' : '') + '></div>';
-        } else if (it.type === 'match') {
-          var cur2 = frozen ? a : (s.sel[s.pos] || []);
-          body = it.left.map(function (l, r) { var cl = frozen ? (a[r] === it.key[r] ? ' right' : ' wrong') : ''; return '<div class="e3-match-row' + cl + '"><span class="l">' + l + '</span><select data-row="' + r + '"' + (frozen ? ' disabled' : '') + '><option value="">انتخاب کن…</option>' + it.rows[r].opts.map(function (rt, k) { return '<option value="' + k + '"' + (cur2[r] === k ? ' selected' : '') + '>' + rt.t + '</option>'; }).join('') + '</select></div>'; }).join('');
-        }
-        h = '<div class="e01-progress stg" aria-label="پیشرفت آزمون">' + s.q.map(function (q, k) { return '<span class="' + (k === s.pos ? 'cu' : s.res[k] === null ? '' : s.res[k] ? 'dn' : 'wr') + '" aria-label="سؤال ' + F(k + 1) + '">' + F(k + 1) + '</span>'; }).join('') + '</div><p class="ask e01-question">' + it.ask + '</p>' + (it.fig || '') + body;
-        if (frozen) { h += fbx(s.res[s.pos], s.res[s.pos] || (it.type !== 'num' && it.type !== 'match') ? '' : (it.wrongText ? it.wrongText(a) : 'پاسخ درست: ' + (it.show || (it.opts ? it.opts.filter(function (op) { return op.ok; }).map(function (op) { return op.h; }).join('، ') : '')) + '.') + ' ', it.why); }
-        h += '<div class="e01-navigation"><button type="button" class="btn" data-prev data-scroll' + (s.pos === 0 ? ' disabled' : '') + '>سؤال قبلی</button><button type="button" class="btn primary" data-scroll ' + (!frozen && (it.type === 'match' || it.type === 'num') ? 'data-check' : 'data-next') + (!frozen && (it.type === 'multi' ? !(s.sel[s.pos] || []).length : !(it.type === 'match' && (s.sel[s.pos] || []).filter(function (v) { return v !== undefined && v !== null; }).length === it.left.length)) ? ' disabled' : '') + '>' + (!frozen && (it.type === 'match' || it.type === 'num') ? 'بررسی' : (s.pos === N - 1 ? (s.review ? 'بازگشت به نتیجه' : 'مشاهدهٔ نتیجه') : 'سؤال بعدی')) + '</button></div>';
-        root.innerHTML = rr(h);
-      }
-      function grade() {
-        var it = s.q[s.pos], k;
-        if (it.type === 'multi') { var cur = (s.sel[s.pos] || []).slice().sort(); s.ans[s.pos] = cur; s.res[s.pos] = JSON.stringify(cur) === JSON.stringify(it.opts.map(function (op, i) { return op.ok ? i : -1; }).filter(function (i) { return i >= 0; })); }
-        else if (it.type === 'num') { var f = root.querySelector('#fin-num'), v = parseNum(f.value); if (v === null) { f.focus(); return false; } s.ans[s.pos] = v; s.res[s.pos] = abs(v - it.ans) < 1e-9; }
-        else if (it.type === 'match') { var cu = s.sel[s.pos] || []; s.ans[s.pos] = cu.slice(); s.res[s.pos] = it.key.every(function (kk, r) { return cu[r] === kk; }); }
-        return true;
-      }
-      function submit() { if (grade()) { paint(); } }
-      function goNext() { if (s.ans[s.pos] === null) { if (!grade()) { return; } if (s.q[s.pos].type === 'multi') { paint(); return; } } if (s.pos < N - 1) { s.pos++; } else { s.fin = true; s.review = false; } paint(); }
-      root.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.hasAttribute('data-choice')) { if (s.ans[s.pos] === null) { var k = +b.dataset.choice; s.ans[s.pos] = k; s.res[s.pos] = !!s.q[s.pos].opts[k].ok; paint(); } return; }
-        if (b.hasAttribute('data-toggle')) { var t = +b.dataset.toggle, c = (s.sel[s.pos] || []).slice(), ix = c.indexOf(t); if (ix > -1) { c.splice(ix, 1); } else { c.push(t); } s.sel[s.pos] = c; paint(); return; }
-        if (b.hasAttribute('data-submit') || b.hasAttribute('data-check')) { submit(); return; }
-        if (b.hasAttribute('data-prev')) { s.pos--; paint(); return; }
-        if (b.hasAttribute('data-next')) { goNext(); return; }
-        if (b.hasAttribute('data-review')) { s.review = true; s.pos = 0; paint(); return; }
-        if (b.hasAttribute('data-final-new')) { setup(); paint(); }
-      });
-      root.addEventListener('change', function (e) { var sel = e.target.closest('select[data-row]'); if (!sel) { return; } var c = (s.sel[s.pos] || []).slice(); c[+sel.dataset.row] = sel.value === '' ? undefined : +sel.value; s.sel[s.pos] = c; paint(); });
-      root.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.id === 'fin-num') { e.preventDefault(); if (s.ans[s.pos] === null) { submit(); } else { goNext(); } } });
-      root.addEventListener('input', function (e) { if (e.target.id !== 'fin-num') { return; } var nb = root.querySelector('[data-check]'); if (nb) { nb.disabled = parseNum(e.target.value) === null; } });
-      setup(); paint();
-    };
 
 
     /* ================= ابزارهای محور و بازه ================= */
@@ -384,7 +332,7 @@ window.LESSONS.E04 = {
           { title: 'خواندن نوع علامت', lines: ['x\\geq -3', '@دایرهٔ توپر در ' + M('-3'), '@ناحیهٔ سبز به سمت راست'], note: 'علامت ' + M('\\geq') + ' یعنی عدد مرزی ' + M('-3') + ' جزو جواب است (دایرهٔ توپر) و جواب از ' + M('-3') + ' به سمت راست می‌رود.' },
           { title: 'نوشتن بازه', lines: ['[-3,\\ +\\infty)'], note: 'کروشه برای ' + M('-3') + ' چون جزو جواب است؛ پرانتز برای بی‌نهایت چون بی‌نهایت هرگز جزو جواب نیست.' }
         ]);
-        K.final($('e04-final'), [mkF1, mkF2, mkF3, mkF4, mkF5, mkF6]);
+        H.final($('e04-final'), [mkF1, mkF2, mkF3, mkF4, mkF5, mkF6]);
       }
     };
 
