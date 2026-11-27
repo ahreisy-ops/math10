@@ -46,34 +46,8 @@ function E(s) {
 function X(s) { return M(E(s)); }
 function LTR(s) { return '\u2066' + s + '\u2069'; }   // متن چپ‌به‌راست داخل منوی کشویی
 
-/* VENN: نمودار ون دو مجموعه در مجموعهٔ مرجع U (SVG با ویژگی‌های درون‌خطی)
-   o = { onlyA:[...], both:[...], onlyB:[...], out:[...] } */
-function VENN(o) {
-  var s, i, list, pos;
-  function put(arr, cx, cy) {
-    var out = '', n = arr.length, gap = 22, j;
-    for (j = 0; j < n; j++) {
-      out += '<text x="' + cx + '" y="' + (cy - (n - 1) * gap / 2 + j * gap + 5) + '" text-anchor="middle" font-size="16" font-weight="bold" fill="#14213d" font-family="Tahoma,sans-serif">' + arr[j] + '</text>';
-    }
-    return out;
-  }
-  function name(t, x, y) {
-    return '<text x="' + x + '" y="' + y + '" text-anchor="middle" font-size="17" font-weight="bold" font-style="italic" fill="#14213d" font-family="Times New Roman,serif">' + t + '</text>';
-  }
-  s = '<svg viewBox="0 0 300 180" width="300" height="180" xmlns="http://www.w3.org/2000/svg" style="direction:ltr;max-width:100%;height:auto;display:block;margin:6px auto" role="img">';
-  s += '<rect x="2" y="2" width="296" height="176" rx="6" fill="#ffffff" stroke="#14213d" stroke-width="2"/>';
-  s += name('U', 16, 22);
-  s += '<circle cx="112" cy="95" r="62" fill="#9ad8cf" fill-opacity="0.55" stroke="#14213d" stroke-width="2"/>';
-  s += '<circle cx="188" cy="95" r="62" fill="#ffc233" fill-opacity="0.45" stroke="#14213d" stroke-width="2"/>';
-  s += name('A', 62, 50) + name('B', 238, 50);
-  s += put(o.onlyA, 84, 95) + put(o.both, 150, 95) + put(o.onlyB, 216, 95);
-  pos = [[272, 150], [28, 150], [272, 36]];
-  for (i = 0; i < (o.out || []).length; i++) { s += put([o.out[i]], pos[i][0], pos[i][1]); }
-  return s + '</svg>';
-}
-
 /* ---------- داده‌های شکل (جدا نگه‌داشته شده تا قابل بررسی باشد) ---------- */
-var VENN_Q07 = { onlyA: [1, 2], both: [3, 4], onlyB: [5], out: [6, 7] };
+var VENN_Q07 = { A: [1, 2, 3, 4], B: [3, 4, 5], U: [1, 2, 3, 4, 5, 6, 7] };
 
 /* اطلاعات فصل (EXAM_META) و مهارت‌ها (SKILLS) به data/ch6.js منتقل شده‌اند (منبع مشترک آزمون، درسنامه و منو). */
 
@@ -149,7 +123,7 @@ window.QUESTIONS = [
   },
   {
     id: 'Q06', skill: 'S02', secondary: [], difficulty: 'medium', type: 'mcq',
-    prompt: 'مجموعهٔ مرجع ' + M('U = \\{1, 2, 3, \\ldots , 10\\}') + ' و مجموعهٔ ' + M('A = \\{2, 4, 6, 8, 10\\}') + ' است. متمم A <span dir="rtl">(</span>یعنی ' + M("A'") + '<span dir="rtl">)</span> کدام است؟',
+    prompt: 'مجموعهٔ مرجع ' + M('U = \\{1, 2, 3, \\ldots , 10\\}') + ' و مجموعهٔ ' + M('A = \\{2, 4, 6, 8, 10\\}') + ' است. متمم A \u202B(\u202Cیعنی ' + M("A'") + '\u202B)\u202C کدام است؟',
     options: [
       { t: M('\\{2, 4, 6, 8, 10\\}'), err: 'concept' },
       { t: M('\\{1, 3, 5, 7, 9\\}') },
@@ -161,7 +135,7 @@ window.QUESTIONS = [
   },
   {
     id: 'Q07', skill: 'S02', secondary: [], difficulty: 'medium', type: 'mcq',
-    prompt: 'نمودار ون زیر دو مجموعهٔ A و B را در مجموعهٔ مرجع U نشان می‌دهد. مجموعهٔ ' + M('A - B') + ' کدام است؟' + VENN(VENN_Q07),
+    prompt: 'نمودار ون زیر دو مجموعهٔ A و B را در مجموعهٔ مرجع U نشان می‌دهد. مجموعهٔ ' + M('A - B') + ' کدام است؟' + VennDraw(VENN_Q07),
     options: [
       { t: M('\\{3, 4\\}'), err: 'concept' },
       { t: M('\\{1, 2, 3, 4\\}'), err: 'concept' },

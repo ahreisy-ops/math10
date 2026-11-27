@@ -21,8 +21,8 @@
       <div class="hero">
         <div class="hero-line" id="heroHost" aria-hidden="true"></div>
         <div class="titlebar">
-          <h1 id="cH1"></h1><button type="button" id="btnInfo" class="infobtn"
-            aria-label="دربارهٔ مبحث‌های این بخش" title="مبحث‌های این بخش">i</button>
+          <h1 id="cH1"></h1><button type="button" id="btnInfo" class="infobtn" aria-label="دربارهٔ مبحث‌های این بخش"
+            title="مبحث‌های این بخش">i</button>
         </div>
         <p class="lead" id="cLead"></p>
       </div>
@@ -117,7 +117,7 @@
     /* همهٔ فایل‌ها هم‌زمان دانلود می‌شوند و به همین ترتیب اجرا می‌شوند */
     (function () {
       var n = parseInt(new URLSearchParams(location.search).get('ch'), 10) || 1;
-      Loader.ordered(['js/katex.min.js', 'js/math.js', 'js/heroes.js', '../data/chapter-info.js', '../data/ch' + n + '.js', 'js/exam-setup.js',
+      Loader.ordered(['js/katex.min.js', 'js/math.js', 'js/venn.js', 'js/heroes.js', '../data/chapter-info.js', '../data/ch' + n + '.js', 'js/exam-setup.js',
         'js/questions-chapter' + n + '.js', 'js/app.js'])
         .catch(function () { document.querySelector('.page').innerHTML = '<p>این فصل پیدا نشد.</p>'; });
     })();

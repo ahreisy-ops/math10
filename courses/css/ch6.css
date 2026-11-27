@@ -10,6 +10,12 @@
   font-weight: 700
 }
 
+.lesson .lk-line>.btn.on {
+  background: var(--mark);
+  color: var(--ink);
+  border-color: var(--ink)
+}
+
 .lesson .lk-line>.lk-chip {
   min-height: 40px;
   padding: 5px 14px;
@@ -24,6 +30,12 @@
 
 .lesson .mc .opt .katex {
   font-size: 1.15em
+}
+
+.lesson .mc.s1-mc {
+  grid-template-columns: 1fr;
+  width: min(100%, 300px);
+  margin-inline: auto;
 }
 
 .lesson .s1-grid .lk-card {

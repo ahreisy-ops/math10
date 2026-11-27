@@ -103,11 +103,11 @@ window.LESSONS.S01 = {
       function newQ() { p = genPair(); rel = relOf(p.A, p.B); show = false; ans = null; paint(); }
       function paint() {
         var h = '<p class="ask">دو مجموعه را در نمودار ببین. کدام جمله درست است؟</p>' + K.dm('A=' + setTex(p.A) + ',\\qquad B=' + setTex(p.B));
-        h += H.venn({ A: p.A, B: p.B, U: POOL, tok: function (x, r) { return show && r === 'a' ? { bg: 'crimson', fg: '#fff' } : show && r === 'b' ? { bg: '#8fb4ff', fg: '#000' } : null; } });
-        h += '<div class="lk-line"><button type="button" class="btn" data-sh="1">' + (show ? 'پنهان‌کردن' : 'بازرس: اعضای «بیرون‌زده» را نشان بده') + '</button></div>';
-        if (show) { h += '<p class="lk-cap">قرمز: عضوِ ' + M('A') + ' که در ' + M('B') + ' نیست · آبی: عضوِ ' + M('B') + ' که در ' + M('A') + ' نیست</p>'; }
+        h += H.venn({ A: p.A, B: p.B, U: POOL, big: true, tok: function (x, r) { return show && r === 'a' ? { bg: 'blue', fg: '#fff' } : show && r === 'b' ? { bg: 'green', fg: '#fff' } : null; } });
+        h += '<div class="lk-line"><button type="button" class="btn' + (show ? ' on' : '') + '" data-sh="1">' + (show ? 'پنهان‌کردن' : 'بازرس: اعضای «بیرون‌زده» را نشان بده') + '</button></div>';
+        if (show) { h += '<p class="lk-cap">آبی: عضوِ ' + M('A') + ' که در ' + M('B') + ' نیست · سبز: عضوِ ' + M('B') + ' که در ' + M('A') + ' نیست</p>'; }
         var labels = ['A\\subseteq B', 'B\\subseteq A', null, null], keys = ['sub', 'sup', 'none'];
-        h += '<div class="mc"><button type="button" class="btn opt' + (ans ? (rel === 'sub' ? ' right' : ans === 'sub' ? ' wrong' : '') : '') + '" data-a="sub"' + (ans ? ' disabled' : '') + '>' + M('A\\subseteq B') + '</button><button type="button" class="btn opt' + (ans ? (rel === 'sup' ? ' right' : ans === 'sup' ? ' wrong' : '') : '') + '" data-a="sup"' + (ans ? ' disabled' : '') + '>' + M('B\\subseteq A') + '</button><button type="button" class="btn opt' + (ans ? (rel === 'none' ? ' right' : ans === 'none' ? ' wrong' : '') : '') + '" data-a="none"' + (ans ? ' disabled' : '') + '>هیچ‌کدام از این دو</button></div>';
+        h += '<div class="mc s1-mc"><button type="button" class="btn opt' + (ans ? (rel === 'sub' ? ' right' : ans === 'sub' ? ' wrong' : '') : '') + '" data-a="sub"' + (ans ? ' disabled' : '') + '>' + M('A\\subseteq B') + '</button><button type="button" class="btn opt' + (ans ? (rel === 'sup' ? ' right' : ans === 'sup' ? ' wrong' : '') : '') + '" data-a="sup"' + (ans ? ' disabled' : '') + '>' + M('B\\subseteq A') + '</button><button type="button" class="btn opt' + (ans ? (rel === 'none' ? ' right' : ans === 'none' ? ' wrong' : '') : '') + '" data-a="none"' + (ans ? ' disabled' : '') + '>هیچ‌کدام از این دو</button></div>';
         if (ans) {
           var ab = H.minus(p.A, p.B), ba = H.minus(p.B, p.A), why = rel === 'sub' ? 'همهٔ اعضای ' + M('A') + ' داخل ' + M('B') + ' هستند.' : rel === 'sup' ? 'همهٔ اعضای ' + M('B') + ' داخل ' + M('A') + ' هستند.' : 'عضوِ ' + M(ab.length ? '' + ab[0] : '') + (ab.length ? ' فقط در ' + M('A') + ' است' : '') + (ab.length && ba.length ? ' و عضوِ ' : ' ') + (ba.length ? M('' + ba[0]) + ' فقط در ' + M('B') + ' است' : '') + '؛ پس هیچ‌کدام زیرمجموعهٔ دیگری نیست.';
           h += fb(ans === rel, ans === rel ? 'درست است! ✓' : 'این‌طور نیست.') + '<div class="ex"><p>' + why + '</p></div>';
@@ -191,7 +191,7 @@ window.LESSONS.S01 = {
       function qVenn() {
         var p = genPair(), rel = relOf(p.A, p.B);
         return {
-          ask: 'با توجه به نمودار، کدام جمله درست است؟', fig: H.venn({ A: p.A, B: p.B, U: POOL }) + K.dm('A=' + setTex(p.A) + ',\\qquad B=' + setTex(p.B)), expl: function () { return '<p>' + (rel === 'sub' ? 'همهٔ اعضای ' + M('A') + ' داخل ' + M('B') + ' هستند.' : rel === 'sup' ? 'همهٔ اعضای ' + M('B') + ' داخل ' + M('A') + ' هستند.' : 'هر کدام عضوی دارد که در دیگری نیست.') + '</p>'; },
+          ask: 'با توجه به نمودار، کدام جمله درست است؟', fig: H.venn({ A: p.A, B: p.B, U: POOL, big: true }) + K.dm('A=' + setTex(p.A) + ',\\qquad B=' + setTex(p.B)), expl: function () { return '<p>' + (rel === 'sub' ? 'همهٔ اعضای ' + M('A') + ' داخل ' + M('B') + ' هستند.' : rel === 'sup' ? 'همهٔ اعضای ' + M('B') + ' داخل ' + M('A') + ' هستند.' : 'هر کدام عضوی دارد که در دیگری نیست.') + '</p>'; },
           opts: [{ h: M('A\\subseteq B'), ok: rel === 'sub', m: 'عضوی از ' + M('A') + ' هست که در ' + M('B') + ' نیست.' }, { h: M('B\\subseteq A'), ok: rel === 'sup', m: 'عضوی از ' + M('B') + ' هست که در ' + M('A') + ' نیست.' }, { h: M('A=B'), ok: false, m: 'دو مجموعه اعضای یکسان ندارند.' }, { h: 'هیچ‌کدام از این‌ها', ok: rel === 'none', m: 'یکی از دو مجموعه زیرمجموعهٔ دیگری است.' }]
         };
       }
@@ -221,9 +221,11 @@ window.LESSONS.S01 = {
           K.sn('۳', 'زیرمجموعه'),
           '<p>گاهی همهٔ اعضای یک مجموعه در مجموعهٔ دیگری هم هستند. مثلاً:</p>', K.dm(T`A=\{1,3\},\qquad B=\{1,2,3,4\}`),
           '<p>هر عضوِ ' + M('A') + ' در ' + M('B') + ' هم هست؛ پس ' + M('A') + ' را «زیرمجموعهٔ» ' + M('B') + ' می‌نامیم و می‌نویسیم:</p>', K.dm(T`A\subseteq B`),
-          H.venn({ A: [1, 3], B: [1, 2, 3, 4], U: [1, 2, 3, 4, 5, 6] }),
-          '<p>در نمودار ون، ' + M('A') + ' کاملاً داخل ' + M('B') + ' قرار می‌گیرد: هیچ عضوی از ' + M('A') + ' بیرون از ' + M('B') + ' نیست.</p>',
+          '<p>می‌خوانیم: «' + M('A') + ' زیرمجموعهٔ ' + M('B') + ' است».</p>',
+          H.venn({ A: [1, 3], B: [1, 2, 3, 4], U: [1, 2, 3, 4, 5, 6], big: true }),
+          '<p>این شکل «نمودار ون» نام دارد: هر مجموعه یک دایره است و اعضایش داخل آن نوشته می‌شوند؛ مستطیلِ بیرونی همهٔ عددهای مورد بحث را دربر می‌گیرد. در این نمودار، ' + M('A') + ' کاملاً داخل ' + M('B') + ' قرار می‌گیرد: هیچ عضوی از ' + M('A') + ' بیرون از ' + M('B') + ' نیست.</p>',
           '<h4>آزمونِ زیرمجموعه</h4><p>اعضای مجموعهٔ اول را یکی‌یکی در مجموعهٔ دوم جست‌وجو کن. اگر حتی یکی پیدا نشد، زیرمجموعه نیست:</p>', K.dm(T`C=\{1,5\}:\qquad5\notin B\;\Rightarrow\;C\not\subseteq B`),
+          '<p>نماد ' + M('\\not\\subseteq') + ' یعنی «زیرمجموعه نیست»؛ ' + M('C\\not\\subseteq B') + ' را می‌خوانیم: «' + M('C') + ' زیرمجموعهٔ ' + M('B') + ' نیست».</p>',
           K.box('note', 'دو حالت خاص', '<p>هر مجموعه زیرمجموعهٔ خودش است: ' + M('A\\subseteq A') + '. مجموعهٔ تهی هم زیرمجموعهٔ هر مجموعه‌ای است: ' + M('\\varnothing\\subseteq A') + ' ' + H.tip('s1-empty', 'چرا تهی زیرمجموعهٔ هر مجموعه‌ای است؟', EMPTY) + '</p>'),
           K.box('err', '⚠ اشتباه رایج', T`<p>$\in$ را بین یک «عضو» و یک «مجموعه» می‌نویسیم و $\subseteq$ را بین دو «مجموعه». اگر $A=\{1,3,5\}$ باشد، $3\in A$ درست است، اما $\{3\}\in A$ نادرست است؛ چون $\{3\}$ یک مجموعه است، نه عضوی از $A$. درست‌ترین نوشتار این است: $\{3\}\subseteq A$.</p>`),
           '<h4>نمودار ون زنده</h4><p>با «بازرس» ببین کدام عضوها از مجموعهٔ دیگر بیرون زده‌اند:</p>', host('s1b'),
