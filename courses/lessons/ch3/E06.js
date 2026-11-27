@@ -1,7 +1,7 @@
 /* درس مهارت E06 — معادلهٔ حاصل‌ضربی (فصل ۳) */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.E06 = {
-  needs: ['utils', 'gslider', 'kit'],
+  needs: ['utils', 'gslider', 'exsteps', 'kit'],
   setup: function (K0) {
     var ML = window.MathLite, F = ML.fa, rr = ML.renderRich, abs = Math.abs, _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var M0 = _u.M, K = Object.create(K0), H = K0.lk(K), T = String.raw;
@@ -32,25 +32,6 @@ window.LESSONS.E06 = {
     function head(tex) { return '<div class="e02-problem-head"><span class="e02-problem-chip">' + M(tex) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="مسئلهٔ جدید" aria-label="تغییر مسئله">' + REFRESH + '</button></div>'; }
 
 
-    /* ---------- مثال حل‌شده (همان ساختار E02) ---------- */
-    function exampleBlock(id, dlgTitle, count) {
-      var dots = ''; for (var i = 0; i < count; i++) { dots += '<i' + (i === 0 ? ' class="current"' : '') + '></i>'; }
-      return '<div class="ex e02-example-steps" id="' + id + '" aria-label="حل گام‌به‌گام مثال"><div class="e02-example-top"><strong>مثال حل‌شده</strong><span data-ex-count>گام ۱ از ' + F(count) + '</span></div><div class="e02-example-progress" aria-hidden="true">' + dots + '</div><div class="e02-example-body" data-ex-body aria-live="polite"></div><div class="e02-example-actions end-actions"><button type="button" class="btn" data-ex-prev data-scroll disabled>مرحلهٔ قبلی</button><button type="button" class="btn primary" data-ex-next data-scroll>مرحلهٔ بعدی</button><button type="button" class="btn primary" data-ex-all hidden>مشاهدهٔ حل کامل</button></div></div>' +
-        '<dialog class="e02-example-dialog" id="' + id + '-dialog" aria-labelledby="' + id + '-dt"><div class="e02-example-dialog-header"><strong id="' + id + '-dt">' + dlgTitle + '</strong><button type="button" class="btn primary" data-ex-close aria-label="بستن پنجره">بستن</button></div><div class="e02-example-dialog-content" data-ex-full></div></dialog>';
-    }
-    function exampleBind(id, steps) {
-      var box = document.getElementById(id), dlg = document.getElementById(id + '-dialog'); if (!box || !dlg) { return; }
-      var index = 0, prev = box.querySelector('[data-ex-prev]'), next = box.querySelector('[data-ex-next]'), all = box.querySelector('[data-ex-all]');
-      function content(step, i) { return '<section class="e02-example-step"><div class="e02-example-heading"><span class="e02-example-chip">گام ' + F(i + 1) + '</span><strong>' + step.title + '</strong></div><div class="e02-example-lines">' + step.lines.map(function (l) { return l.charAt(0) === '@' ? '<div class="e3-exline">' + l.slice(1) + '</div>' : '<div dir="ltr">' + M(l) + '</div>'; }).join('') + '</div><p class="e02-example-note">' + step.note + '</p></section>'; }
-      function render() { box.querySelector('[data-ex-count]').textContent = 'گام ' + F(index + 1) + ' از ' + F(steps.length); box.querySelector('[data-ex-body]').innerHTML = rr(content(steps[index], index)); box.querySelectorAll('.e02-example-progress i').forEach(function (el, i) { el.classList.toggle('current', i <= index); }); prev.disabled = index === 0; next.hidden = index === steps.length - 1; all.hidden = index !== steps.length - 1; }
-      box.addEventListener('click', function (e) { if (e.target.closest('[data-ex-prev], [data-ex-next], [data-ex-all]')) { e.stopPropagation(); } });
-      prev.addEventListener('click', function () { if (index > 0) { index--; render(); } });
-      next.addEventListener('click', function () { if (index < steps.length - 1) { index++; render(); } });
-      all.addEventListener('click', function () { dlg.querySelector('[data-ex-full]').innerHTML = rr(steps.map(content).join('')); dlg.showModal(); });
-      dlg.querySelector('[data-ex-close]').addEventListener('click', function () { dlg.close(); });
-      dlg.addEventListener('click', function (e) { if (e.target === dlg) { dlg.close(); } });
-      render();
-    }
 
     function more(label) { return '<div class="opts g-ops"><button type="button" class="btn primary" data-fresh data-scroll=".e02-problem-head" data-scroll-offset="100">' + label + '</button></div>'; }
     /* ---------- کارگاه گام‌به‌گام (انتخاب خط درست در هر گام؛ گام‌ها پشت‌سرهم می‌آیند) ----------
@@ -255,14 +236,14 @@ window.LESSONS.E06 = {
         h += K.box('note', 'شرط قانون: طرف دیگر صفر باشد', '<p>از ' + M('A\\times B=6') + ' نمی‌شود نتیجه گرفت ' + M('A=2') + ' یا ' + M('B=3') + '. این قانون فقط برای حاصل‌ضربِ برابر صفر کار می‌کند.</p>');
         h += K.sn('۲', 'حل هر عامل');
         h += '<p>قانون می‌گوید معادله به دو معادلهٔ جدا تبدیل می‌شود، و هر کدام یک معادلهٔ خطی ساده است. مثال زیر را گام‌به‌گام ببین و مراقب ضریب ' + M('x') + ' و علامت باش:</p>';
-        h += exampleBlock('e06-example-steps', 'حل کامل معادلهٔ حاصل‌ضربی', 3);
+        h += K.exampleSteps.html('e06-example-steps', 3, 'حل کامل معادلهٔ حاصل‌ضربی', null, 'steps');
         h += '<p>در مثال دیدی هر عامل جدا حل می‌شود و جواب‌ها در معادلهٔ اصلی صدق می‌کنند. حالا خودت با معادله‌های تازه امتحانش کن.</p>';
         h += activity('کارگاه ریشه‌یاب', 'e06-roots', 'دو جواب را بنویس (به هر ترتیب). اگر علامت‌ها را عوض کنی، پیام راهنما می‌بینی. برای معادلهٔ تازه، دکمهٔ چرخان را بزن.');
         h += K.box('err', '⚠ خطای رایج: علامتِ جواب', '<p>معادلهٔ عامل: ' + ltr(M('x+5=0')) + '</p>' + errPair('علامتِ ' + M('5') + ' عوض نشد', 'x+5=0\\ \\Rightarrow\\ x=\\textcolor{firebrick}{5}', 'عدد با جابه‌جایی علامتش را عوض می‌کند', 'x+5=0\\ \\Rightarrow\\ x=\\textcolor{seagreen}{-5}') + '<p>راه تشخیص: جواب را در عامل بگذار. ' + ltr(M('5+5=10')) + ' صفر نیست، ولی ' + ltr(M('-5+5=0')) + '.</p>');
         h += '<p>تا اینجا معادله از اول به شکل «حاصل‌ضرب = صفر» بود. اگر نباشد چه؟ مثل ' + M('x^2-5x=0') + '؛ اگر بتوانیم آن را به حاصل‌ضرب تبدیل کنیم، همین دو بخش کارش را راه می‌اندازند.</p>';
         h += K.sn('۳', 'ساختنِ حاصل‌ضرب با عامل مشترک');
         h += '<p>در ' + M('x^2-5x=0') + ' هر دو جمله ' + M('x') + ' دارند. وقتی ' + M('x') + ' را بیرون بکشیم، حاصل‌ضرب ساخته می‌شود و قانون ضرب صفر کارش را شروع می‌کند. مثال زیر را گام‌به‌گام ببین:</p>';
-        h += exampleBlock('e06-example-factor', 'حل کامل با عامل مشترک', 3);
+        h += K.exampleSteps.html('e06-example-factor', 3, 'حل کامل با عامل مشترک', null, 'steps');
         h += '<p>در مثال، ' + M('x=0') + ' هم یکی از جواب‌ها بود. حالا خودت امتحان کن؛ گام آخر نشان می‌دهد تقسیم بر ' + M('x') + ' چه چیزی را از دست می‌دهد.</p>';
         h += activity('کارگاه عامل مشترک', 'e06-factor', 'در هر گام خط درست را انتخاب کن.');
         h += stepsNote('e06-sd-factor');
@@ -283,16 +264,16 @@ window.LESSONS.E06 = {
         zeroLab($('e06-zero')); rootsLab($('e06-roots'));
         K.guide($('e06-factor'), function () { return genFact(1); }, { log: true }); K.guide($('e06-full'), genRoot, { log: true });
         stepsBind('e06-sd-factor', 'e06-factor', $); stepsBind('e06-sd-full', 'e06-full', $);
-        exampleBind('e06-example-steps', [
+        K.exampleSteps.bind('e06-example-steps', [
           { title: 'قانون ضرب صفر', lines: ['(2x-6)(x+1)=0', '2x-6=0' + OR + 'x+1=0'], note: 'حاصل‌ضرب صفر است؛ پس دست‌کم یکی از دو عامل صفر است.' },
           { title: 'حل هر عامل', lines: ['2x-6=0\\ \\Rightarrow\\ 2x=6\\ \\Rightarrow\\ x=3', 'x+1=0\\ \\Rightarrow\\ x=-1'], note: 'در عامل اول، پس از بردنِ ۶ باید بر ۲ تقسیم کنیم.' },
           { title: 'آزمایش جواب‌ها', lines: ['x=3:\\ (2\\times3-6)(3+1)=0\\times4=0\\ \\color{teal}{\\checkmark}', 'x=-1:\\ (2\\times(-1)-6)(-1+1)=(-8)\\times0=0\\ \\color{teal}{\\checkmark}'], note: 'با هر دو جواب، یکی از عامل‌ها صفر می‌شود.' }
-        ]);
-        exampleBind('e06-example-factor', [
+        ], 'steps');
+        K.exampleSteps.bind('e06-example-factor', [
           { title: 'عامل مشترک', lines: ['x^2-5x=0', 'x(x-5)=0'], note: 'هر دو جمله ' + M('x') + ' دارند. بیرون‌کشیدن آن همان توزیعِ برعکس است: ' + M('x(x-5)=x^2-5x') + '.' },
           { title: 'قانون ضرب صفر', lines: ['x=0' + OR + 'x-5=0', 'x=0' + OR + 'x=5'], note: 'خودِ ' + M('x') + ' هم یک عامل است؛ پس ' + M('x=0') + ' هم جواب است.' },
           { title: 'آزمایش جواب‌ها', lines: ['x=0:\\ 0^2-5\\times0=0\\ \\color{teal}{\\checkmark}', 'x=5:\\ 5^2-5\\times5=25-25=0\\ \\color{teal}{\\checkmark}'], note: 'هر دو جواب در معادلهٔ اصلی صدق می‌کنند.' }
-        ]);
+        ], 'steps');
         H.final($('e06-final'), [mkH1, mkH2, mkH3, mkH4, mkH5, mkH6]);
       }
     };

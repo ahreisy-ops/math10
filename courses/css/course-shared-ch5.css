@@ -30,3 +30,169 @@
 .g5-scope .chip {transition:none}
 .g5-scope .chip:active:not(:disabled) {transform:none}
 }
+
+/* مثال‌های حل‌شدهٔ گام‌به‌گام (K.exampleSteps در js/shared/example-steps.js) — مستقل از فصل؛ کلاس بستهٔ .exs را خود مؤلفه می‌گذارد */
+.exs-tall {
+    --exs-h: 280px;
+    --exs-hm: 265px
+}
+
+.exs .e02-example-steps {
+    min-width: 0;
+    scroll-margin-top: 16px;
+    overflow-anchor: none
+}
+
+.exs .e02-example-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--ink)
+}
+
+.exs .e02-example-top span {
+    font-size: .84rem;
+    color: var(--ink-soft)
+}
+
+.exs .e02-example-progress {
+    display: flex;
+    gap: 5px;
+    margin: 12px 0
+}
+
+.exs .e02-example-progress i {
+    flex: 1;
+    height: 4px;
+    border-radius: 6px;
+    background: #dbe5ec
+}
+
+.exs .e02-example-progress i.current {
+    background: #118d83
+}
+
+.exs .e02-example-body {
+    min-height: var(--exs-h, 240px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center
+}
+
+.exs .e02-example-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0 12px;
+    color: var(--ink)
+}
+
+.exs .e02-example-chip {
+    border-radius: 18px;
+    padding: 3px 12px;
+    background: #def2ed;
+    color: #075e58;
+    font-size: .84rem;
+    white-space: nowrap
+}
+
+.exs .e02-example-lines {
+    padding: 12px 8px;
+    background: #f3f6fa;
+    border-radius: 10px;
+    display: grid;
+    gap: 13px;
+    justify-items: center;
+    overflow-x: auto;
+    max-width: 100%;
+    font-size: 1.15rem
+}
+
+.exs .e02-example-lines>div {
+    max-width: 100%;
+    white-space: nowrap
+}
+
+.exs .e02-example-note {
+    font-size: .91rem;
+    color: var(--ink-soft);
+    line-height: 1.9;
+    margin: 12px 0 !important
+}
+
+.exs .e02-example-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap
+}
+
+.exs .e02-example-dialog {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    background: #fff;
+    color: var(--ink);
+    padding: 0;
+    width: min(640px, calc(100vw - 24px));
+    max-width: calc(100vw - 24px);
+    max-height: 85dvh;
+    overflow: hidden;
+    direction: rtl;
+    box-shadow: 0 15px 55px #07183145
+}
+
+.exs .e02-example-dialog[open] {
+    display: flex;
+    flex-direction: column
+}
+
+.exs .e02-example-dialog::backdrop {
+    background: rgba(5, 18, 40, .65)
+}
+
+.exs .e02-example-dialog-header {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--line);
+    padding: 14px 17px;
+    background: #f2f7fb
+}
+
+.exs .e02-example-dialog-content {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 14px 18px 24px
+}
+
+.exs .e02-example-dialog-content .e02-example-step+.e02-example-step {
+    border-top: 1px solid var(--line);
+    margin-top: 19px;
+    padding-top: 16px
+}
+
+@media(max-width:420px) {
+    .exs .e02-example-body {
+        min-height: var(--exs-hm, 225px)
+    }
+
+    .exs .e02-example-dialog-content {
+        padding: 12px
+    }
+
+    .exs .e02-example-heading {
+        font-size: .95rem
+    }
+
+    .exs .e02-example-actions {
+        gap: 6px
+    }
+}

@@ -3,7 +3,7 @@
   'use strict';
   window.LESSONS = window.LESSONS || {};
   window.LESSONS.E02 = {
-    needs: ['kit'], setup: function (K) {
+    needs: ['exsteps', 'kit'], setup: function (K) {
       var ML = window.MathLite, H = window.CourseKit.lk(K);
       if (!document.getElementById('css-E2detect-frame')) {
         var st0 = document.createElement('style');
@@ -451,26 +451,6 @@
         else { s.note = { ok: false, text: 'به ضریب مجهول و علامت عددها توجه کن. مقدار معادلهٔ ساده‌شده را دوباره بررسی کن.' }; }
         paint();
       }
-      function exampleStepsBind() {
-        var box = document.getElementById('e02-example-steps'), dlg = document.getElementById('e02-example-dialog');
-        if (!box || !dlg) return;
-        var steps = [
-          { title: 'بازکردن پرانتز و جمع جمله‌های هم‌نوع', lines: ['2(x+3)+x=18', '2x+6+x=18', '3x+6=18'], note: 'ابتدا پرانتز را باز می‌کنیم، سپس جمله‌های هم‌نوع را جمع می‌کنیم.' },
-          { title: 'حذف عدد ثابت', lines: ['3x+6=18', '3x+6-6=18-6', '3x=12'], note: 'برای حذف عدد ثابت، از هر دو طرف معادله ۶ کم می‌کنیم.' },
-          { title: 'تقسیم دو طرف بر ضریب مجهول', lines: ['3x=12', '\\frac{3x}{3}=\\frac{12}{3}', 'x=4'], note: 'هر دو طرف را بر ۳ تقسیم می‌کنیم تا مجهول تنها بماند.' }
-        ];
-        var index = 0, prev = box.querySelector('[data-ex-prev]'), next = box.querySelector('[data-ex-next]'), all = box.querySelector('[data-ex-all]');
-        function content(step, i) { return '<section class="e02-example-step"><div class="e02-example-heading"><span class="e02-example-chip">گام ' + F(i + 1) + '</span><strong>' + step.title + '</strong></div><div class="e02-example-lines">' + step.lines.map(function (line) { return '<div dir="ltr">' + M(line) + '</div>'; }).join('') + '</div><p class="e02-example-note">' + step.note + '</p></section>'; }
-        function render() { box.querySelector('[data-ex-count]').textContent = 'گام ' + F(index + 1) + ' از ' + F(steps.length); box.querySelector('[data-ex-body]').innerHTML = content(steps[index], index); box.querySelectorAll('.e02-example-progress i').forEach(function (el, i) { el.classList.toggle('current', i <= index); }); prev.disabled = index === 0; next.hidden = index === steps.length - 1; all.hidden = index !== steps.length - 1; }
-        // Keep the app's global quiz-navigation auto-scroll from treating these as question buttons.
-        box.addEventListener('click', function (e) { if (e.target.closest('[data-ex-prev], [data-ex-next], [data-ex-all]')) e.stopPropagation(); });
-        prev.addEventListener('click', function () { if (index > 0) { index--; render(); } });
-        next.addEventListener('click', function () { if (index < steps.length - 1) { index++; render(); } });
-        all.addEventListener('click', function () { dlg.querySelector('[data-ex-full]').innerHTML = steps.map(content).join(''); dlg.showModal(); });
-        dlg.querySelector('[data-ex-close]').addEventListener('click', function () { dlg.close(); });
-        dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
-        render();
-      }
       return {
         html: function () {
           var h = '<div class="e01-lesson e02-lesson">';
@@ -492,13 +472,7 @@
           h += '<p>گاهی مجهول فقط در یک طرف دیده نمی‌شود؛ مانند ' + M('4x+3=2x+11') + '. در این حالت، جمله‌های مجهول‌دار می‌توانند در یک طرف جمع شوند. این انتخاب، مانند انتقال یک شیء از یک کفهٔ ترازو به کفهٔ دیگر نیست: برای حذف هر جمله، <b>عمل یکسانی روی دو طرف معادله</b> انجام می‌شود.</p>';
           h += activity('میز جمله‌های معادله', 'e02-tiles', 'با انتخاب یک جمله، اثر حذف آن را روی دو طرف ببین. پس از ساده‌شدن معادله، جواب را خودت به دست بیاور.');
           h += '<p>اگر پرانتز یا جمله‌های هم‌نوع وجود داشته باشد، ابتدا می‌توان از مهارت‌های فصل عبارت‌های جبری کمک گرفت. برای مثال، در ' + M('2(x+3)+x=18') + '، <b>ساده‌سازی طرف چپ</b> به ' + M('3x+6=18') + ' می‌رسد؛ این بازنویسی با کم‌کردن یا تقسیم‌کردن دو طرف تفاوت دارد. پس از ساده‌سازی، با کم‌کردن ۶ و سپس تقسیم بر ۳، جواب ' + M('x=4') + ' به دست می‌آید.</p>';
-          h += '<div class="ex e02-example-steps" id="e02-example-steps" aria-label="حل گام‌به‌گام مثال">';
-          h += '<div class="e02-example-top"><strong>مثال حل‌شده</strong><span data-ex-count>گام ۱ از ۳</span></div>';
-          h += '<div class="e02-example-progress" aria-hidden="true"><i class="current"></i><i></i><i></i></div>';
-          h += '<div class="e02-example-body" data-ex-body aria-live="polite"></div>';
-          h += '<div class="e02-example-actions end-actions"><button type="button" class="btn" data-ex-prev disabled data-scroll>مرحلهٔ قبلی</button><button type="button" class="btn primary" data-ex-next data-scroll>مرحلهٔ بعدی</button><button type="button" class="btn primary" data-ex-all hidden data-scroll>مشاهدهٔ حل کامل</button></div>';
-          h += '</div>';
-          h += '<dialog class="e02-example-dialog" id="e02-example-dialog" aria-labelledby="e02-example-dialog-title"><div class="e02-example-dialog-header"><strong id="e02-example-dialog-title">حل کامل معادله</strong><button type="button" class="btn primary" data-ex-close aria-label="بستن پنجره">بستن</button></div><div class="e02-example-dialog-content" data-ex-full></div></dialog>';
+          h += K.exampleSteps.html('e02-example-steps', 3, 'حل کامل معادله', null, 'steps');
           h += K.sn('۵', 'چطور خطا به یک جواب نادرست می‌رسد؟');
           h += '<p>در یک راه‌حل چندمرحله‌ای، یک خطای کوچک می‌تواند همهٔ گام‌های بعد را تحت تأثیر قرار دهد. به همین دلیل، پیدا کردن <b>نخستین گام نادرست</b> از نگاه‌کردن صرف به جواب نهایی مفیدتر است.</p>';
           h += activity('کارآگاه راه‌حل', 'e02-detect', 'مراحل را از ابتدا بررسی کن؛ اولین سطر نادرست را پیدا کن و عدد اشتباهِ همان سطر را اصلاح کن.');
@@ -514,7 +488,11 @@
           bind('e02-fraction', fractionState, fractionRender, fractionHandle);
           bind('e02-tiles', tileProblem, tileRender, tileHandle);
           bind('e02-detect', errorProblem, detectRender, detectHandle);
-          exampleStepsBind();
+          K.exampleSteps.bind('e02-example-steps', [
+            { title: 'بازکردن پرانتز و جمع جمله‌های هم‌نوع', lines: ['2(x+3)+x=18', '2x+6+x=18', '3x+6=18'], note: 'ابتدا پرانتز را باز می‌کنیم، سپس جمله‌های هم‌نوع را جمع می‌کنیم.' },
+            { title: 'حذف عدد ثابت', lines: ['3x+6=18', '3x+6-6=18-6', '3x=12'], note: 'برای حذف عدد ثابت، از هر دو طرف معادله ۶ کم می‌کنیم.' },
+            { title: 'تقسیم دو طرف بر ضریب مجهول', lines: ['3x=12', '\\frac{3x}{3}=\\frac{12}{3}', 'x=4'], note: 'هر دو طرف را بر ۳ تقسیم می‌کنیم تا مجهول تنها بماند.' }
+         ], 'steps');
           finalBind();
         }
       };

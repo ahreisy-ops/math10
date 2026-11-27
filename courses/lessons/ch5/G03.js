@@ -243,6 +243,7 @@ window.LESSONS.G03 = {
       s += '</svg>';
       var i, bars = '';
       for (i = 0; i < N; i++) { bars += '<i></i>'; }
+      host.classList.add('exs');
       host.innerHTML = rr('<div class="e02-example-top"><strong>' + (hyp ? 'حل گام‌به‌گام: مجهول، وتر است' : 'حل گام‌به‌گام: مجهول، ضلع قائم است') + '</strong><span class="pyn"></span></div><div class="e02-example-progress">' + bars + '</div><div class="pyf"></div><p class="pycap" aria-live="polite">' + caps.map(function (x) { return '<span>' + x + '</span>'; }).join('') + '</p><div class="pyls">' + eq.map(function (g) { return '<div class="pyg">' + g.map(function (t) { return K.dm(t); }).join('') + '</div>'; }).join('') + '</div><div class="e02-example-actions end-actions"><button type="button" class="btn" data-pv="1" data-scroll=".e02-example-top">گام قبلی</button><button type="button" class="btn primary" data-nx="1" data-scroll=".e02-example-top">گام بعدی</button></div>');
       host.querySelector('.pyf').innerHTML = s;
       var rc = host.querySelectorAll('.pyc'), ls = host.querySelectorAll('.pyg'), tg = host.querySelectorAll('.pyt'), dg = host.querySelectorAll('.pyd'), pr = host.querySelectorAll('.e02-example-progress i'), ov = host.querySelector('.pyo'), cs = host.querySelectorAll('.pycap span'), num = host.querySelector('.pyn'), pv = host.querySelector('[data-pv]'), nx = host.querySelector('[data-nx]');

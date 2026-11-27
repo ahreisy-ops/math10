@@ -352,3 +352,28 @@
   font-size: .88rem;
   font-weight: 700
 }
+
+/* S03 — کاشی‌کار: دکمه‌های شکل قبلی/بعدی با سایه و فرورفتن */
+#s3b .lk-line>.btn[data-v] {
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: transform .10s ease, box-shadow .10s ease;
+}
+
+#s3b .lk-line>.btn[data-v]:active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+#s3b .lk-line>.btn[data-v]:disabled {
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #s3b .lk-line>.btn[data-v] {
+    transition: none
+  }
+
+  #s3b .lk-line>.btn[data-v]:active:not(:disabled) {
+    transform: none
+  }
+}

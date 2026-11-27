@@ -1,7 +1,7 @@
 /* درس مهارت E05 — معادله‌های دارای کسر و عبارت جبری (فصل ۳) */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.E05 = {
-  needs: ['utils', 'gslider', 'kit'],
+  needs: ['utils', 'gslider', 'exsteps', 'kit'],
   setup: function (K0) {
     var ML = window.MathLite, F = ML.fa, rr = ML.renderRich, abs = Math.abs, _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var M0 = _u.M, K = Object.create(K0), H = K0.lk(K), T = String.raw;
@@ -36,25 +36,6 @@ window.LESSONS.E05 = {
     function head(tex) { return '<div class="e02-problem-head"><span class="e02-problem-chip">' + M(tex) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="مسئلهٔ جدید" aria-label="تغییر مسئله">' + REFRESH + '</button></div>'; }
 
 
-    /* ---------- مثال حل‌شده (همان ساختار E02) ---------- */
-    function exampleBlock(id, dlgTitle, count) {
-      var dots = ''; for (var i = 0; i < count; i++) { dots += '<i' + (i === 0 ? ' class="current"' : '') + '></i>'; }
-      return '<div class="ex e02-example-steps" id="' + id + '" aria-label="حل گام‌به‌گام مثال"><div class="e02-example-top"><strong>مثال حل‌شده</strong><span data-ex-count>گام ۱ از ' + F(count) + '</span></div><div class="e02-example-progress" aria-hidden="true">' + dots + '</div><div class="e02-example-body" data-ex-body aria-live="polite"></div><div class="e02-example-actions end-actions"><button type="button" class="btn" data-ex-prev data-scroll disabled>مرحلهٔ قبلی</button><button type="button" class="btn primary" data-ex-next data-scroll>مرحلهٔ بعدی</button><button type="button" class="btn primary" data-ex-all hidden>مشاهدهٔ حل کامل</button></div></div>' +
-        '<dialog class="e02-example-dialog" id="' + id + '-dialog" aria-labelledby="' + id + '-dt"><div class="e02-example-dialog-header"><strong id="' + id + '-dt">' + dlgTitle + '</strong><button type="button" class="btn primary" data-ex-close aria-label="بستن پنجره">بستن</button></div><div class="e02-example-dialog-content" data-ex-full></div></dialog>';
-    }
-    function exampleBind(id, steps) {
-      var box = document.getElementById(id), dlg = document.getElementById(id + '-dialog'); if (!box || !dlg) { return; }
-      var index = 0, prev = box.querySelector('[data-ex-prev]'), next = box.querySelector('[data-ex-next]'), all = box.querySelector('[data-ex-all]');
-      function content(step, i) { return '<section class="e02-example-step"><div class="e02-example-heading"><span class="e02-example-chip">گام ' + F(i + 1) + '</span><strong>' + step.title + '</strong></div><div class="e02-example-lines">' + step.lines.map(function (l) { return l.charAt(0) === '@' ? '<div class="e3-exline">' + l.slice(1) + '</div>' : '<div dir="ltr">' + M(l) + '</div>'; }).join('') + '</div><p class="e02-example-note">' + step.note + '</p></section>'; }
-      function render() { box.querySelector('[data-ex-count]').textContent = 'گام ' + F(index + 1) + ' از ' + F(steps.length); box.querySelector('[data-ex-body]').innerHTML = rr(content(steps[index], index)); box.querySelectorAll('.e02-example-progress i').forEach(function (el, i) { el.classList.toggle('current', i <= index); }); prev.disabled = index === 0; next.hidden = index === steps.length - 1; all.hidden = index !== steps.length - 1; }
-      box.addEventListener('click', function (e) { if (e.target.closest('[data-ex-prev], [data-ex-next], [data-ex-all]')) { e.stopPropagation(); } });
-      prev.addEventListener('click', function () { if (index > 0) { index--; render(); } });
-      next.addEventListener('click', function () { if (index < steps.length - 1) { index++; render(); } });
-      all.addEventListener('click', function () { dlg.querySelector('[data-ex-full]').innerHTML = rr(steps.map(content).join('')); dlg.showModal(); });
-      dlg.querySelector('[data-ex-close]').addEventListener('click', function () { dlg.close(); });
-      dlg.addEventListener('click', function (e) { if (e.target === dlg) { dlg.close(); } });
-      render();
-    }
 
     function more(label) { return '<div class="opts g-ops"><button type="button" class="btn primary" data-fresh data-scroll=".e02-problem-head" data-scroll-offset="100">' + label + '</button></div>'; }
     /* ---------- کارگاه گام‌به‌گام (انتخاب خط درست در هر گام؛ گام‌ها پشت‌سرهم می‌آیند) ----------
@@ -340,13 +321,13 @@ window.LESSONS.E05 = {
         h += intro('کسرها و پرانتزها را از سر راه برداریم', 'معادله‌ای که پرانتز یا کسر دارد، با چند حرکتِ مشخص به همان معادلهٔ خطیِ آشنا تبدیل می‌شود. فقط یک تله هست: جوابی که مخرج را صفر کند، جواب نیست.', ['باز کردن پرانتز', 'حذف مخرج', 'مخرج صفر', 'ماشین مرحله‌ها']);
         h += K.sn('۱', 'باز کردن پرانتز') + stageTag(0);
         h += '<p>پرانتز مثل یک بسته است: عددی که جلوی آن ایستاده باید به همهٔ چیزهای داخلش برسد. تا بسته باز نشود، جمله‌های ' + M('x') + ' نمی‌توانند با هم جمع شوند؛ پس باز کردن پرانتز یعنی رساندنِ عددِ بیرون به تک‌تکِ جمله‌های داخل.</p>';
-        h += exampleBlock('e05-example-dist', 'حل کامل معادلهٔ پرانتزی', 3);
+        h += K.exampleSteps.html('e05-example-dist', 3, 'حل کامل معادلهٔ پرانتزی', null, 'steps');
         h += '<p>در مثال دیدی عددِ بیرون به هر دو جمله رسید و منفیِ جلوی پرانتز علامت‌ها را برگرداند. حالا خودت با عبارت‌های تازه امتحانش کن.</p>';
         h += activity('کارگاه پرانتزبازکن', 'e05-dist', 'عددِ بیرون را به هر دو جمله برسان؛ روی هر دو ضرب بزن.');
         h += K.box('err', '⚠ خطای رایج: ضرب فقط در جملهٔ اول', '<p>معادلهٔ اصلی: ' + ltr(M('2(x-3)=x+4')) + '</p>' + errPair('عدد ۲ فقط به جملهٔ اول رسید', '2x\\textcolor{firebrick}{-3}=x+4\\ \\Rightarrow\\ x=7', 'عدد ۲ به هر دو جملهٔ پرانتز می‌رسد', '2x\\textcolor{seagreen}{-6}=x+4\\ \\Rightarrow\\ x=10') + '<p>راه تشخیص: جواب را در معادلهٔ اصلی بگذار. طرف چپ ' + ltr(M('2(7-3)=8')) + ' می‌شود ولی طرف راست ' + ltr(M('7+4=11')) + '؛ پس ' + ltr(M('x=7')) + ' جواب نیست.</p>');
         h += K.sn('۲', 'حذف مخرج') + stageTag(1);
         h += '<p>پرانتزها که رفتند، نوبت کسرهاست. کسر یعنی تقسیم و جمع‌کردنش دردسر دارد؛ اما اگر دو طرف را در عددی ضرب کنیم که همهٔ مخرج‌ها آن را بشمارند (ک.م.م)، کسرها یک‌جا ناپدید می‌شوند و همان معادلهٔ خطیِ آشنا می‌ماند.</p>';
-        h += exampleBlock('e05-example-steps', 'حل کامل معادلهٔ کسری', 3);
+        h += K.exampleSteps.html('e05-example-steps', 3, 'حل کامل معادلهٔ کسری', null, 'steps');
         h += '<p>در مثال، ضرب در ک.م.م به همهٔ جمله‌ها رسید، حتی به عددِ تنها. حالا خودت امتحان کن.</p>';
         h += activity('کارگاه حذف مخرج', 'e05-frac', 'سه شکل معادله می‌آید: کسرِ تنها با عددی کنارش، کسر با صورتِ دوجمله‌ای، و دو کسر با مخرج‌های متفاوت. در هر گام خط درست را انتخاب کن.');
         h += stepsNote('e05-sd-frac');
@@ -371,16 +352,16 @@ window.LESSONS.E05 = {
       init: function () {
         var $ = function (id) { return document.getElementById(id); };
         K.guide($('e05-frac'), genFrac, { log: false }); distLab($('e05-dist')); zeroLab($('e05-zero')); K.guide($('e05-solve'), genMix, { log: true }); machine($('e05-machine')); stepsBind('e05-sd-frac', 'e05-frac', $); stepsBind('e05-sd-solve', 'e05-solve', $);
-        exampleBind('e05-example-steps', [
+        K.exampleSteps.bind('e05-example-steps', [
           { title: 'مخرج مشترک', lines: ['\\dfrac{x}{2}+\\dfrac{x}{3}=5', '@ک.م.م ' + M('2') + ' و ' + M('3') + ' برابر ' + M('6') + ' است'], note: 'کوچک‌ترین عددی که ۲ و ۳ هر دو آن را می‌شمارند، ۶ است.' },
           { title: 'ضرب در ۶', lines: ['6\\times\\dfrac{x}{2}+6\\times\\dfrac{x}{3}=6\\times5', '3x+2x=30', '5x=30'], note: 'همهٔ جمله‌ها، از جمله ۵ طرف راست، در ۶ ضرب می‌شوند.' },
           { title: 'حل و آزمایش', lines: ['x=\\dfrac{30}{5}=6', '\\dfrac{6}{2}+\\dfrac{6}{3}=3+2=5\\ \\color{teal}{\\checkmark}'], note: 'جواب را جایگذاری می‌کنیم؛ دو طرف برابرند.' }
-        ]);
-        exampleBind('e05-example-dist', [
+        ], 'steps');
+        K.exampleSteps.bind('e05-example-dist', [
           { title: 'باز کردن پرانتزها', lines: ['2(x-3)-(x-4)=9', '2x-6-x+4=9'], note: 'عدد ۲ در هر دو جملهٔ پرانتز اول ضرب می‌شود. علامت منفیِ پشت پرانتز دوم، علامت هر دو جمله را عوض می‌کند: ' + M('-(x-4)=-x+4') + '.' },
           { title: 'جمع جمله‌های مشابه', lines: ['2x-x-6+4=9', 'x-2=9'], note: 'جمله‌های ' + M('x') + ' را با هم و عددها را با هم جمع می‌کنیم.' },
           { title: 'حل و آزمایش', lines: ['x=11', '2(11-3)-(11-4)=16-7=9\\ \\color{teal}{\\checkmark}'], note: 'جواب را جایگذاری می‌کنیم؛ دو طرف برابرند.' }
-        ]);
+        ], 'steps');
         H.final($('e05-final'), [mkG1, mkG2, mkG3, mkG4, mkG5, mkG6]);
       }
     };

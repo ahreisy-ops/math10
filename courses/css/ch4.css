@@ -885,3 +885,27 @@ th:has(>.numgrp) {
         transform: none
     }
 }
+
+/* C03: جدولِ دارای کادر ورودی در همهٔ عرض‌ها داخل کارت جا شود */
+.cd-tab:has(.numgrp) {
+    table-layout: fixed;
+    width: 100%;
+    max-width: 480px
+}
+
+.cd-tab:has(.numgrp) th:first-child {
+    width: 24%;
+    min-width: 0;
+    padding: 3px 4px;
+    font-size: .88rem;
+    overflow-wrap: anywhere
+}
+
+.cd-tab:has(.numgrp) td {
+    min-width: 0;
+    padding: 3px
+}
+
+.cd-tab .numgrp.numgrp.tight {
+    width: 100%
+}

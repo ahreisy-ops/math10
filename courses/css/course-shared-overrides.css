@@ -330,3 +330,36 @@
 .sgnrow>.btn:disabled:not(.right):not(.wrong) {
   opacity: .55;
 }
+
+/* دکمه‌های قبلی/بعدی: همان رفتار «سه مسئله، سه حل» (کنار هم، باریک‌شونده، بدون شکستن) */
+@media (max-width: 471px) {
+
+  .opts:is(:has(>[data-p="1"]):has(>[data-nx="1"]),
+    :has(>[data-action="prev"]):has(>[data-action="next"]),
+    :has(>[data-a06-prev]):has(>[data-a06-next]),
+    :has(>[data-prev]):has(>[data-next])),
+  .a78-actions:has(>[data-prev]):has(>[data-next]) {
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+  }
+
+  .opts:is(:has(>[data-p="1"]):has(>[data-nx="1"]),
+    :has(>[data-action="prev"]):has(>[data-action="next"]),
+    :has(>[data-a06-prev]):has(>[data-a06-next]),
+    :has(>[data-prev]):has(>[data-next]))>.btn,
+  .a78-actions:has(>[data-prev]):has(>[data-next])>.btn {
+    min-width: 0 !important;
+    flex: 0 1 120px !important;
+  }
+}
+
+@media (max-width: 380px) {
+
+  .opts:is(:has(>[data-p="1"]):has(>[data-nx="1"]),
+    :has(>[data-action="prev"]):has(>[data-action="next"]),
+    :has(>[data-a06-prev]):has(>[data-a06-next]),
+    :has(>[data-prev]):has(>[data-next]))>.btn,
+  .a78-actions:has(>[data-prev]):has(>[data-next])>.btn {
+    flex: 1 1 0 !important;
+  }
+}

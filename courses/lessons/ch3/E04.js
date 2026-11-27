@@ -1,7 +1,7 @@
 /* درس مهارت E04 — نمایش جواب روی محور و بازه (فصل ۳) */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.E04 = {
-  needs: ['utils', 'kit'],
+  needs: ['utils', 'exsteps', 'kit'],
   setup: function (K0) {
     var ML = window.MathLite, F = ML.fa, rr = ML.renderRich, abs = Math.abs, _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var M0 = _u.M, K = Object.create(K0), H = K0.lk(K), T = String.raw;
@@ -37,25 +37,6 @@ window.LESSONS.E04 = {
 
 
 
-    /* ---------- مثال حل‌شده (همان ساختار E02) ---------- */
-    function exampleBlock(id, dlgTitle, count) {
-      var dots = ''; for (var i = 0; i < count; i++) { dots += '<i' + (i === 0 ? ' class="current"' : '') + '></i>'; }
-      return '<div class="ex e02-example-steps" id="' + id + '" aria-label="حل گام‌به‌گام مثال"><div class="e02-example-top"><strong>مثال حل‌شده</strong><span data-ex-count>گام ۱ از ' + F(count) + '</span></div><div class="e02-example-progress" aria-hidden="true">' + dots + '</div><div class="e02-example-body" data-ex-body aria-live="polite"></div><div class="e02-example-actions end-actions"><button type="button" class="btn" data-ex-prev data-scroll disabled>مرحلهٔ قبلی</button><button type="button" class="btn primary" data-ex-next data-scroll>مرحلهٔ بعدی</button><button type="button" class="btn primary" data-ex-all hidden>مشاهدهٔ حل کامل</button></div></div>' +
-        '<dialog class="e02-example-dialog" id="' + id + '-dialog" aria-labelledby="' + id + '-dt"><div class="e02-example-dialog-header"><strong id="' + id + '-dt">' + dlgTitle + '</strong><button type="button" class="btn primary" data-ex-close aria-label="بستن پنجره">بستن</button></div><div class="e02-example-dialog-content" data-ex-full></div></dialog>';
-    }
-    function exampleBind(id, steps) {
-      var box = document.getElementById(id), dlg = document.getElementById(id + '-dialog'); if (!box || !dlg) { return; }
-      var index = 0, prev = box.querySelector('[data-ex-prev]'), next = box.querySelector('[data-ex-next]'), all = box.querySelector('[data-ex-all]');
-      function content(step, i) { return '<section class="e02-example-step"><div class="e02-example-heading"><span class="e02-example-chip">گام ' + F(i + 1) + '</span><strong>' + step.title + '</strong></div><div class="e02-example-lines">' + step.lines.map(function (l) { return l.charAt(0) === '@' ? '<div class="e3-exline">' + l.slice(1) + '</div>' : '<div dir="ltr">' + M(l) + '</div>'; }).join('') + '</div><p class="e02-example-note">' + step.note + '</p></section>'; }
-      function render() { box.querySelector('[data-ex-count]').textContent = 'گام ' + F(index + 1) + ' از ' + F(steps.length); box.querySelector('[data-ex-body]').innerHTML = rr(content(steps[index], index)); box.querySelectorAll('.e02-example-progress i').forEach(function (el, i) { el.classList.toggle('current', i <= index); }); prev.disabled = index === 0; next.hidden = index === steps.length - 1; all.hidden = index !== steps.length - 1; }
-      box.addEventListener('click', function (e) { if (e.target.closest('[data-ex-prev], [data-ex-next], [data-ex-all]')) { e.stopPropagation(); } });
-      prev.addEventListener('click', function () { if (index > 0) { index--; render(); } });
-      next.addEventListener('click', function () { if (index < steps.length - 1) { index++; render(); } });
-      all.addEventListener('click', function () { dlg.querySelector('[data-ex-full]').innerHTML = rr(steps.map(content).join('')); dlg.showModal(); });
-      dlg.querySelector('[data-ex-close]').addEventListener('click', function () { dlg.close(); });
-      dlg.addEventListener('click', function (e) { if (e.target === dlg) { dlg.close(); } });
-      render();
-    }
 
     /* ---------- کارگاه گام‌به‌گام (انتخاب خط درست در هر گام) ----------
        gen() → {tex, steps:[{ask, opts:[{h,ok,m}], line, why}], end} */
@@ -311,7 +292,7 @@ window.LESSONS.E04 = {
         h += activity('کارگاه از بازه به محور', 'e04-draw', 'بازه را می‌بینی؛ از بین چهار محور، درستش را انتخاب کن. اگر اشتباه بود، پیام راهنما می‌بینی و می‌توانی دوباره انتخاب کنی.');
         h += K.sn('۴', 'حل تا بازه');
         h += '<p>به نامعادلهٔ اول درس برگردیم: ' + M('3-2x\\leq 9') + '. حلِ آن را از درس قبل داری (تقسیم بر عدد منفی جهت علامت را برمی‌گرداند)؛ بعد از حل، همان سه اطلاعات جدول جواب را به بازه می‌رسانند.</p>';
-        h += exampleBlock('e04-example-steps', 'حل کامل تا بازه', 3);
+        h += K.exampleSteps.html('e04-example-steps', 3, 'حل کامل تا بازه', null, 'steps');
         h += activity('کارگاه حل تا بازه', 'e04-full', 'در هر گام یک خط یا ترجمهٔ درست را انتخاب کن. آخرین گام نوشتن جواب با بازه است. با دکمهٔ چرخان مسئلهٔ تازه بگیر.');
         h += K.box('err', '⚠ خطای رایج: جهت پس از ضریب منفی', '<p>اگر در تقسیم بر عدد منفی جهت را برعکس نکنی، بازه به سمت اشتباه می‌رود؛ مثلاً به‌جای ' + M('[-3,\\ +\\infty)') + ' می‌نویسی ' + M('(-\\infty,\\ -3]') + '.</p>');
         h += K.sn('۵', 'آزمون پایانی');
@@ -327,11 +308,11 @@ window.LESSONS.E04 = {
         } else if (ros) { ros.classList.add('live'); }
         var $ = function (id) { return document.getElementById(id); };
         transLab($('e04-trans')); readLab($('e04-read')); drawLab($('e04-draw')); K.guide($('e04-full'), genFull);
-        exampleBind('e04-example-steps', [
+        K.exampleSteps.bind('e04-example-steps', [
           { title: 'حل نامعادله', lines: ['3-2x\\leq 9', '-2x\\leq 6', 'x\\geq -3'], note: 'اول ' + M('3') + ' را کم می‌کنیم؛ بعد بر ' + M('-2') + ' تقسیم می‌کنیم و چون عدد منفی است، جهت ' + M('\\leq') + ' به ' + M('\\geq') + ' برمی‌گردد.' },
           { title: 'خواندن نوع علامت', lines: ['x\\geq -3', '@دایرهٔ توپر در ' + M('-3'), '@ناحیهٔ سبز به سمت راست'], note: 'علامت ' + M('\\geq') + ' یعنی عدد مرزی ' + M('-3') + ' جزو جواب است (دایرهٔ توپر) و جواب از ' + M('-3') + ' به سمت راست می‌رود.' },
           { title: 'نوشتن بازه', lines: ['[-3,\\ +\\infty)'], note: 'کروشه برای ' + M('-3') + ' چون جزو جواب است؛ پرانتز برای بی‌نهایت چون بی‌نهایت هرگز جزو جواب نیست.' }
-        ]);
+        ], 'steps');
         H.final($('e04-final'), [mkF1, mkF2, mkF3, mkF4, mkF5, mkF6]);
       }
     };

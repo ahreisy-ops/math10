@@ -598,7 +598,7 @@ a.btn {
   padding: 0 2px;
 }
 
-.numgrp.tight>.ngpm {
+.numgrp.numgrp.tight>.ngpm {
   order: 2;
   width: 100%;
   height: 24px;
@@ -1249,6 +1249,7 @@ a.btn {
     border-color: var(--accent);
   }
 }
+
 /* خانهٔ جدول در صفحهٔ عریض: گروه افقی و تک‌خط (± چپِ کادر)؛ فقط روی گوشی عمودی می‌ماند */
 @media (min-width: 521px) {
   .numgrp.numgrp.tight {

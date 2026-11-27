@@ -4527,50 +4527,7 @@
   direction: ltr;
 }
 
-/* E02 — fixed-size stepped worked example and scrollable complete-solution dialog */
-
-.e02-lesson .e02-example-steps {
-  min-width: 0;
-  scroll-margin-top: 16px;
-  overflow-anchor: none
-}
-
-.e02-example-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  color: var(--ink)
-}
-
-.e02-example-top span {
-  font-size: .84rem;
-  color: var(--ink-soft)
-}
-
-.e02-example-progress {
-  display: flex;
-  gap: 5px;
-  margin: 12px 0
-}
-
-.e02-example-progress i {
-  flex: 1;
-  height: 4px;
-  border-radius: 6px;
-  background: #dbe5ec
-}
-
-.e02-example-progress i.current {
-  background: #118d83
-}
-
-.e02-example-body {
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center
-}
+/* E02/E05/E06 — dialog و بخش‌های «راه‌حل کامل» (خودِ مثال حل‌شده در course-shared-ch5.css و مؤلفهٔ K.exampleSteps است) */
 
 .e02-example-heading {
   display: flex;
@@ -4612,13 +4569,6 @@
   color: var(--ink-soft);
   line-height: 1.9;
   margin: 12px 0 !important
-}
-
-.e02-example-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-  flex-wrap: wrap
 }
 
 .e02-example-dialog {
@@ -4672,20 +4622,12 @@
 }
 
 @media(max-width:420px) {
-  .e02-example-body {
-    min-height: 265px
-  }
-
   .e02-example-dialog-content {
     padding: 12px
   }
 
   .e02-example-heading {
     font-size: .95rem
-  }
-
-  .e02-example-actions {
-    gap: 6px
   }
 }
 

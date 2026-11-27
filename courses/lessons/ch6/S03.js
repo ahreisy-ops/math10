@@ -2,7 +2,7 @@
    تمام تمرین‌ها اعداد تصادفی می‌سازند و پاسخ را با محاسبهٔ دقیق (کسری) می‌سنجند. */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.S03 = {
-  needs: ['utils', 'inputs', 'kit'],
+  needs: ['utils', 'inputs', 'exsteps', 'kit'],
   /* بدنهٔ درس داخل setup است تا فقط بعد از لود شدن ماژول‌های needs اجرا شود */
   setup: function (K0) {
     var K = Object.create(K0), H = K0.lk(K);
@@ -38,8 +38,8 @@ window.LESSONS.S03 = {
         }
         h += '</div>';
         if (!solved) { h += '<div class="lk-line"><span>تغییرِ هر جمله:</span><input class="numin lk-in" data-r="1" type="text" dir="ltr" autocomplete="off" placeholder="مثلاً ۳- یا ۱/۲"><span class="s3-mk" data-r="1"></span></div>'; }
-        h += '<div class="lk-cap">' + (msg || '') + '</div>' + (solved ? fb(true, 'قطار کامل شد! ✓') + K.dm('t_{n+1}-t_{n}=' + rt(s.d)) : '<div class="opts"><button type="button" class="btn" data-ck="1">بررسی</button></div>');
-        h += '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (solved ? 'قطار بعدی' : 'قطار دیگر') + '</button></div>';
+        h += '<div class="lk-cap">' + (msg || '') + '</div>' + (solved ? fb(true, 'قطار کامل شد! ✓') + K.dm('t_{n+1}-t_{n}=' + rt(s.d)) : '');
+        h += '<div class="opts">' + (solved ? '' : '<button type="button" class="btn" data-ck="1">بررسی</button>') + '<button type="button" class="btn primary" data-nx="1" data-scroll>' + (solved ? 'قطار بعدی' : 'قطار دیگر') + '</button></div>';
         host.innerHTML = rr(h);
         host.querySelectorAll('.lk-in').forEach(function (inp) { inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { check(); } }); });
       }
@@ -68,15 +68,15 @@ window.LESSONS.S03 = {
     K.tileLab = function (host) {
       var a, b, nT, stage, msg, view;
       function newQ() { a = R(2, 4); b = R(1, 3); nT = R(6, 10); stage = 1; msg = ''; view = 3; paint(); }
-      function opts() { var c = [[a, b, true], [b, a, false], [a, a + b, false], [a + b, b, false]], seen = {}, out = []; c.forEach(function (x) { var k = x[0] + ',' + x[1]; if (!seen[k]) { seen[k] = 1; out.push(x); } }); return shuffle(out); }
+      function opts() { var c = [[a, b, true], [b, a, false], [a, a + b, false], [a + b, b, false], [a + 1, b, false], [a, b + 1, false]], seen = {}, out = []; c.forEach(function (x) { var k = x[0] + ',' + x[1]; if (!seen[k] && out.length < 4) { seen[k] = 1; out.push(x); } }); return shuffle(out); }
       var shown = null;
       function paint() {
         var h = '<p class="ask">شکل‌های زیر با کاشی ساخته شده‌اند: ستون‌های آبی و یک ستونِ ثابتِ قرمز. با دکمه‌ها شکل‌های بیشتری ببین:</p>' + figs(a, b, [1, 2, 3].concat(view > 3 ? [view] : []));
         h += '<div class="lk-line"><button type="button" class="btn" data-v="0"' + (view <= 3 ? ' disabled' : '') + '>شکل قبلی</button><button type="button" class="btn" data-v="1"' + (view >= 8 ? ' disabled' : '') + '>شکل بعدی</button></div>';
-        if (stage === 1) { h += '<p class="ask">شکل ' + fa(nT) + ' چند کاشی دارد؟</p><div class="lk-line"><input class="numin lk-in" data-nosign="1" type="text" dir="ltr" autocomplete="off" placeholder="؟"><button type="button" class="btn" data-ck="1">بررسی</button></div>'; }
+        if (stage === 1) { h += '<p class="ask">شکل ' + fa(nT) + ' چند کاشی دارد؟</p><div class="lk-line"><input class="numin lk-in" data-nosign="1" type="text" dir="ltr" autocomplete="off"  placeholder="؟"></div>'; }
         else if (stage === 2) { shown = shown || opts(); h += fb(true, 'درست است! ✓ شکل ' + fa(nT) + ' دارد ' + fa(a * nT + b) + ' کاشی') + '<p class="ask">کدام رابطه تعداد کاشی‌های شکل ' + M('n') + ' (یعنی ' + M('t_n') + ') را می‌دهد؟</p><div class="mc">' + shown.map(function (o, i) { return '<button type="button" class="btn opt" data-o="' + i + '">' + M('t_n=' + o[0] + 'n+' + o[1]) + '</button>'; }).join('') + '</div>'; }
         else { h += fb(true, 'همین است! ✓') + K.dm('t_n=' + a + '\\times n+' + b + '=' + H.BL(a + 'n') + '+' + H.CR('' + b)) + '<div class="ex"><p>ستون‌های آبی به‌ازای هر شکل ' + fa(a) + ' کاشی اضافه می‌کنند (' + M(H.BL(a + 'n')) + ') و ستونِ قرمز همیشه ' + fa(b) + ' کاشی است.</p></div>'; }
-        h += '<div class="lk-cap">' + msg + '</div><div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (stage === 3 ? 'الگوی بعدی' : 'الگوی دیگر') + '</button></div>';
+        h += '<div class="lk-cap">' + msg + '</div><div class="opts">' + (stage === 1 ? '<button type="button" class="btn" data-ck="1">بررسی</button>' : '') + '<button type="button" class="btn primary" data-nx="1" data-scroll>' + (stage === 3 ? 'الگوی بعدی' : 'الگوی دیگر') + '</button></div>';
         host.innerHTML = rr(h); host.dataset.a = a; host.dataset.b = b; host.dataset.n = nT;
       }
       host.addEventListener('click', function (e) {
@@ -101,11 +101,11 @@ window.LESSONS.S03 = {
       function newQ() { s = genSeq(); probes = []; msg = ''; solved = false; options = mkOptions(); paint(); }
       function paint() {
         var h = '<p class="ask">یک ماشین به هر شمارهٔ جمله ' + M('n') + ' مقدار ' + M('t_n') + ' را می‌دهد. حداکثر ۴ عدد به آن بده، بعد قاعدهٔ ماشین را از بین گزینه‌ها پیدا کن:</p>';
-        h += '<div class="lk-line"><input class="numin lk-in" data-nosign="1" id="mn" type="text" dir="ltr" autocomplete="off" placeholder="n = ؟"><button type="button" class="btn" data-pr="1"' + (probes.length >= 4 || solved ? ' disabled' : '') + '>بده به ماشین</button></div>';
+        h += '<div class="lk-line"><input class="numin lk-in" data-nosign="1" id="mn" type="text" dir="ltr" autocomplete="off" placeholder="n = ؟"></div>';
         if (probes.length) { h += '<table class="s3-tb"><tr><th>n</th>' + probes.map(function (n) { return '<td>' + fa(n) + '</td>'; }).join('') + '</tr><tr><th>t<sub>n</sub></th>' + probes.map(function (n) { return '<td>' + M(rt(term(s, n))) + '</td>'; }).join('') + '</tr></table>'; }
         if (probes.length >= 2) { h += '<p class="ask">قاعدهٔ ماشین کدام است؟</p><div class="mc">' + options.map(function (o, i) { return '<button type="button" class="btn opt' + (solved && o.ok ? ' right' : '') + '" data-o="' + i + '"' + (solved ? ' disabled' : '') + '>' + M('t_n=' + fm(o.d, o.c)) + '</button>'; }).join('') + '</div>'; }
         h += solved ? fb(true, 'درست است! ✓') + K.dm('t_n=' + fm(s.d, s.c) + '\\;\\Rightarrow\\;t_{10}=' + rt(term(s, 10))) : '<div class="lk-cap">' + msg + '</div>';
-        h += '<div class="opts"><button type="button" class="btn primary" data-nx="1" data-scroll>' + (solved ? 'ماشین بعدی' : 'ماشین دیگر') + '</button></div>';
+        h += '<div class="opts"><button type="button" class="btn" data-pr="1"' + (probes.length >= 4 || solved ? ' disabled' : '') + '>بده به ماشین</button><button type="button" class="btn primary" data-nx="1" data-scroll>' + (solved ? 'ماشین بعدی' : 'ماشین دیگر') + '</button></div>';
         host.innerHTML = rr(h); host.dataset.d = s.d.n + '/' + s.d.d; host.dataset.c = s.c.n + '/' + s.c.d;
         var mn = host.querySelector('#mn'); if (mn) { mn.addEventListener('keydown', function (e) { if (e.key === 'Enter') { probe(); } }); }
       }
@@ -174,6 +174,13 @@ window.LESSONS.S03 = {
       }));
     };
 
+    /* ---------- مثال‌های حل‌شدهٔ بخش ۴ (مؤلفهٔ مشترک K.exampleSteps) ---------- */
+    var EX = [
+      { title: 'مثال اول: الگوی افزایشی', q: 'در ' + M('5,8,11,14,\\ldots') + ' اختلاف ثابت ' + M('d=3') + ' است. رابطهٔ ' + M('t_n') + '، جملهٔ دهم و جملهٔ صدم را پیدا کن:', lines: [T`t_1=3\times1+c=5`, T`c=5-3=2`, T`t_n=3n+2`, T`t_{10}=3\times${H.CR('10')}+2=32`, T`t_{100}=3\times${H.CR('100')}+2=302`], note: 'اول ' + M('c') + ' را از جملهٔ اول پیدا کردیم؛ بعد شمارهٔ جمله (قرمز) را به‌جای ' + M('n') + ' گذاشتیم.' },
+      { title: 'مثال دوم: الگوی کاهشی', q: 'برای ' + M('20,17,14,\\ldots') + ' اختلاف ' + M('d=-3') + ' و ' + M('t_1=20') + ' است:', lines: [T`t_1=-3\times1+c=20`, T`c=20+3=23`, T`t_n=-3n+23`], note: 'اختلاف منفی یعنی جمله‌ها کم می‌شوند؛ روش پیدا کردن ' + M('c') + ' همان است.' },
+      { title: 'مثال سوم: بدون اختلاف ثابت', q: 'در ' + M('1,4,9,16,\\ldots') + ' اختلاف‌ها ثابت نیستند. جملهٔ ' + M('n') + 'ام را پیدا کن:', lines: [T`4-1=3,\;\;9-4=5`, T`16-9=7`, T`t_n=n\times n`, T`t_{10}=10\times10=100`], note: 'چون اختلاف ثابت نیست، رابطه از شکل ' + M('dn+c') + ' نیست. اینجا جملهٔ ' + M('n') + 'ام همان ' + M('n') + ' ضربدر خودش است.' }
+    ];
+
     return {
       html: function () {
         var host = H.host, BL = H.BL, CR = H.CR, ar = function (d) { return '\\xrightarrow{' + CR((d.n >= 0 ? '+' : '') + rt(d)) + '}'; };
@@ -185,10 +192,10 @@ window.LESSONS.S03 = {
           '<p>این ردیف یک «الگو» دارد: هر جمله ۲ تا بیشتر از جملهٔ قبلی است. با پیدا کردنِ این قاعده می‌توانیم الگو را ادامه بدهیم.</p>',
 
           K.sn('۲', 'قاعدهٔ تغییر'),
-          '<p>برای پیدا کردن قاعده، هر جمله را با جملهٔ قبلی‌اش مقایسه می‌کنیم. تغییرِ هر قدم را قرمز نوشته‌ایم:</p>', K.dm('3' + ar(Z(2)) + '5' + ar(Z(2)) + '7' + ar(Z(2)) + '9'),
-          '<p>این تغییر ثابت را «اختلافِ ثابت» می‌نامیم و با ' + M('d') + ' نشان می‌دهیم. گاهی الگو کوچک می‌شود و گاهی تغییر کسری است (کسرها را از درس‌های قبل می‌شناسی):</p>',
+          '<p>یکی از ساده‌ترین قاعده‌ها این است که هر جمله از جملهٔ قبلی‌اش به اندازهٔ یک عدد ثابت تغییر کند. برای بررسی این حالت، هر جمله را با جملهٔ قبلی‌اش مقایسه می‌کنیم. تغییرِ هر قدم را قرمز نوشته‌ایم:</p>', K.dm('3' + ar(Z(2)) + '5' + ar(Z(2)) + '7' + ar(Z(2)) + '9'),
+          '<p>اگر تغییرِ همهٔ قدم‌ها یکسان باشد، آن را «اختلافِ ثابت» (قدرنسبت) می‌نامیم و با ' + M('d') + ' نشان می‌دهیم. گاهی الگو کوچک می‌شود و گاهی تغییر کسری است (کسرها را از درس‌های قبل می‌شناسی):</p>',
           AL(['20' + ar(Z(-3)) + '17' + ar(Z(-3)) + '14' + ar(Z(-3)) + '11', '\\frac{1}{2}' + ar(simp(1, 2)) + '1' + ar(simp(1, 2)) + '\\frac{3}{2}' + ar(simp(1, 2)) + '2']),
-          K.box('note', 'روش پیدا کردن اختلاف', T`<p>جملهٔ بعدی را منهای جملهٔ قبلی کن: $d=t_{2}-t_{1}$. اگر برای همهٔ جمله‌ها یکسان شد، الگو «اختلاف ثابت» دارد.</p>`),
+          K.box('note', 'روش پیدا کردن اختلاف', T`<p>جملهٔ بعدی را منهای جملهٔ قبلی کن: $d=t_{2}-t_{1}$. اگر برای همهٔ جمله‌ها یکسان شد، الگو «اختلاف ثابت» دارد. اگر یکسان نشد، قاعدهٔ الگو چیز دیگری است (نمونه‌اش را در بخش ۴ می‌بینی).</p>`),
           K.box('err', '⚠ اشتباه رایج', T`<p>الگو را از دو جمله حدس نزن! عددهای $2,4,\ldots$ می‌توانند ادامه‌شان $6,8$ (جمع‌کردنِ ۲) باشند یا $8,16$ (ضرب‌کردن در ۲). همهٔ جمله‌های داده‌شده را کنترل کن.</p>`),
           '<h4>قطارِ الگو</h4><p>واگن‌های خالی را پر کن و تغییرِ هر قدم را بگو:</p>', host('s3a'),
 
@@ -198,11 +205,8 @@ window.LESSONS.S03 = {
           '<h4>کاشی‌کار</h4><p>شکل‌های یک الگو را ببین، شکلِ دوردست را حساب کن و بعد رابطهٔ تعداد کاشی‌ها را پیدا کن:</p>', host('s3b'),
 
           K.sn('۴', 'رابطهٔ شمارهٔ جمله و مقدار'),
-          T`<p>اگر بخواهیم جملهٔ صدم را بدانیم، نمی‌شود همهٔ جمله‌ها را یکی‌یکی نوشت! باید رابطه‌ای بین شمارهٔ جمله ($n$) و مقدار جمله ($t_n$) پیدا کنیم. برای دنبالهٔ $5,8,11,14,\ldots$ اختلاف ثابت $d=3$ است؛ پس $t_n$ شکل $3n+c$ دارد. عدد $c$ را از جملهٔ اول پیدا می‌کنیم:</p>`,
-          AL([T`t_1&=3\times1+c=5`, T`c&=5-3=2`]), '<p>پس رابطه این است:</p>', K.dm(T`t_n=3n+2`),
-          '<p>حالا هر جمله‌ای را با جایگذاری شمارهٔ جمله به‌جای ' + M('n') + ' حساب می‌کنیم (عدد جایگذاری‌شده قرمز است):</p>', AL([T`t_{10}&=3\times${CR('10')}+2=32`, T`t_{100}&=3\times${CR('100')}+2=302`]),
-          '<h4>الگوی کاهشی</h4><p>برای ' + M('20,17,14,\\ldots') + ' اختلاف ' + M('d=-3') + ' است و ' + M('t_1=20') + ':</p>', AL([T`t_1&=-3\times1+c=20`, T`c&=20+3=23`, T`t_n&=-3n+23`]),
-          '<h4>الگوهای دیگر</h4><p>همهٔ الگوها اختلافِ ثابت ندارند. مثلاً در ' + M('1,4,9,16,\\ldots') + ' اختلاف‌ها ۳، ۵ و ۷ هستند؛ ثابت نیستند. اما رابطه‌ای ساده دارد: جملهٔ ' + M('n') + 'ام همان ' + M('n') + ' ضربدر خودش است:</p>', K.dm(T`t_n=n\times n,\qquad t_{10}=10\times10=100`),
+          T`<p>اگر بخواهیم جملهٔ صدم را بدانیم، نمی‌شود همهٔ جمله‌ها را یکی‌یکی نوشت! باید رابطه‌ای بین شمارهٔ جمله ($n$) و مقدار جمله ($t_n$) پیدا کنیم. وقتی اختلاف ثابت $d$ باشد، رابطه شکل $t_n=dn+c$ دارد و عدد $c$ را از جملهٔ اول به دست می‌آوریم: $t_1=d\times1+c$. در سه مثال زیر این روش را می‌بینی؛ مثال آخر نشان می‌دهد که همهٔ الگوها اختلاف ثابت ندارند.</p>`,
+          K.exampleSteps.html('s3-ex', EX, 'حل کامل مثال‌ها', 'سه الگو، سه رابطه'),
           '<h4>ماشین مرموز</h4><p>یک ماشین پنهان از قاعدهٔ ' + M('t_n=dn+c') + ' استفاده می‌کند. چند عدد بده و قاعده‌اش را پیدا کن:</p>', host('s3c'),
 
           K.sn('۵', 'آزمون پایانی'),
@@ -210,7 +214,7 @@ window.LESSONS.S03 = {
           K.box('sum', 'جمع‌بندی', T`<ul><li>اختلافِ ثابت: $d=t_{2}-t_{1}$ (جمله‌ی بعدی منهای قبلی).</li><li>جملهٔ بعدی = جملهٔ قبلی + $d$.</li><li>رابطهٔ جمله: $t_n=dn+c$ و $c=t_1-d$.</li><li>برای جملهٔ دلخواه، شمارهٔ جمله را به‌جای $n$ جایگذاری کن.</li><li>الگوی $n\times n$ اختلافِ ثابت ندارد.</li></ul><p>این رابطه‌ها در فصل‌های بعدی (معادله و تابع) هم به کارت می‌آیند.</p>`)
         ].join(''));
       },
-      init: function (panel) { K.train(panel.querySelector('#s3a')); K.tileLab(panel.querySelector('#s3b')); K.machine(panel.querySelector('#s3c')); K.finalS03(panel.querySelector('#s3d')); }
+      init: function (panel) { K.train(panel.querySelector('#s3a')); K.tileLab(panel.querySelector('#s3b')); K.machine(panel.querySelector('#s3c')); K.finalS03(panel.querySelector('#s3d')); K.exampleSteps.bind('s3-ex', EX); }
     };
   }
 };

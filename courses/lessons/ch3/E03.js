@@ -1,7 +1,7 @@
 /* درس مهارت E03 — حل نامعادلهٔ خطی و تغییر جهت علامت (فصل ۳) */
 window.LESSONS = window.LESSONS || {};
 window.LESSONS.E03 = {
-  needs: ['utils', 'kit'],
+  needs: ['utils', 'exsteps', 'kit'],
   setup: function (K0) {
     var ML = window.MathLite, F = ML.fa, rr = ML.renderRich, abs = Math.abs, _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var M0 = _u.M, K = Object.create(K0), H = K0.lk(K), T = String.raw;
@@ -37,25 +37,6 @@ window.LESSONS.E03 = {
     function head(tex) { return '<div class="e02-problem-head"><span class="e02-problem-chip">' + M(tex) + '</span><button type="button" class="btn primary e01-station-refresh" data-fresh title="مسئلهٔ جدید" aria-label="تغییر مسئله">' + REFRESH + '</button></div>'; }
 
 
-    /* ---------- مثال حل‌شده (همان ساختار E02) ---------- */
-    function exampleBlock(id, dlgTitle, count) {
-      var dots = ''; for (var i = 0; i < count; i++) { dots += '<i' + (i === 0 ? ' class="current"' : '') + '></i>'; }
-      return '<div class="ex e02-example-steps" id="' + id + '" aria-label="حل گام‌به‌گام مثال"><div class="e02-example-top"><strong>مثال حل‌شده</strong><span data-ex-count>گام ۱ از ' + F(count) + '</span></div><div class="e02-example-progress" aria-hidden="true">' + dots + '</div><div class="e02-example-body" data-ex-body aria-live="polite"></div><div class="e02-example-actions end-actions"><button type="button" class="btn" data-ex-prev data-scroll disabled>مرحلهٔ قبلی</button><button type="button" class="btn primary" data-ex-next data-scroll>مرحلهٔ بعدی</button><button type="button" class="btn primary" data-ex-all hidden>مشاهدهٔ حل کامل</button></div></div>' +
-        '<dialog class="e02-example-dialog" id="' + id + '-dialog" aria-labelledby="' + id + '-dt"><div class="e02-example-dialog-header"><strong id="' + id + '-dt">' + dlgTitle + '</strong><button type="button" class="btn primary" data-ex-close aria-label="بستن پنجره">بستن</button></div><div class="e02-example-dialog-content" data-ex-full></div></dialog>';
-    }
-    function exampleBind(id, steps) {
-      var box = document.getElementById(id), dlg = document.getElementById(id + '-dialog'); if (!box || !dlg) { return; }
-      var index = 0, prev = box.querySelector('[data-ex-prev]'), next = box.querySelector('[data-ex-next]'), all = box.querySelector('[data-ex-all]');
-      function content(step, i) { return '<section class="e02-example-step"><div class="e02-example-heading"><span class="e02-example-chip">گام ' + F(i + 1) + '</span><strong>' + step.title + '</strong></div><div class="e02-example-lines">' + step.lines.map(function (l) { return l.charAt(0) === '@' ? '<div class="e3-exline">' + l.slice(1) + '</div>' : '<div dir="ltr">' + M(l) + '</div>'; }).join('') + '</div><p class="e02-example-note">' + step.note + '</p></section>'; }
-      function render() { box.querySelector('[data-ex-count]').textContent = 'گام ' + F(index + 1) + ' از ' + F(steps.length); box.querySelector('[data-ex-body]').innerHTML = rr(content(steps[index], index)); box.querySelectorAll('.e02-example-progress i').forEach(function (el, i) { el.classList.toggle('current', i <= index); }); prev.disabled = index === 0; next.hidden = index === steps.length - 1; all.hidden = index !== steps.length - 1; }
-      box.addEventListener('click', function (e) { if (e.target.closest('[data-ex-prev], [data-ex-next], [data-ex-all]')) { e.stopPropagation(); } });
-      prev.addEventListener('click', function () { if (index > 0) { index--; render(); } });
-      next.addEventListener('click', function () { if (index < steps.length - 1) { index++; render(); } });
-      all.addEventListener('click', function () { dlg.querySelector('[data-ex-full]').innerHTML = rr(steps.map(content).join('')); dlg.showModal(); });
-      dlg.querySelector('[data-ex-close]').addEventListener('click', function () { dlg.close(); });
-      dlg.addEventListener('click', function (e) { if (e.target === dlg) { dlg.close(); } });
-      render();
-    }
 
     /* ---------- کارگاه گام‌به‌گام (انتخاب خط درست در هر گام) ----------
        gen() → {tex, steps:[{ask, opts:[{h,ok,m}], line, why}], end} */
@@ -271,7 +252,7 @@ window.LESSONS.E03 = {
         h += '<p>حل نامعادله هم مثل معادله با عملیات وارون پیش می‌رود، به‌علاوهٔ یک مراقبت:</p>';
         h += '<center>وقتی دو طرف را بر عددی منفی تقسیم می‌کنی، جهت را برعکس کن.</center>';
         h += '<p>به عنوان مثال برای نامعادلهٔ ' + M('7-3x\\leq 13') + ': اول ' + M('7') + ' را حذف می‌کنیم و بعد بر ' + M('-3') + ' تقسیم می‌کنیم.</p>';
-        h += exampleBlock('e03-example-steps', 'حل کامل نامعادله', 3);
+        h += K.exampleSteps.html('e03-example-steps', 3, 'حل کامل نامعادله', null, 'steps');
         h += '<p>در این مثال هر گام کار مشخصی کرد: حذف عدد ثابت جهت را نگه داشت، تقسیم بر ضریبِ منفی آن را برعکس کرد و در پایان جواب را با چند عدد سنجیدیم. حالا نوبت توست که جای حل‌کننده بنشینی.</p>';
         h += activity('کارگاه گام‌های حل', 'e03-solve', 'در هر گام، خطی را که بعد از آن عملیات به دست می‌آید انتخاب کن. اگر اشتباه کنی، دلیل اشتباه را می‌بینی و می‌توانی دوباره انتخاب کنی. با دکمهٔ چرخان، نمونهٔ تازه‌ای از یکی از چهار نوع نامعادله می‌گیری.');
         h += K.box('err', '⚠ دو خطای رایج', '<p><b>برعکس نکردن جهت:</b> دو طرف را بر عددی <b>منفی</b> تقسیم می‌کنی ولی علامت را همان‌طور نگه می‌داری. مثلاً اگر از ' + M('-3x\\leq 6') + ' به ' + M('x\\leq -2') + ' برسی، اشتباه کرده‌ای؛ جواب درست ' + M('x\\geq -2') + ' است.</p><p><b>برعکس کردن بی‌دلیل جهت:</b> در جایی که عدد <b>مثبت</b> است یا فقط جمع و تفریق انجام داده‌ای، جهت را عوض می‌کنی. مثلاً اگر از ' + M('2x\\leq 6') + ' به ' + M('x\\geq 3') + ' برسی، اشتباه کرده‌ای؛ جواب درست ' + M('x\\leq 3') + ' است.</p>');
@@ -295,11 +276,11 @@ window.LESSONS.E03 = {
       init: function () {
         var $ = function (id) { return document.getElementById(id); }, ck = '\\ {\\color{teal}\\checkmark}', cx = '\\ {\\color{crimson}\\times}';
         tiltLab($('e03-tilt')); mirrorLab($('e03-mirror')); K.guide($('e03-solve'), genSolve); testLab($('e03-test')); detectLab($('e03-detect'));
-        exampleBind('e03-example-steps', [
+        K.exampleSteps.bind('e03-example-steps', [
           { title: 'حذف عدد ثابت', lines: ['7-3x\\leq 13', '7-3x-7\\leq 13-7', '-3x\\leq 6'], note: 'از هر دو طرف ' + M('7') + ' کم می‌کنیم؛ کم‌کردن جهت را عوض نمی‌کند.' },
           { title: 'تقسیم بر ضریب منفی', lines: ['-3x\\leq 6', '\\dfrac{-3x}{-3}\\geq \\dfrac{6}{-3}', 'x\\geq -2'], note: 'دو طرف را بر ' + M('-3') + ' تقسیم می‌کنیم. چون عدد منفی است، جهت ' + M('\\leq') + ' به ' + M('\\geq') + ' برمی‌گردد.' },
           { title: 'آزمایش جواب', lines: ['x=0:\\ 7-0=7\\leq 13' + ck, 'x=-2:\\ 7+6=13\\leq 13' + ck, 'x=-3:\\ 7+9=16\\leq 13' + cx], note: 'عدد ' + M('0') + ' و عدد مرزی ' + M('-2') + ' برقرارند؛ عدد ' + M('-3') + ' که در ناحیهٔ جواب نیست، برقرار نیست.' }
-        ]);
+        ], 'steps');
         H.final($('e03-final'), [mkE1, mkE2, mkE3, mkE4, mkE5, mkE6]);
       }
     };
