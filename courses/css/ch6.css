@@ -190,12 +190,12 @@
   transform: scale(1.3)
 }
 
-#s1a .opts:not(.end-actions) .btn {
+#s1a .opts:not(.end-actions) .btn:not(.primary) {
   box-shadow: 2px 2px 0 var(--ink);
   transition: transform .1s ease, box-shadow .1s ease
 }
 
-#s1a .opts:not(.end-actions) .btn:active:not(:disabled) {
+#s1a .opts:not(.end-actions) .btn:not(.primary):active:not(:disabled) {
   transform: translate(1px, 1px);
   box-shadow: 1px 1px 0 var(--ink)
 }
@@ -248,11 +248,6 @@
   border-color: #b23a3a;
   box-shadow: 2px 2px 0 #b23a3a;
   opacity: 1
-}
-
-#s1a .opts .btn.primary {
-  box-shadow: none;
-  transform: none
 }
 
 #s1a .opts .btn:disabled {

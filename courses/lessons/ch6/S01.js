@@ -15,7 +15,7 @@ window.LESSONS.S01 = {
       function hiTex(a, mk) { return '\\{' + a.map(function (v) { return mk[v] ? '\\textcolor{' + mk[v] + '}{' + v + '}' : v; }).join(',') + '\\}'; }
       function stopAll() { if (F) { clearTimeout(F.t); clearTimeout(F.ft); F.done = true; } F = null; }
       function newRound() {
-        var mem, non; stopAll(); A = sorted(sample(BIG, R(3, 5))); mem = sample(A, Math.min(A.length, 4)); non = sample(BIG.filter(function (x) { return A.indexOf(x) < 0; }), 8 - mem.length);
+        var mem, non; stopAll(); A = sorted(sample(BIG, R(5, 6))); mem = sample(A, Math.min(A.length, 4)); non = sample(BIG.filter(function (x) { return A.indexOf(x) < 0; }), 8 - mem.length);
         q = shuffle(mem.concat(non)); i = 0; res = []; picked = null; paint();
       }
       function ans(v, label) {
@@ -75,7 +75,7 @@ window.LESSONS.S01 = {
         f.done = true; clearTimeout(f.ft); sc = f.right - f.wrong;
         bad = f.bad.filter(function (m) { if (seen[m.g]) { return false; } seen[m.g] = 1; return true; });
         bad.forEach(function (m) { if (m.isMem) { mk[m.g] = 'red'; } });
-        h = '<p class="ask">وقت تمام شد!</p><div class="s1-stats"><span class="g">✓ درست: ' + fa(f.right) + '</span><span class="r">✗ غلط: ' + fa(f.wrong) + '</span><span class="y">امتیاز: ' + (sc < 0 ? '−' : '') + fa(Math.abs(sc)) + '</span></div><p class="legend">امتیاز = تعداد درست منهای تعداد غلط.</p>';
+        h = '<p class="ask">وقت تمام شد!</p><div class="s1-stats"><span class="g">✓ درست: ' + fa(f.right) + '</span><span class="r">✗ غلط: ' + fa(f.wrong) + '</span><span class="y ltr">امتیاز: <span dir="ltr">' + (sc < 0 ? '−' : '') + fa(Math.abs(sc)) + '</span></span></div><p class="legend">امتیاز = تعداد درست منهای تعداد غلط.</p>';
         h += bad.length ? '<p class="ask">اشتباه‌های تو:</p>' + K.dm('A=' + hiTex(A, mk)) + '<div class="s1-chips">' + bad.map(function (m) { return '<span>' + fa(m.g) + (m.isMem ? ' عضو بود' : ' عضو نبود') + '</span>'; }).join('') + '</div>' : '<p>هیچ اشتباهی نکردی!</p>';
         host.innerHTML = rr(h + endBtns(['nx', 'سؤال‌های جدید', 'fast', 'دوباره، سریع']));
       }
