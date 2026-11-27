@@ -41,11 +41,7 @@ window.LESSONS.N09 = {
       document.head.appendChild(st);
     }
 
-    /* ---------- نمایش ریاضی ---------- */
-    function fix(h) { return h.replace(/\$([^$]+)\$/g, function (m, s) { return '$' + s.replace(/(\d)\.(?=\d|\\overline|\{)/g, '$1\\text{٫}').replace(/\\%/g, '\\text{٪}') + '$'; }); }
-    function rr(h) { return rr0(fix(h)); }
-    var M = function (s) { return '$' + s + '$'; };
-    var AL = function (lines) { return K.dm('\\begin{aligned}' + lines.join(NL) + '\\end{aligned}'); };
+    var fix = H.fix, rr = H.rr, M = H.M, AL = H.AL;
     var tipBtn = function (key, title, html) { return K.info(key, title, fix(html)); };
     var BL = function (s) { return '{\\color{blue}' + s + '}'; }, CR = function (s) { return '{\\color{crimson}' + s + '}'; }, GR = function (s) { return '{\\color{green}' + s + '}'; };
     var RT = function (a, b) { return a + CL + b; };                                                   /* a:b */

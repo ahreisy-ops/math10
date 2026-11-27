@@ -463,33 +463,24 @@ window.LESSONS.N04 = {
     var zh = function (r) { return Math.min(0, Math.ceil(Math.max(r[0].v, r[1].v) * 10 + 1) / 10); };
     var zt = function (r) { var t = [], v; for (v = zl(r); v <= zh(r) + 1e-9; v += 0.1) { t.push(+v.toFixed(1)); } return t; };
     K.negTrap = function (host) {
-      var rounds, ri, pick, done, answers;
+      var rounds;
       function build() {
         var pairs = [], i, j, a, b;
         for (i = 0; i < FP.length; i++) { for (j = i + 1; j < FP.length; j++) { a = FP[i]; b = FP[j]; if (a[1] !== b[1] && abs(a[0] / a[1] - b[0] / b[1]) < 0.12) { pairs.push([a, b]); } } }
         shuffle(pairs); rounds = pairs.slice(0, 4).map(function (p) { var x = fra(-p[0][0], p[0][1]), y = fra(-p[1][0], p[1][1]); return Math.random() < 0.5 ? [x, y] : [y, x]; }); ri = 0; pick = null; done = 0; answers = Array(rounds.length).fill(null);
       }
-      function paint() {
-        var r, bigger, h, i, cls, lo, hi, okk;
-        if (ri >= rounds.length) { host.innerHTML = rr(K.res(done, rounds.length) + '<div class="opts end-actions"><button type="button" class="btn" data-pv="1" data-scroll>مرور سؤال‌ها</button><button type="button" class="btn primary" data-r="1" data-scroll>سؤال‌های جدید</button></div>'); return; }
-        r = rounds[ri]; pick = answers[ri]; bigger = cmp(r[0], r[1]) > 0 ? 0 : 1;
-        h = '<div class="stg">' + rounds.map(function (x, i) { return '<span class="' + (i < ri ? 'dn' : i === ri ? 'cu' : '') + '">' + fa(i + 1) + '</span>'; }).join('') + '</div><p class="ask">کدام عدد بزرگ‌تر است؟</p><div class="mc m2 n4-neg-choices">';
-        for (i = 0; i < 2; i++) { cls = pick === null ? '' : i === bigger ? ' right' : i === pick ? ' wrong' : ''; h += '<button type="button" class="btn opt' + cls + '" data-o="' + i + '"' + (pick === null ? '' : ' disabled') + '>' + M(tex(r[i])) + '</button>'; }
-        h += '</div>';
-        if (pick !== null) {
-          okk = pick === bigger; lo = abs(r[0].v) < abs(r[1].v) ? 0 : 1; hi = 1 - lo;
-          h += '<div class="fb ' + (okk ? 'ok' : 'bad') + '">' + (okk ? 'درست است! ✓' : 'این همان تله است: اندازهٔ ' + M(tex(r[hi])) + ' بزرگ‌تر است، ولی چون هر دو منفی‌اند ترتیب برعکس می‌شود.') + '</div>';
-          h += '<div class="ex"><p>اندازه‌ها (بدون علامت):</p>' + AL([tex(neg(r[0])) + '&=' + dtx(neg(r[0])), tex(neg(r[1])) + '&=' + dtx(neg(r[1]))]) + '<p>اندازهٔ ' + M(tex(neg(r[lo]))) + ' کوچک‌تر است؛ یعنی ' + M(tex(r[lo])) + ' به صفر نزدیک‌تر و در نتیجه بزرگ‌تر است:</p>' + vd2(tex(r[bigger]), '\\gt', tex(r[1 - bigger])) +
-            K.zoom(zl(r), zh(r), zt(r), [{ v: r[lo].v, h: M(tex(r[lo])), c: CL[0], lv: 0 }, { v: r[hi].v, h: M(tex(r[hi])), c: CL[1], lv: 1 }], 'سمت راست‌تر، بزرگ‌تر است.') + '</div>';
-        }
-        h += '<div class="opts n4-neg-nav"><button type="button" class="btn" data-p="1"' + (ri === 0 ? ' disabled' : '') + ' data-scroll>سؤال قبلی</button><button type="button" class="btn primary" data-n="1"' + (pick === null ? ' disabled' : '') + ' data-scroll>' + (ri === rounds.length - 1 ? 'مشاهدهٔ نتیجه' : 'سؤال بعدی') + '</button></div>';
-        host.innerHTML = rr(h);
-      }
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button'); if (!b || b.disabled) { return; }
-        if (b.dataset.o !== undefined && answers[ri] === null) { pick = +b.dataset.o; answers[ri] = pick; var r = rounds[ri]; if (pick === (cmp(r[0], r[1]) > 0 ? 0 : 1)) { done++; } paint(); }
-        else if (b.dataset.n) { ri++; paint(); } else if (b.dataset.p) { ri = Math.max(0, ri - 1); paint(); } else if (b.dataset.pv) { ri = 0; paint(); } else if (b.dataset.r) { build(); paint(); }
-      }); build(); paint();
+      H.final(host, [0, 1, 2, 3].map(function (i) {
+        return function () {
+          var r, bigger, lo, hi;
+          if (i === 0) { build(); }
+          r = rounds[i]; bigger = cmp(r[0], r[1]) > 0 ? 0 : 1; lo = abs(r[0].v) < abs(r[1].v) ? 0 : 1; hi = 1 - lo;
+          return {
+            ask: 'کدام عدد بزرگ‌تر است؟', cls: 'm2 n4-neg-choices',
+            opts: [0, 1].map(function (k) { return { h: M(tex(r[k])), ok: k === bigger, m: 'این همان تله است: اندازهٔ ' + M(tex(r[hi])) + ' بزرگ‌تر است، ولی چون هر دو منفی‌اند ترتیب برعکس می‌شود.' }; }),
+            expl: function () { return '<p>اندازه‌ها (بدون علامت):</p>' + AL([tex(neg(r[0])) + '&=' + dtx(neg(r[0])), tex(neg(r[1])) + '&=' + dtx(neg(r[1]))]) + '<p>اندازهٔ ' + M(tex(neg(r[lo]))) + ' کوچک‌تر است؛ یعنی ' + M(tex(r[lo])) + ' به صفر نزدیک‌تر و در نتیجه بزرگ‌تر است:</p>' + vd2(tex(r[bigger]), '\\gt', tex(r[1 - bigger])) + K.zoom(zl(r), zh(r), zt(r), [{ v: r[lo].v, h: M(tex(r[lo])), c: CL[0], lv: 0 }, { v: r[hi].v, h: M(tex(r[hi])), c: CL[1], lv: 1 }], 'سمت راست‌تر، بزرگ‌تر است.'); }
+          };
+        };
+      }));
     };
 
     /* ---- تعامل ۱: نردبان ترتیب ---- */

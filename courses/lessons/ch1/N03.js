@@ -51,15 +51,7 @@ window.LESSONS.N03 = {
       document.head.appendChild(st);
     }
 
-    /* ---------- نمایش ریاضی: اعشار «٫» و درصد «٪» فارسی داخل KaTeX ---------- */
-    function fix(h) {
-      return h.replace(/\$([^$]+)\$/g, function (m, s) {
-        return '$' + s.replace(/(\d)\.(?=\d|\\overline|\{)/g, '$1\\text{٫}').replace(/\\%/g, '\\text{٪}') + '$';
-      });
-    }
-    function rr(h) { return rr0(fix(h)); }
-    var M = function (s) { return '$' + s + '$'; };
-    var AL = function (lines) { return K.dm('\\begin{aligned}' + lines.join(NL) + '\\end{aligned}'); };
+    var fix = H.fix, rr = H.rr, M = H.M, AL = H.AL;
     /* ضرب/تقسیم صورت و مخرج: عدد با رنگ قرمز، جداگانه در صورت و مخرج (مثل درس قبل) */
     var C = function (n, d, op, k) { var c = '{\\color{crimson}\\scriptsize' + op + k + '}'; return '\\frac{' + n + c + '}{' + d + c + '}'; };
     /* متن فارسی (بدون KaTeX) در یک خط راست‌به‌چپ؛ hf = کسر با متن فارسی */

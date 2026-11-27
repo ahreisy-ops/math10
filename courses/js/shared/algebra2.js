@@ -1,8 +1,8 @@
 /* کارگاه‌های مستقل A02 تا A08؛ بدون اینترنت و وابستگی بیرونی */
 (function(){'use strict';
-const R=(a,b)=>Math.floor(Math.random()*(b-a+1))+a,N=(a,b)=>{let n;do{n=R(a,b)}while(!n);return n},plus=n=>n<0?String(n):'+'+n, T=(a,x)=>a===1?x:a===-1?'-'+x:''+a+x;
+const R=(a,b)=>window.CourseKit._u.R(a,b),N=(a,b)=>window.CourseKit._u.NZ(a,b),plus=n=>n<0?String(n):'+'+n, T=(a,x)=>a===1?x:a===-1?'-'+x:''+a+x;
 const math=t=>window.MathLite.renderRich('$'+t+'$');
-const fmt=n=>window.MathLite.fa(n),shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){let j=R(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
+const fmt=n=>window.MathLite.fa(n),shuf=a=>window.CourseKit._u.shuffled(a);
 const desc={A02:'کدام جمله با جملهٔ داده‌شده هم‌نوع است؟',A03:'پس از بازکردن پرانتز، ضریب $x$ چند است؟',A04:'حاصل ضرب دو عبارت را به دست بیاور.',A05:'ضریب $x$ در حاصل بسط چند است؟',A06:'بزرگ‌ترین عامل مشترک عددی چیست؟',A07:'عدد دوم را با توجه به عدد اول پیدا کن.',A08:'مقدار غیرمجاز را شناسایی کن.'};
 const S=(n,x)=>(n<0?'-':'+')+T(Math.abs(n),x),Vx=k=>k===1?'x':'x^'+k;
 const P=(c2,c1,c0)=>{let s='';[[c2,'x^2'],[c1,'x'],[c0,'']].forEach(([c,v])=>{if(!c)return;let m=Math.abs(c),body=v?(m===1?v:m+v):String(m);s+=(c<0?'-':s?'+':'')+body});return s||'0'};

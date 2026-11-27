@@ -485,21 +485,6 @@
   font-weight: 400
 }
 
-.n4-neg-nav {
-  display: flex;
-  direction: rtl;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%
-}
-
-.n4-neg-nav .btn {
-  min-width: 120px;
-  min-height: 36px;
-  font-size: .9rem;
-  font-weight: 700
-}
-
 .n8-radar-new>.btn[data-nw]:not(.primary) {
   box-shadow: none !important;
   transform: none !important

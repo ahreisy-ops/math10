@@ -12,5 +12,5 @@
       s = (s || '').replace(/[۰-۹]/g, function (d) { return d.charCodeAt(0) - 1776; }).replace(/[٠-٩]/g, function (d) { return d.charCodeAt(0) - 1632; }).replace(/[−–—﹣‐]/g, '-').replace(/\s/g, '');
       return /^-?\d+$/.test(s) ? +s : null;
     }
-  K0._u = { R: R, NZ: NZ, P: P, SG: SG, M: M, shuffle: shuffle, parse: parse };
+  K0._u = { R: R, NZ: NZ, P: P, SG: SG, M: M, shuffle: shuffle, shuffled: function (a) { return shuffle(a.slice()); }, parse: parse };
 })();

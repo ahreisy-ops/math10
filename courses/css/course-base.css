@@ -1644,3 +1644,11 @@
         white-space: nowrap
     }
 }
+
+.tf-row .btn:not(.right):not(.wrong) {
+    border-color: var(--line)
+}
+
+.tf-row .btn:hover:not(:disabled):not(.right):not(.wrong) {
+    border-color: var(--ink)
+}

@@ -223,7 +223,7 @@ window.LESSONS.N07 = {
         do { a = R(1, 9); b = R(2, 10); } while (gcd(a, b) !== 1);
         q = '\\sqrt{' + fr(a * a, b * b) + '}'; ok = fr(a, b);
         d1 = fr(a, b * b); d2 = fr(a * a, b); d3 = fr(a, 2 * b);
-        var dd = [d1, d2, d3], bump = 1; while (new Set([ok].concat(dd)).size !== 4) { dd = [fr(a, b * b + bump), fr(a * a + bump, b), fr(a, 2 * b + bump)]; bump++; }
+        var dd = [d1, d2, d3], bump = 1; while (new Set([ok].concat(dd)).size !== 4) { dd = [fr(a, b * b + bump), fr(a * a + bump, b), fr(a + bump, b * b)]; bump++; }
         return { q: q, ok: ok, d: dd, expl: '<p>جذر صورت و مخرج را جدا می‌گیریم:</p>' + K.dm('\\sqrt{' + fr(a * a, b * b) + '}=\\dfrac{\\sqrt{' + a * a + '}}{\\sqrt{' + b * b + '}}=' + fr(a, b)), notes: ['جذر را فقط برای مخرج یا فقط صورت نگیر؛ هر دو باید جذر گرفته شوند.', 'جذر را فقط برای مخرج یا فقط صورت نگیر؛ هر دو باید جذر گرفته شوند.', 'جذر یعنی نصف‌کردن نیست؛ با مربع‌کردن امتحان کن.'] };
       }
       x = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.1, 1.2, 1.3, 1.5, 0.05, 0.02, 0.03][R(0, 15)]; v = +(x * x).toFixed(4);

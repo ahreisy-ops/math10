@@ -1,34 +1,158 @@
 /* فصل ۶ — مجموعه، الگو و دنباله (استایل مخصوص درس‌های S01 و S03؛ S02 و بقیه از استایل‌های مشترک استفاده می‌کنند) */
 /* ابعاد و رفتار اجزا مطابق README (فقط فصل ۶) */
-.lesson .opts:not(.end-actions) .btn,.lesson .lk-line>.btn{min-width:120px;min-height:36px;height:auto;padding:6px 14px;font-size:.9rem;font-weight:700}
-.lesson .lk-line>.lk-chip{min-height:40px;padding:5px 14px;font-size:.9rem;font-weight:700}
-.lesson .lk-in{font-size:16px;min-height:40px}
-.lesson .mc .opt .katex{font-size:1.15em}
-.lesson .s1-grid .lk-card{min-height:44px}
-@media(max-width:400px){.lesson .opts:not(.end-actions) .btn,.lesson .lk-line>.btn{min-width:0;flex:1 1 0;padding:6px 8px}}
+.lesson .opts:not(.end-actions) .btn,
+.lesson .lk-line>.btn {
+  min-width: 120px;
+  min-height: 36px;
+  height: auto;
+  padding: 6px 14px;
+  font-size: .9rem;
+  font-weight: 700
+}
+
+.lesson .lk-line>.lk-chip {
+  min-height: 40px;
+  padding: 5px 14px;
+  font-size: .9rem;
+  font-weight: 700
+}
+
+.lesson .lk-in {
+  font-size: 16px;
+  min-height: 40px
+}
+
+.lesson .mc .opt .katex {
+  font-size: 1.15em
+}
+
+.lesson .s1-grid .lk-card {
+  min-height: 44px
+}
+
+@media(max-width:400px) {
+
+  .lesson .opts:not(.end-actions) .btn,
+  .lesson .lk-line>.btn {
+    min-width: 0;
+    flex: 1 1 0;
+    padding: 6px 8px
+  }
+}
 
 
 /* S01 — مجموعه */
-.s1-guest{display:flex;justify-content:center;margin:8px 0}
-.s1-guest span{width:78px;height:78px;border-radius:50%;border:3px solid var(--ink);background:var(--mark);display:flex;align-items:center;justify-content:center;font-size:1.9em;font-weight:700}
-.s1-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0;direction:rtl}
-.s1-grid .lk-card{font-size:.9rem;padding:6px 8px}
+.s1-guest {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0
+}
+
+.s1-guest span {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  background: var(--mark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.9em;
+  font-weight: 700
+}
+
+.s1-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 10px 0;
+  direction: rtl
+}
+
+.s1-grid .lk-card {
+  font-size: .9rem;
+  padding: 6px 8px
+}
 
 
 /* S03 — دنباله */
-.s3-train{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;direction:ltr;margin:10px 0}
-.s3-wg{min-width:62px;min-height:46px;padding:4px 8px;border:2px solid var(--ink);border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center}
-.s3-wg.q{background:var(--mark)}
-.s3-wg .lk-in{width:4.4em;padding:2px 4px}
-.s3-cn{font-size:.8rem;color:crimson;min-width:26px;text-align:center}
-.s3-mk{font-weight:bold;min-width:1em}
-.s3-tb{border-collapse:collapse;margin:8px auto;direction:ltr}
-.s3-tb td,.s3-tb th{border:2px solid var(--ink);padding:3px 12px;text-align:center;min-width:3.2em}
-.s3-tb th{background:var(--ink);color:#fff}
+.s3-train {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+  direction: ltr;
+  margin: 10px 0
+}
+
+.s3-wg {
+  min-width: 62px;
+  min-height: 46px;
+  padding: 4px 8px;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.s3-wg.q {
+  background: var(--mark)
+}
+
+.s3-wg .lk-in {
+  width: 4.4em;
+  padding: 2px 4px
+}
+
+.s3-cn {
+  font-size: .8rem;
+  color: crimson;
+  min-width: 26px;
+  text-align: center
+}
+
+.s3-mk {
+  font-weight: bold;
+  min-width: 1em
+}
+
+.s3-tb {
+  border-collapse: collapse;
+  margin: 8px auto;
+  direction: ltr
+}
+
+.s3-tb td,
+.s3-tb th {
+  border: 2px solid var(--ink);
+  padding: 3px 12px;
+  text-align: center;
+  min-width: 3.2em
+}
+
+.s3-tb th {
+  background: var(--ink);
+  color: #fff
+}
 
 /* S02 — خلاصهٔ تصویری: ۲×۲ روی صفحهٔ عریض، تک‌ستونی روی گوشی */
-.s2-vg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;max-width:860px;margin:auto}
-@media(max-width:600px){.s2-vg{grid-template-columns:minmax(0,1fr);max-width:480px}}
+.s2-vg {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  max-width: 860px;
+  margin: auto
+}
+
+@media(max-width:600px) {
+  .s2-vg {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 480px
+  }
+}
 
 /* S03: واگنِ خالیِ «قطار الگو» (گروه ± داخل واگن) فشرده، هم‌اندازهٔ واگن‌های دیگر */
 .s3-wg.q:has(.numgrp) {
@@ -47,4 +171,177 @@
   padding: 0 2px;
   min-height: 38px;
   font-size: 1rem;
+}
+
+#s1a .stg {
+  gap: 8px;
+  margin: 22px 0 4px
+}
+
+#s1a .stg span {
+  width: 14px;
+  height: 14px;
+  min-width: 0;
+  padding: 0;
+  font-size: 0
+}
+
+#s1a .stg .cu {
+  transform: scale(1.3)
+}
+
+#s1a .opts:not(.end-actions) .btn {
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: transform .1s ease, box-shadow .1s ease
+}
+
+#s1a .opts:not(.end-actions) .btn:active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink)
+}
+
+/* S01 — دروازه‌بان: مهرِ نتیجه، حالت سریع */
+.s1-guest span {
+  transition: background .15s ease, border-color .15s ease
+}
+
+.s1-guest.ok span {
+  border-color: var(--accent);
+  background: #e6f6f3
+}
+
+.s1-guest.bad span {
+  border-color: #b23a3a;
+  background: #fdeaea
+}
+
+.s1-stamp {
+  min-height: 2.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  text-align: center;
+  font-size: .92rem;
+  font-weight: 700;
+  margin: 2px 0 6px
+}
+
+.s1-stamp.ok {
+  color: #0a6f61
+}
+
+.s1-stamp.bad {
+  color: #b23a3a
+}
+
+#s1a .opts .btn.sel-ok {
+  background: #e6f6f3;
+  border-color: var(--accent);
+  box-shadow: 2px 2px 0 var(--accent);
+  opacity: 1
+}
+
+#s1a .opts .btn.sel-bad {
+  background: #fdeaea;
+  border-color: #b23a3a;
+  box-shadow: 2px 2px 0 #b23a3a;
+  opacity: 1
+}
+
+#s1a .opts .btn.primary {
+  box-shadow: none;
+  transform: none
+}
+
+#s1a .opts .btn:disabled {
+  opacity: 1;
+  cursor: default
+}
+
+#s1a .opts .btn.primary:disabled {
+  opacity: .55
+}
+
+.s1-time {
+  height: 8px;
+  margin: 14px 0 4px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  overflow: hidden;
+  background: #fff
+}
+
+.s1-time i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: right center;
+  animation: s1t linear forwards
+}
+
+@keyframes s1t {
+  0% {
+    transform: scaleX(1);
+    background: var(--accent)
+  }
+
+  83% {
+    background: var(--accent)
+  }
+
+  84% {
+    background: #b23a3a
+  }
+
+  100% {
+    transform: scaleX(0);
+    background: #b23a3a
+  }
+}
+
+.s1-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 10px 0
+}
+
+.s1-stats>span {
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-weight: 700;
+  background: #fff
+}
+
+.s1-stats .g {
+  background: #e6f6f3
+}
+
+.s1-stats .r {
+  background: #fdeaea
+}
+
+.s1-stats .y {
+  background: var(--mark)
+}
+
+.s1-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin: 8px 0
+}
+
+.s1-chips>span {
+  border: 2px solid #b23a3a;
+  background: #fdeaea;
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: .88rem;
+  font-weight: 700
 }

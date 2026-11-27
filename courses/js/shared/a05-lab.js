@@ -1,7 +1,7 @@
 /* A05: independent, offline discovery lab and varied practice */
 (function () {
     'use strict';
-    const M = t => window.MathLite.renderRich('$' + t + '$'), fa = n => window.MathLite.fa(n), rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+    const M = t => window.MathLite.renderRich('$' + t + '$'), fa = n => window.MathLite.fa(n), rand = (a, b) => window.CourseKit._u.R(a, b);
     const sign = v => v < 0 ? String(v) : '+' + v, dm = t => '<div class="dm k">' + M(t) + '</div>';
     const norm = s => String(s).trim().replace(/[۰-۹]/g, c => String(c.charCodeAt(0) - 1776)).replace(/[٠-٩]/g, c => String(c.charCodeAt(0) - 1632)).replace(/−/g, '-').replace(/\s/g, '');
     function init(root) {

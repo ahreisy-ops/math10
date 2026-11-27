@@ -1,6 +1,6 @@
 /* A06 — تجزیه با عامل مشترک؛ درس مستقل و کارگاه اختصاصی */
 window.LESSONS=window.LESSONS||{};
-window.LESSONS.A06={needs:['a06lab','kit'],setup:function(K0){
+window.LESSONS.A06={needs:['utils', 'a06lab','kit'],setup:function(K0){
  var K=Object.create(K0);
  return {html:function(){var h='';
  h+=K.sn('۱','تجزیه؛ حرکت در خلاف جهت توزیع');

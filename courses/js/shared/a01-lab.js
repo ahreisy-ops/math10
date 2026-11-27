@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const ML = window.MathLite, M = s => ML.renderRich('$' + s + '$'), R = s => ML.renderRich(s), fa = ML.fa;
-  const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1)), nz = (a, b) => { let x; do { x = rnd(a, b) } while (!x); return x };
+  const rnd = (a, b) => window.CourseKit._u.R(a, b), nz = (a, b) => window.CourseKit._u.NZ(a, b);
   const sign = n => n < 0 ? String(n) : '+' + n, term = (n, x) => n === 1 ? x : n === -1 ? '-' + x : n + x, paren = n => '(' + n + ')';
   const norm = s => String(s).trim().replace(/[۰-۹]/g, d => d.charCodeAt(0) - 1776).replace(/[٠-٩]/g, d => d.charCodeAt(0) - 1632).replace(/[−–]/g, '-').replace(/\s/g, '');
   const input = (id, placeholder = 'پاسخ عددی') => '<input class="numin a01-number-input" id="' + id + '" type="text" inputmode="decimal" autocomplete="off" placeholder="' + placeholder + '">';
@@ -45,7 +45,7 @@
     }); host.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'a01-lab-input') { e.preventDefault(); host.querySelector('[data-act="check"]').click(); } }); tiles();
   }
   function distract(ans) { let a = [-ans, ans + 1, ans - 1, ans + 2, ans - 2, ans + 3, ans - 3, 0]; return a.filter((v, i) => v !== ans && a.indexOf(v) === i); }
-  function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rnd(0, i);[a[i], a[j]] = [a[j], a[i]]; } return a; }
+  function shuffle(a) { return window.CourseKit._u.shuffled(a); }
   function opts(q, bads) { q.options = shuffle([q.answer, ...bads.filter(v => v !== q.answer).filter((v, i, a) => a.indexOf(v) === i).slice(0, 3)]); while (q.options.length < 4) { let v = q.answer + nz(-11, 11); if (!q.options.includes(v)) q.options.push(v); } return q; }
   function finalQuestions() {
     const target = nz(-9, 9), coeff = nz(-8, 8), x = nz(-6, 6), y = nz(-6, 6);

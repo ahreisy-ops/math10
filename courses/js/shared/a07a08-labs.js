@@ -1,9 +1,9 @@
 /* A07 & A08: independent, offline discovery labs and varied practice */
 (function () {
     'use strict';
-    const M = t => window.MathLite.renderRich('$' + t + '$'), fa = t => window.MathLite.fa(t), R = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
-    const sign = n => n < 0 ? String(n) : '+' + n, nz = (a, b) => { let v; do { v = R(a, b) } while (!v); return v };
-    const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { let j = R(0, i);[a[i], a[j]] = [a[j], a[i]] } return a };
+    const M = t => window.MathLite.renderRich('$' + t + '$'), fa = t => window.MathLite.fa(t), R = (a, b) => window.CourseKit._u.R(a, b);
+    const sign = n => n < 0 ? String(n) : '+' + n, nz = (a, b) => window.CourseKit._u.NZ(a, b);
+    const shuffle = a => window.CourseKit._u.shuffled(a);
     function expression(a, b) { return 'x^2' + (a + b === 0 ? '' : sign(a + b) + 'x') + sign(a * b) }
     function factors(a, b) { return '(x' + sign(a) + ')(x' + sign(b) + ')' }
     function A07(panelEl) {
