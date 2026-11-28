@@ -8,18 +8,13 @@ window.LESSONS.G01 = {
     var _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var K = Object.create(K0);   // K0 = هستهٔ مشترک؛ K = همان + ابزارهای اختصاصی این درس
     var H = K0.lk(K);
+    var refs = H.refs, uniqBy = H.uniqBy, pick = H.pick, f2 = H.f2, mkO = H.mkO, fig1 = H.fig1, fan = H.fan, gslider = H.gradSlider;  /* ابزارهای مشترک: lessonkit.js */
     var T = String.raw;
     var INK = '#14213d', TEAL = '#0e8f7e', PINK = '#d6457a', BLUE = '#4c5fd5', AMB = '#e08a00', YEL = '#ffc233', MINT = '#7fd0c3', RED = '#c62f2f', GREY = '#5a6a85';
     var D2R = Math.PI / 180;
-    var pick = function (a) { return a[R(0, a.length - 1)]; };
-    var f2 = function (n) { return Math.round(n * 100) / 100; };
     var nf = function (v) { var s = String(+(+v).toFixed(2)); return s === '-0' ? '0' : s; };
     var dg = function (n) { return '<bdi style="direction:ltr;unicode-bidi:isolate">' + fa(n) + '°</bdi>'; };
-    var fan = function (v) { return fa(nf(v)).replace('.', '٫'); };
-    function uniqBy(arr, key) { var s = {}; return arr.filter(function (x) { var k = key(x); if (s[k]) { return false; } s[k] = 1; return true; }); }
     var cards3 = function (cells) { return '<div class="sg sg3">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.h + '</b><span>' + c.t + '</span></div>'; }).join('') + '</div>'; };
-    var refs = function (cells) { return '<div class="sg refs">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + K.dm(c.e) + '</div>'; }).join('') + '</div>'; };
-    var fig1 = function (inner, cap) { return '<div class="figs one"><figure>' + inner + (cap ? '<figcaption>' + cap + '</figcaption>' : '') + '</figure></div>'; };
     var figs2 = function (a, ca, b, cb) { return '<div class="figs"><figure>' + a + '<figcaption>' + ca + '</figcaption></figure><figure>' + b + '<figcaption>' + cb + '</figcaption></figure></div>'; };
 
     /* ---------- ابزارهای SVG ---------- */
@@ -63,11 +58,6 @@ window.LESSONS.G01 = {
     }
     /* مثلث قائم‌الزاویه با ضلع‌های قائم a و b؛ رأس قائمه روی اندیس r و چرخش دلخواه (هر سه رأس به ترتیب ساعت‌گرد یا پادساعت‌گرد) */
     /* نوار لغزندهٔ بومی با درجه‌بندیِ KaTeX (الگوی فصل اول) — ticks: [{v, t}] */
-    function gslider(id, min, max, val, step, ticks, label) {
-      var tot = max - min, h = '<div class="g-sl graduated-range" style="--gr-total:' + tot + '">' + (label ? '<div class="lab"><span>' + label + '</span></div>' : '') + '<input type="range" id="' + id + '" min="' + min + '" max="' + max + '" step="' + step + '" value="' + val + '" aria-label="' + (label || id) + '"><div class="graduated-ticks">';
-      ticks.forEach(function (t) { h += '<span style="--gr-step:' + (t.v - min) + '"><i></i>' + (t.t === undefined ? M(String(t.v)) : t.t) + '</span>'; });
-      return h + '</div></div>';
-    }
 
     /* مثلث با زاویه‌های a در رأس 0 و b در رأس 1 (مختصات ریاضی) */
     /* مثلث با ضلع‌های AB=a ، BC=b ، CA=c (مختصات ریاضی) */
@@ -81,10 +71,6 @@ window.LESSONS.G01 = {
 
     /* ---------- گزینه‌ساز مشترک ---------- */
     /* correct/wrongs: {t, m} — t: عبارت TeX (یا HTML وقتی raw=true) */
-    function mkO(correct, wrongs, raw) {
-      var list = uniqBy([{ t: correct.t, ok: 1, m: '' }].concat(wrongs.map(function (w) { return { t: w.t, ok: 0, m: w.m }; })), function (x) { return x.t; }), w = shuffle(list.slice(1)).slice(0, 3);
-      return shuffle([list[0]].concat(w).map(function (z) { return { h: raw ? z.t : M(z.t), ok: !!z.ok, m: z.m || 'این گزینه درست نیست.' }; }));
-    }
     /* گزینه‌های عددی: ans عدد درست؛ wrongs: [{v, m}]؛ suf پسوند TeX مثل ^\circ */
     function numO(ans, wrongs, suf) {
       suf = suf || ''; var seen = {}, w = [], offs = [2, -2, 3, -3, 1, -1, 5, -5, 10], i = 0, v, k;

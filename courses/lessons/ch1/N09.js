@@ -10,6 +10,7 @@ window.LESSONS.N09 = {
     var fb = K0._i.fb;
     var gcd = K0._f.gcd, simp = K0._f.F, divisors = K0._f.divisors, lcm2 = K0._f.lcm;
     var K = Object.create(K0), H = K0.lk(K);
+    var pick = H.pick;  /* ابزارهای مشترک: lessonkit.js */
     var T = String.raw, NL = '\\\\', tm = '\\times', dv = '\\div', CL = '\\mathbin{:}';
 
     /* ---------- استایل مخصوص این درس (فقط یک بار) ---------- */
@@ -47,7 +48,6 @@ window.LESSONS.N09 = {
     var RT = function (a, b) { return a + CL + b; };                                                   /* a:b */
     /* ضرب/تقسیم هر دو جملهٔ نسبت در یک عدد: عدد قرمز و جدا کنار هر جمله (مثل درس کسرها) */
     var RC = function (a, b, op, k) { var c = '{\\color{crimson}\\scriptsize' + op + k + '}'; return a + c + CL + b + c; };
-    var pick = function (arr) { return arr[R(0, arr.length - 1)]; };
     var rt = function (r) { return r.d === 1 ? '' + r.n : (r.n < 0 ? '-' : '') + '\\frac{' + Math.abs(r.n) + '}{' + r.d + '}'; };
 
     /* ---------- خواندن پاسخ دانش‌آموز (عدد صحیح، کسر یا اعشار) ---------- */

@@ -7,6 +7,7 @@ window.LESSONS.N07 = {
     var ML = window.MathLite, fa = ML.fa, rr = ML.renderRich, abs = Math.abs, df = K0.df;
     var _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var K = Object.create(K0), H = K0.lk(K);   // K0 = هستهٔ مشترک؛ K = همان + ابزارهای اختصاصی این درس؛ H = ابزار مشترک (kit)
+    var refs = H.refs;  /* ابزارهای مشترک: lessonkit.js */
 
     /* ---- استایل اختصاصی این درس؛ فقط از رنگ‌ها و قالب‌های موجود پروژه ---- */
     (function () {
@@ -301,7 +302,6 @@ window.LESSONS.N07 = {
       H.final(host, [mk1, mk2, mk3, qCompare, qTrue], fixK);
     };
     var cards2 = function (cells) { return '<div class="sg">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + (c.e ? K.dm(c.e) : '') + '</div>'; }).join('') + '</div>'; };
-    var refs = function (cells) { return '<div class="sg refs">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + K.dm(c.e) + '</div>'; }).join('') + '</div>'; };
     var sqChips = function () { var h = '<div class="nleq wrap sm">', k; for (k = 1; k <= 15; k++) { h += '<i class="n">$' + k + '^2=' + k * k + '$</i>'; } return h + '</div>'; };
 
     return {

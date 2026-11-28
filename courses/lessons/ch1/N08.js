@@ -7,6 +7,7 @@ window.LESSONS.N08 = {
     var ML = window.MathLite, fa = ML.fa, rr = ML.renderRich, abs = Math.abs, df = K0.df;
     var _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var K = Object.create(K0), H = K0.lk(K);   // K0 = هستهٔ مشترک؛ K = همان + ابزارهای اختصاصی این درس؛ H = ابزار مشترک (kit)
+    var refs = H.refs;  /* ابزارهای مشترک: lessonkit.js */
 
     /* ---- استایل اختصاصی این درس؛ فقط از رنگ‌ها و قالب‌های موجود پروژه ---- */
     (function () {
@@ -334,7 +335,6 @@ window.LESSONS.N08 = {
     };
     var cards3 = function (cells) { return '<div class="sg sg3">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.h + '</b><span>' + c.t + '</span></div>'; }).join('') + '</div>'; };
     var cards2 = function (cells) { return '<div class="sg">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + (c.e ? K.dm(c.e) : '') + '</div>'; }).join('') + '</div>'; };
-    var refs = function (cells) { return '<div class="sg refs">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + K.dm(c.e) + '</div>'; }).join('') + '</div>'; };
     var one = function (a, b, c, d) { return ax({ lo: a, step: 1, n: b - a, lab: c, pts: d.pts, arcs: d.arcs, cap: d.cap }); };
 
     return {

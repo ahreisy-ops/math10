@@ -9,6 +9,7 @@ window.LESSONS.N06 = {
     var _u = K0._u, R = _u.R, shuffle = _u.shuffle;
     var fb = K0._i.fb;
     var K = Object.create(K0), H = K0.lk(K);
+    var pick = H.pick;  /* ابزارهای مشترک: lessonkit.js */
     var T = String.raw, NL = '\\\\', tm = '\\times', dv = '\\div';
 
     /* ---------- استایل مخصوص این درس (فقط یک بار) ---------- */
@@ -180,7 +181,6 @@ window.LESSONS.N06 = {
     };
 
     /* ---------- آزمون سؤال‌به‌سؤال: «سؤال n از m»، قبلی/بعدی، نتیجه و مجموعهٔ جدید ---------- */
-    var pick = function (arr) { return arr[R(0, arr.length - 1)]; };
     var P2 = function (a, e) { return a + '^{' + e + '}'; };                       /* a^{e} با پایهٔ صحیح مثبت */
 
     /* ============ ۴) بازرس خطا: مرحلهٔ اشتباه را پیدا کن (هر مرحله یک برابری مستقل است) ============ */

@@ -7,6 +7,7 @@ window.LESSONS.N04 = {
     var ML = window.MathLite, fa = ML.fa, rr = ML.renderRich, abs = Math.abs, df = K0.df;
     var _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
     var K = Object.create(K0), H = K0.lk(K);   // K0 = هستهٔ مشترک؛ K = همان + ابزارهای اختصاصی این درس
+    var refs = H.refs;  /* ابزارهای مشترک: lessonkit.js */
 
     /* ---- استایل اختصاصی این درس؛ فقط از رنگ‌ها و قالب‌های موجود پروژه استفاده شده ---- */
     (function () {
@@ -642,7 +643,6 @@ window.LESSONS.N04 = {
       wireReplay(host);
     };
     var cards3 = function (cells, cls) { return '<div class="sg ' + (cls || 'sg3') + '">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + M(c.h) + '</b><span>' + c.t + '</span>' + (c.e ? '<span>' + M(c.e) + '</span>' : '') + '</div>'; }).join('') + '</div>'; };
-    var refs = function (cells) { return '<div class="sg refs">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + K.dm(c.e) + '</div>'; }).join('') + '</div>'; };
 
     return {
       html: function () {

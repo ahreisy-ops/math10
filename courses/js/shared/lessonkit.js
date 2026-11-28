@@ -222,6 +222,22 @@
         else if (b.dataset.r) { nw(); paint(); }
       }); nw(); paint();
     };
+    /* ---------- ابزارهای تکراریِ درس‌ها (قبلاً در هر درس کپی جدا داشتند) ---------- */
+    var M0 = _u.M;
+    H.f2 = function (n) { return Math.round(n * 100) / 100; };
+    H.uniqBy = _u.uniqBy;
+    H.fan = function (v) { var s = String(+(+v).toFixed(2)); return fa(s === '-0' ? '0' : s).replace('.', '٫'); };   /* عدد فارسی با ممیز ٫ (حداکثر دو رقم اعشار) */
+    H.refs = function (cells) { return '<div class="sg refs">' + cells.map(function (c) { return '<div class="' + c.c + '"><b>' + c.t + '</b><span>' + c.r + '</span>' + K.dm(c.e) + '</div>'; }).join('') + '</div>'; };   /* cells: [{c: کلاس رنگ, t: عنوان, r: توضیح, e: TeX}] */
+    H.fig1 = function (inner, cap) { return '<div class="figs one"><figure>' + inner + (cap ? '<figcaption>' + cap + '</figcaption>' : '') + '</figure></div>'; };
+    H.gradSlider = function (id, min, max, val, step, ticks, label) {   /* نوار لغزندهٔ بومی با درجه‌بندی KaTeX — ticks: [{v, t}] */
+      var tot = max - min, h = '<div class="g-sl graduated-range" style="--gr-total:' + tot + '">' + (label ? '<div class="lab"><span>' + label + '</span></div>' : '') + '<input type="range" id="' + id + '" min="' + min + '" max="' + max + '" step="' + step + '" value="' + val + '" aria-label="' + (label || id) + '"><div class="graduated-ticks">';
+      ticks.forEach(function (t) { h += '<span style="--gr-step:' + (t.v - min) + '"><i></i>' + (t.t === undefined ? M0(String(t.v)) : t.t) + '</span>'; });
+      return h + '</div></div>';
+    };
+    H.mkO = function (correct, wrongs, raw) {   /* گزینه‌ساز مشترک: correct/wrongs: {t, m} — t: TeX (یا HTML وقتی raw=true) */
+      var list = _u.uniqBy([{ t: correct.t, ok: 1, m: '' }].concat(wrongs.map(function (w) { return { t: w.t, ok: 0, m: w.m }; })), function (x) { return x.t; }), w = shuffle(list.slice(1)).slice(0, 3);
+      return shuffle([list[0]].concat(w).map(function (z) { return { h: raw ? z.t : M0(z.t), ok: !!z.ok, m: z.m || 'این گزینه درست نیست.' }; }));
+    };
     H.venn = window.VennDraw;
     return H;
   };
