@@ -7,14 +7,7 @@
    مستقل از فصل و بخش؛ ظاهر در course-shared-ch5.css (زیر کلاس بستهٔ .exs) */
 (function () {
   'use strict';
-  var K0 = window.CourseKit, ML = window.MathLite, fa = ML.fa, rr = ML.renderRich, M0 = K0._u.M;
-  function M(t) {
-    t = String(t);
-    if (!/\\text\{(یا|و)\}/.test(t)) { return M0(t); }
-    var parts = t.split(/\\ ?\\text\{(یا|و)\}\\ ?/), out = '', i;
-    for (i = 0; i < parts.length; i++) { out += i % 2 ? ' ' + parts[i] + ' ' : M0(parts[i]); }
-    return '<bdi style="direction:ltr;unicode-bidi:isolate">' + out + '</bdi>';
-  }
+  var K0 = window.CourseKit, ML = window.MathLite, fa = ML.fa, rr = ML.renderRich, M = K0._u.M;
   var DEF = { title: 'سه مسئله، سه حل', label: '', unit: 'مثال', chip: false, prev: 'مثال قبلی', next: 'مثال بعدی', all: 'مشاهدهٔ همهٔ حل‌ها', scroll: ' data-scroll=".e02-example-top"', tall: false, act: ' data-activity' };
   var MODES = { steps: { title: 'مثال حل‌شده', label: 'حل گام‌به‌گام مثال', unit: 'گام', chip: true, prev: 'مرحلهٔ قبلی', next: 'مرحلهٔ بعدی', all: 'مشاهدهٔ حل کامل', scroll: ' data-scroll', tall: true, act: '' } };
   function cfg(mode) { var c = {}, m = MODES[mode] || {}, k; for (k in DEF) { c[k] = m[k] !== undefined ? m[k] : DEF[k]; } return c; }

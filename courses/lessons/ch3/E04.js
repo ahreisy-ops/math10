@@ -4,14 +4,7 @@ window.LESSONS.E04 = {
   needs: ['utils', 'exsteps', 'kit'],
   setup: function (K0) {
     var ML = window.MathLite, F = ML.fa, rr = ML.renderRich, abs = Math.abs, _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
-    var M0 = _u.M, K = Object.create(K0), H = K0.lk(K), T = String.raw;
-    var M = function (t) {
-      t = String(t);
-      if (!/\\text\{(یا|و)\}/.test(t)) { return M0(t); }
-      var parts = t.split(/\\ ?\\text\{(یا|و)\}\\ ?/), out = '', i;
-      for (i = 0; i < parts.length; i++) { out += i % 2 ? ' ' + parts[i] + ' ' : M0(parts[i]); }
-      return '<bdi style="direction:ltr;unicode-bidi:isolate">' + out + '</bdi>';
-    };
+    var K = Object.create(K0), H = K0.lk(K), T = String.raw;
     var ltr = function (h) { return '<bdi style="direction:ltr;unicode-bidi:isolate">' + h + '</bdi>'; };
     var choose = function (a) { return a[R(0, a.length - 1)]; };
     var nz = function (a, b) { var v = 0; while (v === 0) { v = R(a, b); } return v; };
@@ -21,13 +14,7 @@ window.LESSONS.E04 = {
     var REL = { lt: '\\lt ', gt: '\\gt ', le: '\\leq ', ge: '\\geq ' }, RELT = { lt: '<', gt: '>', le: '≤', ge: '≥' };
     var flipRel = function (r) { return { lt: 'gt', gt: 'lt', le: 'ge', ge: 'le' }[r]; };
     var RELS = ['lt', 'gt', 'le', 'ge'];
-    function uniqBy(arr, key) { var s = {}; return arr.filter(function (x) { var k = key(x); if (s[k]) { return false; } s[k] = 1; return true; }); }
-    function mc(correct, wrongs, raw) {
-      var list = uniqBy([{ t: correct.t, ok: 1 }].concat(wrongs.map(function (w) { return { t: w.t, ok: 0, m: w.m }; })), function (x) { return x.t; }), w, mm = /^x=(-?\d+)$/.exec(correct.t), k = 0, offs = [1, -1, 2, -2, 3, -3, 5];
-      while (mm && list.length < 4 && k < offs.length) { var nt = 'x=' + (+mm[1] + offs[k++]); if (!list.some(function (z) { return z.t === nt; })) { list.push({ t: nt, ok: 0, m: 'محاسبه را دوباره بررسی کن.' }); } }
-      w = shuffle(list.slice(1)).slice(0, 3);
-      return shuffle([list[0]].concat(w).map(function (z) { return { h: raw ? z.t : M(z.t), ok: !!z.ok, m: z.m || 'این گزینه درست نیست.' }; }));
-    }
+    var uniqBy = _u.uniqBy, mc = _u.mc;
     function mark(ok, text) { return '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status">' + text + '</div>'; }
     function activity(title, id, lead) { return '<h4 class="e02-activity-title">' + title + '</h4><p class="e02-activity-lead">' + lead + '</p><div class="e01-interaction e02-activity" id="' + id + '" data-activity><div data-stage></div></div>'; }
     function intro(kicker, p, route) { return '<div class="e01-intro"><span class="e01-kicker">' + kicker + '</span><p>' + p + '</p><div class="e01-route" aria-label="مسیر این درس">' + route.map(function (r) { return '<span>' + r + '</span>'; }).join('<i aria-hidden="true">←</i>') + '</div></div>'; }

@@ -2,7 +2,7 @@
 window.LESSONS = window.LESSONS || {};
 /* بدنهٔ درس داخل setup است تا فقط بعد از لود شدن ماژول‌های needs اجرا شود */
 window.LESSONS.G01 = {
-  needs: ['utils', 'exsteps', 'kit'],
+  needs: ['utils', 'exsteps', 'kit', 'tri'],
   setup: function (K0) {
     var ML = window.MathLite, fa = ML.fa, rr = ML.renderRich, abs = Math.abs, df = K0.df;
     var _u = K0._u, R = _u.R, M = _u.M, shuffle = _u.shuffle;
@@ -23,16 +23,7 @@ window.LESSONS.G01 = {
     var figs2 = function (a, ca, b, cb) { return '<div class="figs"><figure>' + a + '<figcaption>' + ca + '</figcaption></figure><figure>' + b + '<figcaption>' + cb + '</figcaption></figure></div>'; };
 
     /* ---------- ابزارهای SVG ---------- */
-    function sv(W, H) { return '<svg class="gsv" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-hidden="true">'; }
-    function stx(t, x, y, o) { o = o || {}; return '<text x="' + f2(x) + '" y="' + f2(y + (o.nf ? o.fs : Math.max(o.fs || 13, 12)) * 0.34) + '" text-anchor="' + (o.a || 'middle') + '" font-size="' + (o.nf ? o.fs : Math.max(o.fs || 13, 12)) + '"' + (o.b ? ' font-weight="bold"' : '') + ' fill="' + (o.c || INK) + '" font-family="Tahoma,sans-serif">' + t + '</text>'; }
-    function sln(a, b, c, w, d) { return '<line x1="' + f2(a[0]) + '" y1="' + f2(a[1]) + '" x2="' + f2(b[0]) + '" y2="' + f2(b[1]) + '" stroke="' + (c || INK) + '" stroke-width="' + (w || 2) + '"' + (d ? ' stroke-dasharray="5 4"' : '') + ' stroke-linecap="round"/>'; }
-    function unit(a, b) { var dx = b[0] - a[0], dy = b[1] - a[1], l = Math.sqrt(dx * dx + dy * dy) || 1; return [dx / l, dy / l]; }
-    function rmark(V, A, B, r, c) { var u1 = unit(V, A), u2 = unit(V, B), p1 = [V[0] + u1[0] * r, V[1] + u1[1] * r], p3 = [V[0] + u2[0] * r, V[1] + u2[1] * r], p2 = [p1[0] + u2[0] * r, p1[1] + u2[1] * r]; return '<polyline points="' + f2(p1[0]) + ',' + f2(p1[1]) + ' ' + f2(p2[0]) + ',' + f2(p2[1]) + ' ' + f2(p3[0]) + ',' + f2(p3[1]) + '" fill="none" stroke="' + (c || INK) + '" stroke-width="1.8"/>'; }
-    function arcP(V, A, B, r, c, fill) {
-      var u1 = unit(V, A), u2 = unit(V, B), p1 = [V[0] + u1[0] * r, V[1] + u1[1] * r], p2 = [V[0] + u2[0] * r, V[1] + u2[1] * r], cr = u1[0] * u2[1] - u1[1] * u2[0], sw = cr > 0 ? 1 : 0;
-      if (abs(cr) < 1e-6 && u1[0] * u2[0] + u1[1] * u2[1] < 0) { sw = 1; }
-      return '<path d="' + (fill ? 'M' + f2(V[0]) + ' ' + f2(V[1]) + ' L' + f2(p1[0]) + ' ' + f2(p1[1]) : 'M' + f2(p1[0]) + ' ' + f2(p1[1])) + ' A' + r + ' ' + r + ' 0 0 ' + sw + ' ' + f2(p2[0]) + ' ' + f2(p2[1]) + (fill ? ' Z' : '') + '" fill="' + (fill || 'none') + '" stroke="' + (c || INK) + '" stroke-width="1.8"/>';
-    }
+    var T3 = K0.tri({ fmin: 12 }), sv = T3.sv, stx = T3.stx, sln = T3.sln, unit = T3.unit, rmark = T3.rmark, arcP = T3.arcP;  /* ابزارهای مشترک رسم مثلث: js/shared/trikit.js */
     /* زاویه: o={deg, rot, l1, l2, lab, W, H, mark(قائمه), fill} — شکل با مختصات ریاضی ساخته و در کادر وسط‌چین می‌شود */
     function angSVG(o) {
       var W = o.W || 300, H = o.H || 170, rot = o.rot || 0, l1 = o.l1 || 110, l2 = o.l2 || 110, a2 = rot + o.deg, d1 = [Math.cos(rot * D2R), Math.sin(rot * D2R)], d2 = [Math.cos(a2 * D2R), Math.sin(a2 * D2R)];
@@ -70,7 +61,6 @@ window.LESSONS.G01 = {
       if (o.zero) { s += stx(fa(0), base === 'R' ? cx + r0 + 2 : cx - r0 - 2, cy + 14, { fs: 11, c: TEAL, b: 1 }); }
       return s + '</svg>';
     }
-    /* مثلث: o={pts:[A,B,C] مختصات ریاضی, names, sl:[برچسب AB,BC,CA], al:[برچسب زاویه در A,B,C], right:اندیس رأس قائمه, arcs, alt:{from,base,l}, hl:{side:i,c}, col:[رنگ ضلع‌ها], fill, W, H} */
     /* مثلث قائم‌الزاویه با ضلع‌های قائم a و b؛ رأس قائمه روی اندیس r و چرخش دلخواه (هر سه رأس به ترتیب ساعت‌گرد یا پادساعت‌گرد) */
     /* نوار لغزندهٔ بومی با درجه‌بندیِ KaTeX (الگوی فصل اول) — ticks: [{v, t}] */
     function gslider(id, min, max, val, step, ticks, label) {

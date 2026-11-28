@@ -150,6 +150,7 @@
     numberline: { src: 'js/shared/numberline.js' },
     kit: { src: 'js/shared/lessonkit.js', needs: ['utils', 'inputs'] },
     coord: { src: 'js/shared/coord.js', needs: ['kit'] },
+    tri: { src: 'js/shared/trikit.js', needs: ['kit'] },
     frac: { src: 'js/shared/frac.js', needs: ['utils'] },
     algebra2: { src: 'js/shared/algebra2.js' },
     linearvalues: { src: 'js/shared/linear-values.js' },
