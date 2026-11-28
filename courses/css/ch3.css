@@ -4527,110 +4527,6 @@
   direction: ltr;
 }
 
-/* E02/E05/E06 — dialog و بخش‌های «راه‌حل کامل» (خودِ مثال حل‌شده در course-shared-ch5.css و مؤلفهٔ K.exampleSteps است) */
-
-.e02-example-heading {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin: 8px 0 12px;
-  color: var(--ink)
-}
-
-.e02-example-chip {
-  border-radius: 18px;
-  padding: 3px 12px;
-  background: #def2ed;
-  color: #075e58;
-  font-size: .84rem;
-  white-space: nowrap
-}
-
-.e02-example-lines {
-  padding: 12px 8px;
-  background: #f3f6fa;
-  border-radius: 10px;
-  display: grid;
-  gap: 13px;
-  justify-items: center;
-  overflow-x: auto;
-  max-width: 100%;
-  font-size: 1.15rem
-}
-
-.e02-example-lines>div {
-  max-width: 100%;
-  white-space: nowrap
-}
-
-.e02-example-note {
-  font-size: .91rem;
-  color: var(--ink-soft);
-  line-height: 1.9;
-  margin: 12px 0 !important
-}
-
-.e02-example-dialog {
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  background: #fff;
-  color: var(--ink);
-  padding: 0;
-  width: min(640px, calc(100vw - 24px));
-  max-width: calc(100vw - 24px);
-  max-height: 85dvh;
-  overflow: hidden;
-  direction: rtl;
-  box-shadow: 0 15px 55px #07183145
-}
-
-.e02-example-dialog[open] {
-  display: flex;
-  flex-direction: column
-}
-
-.e02-example-dialog::backdrop {
-  background: rgba(5, 18, 40, .65)
-}
-
-.e02-example-dialog-header {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border-bottom: 1px solid var(--line);
-  padding: 14px 17px;
-  background: #f2f7fb
-}
-
-.e02-example-dialog-content {
-  min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 14px 18px 24px
-}
-
-.e02-example-dialog-content .e02-example-step+.e02-example-step {
-  border-top: 1px solid var(--line);
-  margin-top: 19px;
-  padding-top: 16px
-}
-
-@media(max-width:420px) {
-  .e02-example-dialog-content {
-    padding: 12px
-  }
-
-  .e02-example-heading {
-    font-size: .95rem
-  }
-}
-
 @media(max-width:380px) {
   .e02-lesson .e02-example-actions>.btn {
     min-width: 0;
@@ -4960,13 +4856,6 @@
 .e3-pill.y {
   background: var(--mark);
   border-color: var(--ink)
-}
-
-.e3-exline {
-  direction: rtl;
-  text-align: center;
-  font-size: 1rem;
-  line-height: 1.9
 }
 
 .e3-note {
@@ -5704,16 +5593,6 @@
   .e3x .e4-grow {
     animation: none
   }
-}
-
-/* E05: نوار ترتیب حرکت‌ها در «ماشین حل» */
-.e3x .e5-order .e4-dec-a {
-  justify-content: flex-start;
-  min-height: 0;
-  font-size: .88rem;
-  line-height: 1.7;
-  text-align: right;
-  color: var(--ink-soft)
 }
 
 .e3x .e5-tag {

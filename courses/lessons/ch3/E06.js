@@ -75,20 +75,6 @@ window.LESSONS.E06 = {
     /* ---------- کارت‌های قاعده: معادله به‌جای توصیف (رنگ: st برای کل کارت‌ها یا r[2] برای هر ردیف) ---------- */
     function rules(rows, st) { return '<div class="e5-rules" style="--sc:' + SC[st || 0] + '">' + rows.map(function (r) { return '<div class="e5-rule"' + (r[2] !== undefined ? ' style="--sc:' + SC[r[2]] + '"' : '') + '><div class="eq" dir="ltr">' + M(r[1]) + '</div><p>' + r[0] + '</p></div>'; }).join('') + '</div>'; }
     function errPair(w, wt, r, rt) { function row(c, mk, t, q) { return '<div class="e5-er ' + c + '"><div class="what">' + t + '</div><div class="line"><span class="mk">' + mk + '</span><div class="eq" dir="ltr">' + M(q) + '</div></div></div>'; } return '<div class="e5-err">' + row('bad', '✗', w, wt) + row('ok', '✓', r, rt) + '</div>'; }
-    function stepsNote(dlgId) {
-      return '<dialog class=\"e02-example-dialog\" id=\"' + dlgId + '\" aria-labelledby=\"' + dlgId + '-t\"><div class=\"e02-example-dialog-header\"><strong id=\"' + dlgId + '-t\">راه‌حل کامل این مسئله</strong><button type=\"button\" class=\"btn primary\" data-sd-close aria-label=\"بستن پنجره\">بستن</button></div><div class=\"e02-example-dialog-content\" data-sd-body></div></dialog>';
-    }
-    function stepsBind(dlgId, forId, $) {
-      var dlg = $(dlgId), root = $(forId), body = dlg.querySelector('[data-sd-body]');
-      root.addEventListener('click', function (e) {
-        if (!e.target.closest('[data-solution]')) { return; }
-        var p = root.getProblem(), steps = [{ title: 'معادلهٔ اولیه', lines: [p.tex], note: '' }].concat(p.steps.map(function (s, i) { return { title: 'گام ' + F(i + 1), lines: [s.line], note: s.why }; }));
-        steps[steps.length - 1].note += (p.end ? ' ' + p.end : '');
-        body.innerHTML = rr((p.ov ? '<p class="e5-ov"><b>چرا این مسیر؟</b> ' + p.ov + '</p>' : '') + steps.map(function (s) { return '<section class="e02-example-step"><div class="e02-example-heading"><span class="e02-example-chip">' + s.title + '</span></div><div class="e02-example-lines">' + s.lines.map(function (l) { return '<div dir="ltr">' + M(l) + '</div>'; }).join('') + '</div>' + (s.note ? '<p class="e02-example-note">' + s.note + '</p>' : '') + '</section>'; }).join(''));
-        dlg.showModal();
-      });
-      dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.closest('[data-sd-close]')) { dlg.close(); } });
-    }
     /* ================= ابزارهای معادلهٔ حاصل‌ضربی ================= */
     var OR = '\\ \\text{یا}\\ ', AND = '\\ \\text{و}\\ ';
     var pv = function (v) { return v < 0 ? '(' + v + ')' : String(v); };
@@ -246,13 +232,13 @@ window.LESSONS.E06 = {
         h += K.exampleSteps.html('e06-example-factor', 3, 'حل کامل با عامل مشترک', null, 'steps');
         h += '<p>در مثال، ' + M('x=0') + ' هم یکی از جواب‌ها بود. حالا خودت امتحان کن؛ گام آخر نشان می‌دهد تقسیم بر ' + M('x') + ' چه چیزی را از دست می‌دهد.</p>';
         h += activity('کارگاه عامل مشترک', 'e06-factor', 'در هر گام خط درست را انتخاب کن.');
-        h += stepsNote('e06-sd-factor');
+        h += K.exampleSteps.dialogHtml('e06-sd-factor', 'راه‌حل کامل این مسئله');
         h += K.box('err', '⚠ خطای رایج: تقسیم بر x', '<p>معادلهٔ اصلی: ' + ltr(M('x^2-5x=0')) + '</p>' + errPair('دو طرف بر ' + M('x') + ' تقسیم شد', 'x^2-5x=0\\ \\Rightarrow\\ \\textcolor{firebrick}{x-5=0}\\ \\Rightarrow\\ x=5', 'عامل مشترک گرفته شد', 'x(x-5)=0\\ \\Rightarrow\\ x=\\textcolor{seagreen}{0}' + OR + 'x=5') + '<p>راه تشخیص: ' + ltr(M('x=0')) + ' را در معادلهٔ اصلی بگذار؛ ' + ltr(M('0^2-5\\times0=0')) + ' برقرار است، پس ۰ هم جواب است و تقسیم آن را گم کرده بود.</p>');
         h += K.sn('۴', 'مسیر کامل');
         h += '<p>حالا هر سه تکه را داری. مسیر کامل همان سه مرحلهٔ نوارِ بالای هر بخش است؛ گاهی معادله از اول حاصل‌ضرب است و مرحلهٔ اول لازم نیست:</p>';
         h += rules([['۱. عامل مشترک بگیر (به همراه ضریب) تا «حاصل‌ضرب برابر با صفر» بسازی', '3x^2+12x=0\\ \\Rightarrow\\ 3x(x+4)=0', 0], ['۲. هر عامل را جدا برابر صفر بگذار', '3x=0' + OR + 'x+4=0', 1], ['۳. هر معادله را حل کن', 'x=0' + OR + 'x=-4', 2]]);
         h += activity('کارگاه مسیر حل', 'e06-full', 'مسئله‌ها از چهار نوع‌اند: عامل‌های ساده، عامل با ضریب، عامل مشترک و عامل مشترک با ضریب. خودت یک معادله را از ابتدا تا انتها حل کن: در هر گام خط درست را انتخاب کن.');
-        h += stepsNote('e06-sd-full');
+        h += K.exampleSteps.dialogHtml('e06-sd-full', 'راه‌حل کامل این مسئله');
         h += K.sn('۵', 'آزمون پایانی');
         h += '<p>در آزمون پایانی، قانون ضرب صفر، حل عامل‌ها، عامل مشترک، انتخاب نخستین کار و پیداکردن اشتباه در یک راه‌حل سنجیده می‌شود. شش سؤال در قالب‌های گوناگون، با عددهای تازه در هر دور.</p>';
         h += '<div id="e06-final" class="e01-interaction e01-final" aria-label="آزمون پایانی" data-activity></div>';
@@ -263,7 +249,7 @@ window.LESSONS.E06 = {
         var $ = function (id) { return document.getElementById(id); };
         zeroLab($('e06-zero')); rootsLab($('e06-roots'));
         K.guide($('e06-factor'), function () { return genFact(1); }, { log: true }); K.guide($('e06-full'), genRoot, { log: true });
-        stepsBind('e06-sd-factor', 'e06-factor', $); stepsBind('e06-sd-full', 'e06-full', $);
+        K.exampleSteps.bindDialog('e06-sd-factor', $('e06-factor'), function () { return K.exampleSteps.problemSteps($('e06-factor').getProblem()); }); K.exampleSteps.bindDialog('e06-sd-full', $('e06-full'), function () { return K.exampleSteps.problemSteps($('e06-full').getProblem()); });
         K.exampleSteps.bind('e06-example-steps', [
           { title: 'قانون ضرب صفر', lines: ['(2x-6)(x+1)=0', '2x-6=0' + OR + 'x+1=0'], note: 'حاصل‌ضرب صفر است؛ پس دست‌کم یکی از دو عامل صفر است.' },
           { title: 'حل هر عامل', lines: ['2x-6=0\\ \\Rightarrow\\ 2x=6\\ \\Rightarrow\\ x=3', 'x+1=0\\ \\Rightarrow\\ x=-1'], note: 'در عامل اول، پس از بردنِ ۶ باید بر ۲ تقسیم کنیم.' },

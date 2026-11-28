@@ -301,20 +301,6 @@ window.LESSONS.E05 = {
     }
 
     /* ---------- دیالوگ «مراحل حل این مسئله» (آیکون i) ---------- */
-    function stepsNote(dlgId) {
-      return '<dialog class=\"e02-example-dialog\" id=\"' + dlgId + '\" aria-labelledby=\"' + dlgId + '-t\"><div class=\"e02-example-dialog-header\"><strong id=\"' + dlgId + '-t\">راه‌حل کامل این مسئله</strong><button type=\"button\" class=\"btn primary\" data-sd-close aria-label=\"بستن پنجره\">بستن</button></div><div class=\"e02-example-dialog-content\" data-sd-body></div></dialog>';
-    }
-    function stepsBind(dlgId, forId, $) {
-      var dlg = $(dlgId), root = $(forId), body = dlg.querySelector('[data-sd-body]');
-      root.addEventListener('click', function (e) {
-        if (!e.target.closest('[data-solution]')) { return; }
-        var p = root.getProblem(), steps = [{ title: 'معادلهٔ اولیه', lines: [p.tex], note: '' }].concat(p.steps.map(function (s, i) { return { title: 'گام ' + F(i + 1), lines: [s.line], note: s.why }; }));
-        steps[steps.length - 1].note += (p.end ? ' ' + p.end : '');
-        body.innerHTML = rr((p.ov ? '<p class="e5-ov"><b>چرا این مسیر؟</b> ' + p.ov + '</p>' : '') + steps.map(function (s) { return '<section class="e02-example-step"><div class="e02-example-heading"><span class="e02-example-chip">' + s.title + '</span></div><div class="e02-example-lines">' + s.lines.map(function (l) { return '<div dir="ltr">' + M(l) + '</div>'; }).join('') + '</div>' + (s.note ? '<p class="e02-example-note">' + s.note + '</p>' : '') + '</section>'; }).join(''));
-        dlg.showModal();
-      });
-      dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.closest('[data-sd-close]')) { dlg.close(); } });
-    }
     return {
       html: function () {
         var h = '<div class="e01-lesson e02-lesson e3x">';
@@ -330,7 +316,7 @@ window.LESSONS.E05 = {
         h += K.exampleSteps.html('e05-example-steps', 3, 'حل کامل معادلهٔ کسری', null, 'steps');
         h += '<p>در مثال، ضرب در ک.م.م به همهٔ جمله‌ها رسید، حتی به عددِ تنها. حالا خودت امتحان کن.</p>';
         h += activity('کارگاه حذف مخرج', 'e05-frac', 'سه شکل معادله می‌آید: کسرِ تنها با عددی کنارش، کسر با صورتِ دوجمله‌ای، و دو کسر با مخرج‌های متفاوت. در هر گام خط درست را انتخاب کن.');
-        h += stepsNote('e05-sd-frac');
+        h += K.exampleSteps.dialogHtml('e05-sd-frac', 'راه‌حل کامل این مسئله');
         h += K.box('err', '⚠ خطای رایج: جا انداختنِ عددِ تنها', '<p>معادلهٔ اصلی: ' + ltr(M(dfr('x', 2) + '+' + dfr('x', 3) + '=5')) + '</p>' + errPair('عددِ ' + M('5') + ' ضرب نشد', '5x=\\textcolor{firebrick}{5}\\ \\Rightarrow\\ x=1', 'همهٔ جمله‌ها ضرب می‌شوند', '5x=\\textcolor{seagreen}{30}\\ \\Rightarrow\\ x=6') + '<p>سنجش: با ' + ltr(M('x=1')) + ' طرف چپ ' + ltr(M(dfr('1', 2) + '+' + dfr('1', 3) + '=' + dfr(5, 6))) + ' می‌شود ولی طرف راست ' + M('5') + ' است.</p>');
         h += K.sn('۳', 'خطرِ مخرجِ صفر') + stageTag(3);
         h += '<p>کسرها که رفتند، یک نگرانی می‌ماند: ضرب در مخرج یعنی ضرب در عبارتی که ممکن است صفر شود. وقتی ' + M('x') + ' در مخرج است، جوابی که مخرج را صفر کند قابل‌قبول نیست.</p>';
@@ -342,7 +328,7 @@ window.LESSONS.E05 = {
         h += '<p>هر معادله را با چهار کار پشت‌سرهم حل می‌کنیم (همان چهار کار نوارِ بالای هر بخش). اما همهٔ معادله‌ها به هر چهار کار نیاز ندارند: اگر پرانتز یا کسر نباشد، دو کار اول لازم نیست.</p>';
         h += activity('ماشین مرحله‌ها', 'e05-machine', 'برای هر معادله مشخص کن کدام‌یک از دو مرحلهٔ اول لازم است (مرحلهٔ ۳ و ۴ همیشه انجام می‌شوند)، بعد «ماشین را روشن کن» را بزن تا ببینی معادله از چه مسیری حل می‌شود.');
         h += activity('کارگاه مسیر حل', 'e05-solve', 'حالا خودت یک معادله را از ابتدا تا انتها حل کن: در هر گام خط درست را انتخاب کن.');
-        h += stepsNote('e05-sd-solve');
+        h += K.exampleSteps.dialogHtml('e05-sd-solve', 'راه‌حل کامل این مسئله');
         h += K.sn('۵', 'آزمون پایانی');
         h += '<p>در آزمون پایانی، معادله‌های کسری، پرانتزی و مخرج‌صفر سنجیده می‌شوند. شش سؤال در قالب‌های گوناگون، با عددهای تازه در هر دور.</p>';
         h += '<div id="e05-final" class="e01-interaction e01-final" aria-label="آزمون پایانی" data-activity></div>';
@@ -351,7 +337,7 @@ window.LESSONS.E05 = {
       },
       init: function () {
         var $ = function (id) { return document.getElementById(id); };
-        K.guide($('e05-frac'), genFrac, { log: false }); distLab($('e05-dist')); zeroLab($('e05-zero')); K.guide($('e05-solve'), genMix, { log: true }); machine($('e05-machine')); stepsBind('e05-sd-frac', 'e05-frac', $); stepsBind('e05-sd-solve', 'e05-solve', $);
+        K.guide($('e05-frac'), genFrac, { log: false }); distLab($('e05-dist')); zeroLab($('e05-zero')); K.guide($('e05-solve'), genMix, { log: true }); machine($('e05-machine')); K.exampleSteps.bindDialog('e05-sd-frac', $('e05-frac'), function () { return K.exampleSteps.problemSteps($('e05-frac').getProblem()); }); K.exampleSteps.bindDialog('e05-sd-solve', $('e05-solve'), function () { return K.exampleSteps.problemSteps($('e05-solve').getProblem()); });
         K.exampleSteps.bind('e05-example-steps', [
           { title: 'مخرج مشترک', lines: ['\\dfrac{x}{2}+\\dfrac{x}{3}=5', '@ک.م.م ' + M('2') + ' و ' + M('3') + ' برابر ' + M('6') + ' است'], note: 'کوچک‌ترین عددی که ۲ و ۳ هر دو آن را می‌شمارند، ۶ است.' },
           { title: 'ضرب در ۶', lines: ['6\\times\\dfrac{x}{2}+6\\times\\dfrac{x}{3}=6\\times5', '3x+2x=30', '5x=30'], note: 'همهٔ جمله‌ها، از جمله ۵ طرف راست، در ۶ ضرب می‌شوند.' },
